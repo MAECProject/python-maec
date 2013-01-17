@@ -10,10 +10,10 @@ import getopt
 import re as re_
 
 import mmdef_1_2
-import cybox_core_1_0
-import cybox_common_types_1_0
-import code_object_1_1
-import process_object_1_3
+import cybox.bindings.cybox_core_1_0 as cybox_core_1_0
+import cybox.bindings.cybox_common_types_1_0 as cybox_common_types_1_0
+import cybox.bindings.code_object_1_1 as code_object_1_1
+import cybox.bindings.process_object_1_3 as process_object_1_3
 
 etree_ = None
 Verbose_import_ = False

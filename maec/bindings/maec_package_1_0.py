@@ -10,9 +10,9 @@ import getopt
 import re as re_
 
 import mmdef_1_2
-import cybox_core_1_0
-import system_object_1_3
-import cybox_common_types_1_0
+import cybox.bindings.cybox_core_1_0 as cybox_core_1_0
+import cybox.bindings.system_object_1_3 as system_object_1_3
+import cybox.bindings.cybox_common_types_1_0 as cybox_common_types_1_0
 import maec_bundle_3_0
 
 etree_ = None
