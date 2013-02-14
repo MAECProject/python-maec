@@ -1,15 +1,15 @@
 #MAEC Bundle Class
 
-#Copyright (c) 2012, The MITRE Corporation
+#Copyright (c) 2013, The MITRE Corporation
 #All rights reserved.
 
 #Compatible with MAEC v3.0
-#Last updated 12/28/2012
+#Last updated 02/14/2013
 
-import maec_bundle_3_0 as bundle_binding
+import maec.bindings.maec_bundle_3_0 as bundle_binding
 import datetime
        
-class bundle:
+class Bundle(object):
     def __init__(self, generator, schema_version, defined_subject, content_type = None, malware_instance_object = None, bundle_attributes_dict = None):
         self.generator = generator
         #Create the MAEC Bundle object
