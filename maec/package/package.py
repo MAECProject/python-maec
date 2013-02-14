@@ -1,21 +1,20 @@
 #MAEC Package Class
 
-#Copyright (c) 2012, The MITRE Corporation
+#Copyright (c) 2013, The MITRE Corporation
 #All rights reserved.
 
 #Compatible with MAEC v3.0
-#Last updated 12/28/2012
+#Last updated 2/14/2013
 
-import maec_package_1_0 as package_binding
+import maec.bindings.maec_package_1_0 as package_binding
 
-class package:
-    def __init__(self, generator, schema_version, package_attributes_dict = None):
+class Package:
+    def __init__(self, generator, schema_version):
         self.generator = generator
         #Create the MAEC Package object
-        self.package = package_binding.PackageType(id=self.generator.generate_pkg_id())
+        self.package_obj = package_binding.PackageType(id=self.generator.generate_pkg_id())
         #Set the schema version
-        self.package.set_schema_version(schema_version)
-        self.package_attributes_dict = package_attributes_dict
+        self.package_obj.set_schema_version(schema_version)
         #Create the subject list
         self.subjects = package_binding.MalwareSubjectListType()
         #Create the namespace and schemalocation declarations
@@ -51,27 +50,33 @@ class package:
         self.schemalocations[namespace] = schemalocation
 
     #Build the Package from the input dictionary
-    def build_from_dictionary(self):
-        for key, value in self.package_attributes_dict.items():
+    @classmethod
+    def object_from_dict(cls, package_dict):
+        for key, value in self.package_dict.items():
             pass
+
+    @classmethod
+    def dict_from_object(cls, package_obj):
+        package_dict = {}
+        pass
 
     #Get the package
     def get(self):
         self.__build__()
-        return self.package
+        return self.package_obj
 
     #Export the package and its contents to an XML file
     def export_to_file(self, outfilename):
         self.__build__()
         outfile = open(outfilename, 'w')
-        self.package.export(outfile, 0, namespacedef_=self.__build_namespaces_schemalocations())
+        self.package_obj.export(outfile, 0, namespacedef_=self.__build_namespaces_schemalocations())
 
     #Private methods
 
     #Build the package, adding any list or other items
     def __build__(self):
         if self.subjects.hasContent_():
-            self.package.set_Malware_Subjects(self.subjects)
+            self.package_obj.set_Malware_Subjects(self.subjects)
 
     #Build the namespace/schemalocation declaration string
     def __build_namespaces_schemalocations(self):
