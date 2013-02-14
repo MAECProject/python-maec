@@ -8,7 +8,7 @@
 
 import maec.bindings.maec_package_1_0 as package_binding
 
-class Package:
+class Package(object):
     def __init__(self, generator, schema_version):
         self.generator = generator
         #Create the MAEC Package object
