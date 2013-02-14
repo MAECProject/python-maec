@@ -10,10 +10,10 @@ import maec.bindings.maec_bundle_3_0 as bundle_binding
 import datetime
        
 class Bundle(object):
-    def __init__(self, generator, schema_version, defined_subject, content_type = None, malware_instance_object = None, bundle_attributes_dict = None):
+    def __init__(self, generator, schema_version, defined_subject, content_type = None, malware_instance_object = None):
         self.generator = generator
         #Create the MAEC Bundle object
-        self.bundle = bundle_binding.BundleType(id=self.generator.generate_bnd_id())
+        self.bundle = bundle_binding.BundleType(id=self.generator.generate_bundle_id())
         #Set the bundle schema version
         self.bundle.set_schema_version(schema_version)
         #Set the bundle timestamp
@@ -26,7 +26,6 @@ class Bundle(object):
         #Set the Malware Instance Object Attributes (a CybOX object) if they are not none
         if malware_instance_object is not None:
             self.bundle.set_Malware_Instance_Attributes(malware_instance_object)
-        self.bundle_attributes_dict = bundle_attributes_dict
         #Add all of the top-level containers
         self.actions = bundle_binding.ActionListType()
         self.process_tree = bundle_binding.ProcessTreeType()
@@ -69,7 +68,7 @@ class Bundle(object):
                 action_list.add_Action(action)
             #The collection has not already been defined
             else:
-                action_collection = bundle_binding.ActionCollectionType(id=self.generator.generate_actc_id(), name = action_collection_name)
+                action_collection = bundle_binding.ActionCollectionType(id=self.generator.generate_action_collection_id(), name = action_collection_name)
                 action_list = bundle_binding.ActionListType()
                 action_list.add_Action(action)
                 action_collection.set_Action_List(action_list)
@@ -87,7 +86,7 @@ class Bundle(object):
                 object_list.add_Object(object)
             #The collection has not already been defined
             else:
-                object_collection = bundle_binding.ObjectCollectionType(id=self.generator.generate_objc_id(), name = object_collection_name)
+                object_collection = bundle_binding.ObjectCollectionType(id=self.generator.generate_object_collection_id(), name = object_collection_name)
                 object_list = bundle_binding.ObjectListType()
                 object_list.add_Object(object)
                 object_collection.set_Object_List(object_list)
@@ -105,7 +104,7 @@ class Bundle(object):
                 behavior_list.add_Behavior(behavior)
             #The collection has not already been defined
             else:
-                behavior_collection = bundle_binding.BehaviorCollectionType(id=self.generator.generate_bhvc_id(), name = behavior_collection_name)
+                behavior_collection = bundle_binding.BehaviorCollectionType(id=self.generator.generate_behavior_collection_id(), name = behavior_collection_name)
                 behavior_list = bundle_binding.BehaviorListType()
                 behavior_list.add_Behavior(behavior)
                 behavior_collection.set_Behavior_List(behavior_list)
@@ -123,7 +122,7 @@ class Bundle(object):
                 candidate_indicator_list.add_Candidate_Indicator(candidate_indicator)
             #The collection has not already been defined
             else:
-                candidate_indicator_collection = bundle_binding.CandidateIndicatorCollectionType(id=self.generator.generate_indc_id(), name = candidate_indicator_collection_name)
+                candidate_indicator_collection = bundle_binding.CandidateIndicatorCollectionType(id=self.generator.generate_indicator_collection_id(), name = candidate_indicator_collection_name)
                 candidate_indicator_list = bundle_binding.CandidateIndicatorListType()
                 candidate_indicator_list.add_Candidate_Indicator(candidate_indicator)
                 candidate_indicator_collection.set_Candidate_Indicator_List(candidate_indicator_list)
