@@ -1,12 +1,12 @@
 #MAEC ID Generator Class
 
-#Copyright (c) 2012, The MITRE Corporation
+#Copyright (c) 2013, The MITRE Corporation
 #All rights reserved.
 
 #Compatible with MAEC v3.0
-#Last updated 12/28/2012
+#Last updated 2/14/2013
         
-class generator:
+class Generator(object):
     def __init__(self, namespace = None):
         self.namespace = namespace
         self.con_id_base = 0
