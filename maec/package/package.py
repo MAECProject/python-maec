@@ -12,7 +12,7 @@ class Package:
     def __init__(self, generator, schema_version):
         self.generator = generator
         #Create the MAEC Package object
-        self.package_obj = package_binding.PackageType(id=self.generator.generate_pkg_id())
+        self.package_obj = package_binding.PackageType(id=self.generator.generate_package_id())
         #Set the schema version
         self.package_obj.set_schema_version(schema_version)
         #Create the subject list

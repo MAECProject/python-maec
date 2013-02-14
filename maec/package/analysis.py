@@ -14,7 +14,7 @@ from cybox.common.toolinformation import Tool_Information
 class Analysis(object):
     def __init__(self, generator, method = None, type = None, analysis_attributes_dict = None):
         self.generator = generator
-        self.analysis_obj = package_binding.AnalysisType(id=self.generator.generate_ana_id())
+        self.analysis_obj = package_binding.AnalysisType(id=self.generator.generate_analysis_id())
         if method is not None:
             self.analysis_obj.set_method(method)
         if type is not None:
