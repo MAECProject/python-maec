@@ -43,11 +43,13 @@ class Package(object):
 
     #Add a namespace to the namespaces list
     def add_namespace(self, namespace_prefix, namespace):
-        self.namespace_prefixes[namespace_prefix] = '"' + namespace + '"'
+        if namespace_prefix not in self.namespace_prefixes.keys():
+            self.namespace_prefixes[namespace_prefix] = '"' + namespace + '"'
 
     #Add a schemalocation to the schemalocation list
     def add_schemalocation(self, namespace, schemalocation):
-        self.schemalocations[namespace] = schemalocation
+        if namespace not in self.schemalocations.keys():
+            self.schemalocations[namespace] = schemalocation
 
     #Build the Package from the input dictionary
     @classmethod

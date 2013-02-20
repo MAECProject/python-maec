@@ -132,11 +132,13 @@ class Bundle(object):
                                    
     #Add a namespace to the namespaces list
     def add_namespace(self, namespace_prefix, namespace):
-        self.namespace_prefixes[namespace_prefix] = '"' + namespace + '"'
+        if namespace_prefix not in self.namespace_prefixes.keys():
+            self.namespace_prefixes[namespace_prefix] = '"' + namespace + '"'
 
     #Add a schemalocation to the schemalocation list
     def add_schemalocation(self, namespace, schemalocation):
-        self.schemalocations[namespace] = schemalocation
+        if namespace not in self.schemalocations.keys():
+            self.schemalocations[namespace] = schemalocation
     
     #Export the MAEC bundle and its contents to an XML file
     def export_to_file(self, outfilename):
@@ -161,7 +163,7 @@ class Bundle(object):
         #Add the Behaviors
         if self.behaviors.hasContent_(): self.bundle.set_Behaviors(self.behaviors)
         #Add the Actions
-        if self.actions.hasContent_(): self.bundle.set_Actions(self.behaviors)
+        if self.actions.hasContent_(): self.bundle.set_Actions(self.actions)
         #Add the Objects
         if self.objects.hasContent_() : self.bundle.set_Objects(self.objects)
         #Add the Process Tree
