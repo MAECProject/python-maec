@@ -21,6 +21,7 @@ class Analysis(object):
             self.analysis_obj.set_type(type)
         self.analysis_attributes_dict = analysis_attributes_dict
         self.tool_list = package_binding.ToolListType()
+        self.dynamic_analysis_metadata = package_binding.DynamicAnalysisMetadataType()
 
     #"Public" methods
     def set_findings_bundle_reference(self, bundle_idref):
@@ -39,6 +40,18 @@ class Analysis(object):
 
     def set_method(self, method):
         if utils.test_value(method) : self.analysis_obj.set_method(method)
+
+    def set_complete_datetime(self, complete_datetime):
+        if utils.test_value(complete_datetime) : self.analysis_obj.set_complete_datetime(complete_datetime)
+
+    def set_command_line(self, command_line):
+        if utils.test_value(command_line) : self.dynamic_analysis_metadata.set_Command_Line(command_line)
+
+    def set_analysis_duration(self, analysis_duration):
+        if utils.test_value(analysis_duration) : self.dynamic_analysis_metadata.set_Analysis_Duration(analysis_duration)
+
+    def set_exit_code(self, exit_code):
+        if utils.test_value(exit_code): self.dynamic_analysis_metadata.set_Exit_Code(exit_code)
 
     #Create and return the Analysis from the input dictionary
     @classmethod
@@ -97,4 +110,6 @@ class Analysis(object):
     
     def __build__(self):
         if self.tool_list.hasContent_():
-            self.analysis_obj.set_Tools(tool_list)      
+            self.analysis_obj.set_Tools(tool_list)     
+        if self.dynamic_analysis_metadata.hasContent_():
+            self.analysis_obj.set_Dynamic_Analysis_Metadata(self.dynamic_analysis_metadata) 
