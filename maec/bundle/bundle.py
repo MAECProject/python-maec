@@ -25,7 +25,7 @@ class Bundle(object):
             self.bundle.set_content_type(content_type)
         #Set the Malware Instance Object Attributes (a CybOX object) if they are not none
         if malware_instance_object is not None:
-            self.bundle.set_Malware_Instance_Attributes(malware_instance_object)
+            self.bundle.set_Malware_Instance_Object_Attributes(malware_instance_object)
         #Add all of the top-level containers
         self.actions = bundle_binding.ActionListType()
         self.process_tree = bundle_binding.ProcessTreeType()
