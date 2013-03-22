@@ -11,7 +11,7 @@ import cybox.bindings.commons as cybox_common
 import datetime
        
 class Behavior(object):
-    def init(self, generator, id, description, ordinal_position):
+    def init(self, generator, id, description, ordinal_position, duration, status):
         if id is not None:
             self.id = id
         elif generator is not None:
@@ -30,8 +30,10 @@ class Behavior(object):
         self.exploit = bundle_binding.VulnerabilityExploitType()
         self.platformList = bundle_binding.PlatformListType()
         
-        self.description = description
-        self.ordinal_position = ordinal_position
+        if ordinal_position is not None: self.behavior.set_ordinal_position(ordinal_position)
+        if description is not None: self.behavior.set_Description(description)
+        if duration is not None: self.behavior.set_duration(duration)
+        if status is not None: self.behavior.set_status(status)
     
     def add_targeted_platform(self, platform):
         self.platformList.add_Platform(platform)
@@ -46,9 +48,6 @@ class Behavior(object):
     def set_discovery_method(self, cybox_measuresource):
         self.behavior.set_Discovery_Method(cybox_measuresource)
         
-    def set_description(self, description):
-        self.behavior.set_Description(description)
-        
     def add_action(self, action):
         action_ref = bundle_binding.BehavioralActionReferenceType(action_id=action.get_idref(), behavioral_ordering=action.get_behavioral_ordering())
         self.actionComposition.add_Action_Reference(action_ref)
@@ -62,11 +61,18 @@ class Behavior(object):
         relationship.add_Behavior_Reference(behavior_ref)
         self.relationships.add_Relationship(relationship)
         
+            
+    def set_description(self, description):
+        self.behavior.set_Description(description)
+        
     def set_oridinal_position(self, position):
         self.behavior.set_ordinal_position(position)
         
     def set_duration(self, duration):
-        self.behavior.set_ordinal_duration(duration)
+        self.behavior.set_duration(duration)
+        
+    def set_status(self, status):
+        self.behavior.set_status(status)
         
     #Accessor methods
     def get(self):
