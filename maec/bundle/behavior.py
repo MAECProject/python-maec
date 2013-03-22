@@ -27,18 +27,24 @@ class Behavior(object):
         self.relationships = bundle_binding.BehaviorRelationshipListType()
         
         self.purpose = bundle_binding.BehaviorPurposeType()
+        self.exploit = bundle_binding.VulnerabilityExploitType()
+        self.platformList = bundle_binding.PlatformListType()
         
         self.description = description
         self.ordinal_position = ordinal_position
     
+    def add_targeted_platform(self, platform):
+        self.platformList.add_Platform(platform)
+    
     def set_known_vulnerability(self, cve_id, description):
-        vuln = bundle_binding.VulnerabilityExploitType()
         cve = bundle_binding.CVEVulnerabilityType()
         cve.set_cve_id(cve_id)
         cve.set_Description(description)
-        vuln.set_CVE(cve)
-        vuln.set_known_vulnerability(True)
-        self.purpose.set_Vulnerability_Exploit(vuln)
+        self.exploit.set_CVE(cve)
+        self.exploit.set_known_vulnerability(True)
+        
+    def set_discovery_method(self, cybox_measuresource):
+        self.behavior.set_Discovery_Method(cybox_measuresource)
         
     def set_description(self, description):
         self.behavior.set_Description(description)
@@ -46,6 +52,9 @@ class Behavior(object):
     def add_action(self, action):
         action_ref = bundle_binding.BehavioralActionReferenceType(action_id=action.get_idref(), behavioral_ordering=action.get_behavioral_ordering())
         self.actionComposition.add_Action_Reference(action_ref)
+
+    def add_code_snippet(self, cybox_code):
+        self.associatedCode.add_Code_Snippet(cybox_code)
 
     def add_related_behavior(self, type, behavior):
         relationship = bundle_binding.BehaviorRelationshipType(type_=type)
@@ -69,5 +78,10 @@ class Behavior(object):
         if self.actionComposition.hasContent_(): self.behavior.set_Action_Composition(self.actionComposition)
         if self.associatedCode.hasContent_(): self.behavior.set_Associated_Code(self.associatedCode)
         if self.relationships.hasContent_(): self.behavior.set_Relationships(self.relationships)
+        
+        # purpose elements
+        if self.platformList.hasContent_(): self.exploit.set_Targeted_Platforms(self.platformList)
+        if self.exploit.hasContent_(): self.purpose.set_Vulnerability_Exploit(self.exploit)
         if self.purpose.hasContent_(): self.behavior.set_Purpose(self.purpose)
+        
         
