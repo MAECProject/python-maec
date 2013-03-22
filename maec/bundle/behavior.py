@@ -37,6 +37,7 @@ class Behavior(object):
     
     def add_targeted_platform(self, platform):
         self.platformList.add_Platform(platform)
+        self.exploit.set_known_vulnerability(False)
     
     def set_known_vulnerability(self, cve_id, description):
         cve = bundle_binding.CVEVulnerabilityType()
@@ -45,19 +46,19 @@ class Behavior(object):
         self.exploit.set_CVE(cve)
         self.exploit.set_known_vulnerability(True)
         
-    def set_discovery_method(self, cybox_measuresource):
-        self.behavior.set_Discovery_Method(cybox_measuresource)
+    def set_discovery_method(self, cybox_measuresource_obj):
+        self.behavior.set_Discovery_Method(cybox_measuresource_obj)
         
     def add_action(self, action):
-        action_ref = bundle_binding.BehavioralActionReferenceType(action_id=action.get_idref(), behavioral_ordering=action.get_behavioral_ordering())
+        action_ref = bundle_binding.BehavioralActionReferenceType(action_id=action.get_id(), behavioral_ordering=action.get_behavioral_ordering())
         self.actionComposition.add_Action_Reference(action_ref)
 
-    def add_code_snippet(self, cybox_code):
-        self.associatedCode.add_Code_Snippet(cybox_code)
+    def add_code_snippet(self, cybox_code_obj):
+        self.associatedCode.add_Code_Snippet(cybox_code_obj)
 
     def add_related_behavior(self, type, behavior):
         relationship = bundle_binding.BehaviorRelationshipType(type_=type)
-        behavior_ref = bundle_binding.BehaviorReferenceType(behavior_idref = behavior.get_idref())
+        behavior_ref = bundle_binding.BehaviorReferenceType(behavior_idref = behavior.get_id())
         relationship.add_Behavior_Reference(behavior_ref)
         self.relationships.add_Relationship(relationship)
         
