@@ -19,7 +19,7 @@ class Analysis(object):
             self.generator = generator;
             self.id = self.generator.generate_analysis_id()
         else:
-            raise Exception("Must specify id or generator for Behavior constructor")
+            raise Exception("Must specify id or generator for Analysis constructor")
         
         if method is not None:
             self.method = method
