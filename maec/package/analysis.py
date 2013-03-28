@@ -43,13 +43,13 @@ class Analysis(object):
         self.complete_datetime = complete_datetime
 
     def set_command_line(self, command_line):
-        self.dynamic_analysis_metadata["command_line"] = command_line
+        self.command_line = command_line
 
     def set_analysis_duration(self, analysis_duration):
-        if utils.test_value(analysis_duration) : self.dynamic_analysis_metadata["analysis_duration"] = analysis_duration
+        self.analysis_duration = analysis_duration
 
     def set_exit_code(self, exit_code):
-        if utils.test_value(exit_code): self.dynamic_analysis_metadata["exit_code"] = exit_code
+        self.exit_code = exit_code
 
     #return a bindings object
     def to_obj(self):
@@ -68,12 +68,9 @@ class Analysis(object):
         analysis_obj.set_Tools(tool_list_obj)
         
         dynamic_analysis_metadata_obj = package_binding.DynamicAnalysisMetadataType()
-        if utils.test_value(self.dynamic_analysis_metadata["command_line"]):
-            dynamic_analysis_metadata_obj.set_Command_Line(self.dynamic_analysis_metadata["command_line"])
-        if utils.test_value(self.dynamic_analysis_metadata["analysis_duration"]):
-            dynamic_analysis_metadata_obj.set_Analysis_Duration(self.dynamic_analysis_metadata["analysis_duration"])
-        if utils.test_value(self.dynamic_analysis_metadata["exit_code"]):
-            dynamic_analysis_metadata_obj.set_Exit_Code(self.dynamic_analysis_metadata["exit_code"])
+        if utils.test_value(self.command_line): dynamic_analysis_metadata_obj.set_Command_Line(self.command_line)
+        if utils.test_value(self.analysis_duration): dynamic_analysis_metadata_obj.set_Analysis_Duration(self.analysis_duration)
+        if utils.test_value(self.exit_code): dynamic_analysis_metadata_obj.set_Exit_Code(self.exit_code)
         analysis_obj.set_Dynamic_Analysis_Metadata(dynamic_analysis_metadata_obj)
         
         return analysis_obj
