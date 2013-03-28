@@ -13,7 +13,13 @@ from cybox.common.toolinformation import Tool_Information
         
 class Analysis(object):
     def __init__(self, generator, method = None, type = None, analysis_attributes_dict = None):
-        self.generator = generator
+        if id is not None:
+            self.id = id
+        elif generator is not None:
+            self.generator = generator;
+            self.id = self.generator.generate_analysis_id()
+        else:
+            raise Exception("Must specify id or generator for Behavior constructor")
         
         if method is not None:
             self.method = method
@@ -21,7 +27,6 @@ class Analysis(object):
             self.type = type
         self.analysis_attributes_dict = analysis_attributes_dict
         self.tool_list = []
-        self.dynamic_analysis_metadata = {}
 
     #"Public" methods
     def set_findings_bundle_reference(self, bundle_idref):
@@ -53,7 +58,7 @@ class Analysis(object):
 
     #return a bindings object
     def to_obj(self):
-        analysis_obj = package_binding.AnalysisType(id=self.generator.generate_analysis_id())
+        analysis_obj = package_binding.AnalysisType(id=self.id)
         if utils.test_value(self.method): analysis_obj.set_method(self.method)
         if utils.test_value(self.type): analysis_obj.set_type(self.type)
         if utils.test_value(self.complete_datetime): self.analysis_obj.set_complete_datetime(self.complete_datetime)
