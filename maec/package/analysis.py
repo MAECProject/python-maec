@@ -35,8 +35,8 @@ class Analysis(object):
     def set_summary(self, summary):
         self.analysis.set_Summary(summary)
    
-    def add_tool(self, tool_dict):
-        self.tool_list.push(tool_dict)
+    def add_tool(self, tool_api_obj):
+        self.tool_list.push(tool_api_obj)
 
     def set_type(self, type):
         self.type = type
@@ -67,8 +67,8 @@ class Analysis(object):
         analysis_obj.set_Findings_Bundle_Reference(bundle_reference)
             
         tool_list_obj = package_binding.ToolListType()
-        for tool_dict in self.tool_list:
-            tool_obj = Tool_Information.object_from_dict(tool_dict)
+        for tool_api_obj in self.tool_list:
+            tool_obj = tool_api_obj.to_obj()
             if tool_obj.hasContent_(): tool_list_obj.add_Tool(tool_obj)
         analysis_obj.set_Tools(tool_list_obj)
         
