@@ -4,99 +4,64 @@
 #All rights reserved.
 
 #Compatible with MAEC v3.0
-#Last updated 2/14/2013
+#Last updated 4/10/2013
 
 import maec.bindings.maec_package_1_0 as package_binding
 
 class Package(object):
-    def __init__(self, generator, schema_version):
-        self.generator = generator
-        #Create the MAEC Package object
-        self.package_obj = package_binding.PackageType(id=self.generator.generate_package_id())
-        #Set the schema version
-        self.package_obj.set_schema_version(schema_version)
-        #Create the subject list
-        self.subjects = package_binding.MalwareSubjectListType()
-        #Create the namespace and schemalocation declarations
-        self.namespace_prefixes = {'xmlns:maecPackage' : '"http://maec.mitre.org/XMLSchema/maec-package-1"',
-                                   'xmlns:maecBundle' : '"http://maec.mitre.org/XMLSchema/maec-bundle-3"',
-                                   'xmlns:cybox' : '"http://cybox.mitre.org/cybox_v1"',
-                                   'xmlns:Common' : '"http://cybox.mitre.org/Common_v1"',
-                                   'xmlns:mmdef' : '"http://xml/metadataSharing.xsd"',
-                                   'xmlns:xsi' : '"http://www.w3.org/2001/XMLSchema-instance"'}
-        self.schemalocations = {'http://maec.mitre.org/XMLSchema/maec-package-1' : 'http://maec.mitre.org/language/version3.0/maec-package-schema.xsd',
-                                'http://maec.mitre.org/XMLSchema/maec-bundle-3' :  'http://maec.mitre.org/language/version3.0/maec-bundle-schema.xsd',
-                                'http://cybox.mitre.org/Common_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd',
-                                'http://cybox.mitre.org/cybox_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd',
-                                'http://xml/metadataSharing.xsd' : 'http://grouper.ieee.org/groups/malware/malwg/Schema1.2/metadataSharing.xsd'}
+    def __init__(self, id, generator, schema_version = None, timestamp = None):
+        if id is not None:
+            self.id = id
+        elif generator is not None:
+            self.generator = generator;
+            self.id = self.generator.generate_package_id()
+        else:
+            raise Exception("Must specify id or generator for Package constructor")
+        self.schema_version = schema_version
+        self.timestamp = timestamp
+        self.subjects = []
+        self.grouping_relationships = []
 
     #Public methods
-
     #Add a malware subject
     def add_malware_subject(self, malware_subject):
-        self.subjects.add_Malware_Subject(malware_subject)
+        self.subjects.append(malware_subject)
     
-    #Set the grouping relationship based on an input dictionary
-    def set_grouping_relationship(self, grouping_relationship_attributes):
-        for key, value in grouping_relationship_attributes.items():
-            pass
+    #Add a grouping relationship
+    def add_grouping_relationship(self, grouping_relationship):
+        self.grouping_relationships.append(grouping_relationship)
 
-    #Add a namespace to the namespaces list
-    def add_namespace(self, namespace_prefix, namespace):
-        if namespace_prefix not in self.namespace_prefixes.keys():
-            self.namespace_prefixes[namespace_prefix] = '"' + namespace + '"'
+    def to_obj(self):
+        package_obj = package_binding.PackageType(id=self.id)
+        if self.schema_version is not None:
+            package_obj.set_schema_version(self.schema_version)
+        else:
+            package_obj.set_schema_version(1.0)
+        if self.timestamp is not None: package_obj.set_timestamp(self.timestamp)
+        if len(self.subjects) > 0:
+            subject_list = package_binding.MalwareSubjectListType()
+            for subject in self.subjects:
+                subject_list.add_Malware_Subject(subject.to_obj())
+            package_obj.set_Malware_Subjects(subject_list)
+        if len(self.grouping_relationships) > 0:
+            grouping_relationship_list = package_binding.GroupingRelationshipListType()
+            for grouping_relationship in self.grouping_relationships:
+                grouping_relationship_list.add_Grouping_Relationship(grouping_relationship.to_obj())
+            package_obj.set_Grouping_Relationships(grouping_relationship_list)
 
-    #Add a schemalocation to the schemalocation list
-    def add_schemalocation(self, namespace, schemalocation):
-        if namespace not in self.schemalocations.keys():
-            self.schemalocations[namespace] = schemalocation
+        return package_obj
+
+    def to_dict(self):
+        pass
 
     #Build the Package from the input dictionary
-    @classmethod
-    def object_from_dict(cls, package_dict):
+    @staticmethod
+    def from_dict(package_dict):
         for key, value in self.package_dict.items():
             pass
 
-    @classmethod
-    def dict_from_object(cls, package_obj):
+    @staticmethod
+    def from_obj(package_obj):
         package_dict = {}
         pass
 
-    #Get the package
-    def get(self):
-        self.__build__()
-        return self.package_obj
-
-    #Export the package and its contents to an XML file
-    def export_to_file(self, outfilename):
-        self.__build__()
-        outfile = open(outfilename, 'w')
-        self.package_obj.export(outfile, 0, namespacedef_=self.__build_namespaces_schemalocations())
-
-    #Private methods
-
-    #Build the package, adding any list or other items
-    def __build__(self):
-        if self.subjects.hasContent_():
-            self.package_obj.set_Malware_Subjects(self.subjects)
-
-    #Build the namespace/schemalocation declaration string
-    def __build_namespaces_schemalocations(self):
-        output_string = '\n '
-        schemalocs = []
-        first_string = True
-        for namespace_prefix, namespace in self.namespace_prefixes.items():
-            output_string += (namespace_prefix + '=' + namespace + ' \n ')
-        output_string += 'xsi:schemaLocation="'
-        for namespace, schemalocation in self.schemalocations.items():
-            if first_string:
-                schemalocs.append(namespace + ' ' + schemalocation)
-                first_string = False
-            else:
-                schemalocs.append(' ' + namespace + ' ' + schemalocation)
-        for schemalocation_string in schemalocs:
-            if schemalocs.index(schemalocation_string) == (len(schemalocs) - 1):
-                output_string += (schemalocation_string + '"\n')
-            else:
-                output_string += (schemalocation_string + '\n')
-        return output_string
