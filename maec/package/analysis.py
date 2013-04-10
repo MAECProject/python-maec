@@ -12,7 +12,7 @@ import cybox.utils as utils
 from cybox.common.toolinformation import Tool_Information
         
 class Analysis(object):
-    def __init__(self, generator, method = None, type = None, analysis_attributes_dict = None):
+    def __init__(self, id, generator, method = None, type = None, bundle_idref = None):
         if id is not None:
             self.id = id
         elif generator is not None:
@@ -20,17 +20,16 @@ class Analysis(object):
             self.id = self.generator.generate_analysis_id()
         else:
             raise Exception("Must specify id or generator for Analysis constructor")
-        
         if method is not None:
             self.method = method
         if type is not None:
             self.type = type
-        self.analysis_attributes_dict = analysis_attributes_dict
+        self.bundle_idref = bundle_idref
         self.tool_list = []
 
     #"Public" methods
     def set_findings_bundle_reference(self, bundle_idref):
-        self.bundle_id_ref = bundle_idref
+        self.bundle_idref = bundle_idref
 
     def set_summary(self, summary):
         self.analysis.set_Summary(summary)
@@ -56,7 +55,7 @@ class Analysis(object):
     def set_exit_code(self, exit_code):
         self.exit_code = exit_code
 
-    #return a bindings object
+    #Return a bindings object
     def to_obj(self):
         analysis_obj = package_binding.AnalysisType(id=self.id)
         if utils.test_value(self.method): analysis_obj.set_method(self.method)
@@ -66,23 +65,29 @@ class Analysis(object):
         bundle_reference = bundle_binding.BundleReferenceType(bundle_idref = self.bundle_idref)
         analysis_obj.set_Findings_Bundle_Reference(bundle_reference)
             
-        tool_list_obj = package_binding.ToolListType()
-        for tool_api_obj in self.tool_list:
-            tool_obj = tool_api_obj.to_obj()
-            if tool_obj.hasContent_(): tool_list_obj.add_Tool(tool_obj)
-        analysis_obj.set_Tools(tool_list_obj)
+        if len(self.tool_list) > 0:
+            tool_list_obj = package_binding.ToolListType()
+            for tool_api_obj in self.tool_list:
+                tool_obj = tool_api_obj.to_obj()
+                if tool_obj.hasContent_(): tool_list_obj.add_Tool(tool_obj)
+            analysis_obj.set_Tools(tool_list_obj)
         
         dynamic_analysis_metadata_obj = package_binding.DynamicAnalysisMetadataType()
         if utils.test_value(self.command_line): dynamic_analysis_metadata_obj.set_Command_Line(self.command_line)
         if utils.test_value(self.analysis_duration): dynamic_analysis_metadata_obj.set_Analysis_Duration(self.analysis_duration)
         if utils.test_value(self.exit_code): dynamic_analysis_metadata_obj.set_Exit_Code(self.exit_code)
-        analysis_obj.set_Dynamic_Analysis_Metadata(dynamic_analysis_metadata_obj)
+        if dynamic_analysis_metadata_obj.hasContent_():
+            analysis_obj.set_Dynamic_Analysis_Metadata(dynamic_analysis_metadata_obj)
         
         return analysis_obj
         
     #Create and return the Analysis from the input dictionary
-    @classmethod
-    def object_from_dict(cls, analysis_dict):
+    @staticmethod
+    def from_obj(analysis_obj):
+        pass
+
+    @staticmethod
+    def from_dict(analysis_dict):
         analysis_obj = package_binding.AnalysisType()
         for key, value in analysis_dict.items():
             if key == 'id': analysis_obj.set_id(value)
