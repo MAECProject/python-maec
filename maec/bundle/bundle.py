@@ -28,22 +28,11 @@ class Bundle(object):
         self.object_collections = {}
         self.behavior_collections = {}
         self.candidate_indicator_collections = {}
-        #Create the namespace and schemalocation declarations
-        self.namespace_prefixes = {'xmlns:maecBundle' : '"http://maec.mitre.org/XMLSchema/maec-bundle-3"',
-                                   'xmlns:cybox' : '"http://cybox.mitre.org/cybox_v1"',
-                                   'xmlns:Common' : '"http://cybox.mitre.org/Common_v1"',
-                                   'xmlns:mmdef' : '"http://xml/metadataSharing.xsd"',
-                                   'xmlns:xsi' : '"http://www.w3.org/2001/XMLSchema-instance"'}
-        self.schemalocations = {'http://maec.mitre.org/XMLSchema/maec-package-1' : 'http://maec.mitre.org/language/version3.0/maec-package-schema.xsd',
-                                'http://maec.mitre.org/XMLSchema/maec-bundle-3' :  'http://maec.mitre.org/language/version3.0/maec-bundle-schema.xsd',
-                                'http://cybox.mitre.org/Common_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd',
-                                'http://cybox.mitre.org/cybox_v1' : 'http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd',
-                                'http://xml/metadataSharing.xsd' : 'http://grouper.ieee.org/groups/malware/malwg/Schema1.2/metadataSharing.xsd'}
 
 
     #Set the Malware Instance Object Attributes
     def set_malware_instance_object_atttributes(self, malware_instance_object):
-        self.bundle.set_Malware_Instance_Object_Attributes(malware_instance_object)
+        self.malware_instance_object = malware_instance_object
 
     #Set the Process Tree, in the top-level <Process_Tree> element
     def set_process_tree(self, process_tree):
@@ -190,34 +179,6 @@ class Bundle(object):
     @staticmethod
     def from_dict(bundle_dict):
         pass
-
-    #Export the MAEC bundle and its contents to an XML file
-    def to_xml(self, xmlfilename):
-        outfile = open(xmlfilename, 'w')
-        self.to_obj().export(outfile, 0, namespacedef_=self.__build_namespaces_schemalocations())
-
-    #Private methods
-
-    #Build the namespace/schemalocation declaration string
-    def __build_namespaces_schemalocations(self):
-        output_string = '\n '
-        schemalocs = []
-        first_string = True
-        for namespace_prefix, namespace in self.namespace_prefixes.items():
-            output_string += (namespace_prefix + '=' + namespace + ' \n ')
-        output_string += 'xsi:schemaLocation="'
-        for namespace, schemalocation in self.schemalocations.items():
-            if first_string:
-                schemalocs.append(namespace + ' ' + schemalocation)
-                first_string = False
-            else:
-                schemalocs.append(' ' + namespace + ' ' + schemalocation)
-        for schemalocation_string in schemalocs:
-            if schemalocs.index(schemalocation_string) == (len(schemalocs) - 1):
-                output_string += (schemalocation_string + '"\n')
-            else:
-                output_string += (schemalocation_string + '\n')
-        return output_string
 
 class BaseCollection(object):
     def __init__(self, name = None):
