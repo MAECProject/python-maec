@@ -136,7 +136,7 @@ class Bundle(object):
         #Add the Actions
         if len(self.actions) > 0: 
             action_list_obj = bundle_binding.ActionListType()
-            for action in self.actions: behavior_list_obj.add_Action(action.to_obj())
+            for action in self.actions: action_list_obj.add_Action(action.to_obj())
             bundle_obj.set_Actions(action_list_obj)
         #Add the Objects
         if len(self.objects) > 0: 
