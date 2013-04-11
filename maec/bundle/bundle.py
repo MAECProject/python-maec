@@ -4,14 +4,20 @@
 #All rights reserved.
 
 #Compatible with MAEC v3.0
-#Last updated 03/28/2013
+#Last updated 04/10/2013
 
 import maec.bindings.maec_bundle_3_0 as bundle_binding
 import datetime
        
 class Bundle(object):
-    def __init__(self, generator, schema_version, defined_subject, content_type = None, malware_instance_object = None):
-        self.generator = generator
+    def __init__(self, id, generator, schema_version, defined_subject, content_type = None, malware_instance_object = None):
+        if id is not None:
+            self.id = id
+        elif generator is not None:
+            self.generator = generator
+            self.id = self.generator.generate_action_id()
+        else:
+            raise Exception("Must specify id or generator for Bundle constructor")
         self.schema_version = schema_version
         self.defined_subject = defined_subject
         self.content_type = content_type
@@ -109,7 +115,7 @@ class Bundle(object):
             self.schemalocations[namespace] = schemalocation
     
     def to_obj(self):
-        bundle_obj = bundle_binding.BundleType(id=self.generator.generate_bundle_id())
+        bundle_obj = bundle_binding.BundleType(id=self.id)
         #Set the bundle schema version
         bundle_obj.set_schema_version(self.schema_version)
         #Set the bundle timestamp
