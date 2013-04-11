@@ -17,7 +17,7 @@ class Bundle(object):
             self.id = id
         elif generator is not None:
             self.generator = generator
-            self.id = self.generator.generate_action_id()
+            self.id = self.generator.generate_bundle_id()
         else:
             raise Exception("Must specify id or generator for Bundle constructor")
         self.schema_version = schema_version
@@ -125,9 +125,9 @@ class Bundle(object):
         #Set whether this Bundle has a defined_subject
         bundle_obj.set_defined_subject(self.defined_subject)
         #Set the content_type if it is not none
-        if content_type is not None: self.bundle.set_content_type(content_type)
+        if self.content_type is not None: self.bundle.set_content_type(content_type)
         #Set the Malware Instance Object Attributes (a CybOX object) if they are not none
-        if malware_instance_object is not None: self.bundle.set_Malware_Instance_Attributes(malware_instance_object.to_obj())
+        if self.malware_instance_object is not None: self.bundle.set_Malware_Instance_Attributes(malware_instance_object.to_obj())
         #Add the Behaviors
         if len(self.behaviors) > 0: 
             behavior_list_obj = bundle_binding.BehaviorListType()
@@ -146,7 +146,7 @@ class Bundle(object):
         #Add the Process Tree
         if self.process_tree is not None: bundle_obj.set_Process_Tree(self.process_tree.to_obj())
         #Add the Candidate Indicators
-        if self.candidate_indicators.hasContent_(): 
+        if len(self.candidate_indicators) > 0: 
             candidate_indicator_list_obj = bundle_binding.CandidateIndicatorListType()
             for candidate_indicator in self.candidate_indicators: candidate_indicator_list_obj.add_Candidate_Indicator(candidate_indicator.to_obj())
             bundle_obj.set_Candidate_Indicators(candidate_indicator_list_obj)
