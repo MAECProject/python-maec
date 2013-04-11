@@ -8,6 +8,8 @@
 
 import maec.bindings.maec_bundle_3_0 as bundle_binding
 import datetime
+from maec.bundle.malware_action import MalwareAction
+from maec.bundle.behavior import Behavior
        
 class Bundle(object):
     def __init__(self, id, generator, schema_version, defined_subject, content_type = None, malware_instance_object = None):
