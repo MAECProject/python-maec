@@ -63,8 +63,9 @@ class MAECNamespaceParser(NamespaceParser):
                 self.process_action_namespace(action)
 
     def process_action_namespace(self, action):
-        for associated_object in action.get_Associated_Objects().get_Associated_Object():
-            self.get_namespace_from_object(associated_object)
+        if action.get_Associated_Objects() is not None:
+            for associated_object in action.get_Associated_Objects().get_Associated_Object():
+                self.get_namespace_from_object(associated_object)
    
     def build_maec_namespaces_schemalocations_str(self):
         '''Build the namespace/schemalocation declaration string'''
@@ -76,9 +77,11 @@ class MAECNamespaceParser(NamespaceParser):
         if self.package is not None:
             output_string += 'xmlns:maecPackage="http://maec.mitre.org/XMLSchema/maec-package-1" \n '
             output_string += 'xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-3" \n '
+            output_string += 'xmlns:mmdef="http://xml/metadataSharing.xsd" \n '
             schemalocs.append('http://maec.mitre.org/XMLSchema/maec-package-1 http://maec.mitre.org/language/version3.0/maec-package-schema.xsd')
         elif self.bundle is not None:
             output_string += 'xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-3" \n '
+            output_string += 'xmlns:mmdef="http://xml/metadataSharing.xsd" \n '
             schemalocs.append('"http://maec.mitre.org/XMLSchema/maec-bundle-3 http://maec.mitre.org/language/version3.0/maec-bundle-schema.xsd')
         output_string += 'xmlns:cybox="http://cybox.mitre.org/cybox_v1" \n '
         output_string += 'xmlns:Common="http://cybox.mitre.org/Common_v1" \n '
