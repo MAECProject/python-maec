@@ -52,7 +52,7 @@ class Bundle(object):
             #The collection has already been defined
             if self.action_collections.has_key(action_collection_name):
                 action_collection = self.action_collections.get(action_collection_name)
-                action_list.add_action(action)
+                action_collection.add_action(action)
             #The collection has not already been defined
             else:
                 action_collection = ActionCollection(action_collection_name, None, self.generator)
@@ -151,29 +151,29 @@ class Bundle(object):
             for candidate_indicator in self.candidate_indicators: candidate_indicator_list_obj.add_Candidate_Indicator(candidate_indicator.to_obj())
             bundle_obj.set_Candidate_Indicators(candidate_indicator_list_obj)
         #Add the particular Collection types, if applicable
-        collections = bundle_binding.CollectionsType()
+        collections_obj = bundle_binding.CollectionsType()
         if len(self.action_collections) > 0:
             action_collection_list = bundle_binding.ActionCollectionListType()
             for action_collection in self.action_collections.values():
                 action_collection_list.add_Action_Collection(action_collection.to_obj())
-            self.collections.set_Action_Collections(action_collection_list)
+            collections_obj.set_Action_Collections(action_collection_list)
         if len(self.object_collections) > 0:
             object_collection_list = bundle_binding.ObjectCollectionListType()
             for object_collection in self.object_collections.values():
                 object_collection_list.add_Object_Collection(object_collection.to_obj())
-            self.collections.set_Object_Collections(object_collection_list)
+            collections_obj.set_Object_Collections(object_collection_list)
         if len(self.behavior_collections) > 0:
             behavior_collection_list = bundle_binding.BehaviorCollectionListType()
             for behavior_collection in self.behavior_collections.values():
                 behavior_collection_list.add_Behavior_Collection(behavior_collection.to_obj())
-            self.collections.set_Behavior_Collections(behavior_collection_list)
+            collections_obj.set_Behavior_Collections(behavior_collection_list)
         if len(self.candidate_indicator_collections) > 0:
             candidate_indicator_collection_list = bundle_binding.CandidateIndicatorCollectionListType()
             for candidate_indicator_collection in self.candidate_indicator_collections.values():
                 candidate_indicator_collection_list.add_Candidate_Indicator_Collection(candidate_indicator_collection.to_obj())
-            self.collections.set_Candidate_Indicator_Collections(candidate_indicator_collection_list)
+            collections_obj.set_Candidate_Indicator_Collections(candidate_indicator_collection_list)
         #Add the Collections
-        if collections.hasContent_(): bundle_obj.set_Collections(self.collections)
+        if collections_obj.hasContent_(): bundle_obj.set_Collections(collections_obj)
 
         return bundle_obj
 
@@ -231,10 +231,10 @@ class ActionCollection(BaseCollection):
     superclass = BaseCollection
 
     def __init__(self, name = None, id = None, generator = None):
-        super(ActionCollectionType, self).__init__(name)
+        super(ActionCollection, self).__init__(name)
         self.id = id
         self.actions = []
-        self.generator = None
+        self.generator = generator
 
     def add_action(self, action):
         self.actions.append(action)
@@ -275,7 +275,7 @@ class BehaviorCollection(BaseCollection):
         super(BehaviorCollection, self).__init__(name)
         self.id = id
         self.behaviors = []
-        self.generator = None
+        self.generator = generator
 
     def add_behavior(self, behavior):
         self.behaviors.append(behavior)
@@ -316,7 +316,7 @@ class ObjectCollection(BaseCollection):
         super(ObjectCollection, self).__init__(name)
         self.id = id
         self.objects = []
-        self.generator = None
+        self.generator = generator
 
     def add_object(self, object):
         self.objects.append(object)
@@ -357,7 +357,7 @@ class CandidateIndicatorCollection(BaseCollection):
         super(CandidateIndicatorCollection, self).__init__(name)
         self.id = id
         self.candidate_indicators = []
-        self.generator = None
+        self.generator = generator
 
     def add_candidate_indicator(self, candidate_indicator):
         self.candidate_indicators.append(candidate_indicator)
