@@ -4,12 +4,12 @@
 #All rights reserved.
 
 #Compatible with MAEC v3.0
-#Last updated 02/14/2013
+#Last updated 04/11/2013
 
 import maec.bindings.maec_package_1_0 as package_binding
 import maec.bindings.maec_bundle_3_0 as bundle_binding
 import cybox.utils as utils
-from cybox.common.toolinformation import Tool_Information
+from cybox.common.toolinformation import ToolInformation
         
 class Analysis(object):
     def __init__(self, id, generator, method = None, type = None, bundle_idref = None):
@@ -26,6 +26,10 @@ class Analysis(object):
             self.type = type
         self.bundle_idref = bundle_idref
         self.tool_list = []
+        self.complete_datetime = None
+        self.command_line = None
+        self.analysis_duration = None
+        self.exit_code = None
 
     #"Public" methods
     def set_findings_bundle_reference(self, bundle_idref):
@@ -34,14 +38,17 @@ class Analysis(object):
     def set_summary(self, summary):
         self.analysis.set_Summary(summary)
    
-    def add_tool(self, tool_api_obj):
-        self.tool_list.push(tool_api_obj)
+    def add_tool(self, tool):
+        if isinstance(tool, ToolInformation):
+            self.tool_list.append(tool)
+        elif isinstance(tool, dict):
+            self.tool_list.append(ToolInformation.from_dict(tool))
 
     def set_type(self, type):
         self.type = type
 
     def set_method(self, method):
-        self.analysis_obj.set_method(method)
+        self.method = method
 
     def set_complete_datetime(self, complete_datetime):
         self.complete_datetime = complete_datetime
@@ -60,7 +67,7 @@ class Analysis(object):
         analysis_obj = package_binding.AnalysisType(id=self.id)
         if utils.test_value(self.method): analysis_obj.set_method(self.method)
         if utils.test_value(self.type): analysis_obj.set_type(self.type)
-        if utils.test_value(self.complete_datetime): self.analysis_obj.set_complete_datetime(self.complete_datetime)
+        if utils.test_value(self.complete_datetime): analysis_obj.set_complete_datetime(self.complete_datetime)
             
         bundle_reference = bundle_binding.BundleReferenceType(bundle_idref = self.bundle_idref)
         analysis_obj.set_Findings_Bundle_Reference(bundle_reference)
