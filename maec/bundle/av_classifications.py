@@ -41,7 +41,7 @@ class AVClassification(object):
     def to_obj(self):
         classification_obj = mmdef_binding.classificationObject()
         if self.id is not None: classification_obj.set_id(self.id)
-        if self.type is not None: classification_obj.set_id(self.type)
+        if self.type is not None: classification_obj.set_type(self.type)
         if self.classificationname is not None: classification_obj.set_classificationName(self.classificationname)
         if self.companyname is not None: classification_obj.set_companyName(self.companyname)
         if self.category is not None: classification_obj.set_category(self.category)
