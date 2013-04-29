@@ -9,11 +9,11 @@ import sys
 import getopt
 import re as re_
 
-import maec_bundle_schema
-import metadatasharing
-import cybox_core
-import system_object
-import cybox_common
+from maec.bindings import maec_bundle as maec_bundle_schema
+from maec.bindings import mmdef_1_2 as metadatasharing
+from cybox.bindings import cybox_core
+from cybox.bindings import system_object
+from cybox.bindings import cybox_common
 import base64
 from datetime import datetime, tzinfo, timedelta
 

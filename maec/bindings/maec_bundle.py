@@ -9,11 +9,10 @@ import sys
 import getopt
 import re as re_
 
-import cybox_core
-import cybox_common
-import code_object
-import process_object
-import cybox_default_vocabularie
+from cybox.bindings import cybox_core
+from cybox.bindings import cybox_common
+from cybox.bindings import code_object
+from cybox.bindings import process_object
 import base64
 from datetime import datetime, tzinfo, timedelta
 
@@ -5696,10 +5695,10 @@ def parse(inFileName):
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
-    sys.stdout.write('<?xml version="1.0" ?>\n')
-    rootObj.export(sys.stdout, 0, name_=rootTag,
-        namespacedef_='',
-        pretty_print=True)
+    #sys.stdout.write('<?xml version="1.0" ?>\n')
+    #rootObj.export(sys.stdout, 0, name_=rootTag,
+    #    namespacedef_='',
+    #    pretty_print=True)
     return rootObj
 
 def parseEtree(inFileName):
@@ -5732,9 +5731,9 @@ def parseString(inString):
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
-    sys.stdout.write('<?xml version="1.0" ?>\n')
-    rootObj.export(sys.stdout, 0, name_="MAEC_Bundle",
-        namespacedef_='')
+    #sys.stdout.write('<?xml version="1.0" ?>\n')
+    #rootObj.export(sys.stdout, 0, name_="MAEC_Bundle",
+    #    namespacedef_='')
     return rootObj
 
 def parseLiteral(inFileName):
