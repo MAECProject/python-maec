@@ -44,6 +44,9 @@ class Analysis(object):
         elif isinstance(tool, dict):
             self.tool_list.append(ToolInformation.from_dict(tool))
 
+    def get_tools(self):
+        return self.tool_list
+
     def set_type(self, type):
         self.type = type
 
