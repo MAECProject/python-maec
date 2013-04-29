@@ -1,15 +1,17 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 
 #
-# Generated Mon Nov 26 15:49:30 2012 by generateDS.py version 2.7c.
+# Generated Mon Apr 29 08:31:25 2013 by generateDS.py version 2.9a.
 #
 
 import sys
 import getopt
 import re as re_
 
-import maec_package_1_0
+import maec_package_schema
+import base64
+from datetime import datetime, tzinfo, timedelta
 
 etree_ = None
 Verbose_import_ = False
@@ -24,8 +26,36 @@ try:
     if Verbose_import_:
         print("running with lxml.etree")
 except ImportError:
-    if Verbose_import_:
-        print 'Error: LXML version 2.3+ required for parsing files'
+    try:
+        # cElementTree from Python 2.5+
+        import xml.etree.cElementTree as etree_
+        XMLParser_import_library = XMLParser_import_elementtree
+        if Verbose_import_:
+            print("running with cElementTree on Python 2.5+")
+    except ImportError:
+        try:
+            # ElementTree from Python 2.5+
+            import xml.etree.ElementTree as etree_
+            XMLParser_import_library = XMLParser_import_elementtree
+            if Verbose_import_:
+                print("running with ElementTree on Python 2.5+")
+        except ImportError:
+            try:
+                # normal cElementTree install
+                import cElementTree as etree_
+                XMLParser_import_library = XMLParser_import_elementtree
+                if Verbose_import_:
+                    print("running with cElementTree")
+            except ImportError:
+                try:
+                    # normal ElementTree install
+                    import elementtree.ElementTree as etree_
+                    XMLParser_import_library = XMLParser_import_elementtree
+                    if Verbose_import_:
+                        print("running with ElementTree")
+                except ImportError:
+                    raise ImportError(
+                        "Failed to import ElementTree from any known place")
 
 def parsexml_(*args, **kwargs):
     if (XMLParser_import_library == XMLParser_import_lxml and
@@ -48,9 +78,24 @@ try:
 except ImportError, exp:
 
     class GeneratedsSuper(object):
+        tzoff_pattern = re_.compile(r'(\+|-)((0\d|1[0-3]):[0-5]\d|14:00)$')
+        class _FixedOffsetTZ(tzinfo):
+            def __init__(self, offset, name):
+                self.__offset = timedelta(minutes = offset)
+                self.__name = name
+            def utcoffset(self, dt):
+                return self.__offset
+            def tzname(self, dt):
+                return self.__name
+            def dst(self, dt):
+                return None
         def gds_format_string(self, input_data, input_name=''):
             return input_data
         def gds_validate_string(self, input_data, node, input_name=''):
+            return input_data
+        def gds_format_base64(self, input_data, input_name=''):
+            return base64.b64encode(input_data)
+        def gds_validate_base64(self, input_data, node, input_name=''):
             return input_data
         def gds_format_integer(self, input_data, input_name=''):
             return '%d' % input_data
@@ -95,7 +140,7 @@ except ImportError, exp:
                     raise_parse_error(node, 'Requires sequence of doubles')
             return input_data
         def gds_format_boolean(self, input_data, input_name=''):
-            return '%s' % input_data
+            return ('%s' % input_data).lower()
         def gds_validate_boolean(self, input_data, node, input_name=''):
             return input_data
         def gds_format_boolean_list(self, input_data, input_name=''):
@@ -104,8 +149,93 @@ except ImportError, exp:
             values = input_data.split()
             for value in values:
                 if value not in ('true', '1', 'false', '0', ):
-                    raise_parse_error(node, 'Requires sequence of booleans ("true", "1", "false", "0")')
+                    raise_parse_error(node,
+                        'Requires sequence of booleans '
+                        '("true", "1", "false", "0")')
             return input_data
+        def gds_validate_datetime(self, input_data, node, input_name=''):
+            return input_data
+        def gds_format_datetime(self, input_data, input_name=''):
+            if input_data.microsecond == 0:
+                _svalue = input_data.strftime('%Y-%m-%dT%H:%M:%S')
+            else:
+                _svalue = input_data.strftime('%Y-%m-%dT%H:%M:%S.%f')
+            if input_data.tzinfo is not None:
+                tzoff = input_data.tzinfo.utcoffset(input_data)
+                if tzoff is not None:
+                    total_seconds = tzoff.seconds + (86400 * tzoff.days)
+                    if total_seconds == 0:
+                        _svalue += 'Z'
+                    else:
+                        if total_seconds < 0:
+                            _svalue += '-'
+                            total_seconds *= -1
+                        else:
+                            _svalue += '+'
+                        hours = total_seconds // 3600
+                        minutes = (total_seconds - (hours * 3600)) // 60
+                        _svalue += '{0:02d}:{1:02d}'.format(hours, minutes)
+            return _svalue
+        def gds_parse_datetime(self, input_data, node, input_name=''):
+            tz = None
+            if input_data[-1] == 'Z':
+                tz = GeneratedsSuper._FixedOffsetTZ(0, 'GMT')
+                input_data = input_data[:-1]
+            else:
+                results = GeneratedsSuper.tzoff_pattern.search(input_data)
+                if results is not None:
+                    tzoff_parts = results.group(2).split(':')
+                    tzoff = int(tzoff_parts[0]) * 60 + int(tzoff_parts[1])
+                    if results.group(1) == '-':
+                        tzoff *= -1
+                    tz = GeneratedsSuper._FixedOffsetTZ(
+                        tzoff, results.group(0))
+                    input_data = input_data[:-6]
+            if len(input_data.split('.')) > 1:
+                dt = datetime.strptime(
+                        input_data, '%Y-%m-%dT%H:%M:%S.%f')
+            else:
+                dt = datetime.strptime(
+                        input_data, '%Y-%m-%dT%H:%M:%S')
+            return dt.replace(tzinfo = tz)
+
+        def gds_validate_date(self, input_data, node, input_name=''):
+            return input_data
+        def gds_format_date(self, input_data, input_name=''):
+            _svalue = input_data.strftime('%Y-%m-%d')
+            if input_data.tzinfo is not None:
+                tzoff = input_data.tzinfo.utcoffset(input_data)
+                if tzoff is not None:
+                    total_seconds = tzoff.seconds + (86400 * tzoff.days)
+                    if total_seconds == 0:
+                        _svalue += 'Z'
+                    else:
+                        if total_seconds < 0:
+                            _svalue += '-'
+                            total_seconds *= -1
+                        else:
+                            _svalue += '+'
+                        hours = total_seconds // 3600
+                        minutes = (total_seconds - (hours * 3600)) // 60
+                        _svalue += '{0:02d}:{1:02d}'.format(hours, minutes)
+            return _svalue
+        def gds_parse_date(self, input_data, node, input_name=''):
+            tz = None
+            if input_data[-1] == 'Z':
+                tz = GeneratedsSuper._FixedOffsetTZ(0, 'GMT')
+                input_data = input_data[:-1]
+            else:
+                results = GeneratedsSuper.tzoff_pattern.search(input_data)
+                if results is not None:
+                    tzoff_parts = results.group(2).split(':')
+                    tzoff = int(tzoff_parts[0]) * 60 + int(tzoff_parts[1])
+                    if results.group(1) == '-':
+                        tzoff *= -1
+                    tz = GeneratedsSuper._FixedOffsetTZ(
+                        tzoff, results.group(0))
+                    input_data = input_data[:-6]
+            return datetime.strptime(input_data,
+                '%Y-%m-%d').replace(tzinfo = tz)
         def gds_str_lower(self, instring):
             return instring.lower()
         def get_path_(self, node):
@@ -157,7 +287,7 @@ except ImportError, exp:
 # Globals
 #
 
-ExternalEncoding = 'utf-8'
+ExternalEncoding = 'ascii'
 Tag_pattern_ = re_.compile(r'({.*})?(.*)')
 String_cleanup_pat_ = re_.compile(r"[\n\r\s]+")
 Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
@@ -240,7 +370,8 @@ class GDSParseError(Exception):
 
 def raise_parse_error(node, msg):
     if XMLParser_import_library == XMLParser_import_lxml:
-        msg = '%s (element %s/line %d)' % (msg, node.tag, node.sourceline, )
+        msg = '%s (element %s/line %d)' % (
+            msg, node.tag, node.sourceline, )
     else:
         msg = '%s (element %s)' % (msg, node.tag, )
     raise GDSParseError(msg)
@@ -261,6 +392,7 @@ class MixedContainer:
     TypeDecimal = 5
     TypeDouble = 6
     TypeBoolean = 7
+    TypeBase64 = 8
     def __init__(self, category, content_type, name, value):
         self.category = category
         self.content_type = content_type
@@ -277,7 +409,7 @@ class MixedContainer:
     def export(self, outfile, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
-            if self.value.strip(): 
+            if self.value.strip():
                 outfile.write(self.value)
         elif self.category == MixedContainer.CategorySimple:
             self.exportSimple(outfile, level, name)
@@ -285,24 +417,64 @@ class MixedContainer:
             self.value.export(outfile, level, namespace, name, pretty_print)
     def exportSimple(self, outfile, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' % (self.name, self.value, self.name))
+            outfile.write('<%s>%s</%s>' %
+                (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' % (self.name, self.value, self.name))
+            outfile.write('<%s>%d</%s>' %
+                (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' % (self.name, self.value, self.name))
+            outfile.write('<%s>%f</%s>' %
+                (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' % (self.name, self.value, self.name))
+            outfile.write('<%s>%g</%s>' %
+                (self.name, self.value, self.name))
+        elif self.content_type == MixedContainer.TypeBase64:
+            outfile.write('<%s>%s</%s>' %
+                (self.name, base64.b64encode(self.value), self.name))
+    def to_etree(self, element):
+        if self.category == MixedContainer.CategoryText:
+            # Prevent exporting empty content as empty lines.
+            if self.value.strip():
+                if len(element) > 0:
+                    if element[-1].tail is None:
+                        element[-1].tail = self.value
+                    else:
+                        element[-1].tail += self.value
+                else:
+                    if element.text is None:
+                        element.text = self.value
+                    else:
+                        element.text += self.value
+        elif self.category == MixedContainer.CategorySimple:
+            subelement = etree_.SubElement(element, '%s' % self.name)
+            subelement.text = self.to_etree_simple()
+        else:    # category == MixedContainer.CategoryComplex
+            self.value.to_etree(element)
+    def to_etree_simple(self):
+        if self.content_type == MixedContainer.TypeString:
+            text = self.value
+        elif (self.content_type == MixedContainer.TypeInteger or
+                self.content_type == MixedContainer.TypeBoolean):
+            text = '%d' % self.value
+        elif (self.content_type == MixedContainer.TypeFloat or
+                self.content_type == MixedContainer.TypeDecimal):
+            text = '%f' % self.value
+        elif self.content_type == MixedContainer.TypeDouble:
+            text = '%g' % self.value
+        elif self.content_type == MixedContainer.TypeBase64:
+            text = '%s' % base64.b64encode(self.value)
+        return text
     def exportLiteral(self, outfile, level, name):
         if self.category == MixedContainer.CategoryText:
             showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n' % \
-                (self.category, self.content_type, self.name, self.value))
+            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+                % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
             showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n' % \
-                (self.category, self.content_type, self.name, self.value))
+            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+                % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
             showIndent(outfile, level)
             outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
@@ -371,39 +543,6 @@ class ContainerType(GeneratedsSuper):
     def set_id(self, id): self.id = id
     def get_schema_version(self): return self.schema_version
     def set_schema_version(self, schema_version): self.schema_version = schema_version
-    def export(self, outfile, level, namespace_='maecContainer:', name_='MAEC_Container', namespacedef_='', pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MAEC_Container')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecContainer:', name_='MAEC_Container'):
-        if self.timestamp is not None and 'timestamp' not in already_processed:
-            already_processed.append('timestamp')
-            outfile.write(' timestamp=%s' % (self.gds_format_string(quote_attrib(self.timestamp).encode(ExternalEncoding), input_name='timestamp'), ))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.append('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
-        if self.schema_version is not None and 'schema_version' not in already_processed:
-            already_processed.append('schema_version')
-            outfile.write(' schema_version="%s"' % self.gds_format_float(self.schema_version, input_name='schema_version'))
-    def exportChildren(self, outfile, level, namespace_='maecContainer:', name_='MAEC_Container', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.Packages is not None:
-            self.Packages.export(outfile, level, 'maecContainer:', name_='Packages', pretty_print=pretty_print)
     def hasContent_(self):
         if (
             self.Packages is not None
@@ -411,48 +550,84 @@ class ContainerType(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='MAEC_Container'):
+    def export(self, outfile, level, namespace_='maecContainer:', name_='ContainerType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ContainerType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecContainer:', name_='ContainerType'):
+        if self.timestamp is not None and 'timestamp' not in already_processed:
+            already_processed.add('timestamp')
+            outfile.write(' timestamp="%s"' % self.gds_format_datetime(self.timestamp, input_name='timestamp'))
+        if self.id is not None and 'id' not in already_processed:
+            already_processed.add('id')
+            outfile.write(' id=%s' % (quote_attrib(self.id), ))
+        if self.schema_version is not None and 'schema_version' not in already_processed:
+            already_processed.add('schema_version')
+            outfile.write(' schema_version="%s"' % self.gds_format_float(self.schema_version, input_name='schema_version'))
+    def exportChildren(self, outfile, level, namespace_='maecContainer:', name_='ContainerType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.Packages is not None:
+            self.Packages.export(outfile, level, 'maecContainer:', name_='Packages', pretty_print=pretty_print)
+    def exportLiteral(self, outfile, level, name_='ContainerType'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
         if self.hasContent_():
             self.exportLiteralChildren(outfile, level, name_)
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
         if self.timestamp is not None and 'timestamp' not in already_processed:
-            already_processed.append('timestamp')
+            already_processed.add('timestamp')
             showIndent(outfile, level)
             outfile.write('timestamp = "%s",\n' % (self.timestamp,))
         if self.id is not None and 'id' not in already_processed:
-            already_processed.append('id')
+            already_processed.add('id')
             showIndent(outfile, level)
             outfile.write('id = %s,\n' % (self.id,))
         if self.schema_version is not None and 'schema_version' not in already_processed:
-            already_processed.append('schema_version')
+            already_processed.add('schema_version')
             showIndent(outfile, level)
             outfile.write('schema_version = %f,\n' % (self.schema_version,))
     def exportLiteralChildren(self, outfile, level, name_):
         if self.Packages is not None:
-            showIndent(outfile, level)
             outfile.write('Packages=model_.PackageListType(\n')
             self.Packages.exportLiteral(outfile, level, name_='Packages')
-            showIndent(outfile, level)
             outfile.write('),\n')
     def build(self, node):
-        self.buildAttributes(node, node.attrib, [])
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('timestamp', node)
         if value is not None and 'timestamp' not in already_processed:
-            already_processed.append('timestamp')
-            self.timestamp = value
+            already_processed.add('timestamp')
+            try:
+                self.timestamp = self.gds_parse_datetime(value, node, 'timestamp')
+            except ValueError, exp:
+                raise ValueError('Bad date-time attribute (timestamp): %s' % exp)
         value = find_attr_value_('id', node)
         if value is not None and 'id' not in already_processed:
-            already_processed.append('id')
+            already_processed.add('id')
             self.id = value
         value = find_attr_value_('schema_version', node)
         if value is not None and 'schema_version' not in already_processed:
-            already_processed.append('schema_version')
+            already_processed.add('schema_version')
             try:
                 self.schema_version = float(value)
             except ValueError, exp:
@@ -483,6 +658,13 @@ class PackageListType(GeneratedsSuper):
     def set_Package(self, Package): self.Package = Package
     def add_Package(self, value): self.Package.append(value)
     def insert_Package(self, index, value): self.Package[index] = value
+    def hasContent_(self):
+        if (
+            self.Package
+            ):
+            return True
+        else:
+            return False
     def export(self, outfile, level, namespace_='maecContainer:', name_='PackageListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -490,7 +672,7 @@ class PackageListType(GeneratedsSuper):
             eol_ = ''
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = []
+        already_processed = set()
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='PackageListType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
@@ -508,16 +690,10 @@ class PackageListType(GeneratedsSuper):
             eol_ = ''
         for Package_ in self.Package:
             Package_.export(outfile, level, 'maecContainer:', name_='Package', pretty_print=pretty_print)
-    def hasContent_(self):
-        if (
-            self.Package
-            ):
-            return True
-        else:
-            return False
     def exportLiteral(self, outfile, level, name_='PackageListType'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
         if self.hasContent_():
             self.exportLiteralChildren(outfile, level, name_)
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
@@ -527,16 +703,16 @@ class PackageListType(GeneratedsSuper):
         outfile.write('Package=[\n')
         level += 1
         for Package_ in self.Package:
-            showIndent(outfile, level)
-            outfile.write('model_.maec_package_1_0.PackageType(\n')
-            Package_.exportLiteral(outfile, level, name_='maec_package_1_0.PackageType')
+            outfile.write('model_.maec_package_schema.PackageType(\n')
+            Package_.exportLiteral(outfile, level, name_='maec_package_schema.PackageType')
             showIndent(outfile, level)
             outfile.write('),\n')
         level -= 1
         showIndent(outfile, level)
         outfile.write('],\n')
     def build(self, node):
-        self.buildAttributes(node, node.attrib, [])
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
@@ -544,10 +720,47 @@ class PackageListType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Package':
-            obj_ = maec_package_1_0.PackageType.factory()
+            obj_ = maec_package_schema.PackageType.factory()
             obj_.build(child_)
             self.Package.append(obj_)
 # end class PackageListType
+
+GDSClassesMapping = {
+    'Findings_Bundles': maec_package_schema.FindingsBundleListType,
+    'Analysis_Systems': maec_package_schema.AnalysisSystemListType,
+    'MAEC_Package': maec_package_schema.PackageType,
+    'Installed_Programs': maec_package_schema.InstalledProgramsType,
+    'Protocol': maec_package_schema.CapturedProtocolType,
+    'Minor_Variants': maec_package_schema.MinorVariantListType,
+    'Action_Equivalences': maec_package_schema.ActionEquivalenceListType,
+    'Malware_Subject_Reference': maec_package_schema.MalwareSubjectReferenceType,
+    'Clustering_Metadata': maec_package_schema.ClusteringMetadataType,
+    'Edge_Node_Pair': maec_package_schema.ClusterEdgeNodePairType,
+    'Meta_Analysis': maec_package_schema.MetaAnalysisType,
+    'Analysis': maec_package_schema.AnalysisType,
+    'Dynamic_Analysis_Metadata': maec_package_schema.DynamicAnalysisMetadataType,
+    'Analyses': maec_package_schema.AnalysisListType,
+    'Grouping_Relationships': maec_package_schema.GroupingRelationshipListType,
+    'Network_Infrastructure': maec_package_schema.NetworkInfrastructureType,
+    'Comments': maec_package_schema.CommentListType,
+    'Captured_Protocols': maec_package_schema.CapturedProtocolListType,
+    'Malware_Subject': maec_package_schema.MalwareSubjectType,
+    'Cluster_Composition': maec_package_schema.ClusterCompositionType,
+    'Action_Equivalence': maec_package_schema.ActionEquivalenceType,
+    'Analysis_Environment': maec_package_schema.AnalysisEnvironmentType,
+    'Object_Equivalences': maec_package_schema.ObjectEquivalenceListType,
+    'Hypervisor_Host_System': maec_package_schema.HypervisorHostSystemType,
+    'Source': maec_package_schema.SourceType,
+    'Algorithm_Parameters': maec_package_schema.ClusteringAlgorithmParametersType,
+    'Malware_Subject_Node_A': maec_package_schema.MalwareSubjectReferenceType,
+    'Malware_Subject_Node_B': maec_package_schema.MalwareSubjectReferenceType,
+    'Grouping_Relationship': maec_package_schema.GroupingRelationshipType,
+    'Package': maec_package_schema.PackageType,
+    'Analysis_System': maec_package_schema.AnalysisSystemType,
+    'Malware_Subjects': maec_package_schema.MalwareSubjectListType,
+    'Comment': maec_package_schema.CommentType,
+    'Object_Equivalence': maec_package_schema.ObjectEquivalenceType,
+}
 
 USAGE_TEXT = """
 Usage: python <Parser>.py [ -s ] <in_xml_file>
@@ -559,7 +772,9 @@ def usage():
 
 def get_root_tag(node):
     tag = Tag_pattern_.match(node.tag).groups()[-1]
-    rootClass = globals().get(tag)
+    rootClass = GDSClassesMapping.get(tag)
+    if rootClass is None:
+        rootClass = globals().get(tag)
     return tag, rootClass
 
 def parse(inFileName):
@@ -578,6 +793,24 @@ def parse(inFileName):
         namespacedef_='',
         pretty_print=True)
     return rootObj
+
+def parseEtree(inFileName):
+    doc = parsexml_(inFileName)
+    rootNode = doc.getroot()
+    rootTag, rootClass = get_root_tag(rootNode)
+    if rootClass is None:
+        rootTag = 'MAEC_Container'
+        rootClass = ContainerType
+    rootObj = rootClass.factory()
+    rootObj.build(rootNode)
+    # Enable Python to collect the space used by the DOM.
+    doc = None
+    rootElement = rootObj.to_etree(None, name_=rootTag)
+    content = etree_.tostring(rootElement, pretty_print=True,
+        xml_declaration=True, encoding="utf-8")
+    sys.stdout.write(content)
+    sys.stdout.write('\n')
+    return rootObj, rootElement
 
 def parseString(inString):
     from StringIO import StringIO
@@ -607,8 +840,9 @@ def parseLiteral(inFileName):
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
-    sys.stdout.write('#from maec_container import *\n\n')
-    sys.stdout.write('import maec_container as model_\n\n')
+    sys.stdout.write('#from maec_container_temp import *\n\n')
+    sys.stdout.write('from datetime import datetime as datetime_\n\n')
+    sys.stdout.write('import maec_container_temp as model_\n\n')
     sys.stdout.write('rootObj = model_.rootTag(\n')
     rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
     sys.stdout.write(')\n')
