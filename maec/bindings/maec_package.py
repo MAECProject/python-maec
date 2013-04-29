@@ -1654,7 +1654,7 @@ class PackageType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecPackage:', name_='PackageType', namespacedef_='', pretty_print=True):
+    def export(self, outfile, level, namespace_='maecPackage:', name_='MAEC_Package', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -1662,7 +1662,7 @@ class PackageType(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PackageType')
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MAEC_Package')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
@@ -1670,7 +1670,7 @@ class PackageType(GeneratedsSuper):
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecPackage:', name_='PackageType'):
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecPackage:', name_='MAEC_Package'):
         if self.timestamp is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
             outfile.write(' timestamp="%s"' % self.gds_format_datetime(self.timestamp, input_name='timestamp'))
@@ -1680,7 +1680,7 @@ class PackageType(GeneratedsSuper):
         if self.schema_version is not None and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
             outfile.write(' schema_version="%s"' % self.gds_format_float(self.schema_version, input_name='schema_version'))
-    def exportChildren(self, outfile, level, namespace_='maecPackage:', name_='PackageType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='maecPackage:', name_='MAEC_Package', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -1689,7 +1689,7 @@ class PackageType(GeneratedsSuper):
             self.Malware_Subjects.export(outfile, level, 'maecPackage:', name_='Malware_Subjects', pretty_print=pretty_print)
         if self.Grouping_Relationships is not None:
             self.Grouping_Relationships.export(outfile, level, 'maecPackage:', name_='Grouping_Relationships', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PackageType'):
+    def exportLiteral(self, outfile, level, name_='MAEC_Package'):
         level += 1
         already_processed = set()
         self.exportLiteralAttributes(outfile, level, already_processed, name_)
