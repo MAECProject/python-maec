@@ -39,10 +39,7 @@ class Analysis(object):
         self.analysis.set_Summary(summary)
    
     def add_tool(self, tool):
-        if isinstance(tool, ToolInformation):
-            self.tool_list.append(tool)
-        elif isinstance(tool, dict):
-            self.tool_list.append(ToolInformation.from_dict(tool))
+        self.tool_list.append(tool)
 
     def get_tools(self):
         return self.tool_list
@@ -77,9 +74,9 @@ class Analysis(object):
             
         if len(self.tool_list) > 0:
             tool_list_obj = package_binding.ToolListType()
-            for tool_api_obj in self.tool_list:
-                tool_obj = tool_api_obj.to_obj()
-                if tool_obj.hasContent_(): tool_list_obj.add_Tool(tool_obj)
+            for tool_dict in self.tool_list:
+                tool_bindings_obj = ToolInformation.from_dict(tool_dict).to_obj()
+                if tool_bindings_obj.hasContent_(): tool_list_obj.add_Tool(tool_bindings_obj)
             analysis_obj.set_Tools(tool_list_obj)
         
         dynamic_analysis_metadata_obj = package_binding.DynamicAnalysisMetadataType()
