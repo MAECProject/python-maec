@@ -3,15 +3,15 @@
 #Copyright (c) 2013, The MITRE Corporation
 #All rights reserved.
 
-#Compatible with MAEC v3.0
-#Last updated 02/26/2013
+#Compatible with MAEC v4.0
+#Last updated 05/10/2013
 
-import maec.bindings.maec_bundle_3_0 as bundle_binding
-import cybox.bindings.commons as cybox_common
+import maec
+import maec.bindings.maec_bundle as bundle_binding
 import datetime
        
-class Behavior(object):
-    def init(self, generator, id, description, ordinal_position, duration, status):
+class Behavior(maec.Entity):
+    def init(self, id, generator, description = None, ordinal_position = None, duration = None, status = None):
         if id is not None:
             self.id = id
         elif generator is not None:
@@ -25,7 +25,7 @@ class Behavior(object):
         self.snippet_list = []
         self.relationship_list = []
         
-        self.discoveryMethod = None
+        self.discovery_method = None
         
         if ordinal_position is not None: self.set_ordinal_position(ordinal_position)
         if description is not None: self.set_Description(description)
@@ -77,8 +77,8 @@ class Behavior(object):
         if self.position is not None: behavior.set_ordinal_position(self.position)
         if self.description is not None: behavior.set_Description(self.description)
         
-        if self.discoveryMethod is not None and self.discoveryMethod.hasContent_():
-            behavior.set_Discovery_Method(self.discoveryMethod)
+        if self.discovery_method is not None and self.discovery_method.hasContent_():
+            behavior.set_Discovery_Method(self.discovery_method)
         
         exploit = bundle_binding.VulnerabilityExploitType()
         exploit.set_known_vulnerability(False)
