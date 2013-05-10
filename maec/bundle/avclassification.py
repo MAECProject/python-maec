@@ -1,69 +1,59 @@
-import cybox.utils as utils
-import maec.bindings.mmdef_1_2 as mmdef_binding
-import maec.bindings.maec_bundle_3_0 as bundle_binding
+import maec
+import maec.bindings.maec_bundle as bundle_binding
+from cybox.common.tools import ToolInformation
 
-class AVClassifications(object):
-    def __init__(self):
-        self.av_classifications = []
-
-    def to_obj(self):
-        av_classifications_obj = bundle_binding.AVClassificationsType()
-        av_classifications_obj.set_anyAttributes_({'xsi:type' : 'maecBundle:AVClassificationsType'})
-        if len(self.av_classifications) > 0:
-            for av_classification in self.av_classifications:
-                av_classifications_obj.add_AV_Classification(av_classification.to_obj())
-        return av_classifications_obj
-
-    def to_list(self):
-        pass
-
-    @staticmethod
-    def from_list(av_classifications_list):
-        if not av_classifications_list:
-            return None
-        av_classifications_ = AVClassifications()
-        av_classifications_.av_classifications = [AVClassification.from_dict(x) for x in av_classifications_list]
-        return av_classifications_
-
-    @staticmethod
-    def from_obj(av_classifications_obj):
-        pass
-
-class AVClassification(object):
-    def __init__(self):
-        self.id = None
-        self.type = None
-        self.classificationname = None
-        self.companyname = None
-        self.category = None
-        self.classificationdetails = None
+class AVClassification(ToolInformation):
+    def __init__(self, classification = None, tool_name = None, tool_vendor = None):
+        super(AVClassification, self).__init__(tool_name, tool_vendor)
+        self.engine_version = None
+        self.definition_Version = None
+        self.classification_name = None
 
     def to_obj(self):
-        classification_obj = mmdef_binding.classificationObject()
-        if self.id is not None: classification_obj.set_id(self.id)
-        if self.type is not None: classification_obj.set_type(self.type)
-        if self.classificationname is not None: classification_obj.set_classificationName(self.classificationname)
-        if self.companyname is not None: classification_obj.set_companyName(self.companyname)
-        if self.category is not None: classification_obj.set_category(self.category)
-        if self.classificationdetails is not None: pass
-        return classification_obj
+        av_classification_obj = super(AVClassification, self).to_obj(bundle_binding.AVClassificationType())
+        if self.engine_version is not None : av_classification_obj.set_Engine_Version(self.engine_version)
+        if self.definition_version is not None : av_classification_obj.set_Definition_Version(self.definition_version)
+        if self.classification_name is not None : av_classification_obj.set_Classification_Name(self.classification_name)
+        return av_classification_obj
 
     def to_dict(self):
-        pass
+        av_classification_dict = super(AVClassification, self).to_dict()
+        if self.engine_version is not None : av_classification_dict['engine_version'] = self.engine_version
+        if self.definition_version is not None : av_classification_dict['definition_version'] = self.definition_version
+        if self.classification_name is not None : av_classification_dict['classification_name'] = self.classification_name
+        return av_classification_dict
 
     @staticmethod
-    def from_dict(classification_dict):
-        if not classification_dict:
+    def from_dict(av_classification_dict):
+        if not av_classification_dict:
             return None
-        av_classification_ = AVClassification()
-        av_classification_.id = classification_dict.get('id')
-        av_classification_.type = classification_dict.get('type')
-        av_classification_.classificationname = classification_dict.get('classificationname')
-        av_classification_.companyname = classification_dict.get('companyname')
-        av_classification_.category = classification_dict.get('category')
-        #av_classification_.classificationdetails = classification_dict.get('classificationdetails')
+        av_classification_ = ToolInformation.from_dict(av_classification_dict, AVClassification())
+        av_classification_.engine_version = av_classification_dict.get('engine_version')
+        av_classification_.definition_version = av_classification_dict.get('definition_version')
+        av_classification_.classification_name = av_classification_dict.get('classification_name')
         return av_classification_
 
     @staticmethod
-    def from_object(classification_obj):
-        pass
+    def from_obj(av_classification_obj):
+        if not av_classification_obj:
+            return None
+        av_classification_ = ToolInformation.from_obj(av_classification_obj, AVClassification())
+        av_classification_.engine_version = av_classification_obj.get_Engine_Version()
+        av_classification_.definition_version = av_classification_obj.get_Definition_Version()
+        av_classification_.classification_name = av_classification_obj.get_Classification_Name()
+        return av_classification_
+
+class AVClassifications(maec.EntityList):
+    _contained_type = Hash
+    _binding_class = common_binding.HashListType
+
+    def __init__(self):
+        super(AVClassifications, self).__init__()
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_AV_Classification(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_AV_Classification()
