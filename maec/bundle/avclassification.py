@@ -44,8 +44,8 @@ class AVClassification(ToolInformation):
         return av_classification_
 
 class AVClassifications(maec.EntityList):
-    _contained_type = Hash
-    _binding_class = common_binding.HashListType
+    _contained_type = AVClassification
+    _binding_class = bundle_binding.AVClassificationsType
 
     def __init__(self):
         super(AVClassifications, self).__init__()
