@@ -212,3 +212,18 @@ class CandidateIndicatorComposition(maec.Entity):
             for sub_composition_obj in candidate_indc_comp_obj.get_Sub_Composition():
                 candidate_indicator_composition_.sub_compositions.append(CandidateIndicatorComposition.from_obj(sub_composition_obj))
         return candidate_indicator_composition_
+
+class CandidateIndicatorList(maec.EntityList):
+    _contained_type = CandidateIndicator
+    _binding_class = bundle_binding.CandidateIndicatorListType
+
+    def __init__(self):
+        super(CandidateIndicatorList, self).__init__()
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Candidate_Indicator(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_Candidate_Indicator()
