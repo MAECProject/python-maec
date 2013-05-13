@@ -4,15 +4,17 @@
 #All rights reserved.
 
 #Compatible with MAEC v4.0
-#Last updated 05/10/2013
+#Last updated 05/13/2013
 
 import datetime
 import maec.bindings.maec_bundle as bundle_binding
 from cybox.core.object import Object
+from cybox.core.action_reference import ActionReference
 from maec.bundle.malware_action import MalwareAction
-from maec.bundle.avclassification import AVClassifications
+from maec.bundle.av_classification import AVClassifications
 from maec.bundle.behavior import Behavior
 from maec.bundle.candidate_indicator import CandidateIndicator, CandidateIndicatorList
+from maec.bundle.process_tree import ProcessTree
        
 class Bundle(object):
     def __init__(self, id, generator, defined_subject, schema_version = 4.0, content_type = None, malware_instance_object = None):
@@ -215,6 +217,21 @@ class Actions(maec.EntityList):
     @staticmethod
     def _get_list(binding_obj):
         return binding_obj.get_Action()
+
+class ActionReferenceList(maec.EntityList):
+    _contained_type = ActionReference
+    _binding_class = bundle_binding.ActionReferenceListType
+
+    def __init__(self):
+        super(ActionReferenceList, self).__init__()
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Action_Reference(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_Action_Reference()
 
 class Objects(maec.EntityList):
     _contained_type = Object
