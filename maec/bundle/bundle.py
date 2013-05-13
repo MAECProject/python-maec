@@ -3,16 +3,19 @@
 #Copyright (c) 2013, The MITRE Corporation
 #All rights reserved.
 
-#Compatible with MAEC v3.0
-#Last updated 04/10/2013
+#Compatible with MAEC v4.0
+#Last updated 05/10/2013
 
-import maec.bindings.maec_bundle_3_0 as bundle_binding
 import datetime
+import maec.bindings.maec_bundle as bundle_binding
+from cybox.core.object import Object
 from maec.bundle.malware_action import MalwareAction
-#from maec.bundle.behavior import Behavior
+from maec.bundle.avclassification import AVClassifications
+from maec.bundle.behavior import Behavior
+from maec.bundle.candidate_indicator import CandidateIndicator, CandidateIndicatorList
        
 class Bundle(object):
-    def __init__(self, id, generator, schema_version, defined_subject, content_type = None, malware_instance_object = None):
+    def __init__(self, id, generator, defined_subject, schema_version = 4.0, content_type = None, malware_instance_object = None):
         if id is not None:
             self.id = id
         elif generator is not None:
@@ -25,11 +28,12 @@ class Bundle(object):
         self.content_type = content_type
         self.malware_instance_object = malware_instance_object
         #Add all of the top-level containers
-        self.actions = []
+        self.av_classifications = AVClassifications()
+        self.actions = Actions()
         self.process_tree = None
-        self.behaviors = []
-        self.objects = []
-        self.candidate_indicators = []
+        self.behaviors = Behaviors()
+        self.objects = Objects()
+        self.candidate_indicators = CandidateIndicatorList()
         self.collections = []
         #Add the collection dictionaries
         self.action_collections = {}
@@ -41,6 +45,10 @@ class Bundle(object):
     #Set the Malware Instance Object Attributes
     def set_malware_instance_object_atttributes(self, malware_instance_object):
         self.malware_instance_object = malware_instance_object
+
+    #Add an AV classification
+    def add_av_classification(self, av_classification):
+        self.av_classifications.append(av_classification)
 
     #Set the Process Tree, in the top-level <Process_Tree> element
     def set_process_tree(self, process_tree):
@@ -128,28 +136,18 @@ class Bundle(object):
         if self.content_type is not None: self.bundle.set_content_type(content_type)
         #Set the Malware Instance Object Attributes (a CybOX object) if they are not none
         if self.malware_instance_object is not None: self.bundle.set_Malware_Instance_Attributes(malware_instance_object.to_obj())
+        #Add the AV Classifications
+        if len(self.av_classifications) > 0: bundle_obj.set_AV_Classifications(self.av_classifications.to_obj())
         #Add the Behaviors
-        if len(self.behaviors) > 0: 
-            behavior_list_obj = bundle_binding.BehaviorListType()
-            for behavior in self.behaviors: behavior_list_obj.add_Behavior(behavior.to_obj())
-            bundle_obj.set_Behaviors(behavior_list_obj)
+        if len(self.behaviors) > 0: bundle_obj.set_Behaviors(self.behaviors.to_obj())
         #Add the Actions
-        if len(self.actions) > 0: 
-            action_list_obj = bundle_binding.ActionListType()
-            for action in self.actions: action_list_obj.add_Action(action.to_obj())
-            bundle_obj.set_Actions(action_list_obj)
+        if len(self.actions) > 0: bundle_obj.set_Actions(self.actions.to_obj())
         #Add the Objects
-        if len(self.objects) > 0: 
-            object_list_obj = bundle_binding.ObjectListType()
-            for object in self.objects: object_list_obj.add_Object(object.to_obj())
-            bundle_obj.set_Objects(object_list_obj)
+        if len(self.objects) > 0: bundle_obj.set_Objects(self.objects.to_obj())
         #Add the Process Tree
         if self.process_tree is not None: bundle_obj.set_Process_Tree(self.process_tree.to_obj())
         #Add the Candidate Indicators
-        if len(self.candidate_indicators) > 0: 
-            candidate_indicator_list_obj = bundle_binding.CandidateIndicatorListType()
-            for candidate_indicator in self.candidate_indicators: candidate_indicator_list_obj.add_Candidate_Indicator(candidate_indicator.to_obj())
-            bundle_obj.set_Candidate_Indicators(candidate_indicator_list_obj)
+        if len(self.candidate_indicators) > 0: bundle_obj.set_Candidate_Indicators(self.candidate_indicators.to_obj())
         #Add the particular Collection types, if applicable
         collections_obj = bundle_binding.CollectionsType()
         if len(self.action_collections) > 0:
@@ -187,6 +185,51 @@ class Bundle(object):
     @staticmethod
     def from_dict(bundle_dict):
         pass
+
+class Behaviors(maec.EntityList):
+    _contained_type = Behavior
+    _binding_class = bundle_binding.BehaviorListType
+
+    def __init__(self):
+        super(Behaviors, self).__init__()
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Behavior(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_Behavior()
+
+class Actions(maec.EntityList):
+    _contained_type = MalwareAction
+    _binding_class = bundle_binding.ActionListType
+
+    def __init__(self):
+        super(Actions, self).__init__()
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Action(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_Action()
+
+class Objects(maec.EntityList):
+    _contained_type = Object
+    _binding_class = bundle_binding.ObjectListType
+
+    def __init__(self):
+        super(Objects, self).__init__()
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Object(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_Object()
 
 class BaseCollection(object):
     def __init__(self, name = None):
