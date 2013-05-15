@@ -6,6 +6,7 @@
 #Compatible with MAEC v4.0
 #Last updated 05/13/2013
 
+import maec
 import datetime
 import maec.bindings.maec_bundle as bundle_binding
 from cybox.core.object import Object
@@ -16,7 +17,7 @@ from maec.bundle.behavior import Behavior
 from maec.bundle.candidate_indicator import CandidateIndicator, CandidateIndicatorList
 from maec.bundle.process_tree import ProcessTree
        
-class Bundle(object):
+class Bundle(maec.Entity):
     def __init__(self, id, generator, defined_subject, schema_version = 4.0, content_type = None, malware_instance_object = None):
         if id is not None:
             self.id = id
