@@ -40,3 +40,17 @@ class ObjectReference(maec.Entity):
         object_reference_.object_idref = object_reference_obj.get_object_idref()
         return object_reference_
         
+class ObjectReferenceList(maec.EntityList):
+    _contained_type = ObjectReference
+    _binding_class = bundle_binding.ObjectReferenceListType
+
+    def __init__(self):
+        super(ObjectReferenceList, self).__init__()
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Object_Reference(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_Object_Reference()
