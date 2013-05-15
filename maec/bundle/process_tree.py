@@ -9,7 +9,7 @@
 import maec
 import maec.bindings.maec_bundle as bundle_binding
 from cybox.objects.process_object import Process
-from maec.bundle.bundle import ActionReferenceList
+from maec.bundle.action_reference_list import ActionReferenceList
        
 class ProcessTree(maec.Entity):
     def init(self, root_process = None):
