@@ -5252,7 +5252,7 @@ class MalwareActionType(cybox_core.ActionType):
     subclass = None
     superclass = cybox_core.ActionType
     def __init__(self, timestamp=None, action_status=None, ordinal_position=None, context=None, idref=None, id=None, Type=None, Name=None, Description=None, Action_Aliases=None, Action_Arguments=None, Discovery_Method=None, Associated_Objects=None, Relationships=None, Frequency=None, Implementation=None, extensiontype_=None):
-        super(MalwareActionType, self).__init__(timestamp, action_status, ordinal_position, context, idref, id, Type, Name, Description, Action_Aliases, Action_Arguments, Discovery_Method, Associated_Objects, Relationships, Frequency, extensiontype_, )
+        super(MalwareActionType, self).__init__(timestamp, action_status, ordinal_position, context, idref, id, Type, Name, Description, Action_Aliases, Action_Arguments, Discovery_Method, Associated_Objects, Relationships, Frequency)
         self.Implementation = Implementation
         self.extensiontype_ = extensiontype_
     def factory(*args_, **kwargs_):
