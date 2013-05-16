@@ -85,11 +85,15 @@ class MAECNamespaceParser(NamespaceParser):
         if self.package is not None:
             output_string += 'xmlns:maecPackage="http://maec.mitre.org/XMLSchema/maec-package-2" \n '
             output_string += 'xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-4" \n '
+            output_string += 'xmlns:maecVocabs="http://maec.mitre.org/default_vocabularies-1" \n '
             output_string += 'xmlns:mmdef="http://xml/metadataSharing.xsd" \n '
+            schemalocs.append('http://maec.mitre.org/default_vocabularies-1 http://maec.mitre.org/language/version4.0/maec_default_vocabularies.xsd')
             schemalocs.append('http://maec.mitre.org/XMLSchema/maec-package-2 http://maec.mitre.org/language/version4.0/maec_package_schema.xsd')
         elif self.bundle is not None:
+            output_string += 'xmlns:maecVocabs="http://maec.mitre.org/default_vocabularies-1" \n '
             output_string += 'xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-4" \n '
             output_string += 'xmlns:mmdef="http://xml/metadataSharing.xsd" \n '
+            schemalocs.append('http://maec.mitre.org/default_vocabularies-1 http://maec.mitre.org/language/version4.0/maec_default_vocabularies.xsd')
             schemalocs.append('"http://maec.mitre.org/XMLSchema/maec-bundle-4 http://maec.mitre.org/language/version4.0/maec_bundle_schema.xsd')
         output_string += 'xmlns:cybox="http://cybox.mitre.org/cybox-2" \n '
         output_string += 'xmlns:cyboxCore="http://cybox.mitre.org/common-2" \n '
