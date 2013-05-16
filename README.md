@@ -57,4 +57,4 @@ http://lxml.de/installation.html
 
 Bug reports and feature requests are welcome and encouraged. Pull requests are
 especially appreciated. Feel free to use the issue tracker on GitHub or send
-an email directly to cybox@mitre.org.
+an email directly to maec@mitre.org.
