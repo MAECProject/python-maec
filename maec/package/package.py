@@ -23,8 +23,8 @@ class Package(maec.Entity):
             raise Exception("Must specify id or generator for Package constructor")
         self.schema_version = schema_version
         self.timestamp = timestamp
-        self.malware_subjects = None
-        self.grouping_relationships = None
+        self.malware_subjects = MalwareSubjectList()
+        self.grouping_relationships = GroupingRelationshipList()
 
     #Public methods
     #Add a malware subject
