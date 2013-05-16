@@ -10,6 +10,7 @@ import maec
 import maec.bindings.maec_bundle as bundle_binding
 from maec.bundle.object_reference import ObjectReference
 from maec.bundle.behavior_reference import BehaviorReference
+from cybox.common import VocabString
        
 class CandidateIndicator(maec.Entity):
     def init(self, id, generator):
@@ -65,7 +66,7 @@ class CandidateIndicator(maec.Entity):
         candidate_indicator_.id = candidate_indicator_dict.get('id')
         candidate_indicator_.creation_datetime = candidate_indicator_dict.get('creation_datetime')
         candidate_indicator_.version = candidate_indicator_dict.get('version')
-        candidate_indicator_.importance = None #TODO: Add support
+        candidate_indicator_.importance = VocabString.from_dict(candidate_indicator_dict.get('importance'))
         candidate_indicator_.numeric_importance = candidate_indicator_dict.get('numeric_importance')
         candidate_indicator_.author = candidate_indicator_dict.get('author')
         candidate_indicator_.description = candidate_indicator_dict.get('description')
@@ -81,7 +82,7 @@ class CandidateIndicator(maec.Entity):
         candidate_indicator_.id = candidate_indicator_obj.get_id()
         candidate_indicator_.creation_datetime = candidate_indicator_obj.get_creation_datetime()
         candidate_indicator_.version = candidate_indicator_obj.get_version()
-        candidate_indicator_.importance = None #TODO: Add support
+        candidate_indicator_.importance = VocabString.from_obj(candidate_indicator_obj.get_Importance())
         candidate_indicator_.numeric_importance = candidate_indicator_obj.get_Numeric_Importance()
         candidate_indicator_.author = candidate_indicator_obj.get_Author()
         candidate_indicator_.description = candidate_indicator_obj.get_Description()
@@ -115,7 +116,7 @@ class MalwareEntity(maec.Entity):
         if not malware_entity_dict:
             return None
         malware_entity_ = MalwareEntity()
-        malware_entity_.type = None #TODO: Add support
+        malware_entity_.type = VocabString.from_dict(malware_entity_dict.get('type'))
         malware_entity_.name = malware_entity_dict.get('name')
         malware_entity_.description = malware_entity_dict.get('description')
         return malware_entity_
@@ -125,7 +126,7 @@ class MalwareEntity(maec.Entity):
         if not malware_entity_obj:
             return None
         malware_entity_ = MalwareEntity()
-        malware_entity_.type = None #TODO: Add support
+        malware_entity_.type =  VocabString.from_obj(malware_entity_obj.get_Type())
         malware_entity_.name = malware_entity_obj.get_Name()
         malware_entity_.description = malware_entity_obj.get_Description()
         return malware_entity_
