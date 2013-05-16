@@ -15,7 +15,7 @@ from maec.bundle.bundle_reference import BundleReference
         
 class Analysis(maec.Entity):
     def __init__(self, id, generator, method = None, type = None, findings_bundle_reference = None):
-        super(Analys, self).__init__()
+        super(Analysis, self).__init__()
         if id is not None:
             self.id = id
         elif generator is not None:
