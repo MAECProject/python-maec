@@ -848,7 +848,7 @@ class BundleType(GeneratedsSuper):
             outfile.write(' schema_version="%s"' % self.gds_format_float(self.schema_version, input_name='schema_version'))
         if self.timestamp is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
-            outfile.write(' timestamp="%s"' % self.gds_format_datetime(self.timestamp, input_name='timestamp'))
+            outfile.write(' timestamp="%s"' % self.timestamp)
     def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='MAEC_Bundle', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
