@@ -9,6 +9,7 @@
 import maec
 import maec.bindings.maec_package as package_binding  
 from maec.package.malware_subject_reference import MalwareSubjectReference
+from cybox.common import VocabString
 
 class GroupingRelationship(maec.Entity):
 
@@ -40,7 +41,7 @@ class GroupingRelationship(maec.Entity):
         if not grouping_relationship_dict:
             return None
         grouping_relationship_ = GroupingRelationship()
-        grouping_relationship_.type = None #TODO: add support
+        grouping_relationship_.type = VocabString.from_dict(grouping_relationship_dict.get('type'))
         grouping_relationship_.malware_family_name = grouping_relationship_dict.get('malware_family_name')
         grouping_relationship_.malware_toolkit_name = grouping_relationship_dict.get('malware_toolkit_name')
         grouping_relationship_.clustering_metadata = ClusteringMetadata.from_dict(grouping_relationship_dict.get('clustering_metadata'))
@@ -51,7 +52,7 @@ class GroupingRelationship(maec.Entity):
         if not grouping_relationship_obj:
             return None
         grouping_relationship_ = GroupingRelationship()
-        grouping_relationship_.type = None #TODO: add support
+        grouping_relationship_.type = VocabString.from_obj(grouping_relationship_obj.get_Type())
         grouping_relationship_.malware_family_name = grouping_relationship_obj.get_Malware_Family_Name()
         grouping_relationship_.malware_toolkit_name = grouping_relationship_obj.get_Malware_Toolkit_Name()
         grouping_relationship_.clustering_metadata = ClusteringMetadata.from_obj(grouping_relationship_obj.get_Clustering_Metadata())
