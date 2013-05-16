@@ -1,8 +1,10 @@
+import maec
+
 from setuptools import setup, find_packages
 
 setup(
     name="maec",
-    version="4.0.0a1",
+    version=maec.__version__,
     author="MAEC Project",
     author_email="maec@mitre.org",
     description="An API for parsing and creating MAEC content.",
