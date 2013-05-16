@@ -83,17 +83,17 @@ class MAECNamespaceParser(NamespaceParser):
         #Add the XSI, MAEC, and CybOX Core/Common namespaces and schemalocation
         output_string += 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \n '
         if self.package is not None:
-            output_string += 'xmlns:maecPackage="http://maec.mitre.org/XMLSchema/maec-package-1" \n '
-            output_string += 'xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-3" \n '
+            output_string += 'xmlns:maecPackage="http://maec.mitre.org/XMLSchema/maec-package-2" \n '
+            output_string += 'xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-4" \n '
             output_string += 'xmlns:mmdef="http://xml/metadataSharing.xsd" \n '
-            schemalocs.append('http://maec.mitre.org/XMLSchema/maec-package-1 http://maec.mitre.org/language/version3.0/maec-package-schema.xsd')
+            schemalocs.append('http://maec.mitre.org/XMLSchema/maec-package-2 http://maec.mitre.org/language/version4.0/maec_package_schema.xsd')
         elif self.bundle is not None:
-            output_string += 'xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-3" \n '
+            output_string += 'xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-4" \n '
             output_string += 'xmlns:mmdef="http://xml/metadataSharing.xsd" \n '
-            schemalocs.append('"http://maec.mitre.org/XMLSchema/maec-bundle-3 http://maec.mitre.org/language/version3.0/maec-bundle-schema.xsd')
-        output_string += 'xmlns:cybox="http://cybox.mitre.org/cybox_v1" \n '
-        output_string += 'xmlns:Common="http://cybox.mitre.org/Common_v1" \n '
-        schemalocs.append(' http://cybox.mitre.org/cybox_v1 http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd')
+            schemalocs.append('"http://maec.mitre.org/XMLSchema/maec-bundle-4 http://maec.mitre.org/language/version4.0/maec_bundle_schema.xsd')
+        output_string += 'xmlns:cybox="http://cybox.mitre.org/cybox-2" \n '
+        output_string += 'xmlns:cyboxCore="http://cybox.mitre.org/common-2" \n '
+        schemalocs.append(' http://cybox.mitre.org/cybox-2 http://cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd')
         
         for object_type in self.object_types:
             namespace_prefix = OBJECT_TYPES_DICT.get(object_type).get('namespace_prefix')
