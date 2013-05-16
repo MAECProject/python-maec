@@ -845,7 +845,7 @@ class BundleType(GeneratedsSuper):
             outfile.write(' id=%s' % (quote_attrib(self.id), ))
         if self.schema_version is not None and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
-            outfile.write(' schema_version="%s"' % self.gds_format_float(self.schema_version, input_name='schema_version'))
+            outfile.write(' schema_version="%s"' % self.schema_version)
         if self.timestamp is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
             outfile.write(' timestamp="%s"' % self.timestamp)
