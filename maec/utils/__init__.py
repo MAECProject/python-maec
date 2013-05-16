@@ -1,3 +1,11 @@
+#MAEC Utility Methods
+
+#Copyright (c) 2013, The MITRE Corporation
+#All rights reserved.
+
+#Compatible with MAEC v4.0
+#Last updated 5/16/2013
+
 """MAEC utility methods"""
 
 from cybox.utils import NamespaceParser
@@ -88,21 +96,21 @@ class MAECNamespaceParser(NamespaceParser):
         schemalocs.append(' http://cybox.mitre.org/cybox_v1 http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd')
         
         for object_type in self.object_types:
-            namespace_prefix = self.DEFINED_OBJECTS_DICT.get(object_type).get('namespace_prefix')
-            namespace = self.DEFINED_OBJECTS_DICT.get(object_type).get('namespace')
+            namespace_prefix = self.OBJECT_TYPES_DICT.get(object_type).get('namespace_prefix')
+            namespace = self.OBJECT_TYPES_DICT.get(object_type).get('namespace')
             output_string += ('xmlns:' + namespace_prefix + '=' + '"' + namespace + '"' + ' \n ')
         
         for object_type_dependency in self.object_type_dependencies:
             if object_type_dependency not in self.object_types:
-                namespace_prefix = NamespaceParser.DEFINED_OBJECTS_DICT.get(object_type_dependency).get('namespace_prefix')
-                namespace = NamespaceParser.DEFINED_OBJECTS_DICT.get(object_type_dependency).get('namespace')
+                namespace_prefix = NamespaceParser.OBJECT_TYPES_DICT.get(object_type_dependency).get('namespace_prefix')
+                namespace = NamespaceParser.OBJECT_TYPES_DICT.get(object_type_dependency).get('namespace')
                 output_string += ('xmlns:' + namespace_prefix + '=' + '"' + namespace + '"' + ' \n ')
         
         output_string += 'xsi:schemaLocation="'
         
         for object_type in self.object_types:
-            namespace = NamespaceParser.DEFINED_OBJECTS_DICT.get(object_type).get('namespace')
-            schemalocation = NamespaceParser.DEFINED_OBJECTS_DICT.get(object_type).get('schemalocation')
+            namespace = NamespaceParser.OBJECT_TYPES_DICT.get(object_type).get('namespace')
+            schemalocation = NamespaceParser.OBJECT_TYPES_DICT.get(object_type).get('schemalocation')
             schemalocs.append(' ' + namespace + ' ' + schemalocation)
         
         for schemalocation_string in schemalocs:
