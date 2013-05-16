@@ -1679,7 +1679,7 @@ class PackageType(GeneratedsSuper):
             outfile.write(' id=%s' % (quote_attrib(self.id), ))
         if self.schema_version is not None and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
-            outfile.write(' schema_version="%s"' % self.gds_format_float(self.schema_version, input_name='schema_version'))
+            outfile.write(' schema_version="%s"' % self.schema_version)
     def exportChildren(self, outfile, level, namespace_='maecPackage:', name_='MAEC_Package', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
