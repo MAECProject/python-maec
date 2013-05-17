@@ -11,15 +11,8 @@ import maec.bindings.maec_bundle as bundle_binding
 import datetime
        
 class Behavior(maec.Entity):
-    def init(self, id, generator, description = None, ordinal_position = None, duration = None, status = None):
-        if id is not None:
-            self.id = id
-        elif generator is not None:
-            self.generator = generator;
-            self.id = self.generator.generate_bundle_id()
-        else:
-            raise Exception("Must specify id or generator for Behavior constructor")
-        
+    def init(self, id, description = None, ordinal_position = None, duration = None, status = None):
+        self.id = id
         self.action_list = []
         self.platform_list = []
         self.snippet_list = []
