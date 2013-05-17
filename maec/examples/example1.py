@@ -17,10 +17,10 @@ from cybox.core.associated_object import AssociatedObject
 #Instantiate the ID generator class (for automatic ID generation) with our example namespace
 generator = Generator('example1')
 #Instantiate the Bundle, Package, MalwareSubject, and Analysis classes
-bundle = Bundle(None, generator, False)
-package = Package(None, generator)
-subject = MalwareSubject(None, generator)
-analysis = Analysis(None, generator)
+bundle = Bundle(id=generator.generate_bundle_id(), defined_subject=False)
+package = Package(id=generator.generate_package_id())
+subject = MalwareSubject(id=generator.generate_malware_subject_id())
+analysis = Analysis(id=generator.generate_analysis_id())
 #Create the Subject Object Dictionary for use in the Malware Instance Object Attributes
 subject_object_dict = {'id' : generator.generate_object_id(), 'properties' : {'xsi:type' : 'FileObjectType', 'name' : 'foobar.exe', 'size_in_bytes' : '35532'}}
 #Set the Malware Instance Object Attributes with an Object constructed from the dictionary
