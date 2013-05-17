@@ -12,15 +12,9 @@ from maec.package.malware_subject import MalwareSubjectList
 from maec.package.grouping_relationship import GroupingRelationshipList
 
 class Package(maec.Entity):
-    def __init__(self, id, generator, schema_version = 2.0, timestamp = None):
+    def __init__(self, id, schema_version = 2.0, timestamp = None):
         super(Package, self).__init__()
-        if id is not None:
-            self.id = id
-        elif generator is not None:
-            self.generator = generator;
-            self.id = self.generator.generate_package_id()
-        else:
-            raise Exception("Must specify id or generator for Package constructor")
+        self.id = id
         self.schema_version = schema_version
         self.timestamp = timestamp
         self.malware_subjects = MalwareSubjectList()
