@@ -18,14 +18,8 @@ from maec.bundle.action_reference_list import ActionReferenceList
 from maec.bundle.process_tree import ProcessTree
        
 class Bundle(maec.Entity):
-    def __init__(self, id, generator, defined_subject, schema_version = 4.0, content_type = None, malware_instance_object = None):
-        if id is not None:
-            self.id = id
-        elif generator is not None:
-            self.generator = generator
-            self.id = self.generator.generate_bundle_id()
-        else:
-            raise Exception("Must specify id or generator for Bundle constructor")
+    def __init__(self, id, defined_subject, schema_version = 4.0, content_type = None, malware_instance_object = None):
+        self.id = id
         self.schema_version = schema_version
         self.defined_subject = defined_subject
         self.content_type = content_type
