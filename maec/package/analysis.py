@@ -14,15 +14,9 @@ from cybox.common.personnel import Personnel
 from maec.bundle.bundle_reference import BundleReference
         
 class Analysis(maec.Entity):
-    def __init__(self, id, generator, method = None, type = None, findings_bundle_reference = None):
+    def __init__(self, id, method = None, type = None, findings_bundle_reference = None):
         super(Analysis, self).__init__()
-        if id is not None:
-            self.id = id
-        elif generator is not None:
-            self.generator = generator
-            self.id = self.generator.generate_analysis_id()
-        else:
-            raise Exception("Must specify id or generator for Analysis constructor")
+        self.id = id
         if method is not None:
             self.method = method
         if type is not None:
