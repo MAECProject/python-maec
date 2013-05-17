@@ -23,6 +23,7 @@ class Bundle(maec.Entity):
         self.schema_version = schema_version
         self.defined_subject = defined_subject
         self.content_type = content_type
+        self.timestamp = None
         self.malware_instance_object = malware_instance_object
         #Add all of the top-level containers
         self.av_classifications = AVClassifications()
@@ -125,10 +126,10 @@ class Bundle(maec.Entity):
         bundle_obj = bundle_binding.BundleType(id=self.id)
         #Set the bundle schema version
         bundle_obj.set_schema_version(self.schema_version)
-        #Set the bundle timestamp
-        bundle_obj.set_timestamp(datetime.datetime.now().isoformat())
         #Set whether this Bundle has a defined_subject
         bundle_obj.set_defined_subject(self.defined_subject)
+        #Set the bundle timestamp
+        if self.timestamp is not None : self.timestamp
         #Set the content_type if it is not none
         if self.content_type is not None: self.bundle.set_content_type(content_type)
         #Set the Malware Instance Object Attributes (a CybOX object) if they are not none
