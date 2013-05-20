@@ -30,41 +30,17 @@ class Analysis(maec.Entity):
         self.summary = None
         self.comments = None
         self.findings_bundle_reference = findings_bundle_reference
-        self.tools = None
+        self.tools = ToolInformationList()
         self.dynamic_analysis_metadata = None
         self.analysis_environment = None
         self.report = None
 
     #"Public" methods
-    def set_findings_bundle_reference(self, bundle_idref):
-        self.bundle_idref = bundle_idref
-
-    def set_summary(self, summary):
-        self.analysis.set_Summary(summary)
+    def set_findings_bundle(self, bundle_id):
+        self.findings_bundle_reference = BundleReference.from_dict({'bundle_idref' : bundle_id})
    
     def add_tool(self, tool):
-        self.tool_list.append(tool)
-
-    def get_tools(self):
-        return self.tool_list
-
-    def set_type(self, type):
-        self.type = type
-
-    def set_method(self, method):
-        self.method = method
-
-    def set_complete_datetime(self, complete_datetime):
-        self.complete_datetime = complete_datetime
-
-    #def set_command_line(self, command_line):
-    #    self.command_line = command_line
-
-    #def set_analysis_duration(self, analysis_duration):
-    #    self.analysis_duration = analysis_duration
-
-    #def set_exit_code(self, exit_code):
-    #    self.exit_code = exit_code
+        self.tools.append(tool)
 
     #Return a bindings object
     def to_obj(self):
