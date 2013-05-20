@@ -55,14 +55,7 @@ class Analysis(maec.Entity):
         if self.summary is not None : analysis_obj.set_Summary(self.summary.to_obj())
         if self.comments is not None : analysis_obj.set_Comments(self.comments.to_obj())
         if self.findings_bundle_reference is not None : analysis_obj.set_Findings_Bundle_Reference(self.findings_bundle_reference.to_obj())
-        if self.tools is not None:
-            tools_obj = ToolInformationList()
-            i=0
-            for tool in self.tools:
-                tool_obj = ToolInformation.from_dict(tool)
-                tools_obj.insert(i, tool_obj)
-                i+=1
-            analysis_obj.set_Tools(tools_obj.to_obj())
+        if len(self.tools) > 0 : analysis_obj.set_Tools(self.tools.to_obj())
         if self.dynamic_analysis_metadata is not None : analysis_obj.set_Dynamic_Analysis_Metadata(self.dynamic_analysis_metadata.to_obj())
         if self.analysis_environment is not None : analysis_obj.set_Analysis_Environment(self.analysis_environment.to_obj())
         if self.report is not None : analysis_obj.set_Report(self.report.to_obj())
@@ -82,7 +75,7 @@ class Analysis(maec.Entity):
         if self.summary is not None : analysis_dict['summary'] = self.summary.to_dict()
         if self.comments is not None : analysis_dict['comments'] = self.comments.to_dict()
         if self.findings_bundle_reference is not None : analysis_dict['findings_bundle_reference'] = self.findings_bundle_reference.to_dict()
-        if self.tools is not None : analysis_dict['tools'] = self.tools.to_dict()
+        if len(self.tools) > 0 : analysis_dict['tools'] = self.tools.to_list()
         if self.dynamic_analysis_metadata is not None : analysis_dict['dynamic_analysis_metadata'] = self.dynamic_analysis_metadata.to_dict()
         if self.analysis_environment is not None : analysis_dict['analysis_environment'] = self.analysis_environment.to_dict()
         if self.report is not None : analysis_dict['report'] = self.report.to_dict()
