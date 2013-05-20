@@ -17,10 +17,8 @@ class Analysis(maec.Entity):
     def __init__(self, id, method = None, type = None, findings_bundle_reference = None):
         super(Analysis, self).__init__()
         self.id = id
-        if method is not None:
-            self.method = method
-        if type is not None:
-            self.type = type
+        self.method = method
+        self.type = type
         self.ordinal_position = None
         self.start_datetime = None
         self.complete_datetime = None
