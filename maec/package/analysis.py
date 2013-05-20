@@ -123,7 +123,7 @@ class Analysis(maec.Entity):
         analysis_.summary = StructuredText.from_dict(analysis_dict.get('summary'))
         analysis_.comments = CommentList.from_list(analysis_dict.get('comments'))
         analysis_.findings_bundle_reference = BundleReference.from_dict(analysis_dict.get('findings_bundle_reference'))
-        analysis_.tools = ToolInformationList.from_list(analysis_dict.get('tools'))
+        analysis_.tools = ToolInformationList.from_list(analysis_dict.get('tools', []))
         analysis_.dynamic_analysis_metadata = DynamicAnalysisMetadata.from_dict(analysis_dict.get('dynamic_analysis_metadata'))
         analysis_.analysis_environment = AnalysisEnvironment.from_dict(analysis_dict.get('analysis_environment'))
         analysis_.report = StructuredText.from_dict(analysis_dict.get('report'))
