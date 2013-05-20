@@ -113,7 +113,7 @@ class Bundle(maec.Entity):
         #Set whether this Bundle has a defined_subject
         bundle_obj.set_defined_subject(self.defined_subject)
         #Set the bundle timestamp
-        if self.timestamp is not None : self.timestamp
+        if self.timestamp is not None : bundle_obj.set_timestamp(self.timestamp)
         #Set the content_type if it is not none
         if self.content_type is not None: bundle_obj.set_content_type(self.content_type)
         #Set the Malware Instance Object Attributes (a CybOX object) if they are not none
@@ -132,7 +132,6 @@ class Bundle(maec.Entity):
         if len(self.candidate_indicators) > 0: bundle_obj.set_Candidate_Indicators(self.candidate_indicators.to_obj())
         #Add the collections
         if self.collections is not None and self.collections.has_content(): bundle_obj.set_Collections(self.collections.to_obj())
-
         return bundle_obj
 
     def to_dict(self):
@@ -154,11 +153,39 @@ class Bundle(maec.Entity):
 
     @staticmethod
     def from_obj(bundle_obj):
-        pass
+        if not bundle_obj:
+            return None
+        bundle_ = Bundle()
+        bundle_.id = bundle_obj.get_id()
+        bundle_.schema_version = bundle_obj.get_schema_version()
+        bundle_.defined_subject = bundle_obj.get_defined_subject()
+        bundle_.content_type = bundle_obj.get_content_type()
+        bundle_.timestamp = bundle_obj.get_timestamp()
+        bundle_.malware_instance_object_attributes = Object.from_obj(bundle_obj.get_Malware_Instance_Object_Attributes())
+        bundle_.av_classifications = AVClassifications.from_obj(bundle_obj.get_AV_Classifications())
+        bundle_.process_tree = ProcessTree.from_obj(bundle_obj.get_Process_Tree())
+        bundle_.behaviors = BehaviorList.from_obj(bundle_obj.get_Behaviors())
+        bundle_.actions = ActionList.from_obj(bundle_obj.get_Actions())
+        bundle_.candidate_indicators = CandidateIndicatorList.from_obj(bundle_obj.get_Candidate_Indicators())
+        return bundle_
 
     @staticmethod
     def from_dict(bundle_dict):
-        pass
+        if not bundle_obj:
+            return None
+        bundle_ = Bundle()
+        bundle_.id = bundle_dict.get('id')
+        bundle_.schema_version = bundle_dict.get('schema_version')
+        bundle_.defined_subject = bundle_dict.get('defined_subject')
+        bundle_.content_type = bundle_dict.get('content_type')
+        bundle_.timestamp = bundle_dict.get('timestamp')
+        bundle_.malware_instance_object_attributes = Object.from_dict(bundle_dict.get('malware_instance_object_attributes'))
+        bundle_.av_classifications = AVClassifications.from_list(bundle_dict.get('av_classifications'))
+        bundle_.process_tree = ProcessTree.from_dict(bundle_dict.get('process_tree'))
+        bundle_.behaviors = BehaviorList.from_list(bundle_dict.get('behaviors'))
+        bundle_.actions = ActionList.from_list(bundle_dict.get('actions'))
+        bundle_.candidate_indicators = CandidateIndicatorList.from_list(bundle_dict.get('candidate_indicators'))
+        return bundle_
 
 class BehaviorList(maec.EntityList):
     _contained_type = Behavior
