@@ -9,7 +9,7 @@
 import maec
 import maec.bindings.maec_package as package_binding
 from cybox.common.structured_text import StructuredText
-from cybox.common.tools import ToolInformationList
+from cybox.common.tools import ToolInformationList, ToolInformation
 from cybox.common.personnel import Personnel
 from maec.bundle.bundle_reference import BundleReference
         
@@ -30,7 +30,7 @@ class Analysis(maec.Entity):
         self.summary = None
         self.comments = None
         self.findings_bundle_reference = findings_bundle_reference
-        self.tools = None
+        self.tools = []
         self.dynamic_analysis_metadata = None
         self.analysis_environment = None
         self.report = None
@@ -43,10 +43,10 @@ class Analysis(maec.Entity):
         self.analysis.set_Summary(summary)
    
     def add_tool(self, tool):
-        self.tool_list.append(tool)
+        self.tools.append(tool)
 
     def get_tools(self):
-        return self.tool_list
+        return self.tools
 
     def set_type(self, type):
         self.type = type
@@ -81,7 +81,14 @@ class Analysis(maec.Entity):
         if self.summary is not None : analysis_obj.set_Summary(self.summary.to_obj())
         if self.comments is not None : analysis_obj.set_Comments(self.comments.to_obj())
         if self.findings_bundle_reference is not None : analysis_obj.set_Findings_Bundle_Reference(self.findings_bundle_reference.to_obj())
-        if self.tools is not None : analysis_obj.set_Tools(self.tools.to_obj())
+        if self.tools is not None:
+            tools_obj = ToolInformationList()
+            i=0
+            for tool in self.tools:
+                tool_obj = ToolInformation.from_dict(tool)
+                tools_obj.insert(i, tool_obj)
+                i+=1
+            analysis_obj.set_Tools(tools_obj.to_obj())
         if self.dynamic_analysis_metadata is not None : analysis_obj.set_Dynamic_Analysis_Metadata(self.dynamic_analysis_metadata.to_obj())
         if self.analysis_environment is not None : analysis_obj.set_Analysis_Environment(self.analysis_environment.to_obj())
         if self.report is not None : analysis_obj.set_Report(self.report.to_obj())
