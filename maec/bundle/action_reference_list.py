@@ -17,6 +17,10 @@ class ActionReferenceList(maec.EntityList):
     def __init__(self):
         super(ActionReferenceList, self).__init__()
 
+    def add_action_id(self, action_id):
+        """Add an Action Reference to this List using the ID of an existing Action"""
+        self.append(ActionReference(action_id))
+
     @staticmethod
     def _set_list(binding_obj, list_):
         binding_obj.set_Action_Reference(list_)
