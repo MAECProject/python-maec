@@ -242,7 +242,7 @@ class AnalysisEnvironment(maec.Entity):
         pass
 
     @staticmethod
-    def from_dict(analysis_environment_obj):
+    def from_obj(analysis_environment_obj):
         pass
 
 class Source(maec.Entity):
