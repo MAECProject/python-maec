@@ -219,9 +219,9 @@ class DynamicAnalysisMetadata(maec.Entity):
         if not dynamic_analysis_metadata_obj:
             return None
         dynamic_analysis_metadata_ = DynamicAnalysisMetadata()
-        dynamic_analysis_metadata_.command_line = dynamic_analysis_metadata_obj.get_command_line()
-        dynamic_analysis_metadata_.analysis_duration = dynamic_analysis_metadata_obj.get_analysis_duration()
-        dynamic_analysis_metadata_.exit_code = dynamic_analysis_metadata_obj.get_exit_code()
+        dynamic_analysis_metadata_.command_line = dynamic_analysis_metadata_obj.get_Command_Line()
+        dynamic_analysis_metadata_.analysis_duration = dynamic_analysis_metadata_obj.get_Analysis_Duration()
+        dynamic_analysis_metadata_.exit_code = dynamic_analysis_metadata_obj.get_Exit_Code()
         return dynamic_analysis_metadata_
 
 class AnalysisEnvironment(maec.Entity):
