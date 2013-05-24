@@ -155,7 +155,7 @@ class Bundle(maec.Entity):
     def from_obj(bundle_obj):
         if not bundle_obj:
             return None
-        bundle_ = Bundle()
+        bundle_ = Bundle(None, None)
         bundle_.id = bundle_obj.get_id()
         bundle_.schema_version = bundle_obj.get_schema_version()
         bundle_.defined_subject = bundle_obj.get_defined_subject()
@@ -173,7 +173,7 @@ class Bundle(maec.Entity):
     def from_dict(bundle_dict):
         if not bundle_obj:
             return None
-        bundle_ = Bundle()
+        bundle_ = Bundle(None, None)
         bundle_.id = bundle_dict.get('id')
         bundle_.schema_version = bundle_dict.get('schema_version')
         bundle_.defined_subject = bundle_dict.get('defined_subject')
