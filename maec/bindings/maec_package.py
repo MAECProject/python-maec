@@ -1010,7 +1010,7 @@ class ToolListType(GeneratedsSuper):
         if nodeName_ == 'Tool':
             obj_ = cybox_common.ToolInformationType.factory()
             obj_.build(child_)
-            self.set_Tool(obj_)
+            self.add_Tool(obj_)
 # end class ToolListType
 
 class DynamicAnalysisMetadataType(GeneratedsSuper):
