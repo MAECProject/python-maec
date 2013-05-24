@@ -215,7 +215,7 @@ class DynamicAnalysisMetadata(maec.Entity):
         return dynamic_analysis_metadata_
 
     @staticmethod
-    def from_dict(dynamic_analysis_metadata_obj):
+    def from_obj(dynamic_analysis_metadata_obj):
         if not dynamic_analysis_metadata_obj:
             return None
         dynamic_analysis_metadata_ = DynamicAnalysisMetadata()
