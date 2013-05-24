@@ -127,7 +127,7 @@ class EntityList(collections.MutableSequence, Entity):
 
     @classmethod
     def from_list(cls, list_list, list_class=None):
-        if not list_list:
+        if not isinstance(list_list, list):
             return None
 
         if not list_class:
