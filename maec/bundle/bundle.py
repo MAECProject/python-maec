@@ -162,11 +162,11 @@ class Bundle(maec.Entity):
         bundle_.content_type = bundle_obj.get_content_type()
         bundle_.timestamp = bundle_obj.get_timestamp()
         bundle_.malware_instance_object_attributes = Object.from_obj(bundle_obj.get_Malware_Instance_Object_Attributes())
-        bundle_.av_classifications = AVClassifications.from_obj(bundle_obj.get_AV_Classifications())
+        if bundle_obj.get_AV_Classifications() is not None: bundle_.av_classifications = AVClassifications.from_obj(bundle_obj.get_AV_Classifications())
         bundle_.process_tree = ProcessTree.from_obj(bundle_obj.get_Process_Tree())
-        bundle_.behaviors = BehaviorList.from_obj(bundle_obj.get_Behaviors())
-        bundle_.actions = ActionList.from_obj(bundle_obj.get_Actions())
-        bundle_.candidate_indicators = CandidateIndicatorList.from_obj(bundle_obj.get_Candidate_Indicators())
+        if bundle_obj.get_Behaviors() is not None : bundle_.behaviors = BehaviorList.from_obj(bundle_obj.get_Behaviors())
+        if bundle_obj.get_Actions() is not None : bundle_.actions = ActionList.from_obj(bundle_obj.get_Actions())
+        if bundle_obj.get_Candidate_Indicators() is not None : bundle_.candidate_indicators = CandidateIndicatorList.from_obj(bundle_obj.get_Candidate_Indicators())
         return bundle_
 
     @staticmethod
