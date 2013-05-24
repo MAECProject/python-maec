@@ -86,7 +86,7 @@ class Analysis(maec.Entity):
     def from_obj(analysis_obj):
         if not analysis_obj:
             return None
-        analysis_ = Analysis()
+        analysis_ = Analysis(None)
         analysis_.id = analysis_obj.get_id()
         analysis_.method = analysis_obj.get_method()
         analysis_.type = analysis_obj.get_type()
@@ -110,7 +110,7 @@ class Analysis(maec.Entity):
     def from_dict(analysis_dict):
         if not analysis_dict:
             return None
-        analysis_ = Analysis()
+        analysis_ = Analysis(None)
         analysis_.id = analysis_dict.get('id')
         analysis_.method = analysis_dict.get('method')
         analysis_.type = analysis_dict.get('type')
