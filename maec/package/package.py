@@ -44,7 +44,7 @@ class Package(maec.Entity):
         if self.timestamp is not None: package_dict['timestamp'] = self.timestamp
         if len(self.malware_subjects) > 0: package_dict['malware_subjects'] = self.malware_subjects.to_list()
         if len(self.grouping_relationships) > 0: package_dict['grouping_relationships'] = self.grouping_relationships.to_list()
-        return package_obj
+        return package_dict
 
     #Build the Package from the input dictionary
     @staticmethod
