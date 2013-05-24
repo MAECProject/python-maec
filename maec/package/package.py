@@ -51,7 +51,7 @@ class Package(maec.Entity):
     def from_dict(package_dict):
         if not package_dict:
             return None
-        package_ = Package()
+        package_ = Package(None)
         package_.id = package_dict.get('id')
         package_.schema_version = package_dict.get('schema_version')
         package_.timestamp = package_dict.get('timestamp')
@@ -63,7 +63,7 @@ class Package(maec.Entity):
     def from_obj(package_obj):
         if not package_obj:
             return None
-        package_ = Package()
+        package_ = Package(None)
         package_.id = package_obj.get_id()
         package_.schema_version = package_obj.get_schema_version()
         package_.timestamp = package_obj.get_timestamp()
