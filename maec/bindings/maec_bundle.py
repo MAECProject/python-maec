@@ -2672,7 +2672,7 @@ class ActionListType(GeneratedsSuper):
         if nodeName_ == 'Action':
             obj_ = MalwareActionType.factory()
             obj_.build(child_)
-            self.set_Action(obj_)
+            self.add_Action(obj_)
 # end class ActionListType
 
 class ObjectListType(GeneratedsSuper):
