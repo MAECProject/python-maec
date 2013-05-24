@@ -55,8 +55,8 @@ class Package(maec.Entity):
         package_.id = package_dict.get('id')
         package_.schema_version = package_dict.get('schema_version')
         package_.timestamp = package_dict.get('timestamp')
-        package_.malware_subjects = MalwareSubjectList.from_list(package_dict.get('malware_subjects'))
-        package_.grouping_relationships = GroupingRelationshipList.from_list(package_dict.get('grouping_relationships'))
+        package_.malware_subjects = MalwareSubjectList.from_list(package_dict.get('malware_subjects', []))
+        package_.grouping_relationships = GroupingRelationshipList.from_list(package_dict.get('grouping_relationships', []))
         return package_
 
     @staticmethod
@@ -67,7 +67,7 @@ class Package(maec.Entity):
         package_.id = package_obj.get_id()
         package_.schema_version = package_obj.get_schema_version()
         package_.timestamp = package_obj.get_timestamp()
-        package_.malware_subjects = MalwareSubjectList.from_obj(package_obj.get_Malware_Subjects())
-        package_.grouping_relationships = GroupingRelationshipList.from_obj(package_obj.get_Grouping_Relationships())
+        if package_obj.get_Malware_Subjects() is not None : package_.malware_subjects = MalwareSubjectList.from_obj(package_obj.get_Malware_Subjects())
+        if package_obj.get_Grouping_Relationships() is not None : package_.grouping_relationships = GroupingRelationshipList.from_obj(package_obj.get_Grouping_Relationships())
         return package_
 
