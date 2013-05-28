@@ -3178,9 +3178,9 @@ class ActionReferenceListType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Action_Reference':
-            obj_ = BehavioralActionReferenceType.factory()
+            obj_ = cybox_core.ActionReferenceType.factory()
             obj_.build(child_)
-            self.set_Action_Reference(obj_)
+            self.add_Action_Reference(obj_)
 # end class ActionReferenceListType
 
 class ObjectReferenceListType(GeneratedsSuper):
