@@ -7,6 +7,7 @@
 #Last updated 5/15/2013
 
 import maec
+import datetime
 import maec.bindings.maec_package as package_binding
 from maec.package.malware_subject import MalwareSubjectList
 from maec.package.grouping_relationship import GroupingRelationshipList
@@ -32,7 +33,7 @@ class Package(maec.Entity):
     def to_obj(self):
         package_obj = package_binding.PackageType(id=self.id)
         if self.schema_version is not None: package_obj.set_schema_version(self.schema_version)
-        if self.timestamp is not None: package_obj.set_timestamp(self.timestamp)
+        if self.timestamp is not None: package_obj.set_timestamp(self.timestamp.isoformat())
         if len(self.malware_subjects) > 0: package_obj.set_Malware_Subjects(self.malware_subjects.to_obj())
         if len(self.grouping_relationships) > 0: package_obj.set_Grouping_Relationships(self.grouping_relationships.to_obj())
         return package_obj
@@ -41,7 +42,7 @@ class Package(maec.Entity):
         package_dict = {}
         if self.id is not None : package_dict['id'] = self.id
         if self.schema_version is not None: package_dict['schema_version'] = self.schema_version
-        if self.timestamp is not None: package_dict['timestamp'] = self.timestamp
+        if self.timestamp is not None: package_dict['timestamp'] = self.timestamp.isoformat()
         if len(self.malware_subjects) > 0: package_dict['malware_subjects'] = self.malware_subjects.to_list()
         if len(self.grouping_relationships) > 0: package_dict['grouping_relationships'] = self.grouping_relationships.to_list()
         return package_dict
@@ -54,7 +55,7 @@ class Package(maec.Entity):
         package_ = Package(None)
         package_.id = package_dict.get('id')
         package_.schema_version = package_dict.get('schema_version')
-        package_.timestamp = package_dict.get('timestamp')
+        package_.timestamp = datetime.datetime.strptime(package_dict.get('timestamp'), "%Y-%m-%dT%H:%M:%S.%f")
         package_.malware_subjects = MalwareSubjectList.from_list(package_dict.get('malware_subjects', []))
         package_.grouping_relationships = GroupingRelationshipList.from_list(package_dict.get('grouping_relationships', []))
         return package_
