@@ -622,8 +622,12 @@ class Collections(maec.Entity):
         if not collections_obj:
             return None
         collections_ = Collections()
-        collections_.behavior_collections = BehaviorCollectionList.from_obj(collections_obj.get_Behavior_Collections())
-        collections_.action_collections = ActionCollectionList.from_obj(collections_obj.get_Action_Collections())
-        collections_.object_collections = ObjectCollectionList.from_obj(collections_obj.get_Object_Collections())
-        collections_.candidate_indicator_collections = CandidateIndicatorCollectionList.from_obj(collections_obj.get_Candidate_Indicator_Collections())
+        if collections_obj.get_Behavior_Collections() is not None:
+            collections_.behavior_collections = BehaviorCollectionList.from_obj(collections_obj.get_Behavior_Collections())
+        if collections_obj.get_Action_Collections() is not None: 
+            collections_.action_collections = ActionCollectionList.from_obj(collections_obj.get_Action_Collections())
+        if collections_obj.get_Object_Collections() is not None:
+            collections_.object_collections = ObjectCollectionList.from_obj(collections_obj.get_Object_Collections())
+        if collections_obj.get_Candidate_Indicator_Collections() is not None:
+            collections_.candidate_indicator_collections = CandidateIndicatorCollectionList.from_obj(collections_obj.get_Candidate_Indicator_Collections())
         return collections_
