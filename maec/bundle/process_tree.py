@@ -102,7 +102,6 @@ class ProcessTreeNode(Process):
             for injected_process in self.injected_processes:
                 injected_process_list.append(injected_process.to_dict())
             process_tree_node_dict['injected_processes'] = injected_process_list
-        print self.test
         return process_tree_node_dict
 
     @staticmethod
