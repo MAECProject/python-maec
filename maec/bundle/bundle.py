@@ -318,7 +318,7 @@ class ActionCollection(BaseCollection):
             return None
         action_collection_ = BaseCollection.from_obj(action_collection_obj, ActionCollection())
         action_collection_.id = action_collection_obj.get_id()
-        action_collection_.actions = ActionList.from_obj(action_collection_obj.get_Action_List())
+        action_collection_.action_list = ActionList.from_obj(action_collection_obj.get_Action_List())
         return action_collection_
 
     @staticmethod
@@ -327,7 +327,7 @@ class ActionCollection(BaseCollection):
             return action_collection_dict
         action_collection_ = BaseCollection.from_dict(action_collection_dict, ActionCollection())
         action_collection_.id = action_collection_dict.get('id')
-        action_collection_.actions = ActionList.from_list(action_collection_dict.get('action_list'))
+        action_collection_.action_list = ActionList.from_list(action_collection_dict.get('action_list'))
         return action_collection_
 
 class BehaviorCollection(BaseCollection):
