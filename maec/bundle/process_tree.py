@@ -12,7 +12,7 @@ from cybox.objects.process_object import Process
 from maec.bundle.action_reference_list import ActionReferenceList
        
 class ProcessTree(maec.Entity):
-    def init(self, root_process = None):
+    def __init__(self, root_process = None):
         super(ProcessTree, self).__init__()
         self.processtree.set_Root_Process(root_process)
         self.root_process = root_process
@@ -52,13 +52,13 @@ class ProcessTree(maec.Entity):
 class ProcessTreeNode(Process):
     superclass = Process
 
-    def init(self, id = None, parent_action_idref = None):
+    def __init__(self, id = None, parent_action_idref = None):
         super(ProcessTreeNode, self).__init__()
         self.id = id
         self.parent_action_idref = parent_action_idref
         self.initiated_actions = ActionReferenceList()
         self.spawned_processes = []
-        self.injected_processes = []      
+        self.injected_processes = []
 
     def add_spawned_process(self, process_node):
         self.spawned_processes.append(process_node)
@@ -103,6 +103,8 @@ class ProcessTreeNode(Process):
             for injected_process in self.injected_processes:
                 injected_process_list.append(injected_process.to_dict())
             process_tree_node_dict['injected_processes'] = injected_process_list
+        print self.test
+        
         return process_tree_node_dict
 
     @staticmethod
