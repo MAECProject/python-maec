@@ -113,8 +113,8 @@ class ProcessTreeNode(Process):
         process_tree_node_.id = process_tree_node_dict.get('id')
         process_tree_node_.parent_action_idref = process_tree_node_dict.get('parent_action_idref')
         process_tree_node_.initiated_actions = ActionReferenceList.from_list(process_tree_node_dict.get('initiated_actions'))
-        process_tree_node_.spawned_processes = [ProcessTreeNode.from_dict(x) for x in process_tree_node_dict.get('spawned_processes')]
-        process_tree_node_.injected_processes = [ProcessTreeNode.from_dict(x) for x in process_tree_node_dict.get('injected_processes')]
+        process_tree_node_.spawned_processes = [ProcessTreeNode.from_dict(x) for x in process_tree_node_dict.get('spawned_processes', [])]
+        process_tree_node_.injected_processes = [ProcessTreeNode.from_dict(x) for x in process_tree_node_dict.get('injected_processes', [])]
         return process_tree_node_
 
     @staticmethod
@@ -124,7 +124,8 @@ class ProcessTreeNode(Process):
         process_tree_node_ = Process.from_obj(process_tree_node_obj, ProcessTreeNode())
         process_tree_node_.id = process_tree_node_obj.get_id()
         process_tree_node_.parent_action_idref = process_tree_node_obj.get_parent_action_idref()
-        process_tree_node_.initiated_actions = ActionReferenceList.from_obj(process_tree_node_obj.get_Initiated_Actions())
+        if process_tree_node_obj.get_Initiated_Actions() is not None:
+            process_tree_node_.initiated_actions = ActionReferenceList.from_obj(process_tree_node_obj.get_Initiated_Actions())
         process_tree_node_.spawned_processes = [ProcessTreeNode.from_obj(x) for x in process_tree_node_obj.get_Spawned_Process()]
         process_tree_node_.injected_processes = [ProcessTreeNode.from_obj(x) for x in process_tree_node_obj.get_Injected_Process()]
         return process_tree_node_
