@@ -37,9 +37,7 @@ subject.add_findings_bundle(bundle)
 package.add_malware_subject(subject)
 #Get the Bindings Object from the Package for Export to XML
 package_obj = package.to_obj()
-#Instantiate the MAECNamespaceParser class with the package object
-namespaceparser =  MAECNamespaceParser(None, package_obj)
 #Export the Package Bindings Object to an XML file and use the namespaceparser for writing out the namespace definitions
 out_file = file('example1.xml', 'w')
-package_obj.export(out_file, 0, namespacedef_=namespaceparser.build_maec_namespaces_schemalocations_str())
+package_obj.export(out_file, 0, namespacedef_=MAECNamespaceParser(package_obj).get_namespace_schemalocation_str())
 out_file.close()
