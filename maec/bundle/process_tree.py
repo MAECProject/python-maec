@@ -56,7 +56,7 @@ class ProcessTreeNode(Process):
         super(ProcessTreeNode, self).__init__()
         self.id = id
         self.parent_action_idref = parent_action_idref
-        self.initiated_actions = None
+        self.initiated_actions = ActionReferenceList()
         self.spawned_processes = []
         self.injected_processes = []      
 
