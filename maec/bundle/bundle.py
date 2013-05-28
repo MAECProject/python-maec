@@ -262,8 +262,18 @@ class BaseCollection(maec.Entity):
         return base_collection_dict
 
     @staticmethod
-    def from_obj(collection_obj):
-        pass
+    def from_obj(collection_obj, derived_collection_cls = None):
+        if not collection_obj:
+            return None
+        if derived_collection_cls == None:
+            collection_obj_ = BaseCollection()
+        else:
+            collection_obj_ = derived_collection_cls
+        collection_obj_.name = collection_obj.get_name()
+        collection_obj_.affinity_type = collection_obj.get_Affinity_Type()
+        collection_obj_.affinity_degree = collection_obj.get_Affinity_Degree()
+        collection_obj_.description = collection_obj.get_Description()
+        return collection_obj_
 
     @staticmethod
     def from_dict(collection_dict, derived_collection_cls = None):
@@ -304,7 +314,12 @@ class ActionCollection(BaseCollection):
 
     @staticmethod
     def from_obj(action_collection_obj):
-        pass
+        if not action_collection_obj:
+            return None
+        action_collection_ = BaseCollection.from_obj(action_collection_obj, ActionCollection())
+        action_collection_.id = action_collection_obj.get_id()
+        action_collection_.actions = ActionList.from_obj(action_collection_obj.get_Action_List())
+        return action_collection_
 
     @staticmethod
     def from_dict(action_collection_dict):
@@ -340,7 +355,12 @@ class BehaviorCollection(BaseCollection):
 
     @staticmethod
     def from_obj(behavior_collection_obj):
-        pass
+        if not behavior_collection_obj:
+            return None
+        behavior_collection_ = BaseCollection.from_obj(behavior_collection_obj, BehaviorCollection())
+        behavior_collection_.id = behavior_collection_dict.get_id()
+        behavior_collection_.behavior_list = BehaviorList.from_obj(behavior_collection_obj.get_Behavior_List())
+        return behavior_collection_
 
     @staticmethod
     def from_dict(behavior_collection_dict):
@@ -376,7 +396,12 @@ class ObjectCollection(BaseCollection):
 
     @staticmethod
     def from_obj(object_collection_obj):
-        pass
+        if not object_collection_obj:
+            return None
+        object_collection_ = BaseCollection.from_obj(object_collection_obj, ObjectCollection())
+        object_collection_.id = object_collection_obj.get_id()
+        object_collection_.objects =  ObjectList.from_obj(object_collection_obj.get_Object_List())
+        return object_collection_
 
     @staticmethod
     def from_dict(object_collection_dict):
@@ -412,7 +437,12 @@ class CandidateIndicatorCollection(BaseCollection):
 
     @staticmethod
     def from_obj(candidate_indicator_collection_obj):
-        pass
+        if not candidate_indicator_collection_obj:
+            return None
+        candidate_indicator_collection_ = BaseCollection.from_obj(candidate_indicator_collection_obj, CandidateIndicatorCollection())
+        candidate_indicator_collection_.id = candidate_indicator_collection_obj.get_id()
+        candidate_indicator_collection_.candidate_indicator_list = CandidateIndicatorList.from_obj(candidate_indicator_collection_obj.get_Candidate_Indicator_List())
+        return candidate_indicator_collection_
 
     @staticmethod
     def from_dict(candidate_indicator_collection_dict):
