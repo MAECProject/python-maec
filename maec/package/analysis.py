@@ -192,9 +192,9 @@ class DynamicAnalysisMetadata(maec.Entity):
 
     def to_obj(self):
         dynamic_analysis_metadata_obj = package_binding.DynamicAnalysisMetadataType()
-        if self.command_line is not None : dynamic_analysis_metadata_obj.set_command_line(self.command_line)
-        if self.analysis_duration is not None : dynamic_analysis_metadata_obj.set_analysis_duration(self.analysis_duration)
-        if self.exit_code is not None : dynamic_analysis_metadata_obj.set_exit_code(self.exit_code)
+        if self.command_line is not None : dynamic_analysis_metadata_obj.set_Command_Line(self.command_line)
+        if self.analysis_duration is not None : dynamic_analysis_metadata_obj.set_Analysis_Duration(self.analysis_duration)
+        if self.exit_code is not None : dynamic_analysis_metadata_obj.set_Exit_Code(self.exit_code)
         return dynamic_analysis_metadata_obj
 
     def to_dict(self):
