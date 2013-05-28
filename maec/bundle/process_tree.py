@@ -37,7 +37,7 @@ class ProcessTree(maec.Entity):
         if not process_tree_dict:
             return None
         process_tree_ = ProcessTree()
-        process_tree_.root_process = ProcessTreeNode.from_dict(process_tree_dict.get('process_tree'))
+        process_tree_.root_process = ProcessTreeNode.from_dict(process_tree_dict.get('root_process'))
         return process_tree_
 
     @staticmethod
