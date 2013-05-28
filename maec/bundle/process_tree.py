@@ -14,7 +14,6 @@ from maec.bundle.action_reference_list import ActionReferenceList
 class ProcessTree(maec.Entity):
     def __init__(self, root_process = None):
         super(ProcessTree, self).__init__()
-        self.processtree.set_Root_Process(root_process)
         self.root_process = root_process
         
     def set_root_process(self, root_process):
@@ -104,7 +103,6 @@ class ProcessTreeNode(Process):
                 injected_process_list.append(injected_process.to_dict())
             process_tree_node_dict['injected_processes'] = injected_process_list
         print self.test
-        
         return process_tree_node_dict
 
     @staticmethod
