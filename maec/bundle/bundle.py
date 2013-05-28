@@ -113,7 +113,7 @@ class Bundle(maec.Entity):
         #Set whether this Bundle has a defined_subject
         bundle_obj.set_defined_subject(self.defined_subject)
         #Set the bundle timestamp
-        if self.timestamp is not None : bundle_obj.set_timestamp(self.timestamp)
+        if self.timestamp is not None : bundle_obj.set_timestamp(self.timestamp.isoformat())
         #Set the content_type if it is not none
         if self.content_type is not None: bundle_obj.set_content_type(self.content_type)
         #Set the Malware Instance Object Attributes (a CybOX object) if they are not none
@@ -140,7 +140,7 @@ class Bundle(maec.Entity):
         if self.schema_version is not None : bundle_dict['schema_version'] = self.schema_version
         if self.defined_subject is not None : bundle_dict['defined_subject'] = self.defined_subject
         if self.content_type is not None : bundle_dict['content_type'] = self.content_type
-        if self.timestamp is not None : bundle_dict['timestamp'] = self.timestamp
+        if self.timestamp is not None : bundle_dict['timestamp'] = self.timestamp.isoformat()
         if self.malware_instance_object_attributes is not None : bundle_dict['malware_instance_object_attributes'] = self.malware_instance_object_attributes.to_obj()
         if len(self.av_classifications) > 0 : bundle_dict['av_classifications'] = self.av_classifications.to_list()
         if self.process_tree is not None : bundle_dict['process_tree'] = self.process_tree.to_dict()
@@ -179,7 +179,7 @@ class Bundle(maec.Entity):
         bundle_.schema_version = bundle_dict.get('schema_version')
         bundle_.defined_subject = bundle_dict.get('defined_subject')
         bundle_.content_type = bundle_dict.get('content_type')
-        bundle_.timestamp = bundle_dict.get('timestamp')
+        bundle_.timestamp = datetime.datetime.strptime(bundle_dict.get('timestamp'), "%Y-%m-%dT%H:%M:%S.%f")
         bundle_.malware_instance_object_attributes = Object.from_dict(bundle_dict.get('malware_instance_object_attributes'))
         bundle_.av_classifications = AVClassifications.from_list(bundle_dict.get('av_classifications'))
         bundle_.process_tree = ProcessTree.from_dict(bundle_dict.get('process_tree'))
@@ -400,7 +400,7 @@ class ObjectCollection(BaseCollection):
             return None
         object_collection_ = BaseCollection.from_obj(object_collection_obj, ObjectCollection())
         object_collection_.id = object_collection_obj.get_id()
-        object_collection_.objects =  ObjectList.from_obj(object_collection_obj.get_Object_List())
+        object_collection_.object_list =  ObjectList.from_obj(object_collection_obj.get_Object_List())
         return object_collection_
 
     @staticmethod
@@ -409,7 +409,7 @@ class ObjectCollection(BaseCollection):
             return None
         object_collection_ = BaseCollection.from_dict(object_collection_dict, ObjectCollection())
         object_collection_.id = behavior_collection_dict.get('id')
-        object_collection_.objects =  ObjectList.from_list(object_collection_dict.get('object_list'))
+        object_collection_.object_list =  ObjectList.from_list(object_collection_dict.get('object_list'))
         return object_collection_
 
 class CandidateIndicatorCollection(BaseCollection):
