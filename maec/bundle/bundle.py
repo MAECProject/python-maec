@@ -167,6 +167,7 @@ class Bundle(maec.Entity):
         if bundle_obj.get_Behaviors() is not None : bundle_.behaviors = BehaviorList.from_obj(bundle_obj.get_Behaviors())
         if bundle_obj.get_Actions() is not None : bundle_.actions = ActionList.from_obj(bundle_obj.get_Actions())
         if bundle_obj.get_Candidate_Indicators() is not None : bundle_.candidate_indicators = CandidateIndicatorList.from_obj(bundle_obj.get_Candidate_Indicators())
+        bundle_.collections = Collections.from_obj(bundle_obj.get_Collections())
         return bundle_
 
     @staticmethod
@@ -185,6 +186,7 @@ class Bundle(maec.Entity):
         bundle_.behaviors = BehaviorList.from_list(bundle_dict.get('behaviors'))
         bundle_.actions = ActionList.from_list(bundle_dict.get('actions'))
         bundle_.candidate_indicators = CandidateIndicatorList.from_list(bundle_dict.get('candidate_indicators'))
+        bundle_.collections = Collections.from_dict(bundle_dict.get('collections'))
         return bundle_
 
 class BehaviorList(maec.EntityList):
