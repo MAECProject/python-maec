@@ -30,7 +30,7 @@ class Analysis(maec.Entity):
         self.summary = None
         self.comments = None
         self.findings_bundle_reference = findings_bundle_reference
-        self.tools = ToolInformationList()
+        self.tools = ToolList()
         self.dynamic_analysis_metadata = None
         self.analysis_environment = None
         self.report = None
