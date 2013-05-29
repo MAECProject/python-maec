@@ -4,12 +4,12 @@
 #All rights reserved.
 
 #Compatible with MAEC v4.0
-#Last updated 05/13/2013
+#Last updated 05/29/2013
 
 import maec
 import maec.bindings.maec_package as package_binding
 from cybox.common.structured_text import StructuredText
-from cybox.common.tools import ToolInformationList, ToolInformation
+from cybox.common.tools import ToolInformation
 from cybox.common.personnel import Personnel
 from cybox.common.platform_specification import PlatformSpecification
 from cybox.objects.system_object import System
@@ -101,7 +101,7 @@ class Analysis(maec.Entity):
         analysis_.summary = StructuredText.from_obj(analysis_obj.get_Summary())
         analysis_.comments = CommentList.from_obj(analysis_obj.get_Comments())
         analysis_.findings_bundle_reference = BundleReference.from_obj(analysis_obj.get_Findings_Bundle_Reference())
-        analysis_.tools = ToolInformationList.from_obj(analysis_obj.get_Tools())
+        analysis_.tools = ToolList.from_obj(analysis_obj.get_Tools())
         analysis_.dynamic_analysis_metadata = DynamicAnalysisMetadata.from_obj(analysis_obj.get_Dynamic_Analysis_Metadata())
         analysis_.analysis_environment = AnalysisEnvironment.from_obj(analysis_obj.get_Analysis_Environment())
         analysis_.report = StructuredText.from_obj(analysis_obj.get_Report())
@@ -125,7 +125,7 @@ class Analysis(maec.Entity):
         analysis_.summary = StructuredText.from_dict(analysis_dict.get('summary'))
         analysis_.comments = CommentList.from_list(analysis_dict.get('comments'))
         analysis_.findings_bundle_reference = BundleReference.from_dict(analysis_dict.get('findings_bundle_reference'))
-        analysis_.tools = ToolInformationList.from_list(analysis_dict.get('tools', []))
+        analysis_.tools = ToolList.from_list(analysis_dict.get('tools', []))
         analysis_.dynamic_analysis_metadata = DynamicAnalysisMetadata.from_dict(analysis_dict.get('dynamic_analysis_metadata'))
         analysis_.analysis_environment = AnalysisEnvironment.from_dict(analysis_dict.get('analysis_environment'))
         analysis_.report = StructuredText.from_dict(analysis_dict.get('report'))
@@ -456,6 +456,21 @@ class CapturedProtocolList(maec.EntityList):
     @staticmethod
     def _get_list(binding_obj):
         return binding_obj.get_Protocol()
+
+class ToolList(maec.EntityList):
+    _contained_type = ToolInformation
+    _binding_class = package_binding.ToolListType
+
+    def __init__(self):
+        super(ToolList, self).__init__()
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Tool(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_Tool()
 
 class Source(maec.Entity):
 
