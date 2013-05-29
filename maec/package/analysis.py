@@ -11,6 +11,8 @@ import maec.bindings.maec_package as package_binding
 from cybox.common.structured_text import StructuredText
 from cybox.common.tools import ToolInformationList, ToolInformation
 from cybox.common.personnel import Personnel
+from cybox.common.platform_specification import PlatformSpecification
+from cybox.objects.system_object import System
 from maec.bundle.bundle_reference import BundleReference
         
 class Analysis(maec.Entity):
@@ -225,25 +227,235 @@ class DynamicAnalysisMetadata(maec.Entity):
         return dynamic_analysis_metadata_
 
 class AnalysisEnvironment(maec.Entity):
-    #TODO: Flesh out class
+
     def __init__(self):
+        super(AnalysisEnvironment, self).__init__()
         self.hypervisor_host_system = None
         self.analysis_systems = None
         self.network_infrastructure = None
 
     def to_obj(self):
-        pass
+        analysis_environment_obj = package_binding.AnalysisEnvironmentType()
+        if self.hypervisor_host_system is not None : analysis_environment_obj.set_Hypervisor_Host_System(self.hypervisor_host_system.to_obj())
+        if self.analysis_systems is not None : analysis_environment_obj.set_Analysis_Systems(self.analysis_systems.to_obj())
+        if self.network_infrastructure is not None : analysis_environment_obj.set_Network_Infrastructure(self.network_infrastructure.to_obj())
+        return analysis_environment_obj
 
     def to_dict(self):
-        pass
+        analysis_environment_dict = {}
+        if self.hypervisor_host_system is not None : analysis_environment_dict['hypervisor_host_system'] = self.hypervisor_host_system.to_dict()
+        if self.analysis_systems is not None : analysis_environment_dict['analysis_systems'] = self.analysis_systems.to_list()
+        if self.network_infrastructure is not None : analysis_environment_dict['network_infrastructure'] = self.network_infrastructure.to_dict()
+        return analysis_environment_obj
 
     @staticmethod
     def from_dict(analysis_environment_dict):
-        pass
+        if not analysis_environment_dict:
+            return None
+        analysis_environment_ = AnalysisEnvironment()
+        analysis_environment_.hypervisor_host_system = HypervisorHostSystem.from_dict(analysis_environment_dict.get('hypervisor_host_system'))
+        analysis_environment_.analysis_systems = AnalysisSystemList.from_list(analysis_environment_dict.get('analysis_systems'))
+        analysis_environment_.network_infrastructure = NetworkInfrastructure.from_dict(analysis_environment_dict.get('network_infrastructure'))
+        return analysis_environment_
 
     @staticmethod
     def from_obj(analysis_environment_obj):
-        pass
+        if not analysis_environment_obj:
+            return None
+        analysis_environment_ = AnalysisEnvironment()
+        analysis_environment_.hypervisor_host_system = HypervisorHostSystem.from_obj(analysis_environment_obj.get_Hypervisor_Host_System())
+        analysis_environment_.analysis_systems = AnalysisSystemList.from_obj(analysis_environment_obj.get_Analysis_Systems())
+        analysis_environment_.network_infrastructure = NetworkInfrastructure.from_obj(analysis_environment_obj.get_Network_Infrastructure())
+        return analysis_environment_
+
+class HypervisorHostSystem(System):
+
+    def __init__(self):
+        super(HypervisorHostSystem, self).__init__()
+        self.vm_hypervisor = None
+
+    def to_obj(self):
+        hypervisor_host_system_obj = super(HypervisorHostSystem, self).to_obj(package_binding.HypervisorHostSystemType())
+        if self.vm_hypervisor is not None : hypervisor_host_system_obj.set_VM_Hypervisor(self.vm_hypervisor.to_obj())
+        return hypervisor_host_system_obj
+
+    def to_dict(self):
+        hypervisor_host_system_dict = super(HypervisorHostSystem, self).to_dict()
+        if self.vm_hypervisor is not None : hypervisor_host_system_dict['vm_hypervisor'] = self.vm_hypervisor.to_dict()
+        return hypervisor_host_system_dict
+
+    @staticmethod
+    def from_dict(hypervisor_host_system_dict):
+        if not hypervisor_host_system_dict:
+            return None
+        hypervisor_host_system_ = System.from_dict(hypervisor_host_system_dict, HypervisorHostSystem())
+        hypervisor_host_system_.vm_hypervisor = PlatformSpecification.from_dict(hypervisor_host_system_dict.get('vm_hypervisor'))
+        return hypervisor_host_system_
+
+    @staticmethod
+    def from_obj(hypervisor_host_system_obj):
+        if not hypervisor_host_system_obj:
+            return None
+        hypervisor_host_system_ = System.from_obj(hypervisor_host_system_obj, HypervisorHostSystem())
+        hypervisor_host_system_.vm_hypervisor = PlatformSpecification.from_obj(hypervisor_host_system_obj.get_VM_Hypervisor())
+        return hypervisor_host_system_
+
+class AnalysisSystem(System):
+    def __init__(self):
+        super(AnalysisSystem, self).__init__()
+        self.installed_programs = InstalledPrograms()
+
+    def to_obj(self):
+        analysis_system_obj = super(AnalysisSystem, self).to_obj(package_binding.AnalysisSystemType())
+        if len(self.installed_programs) > 0 : analysis_system_obj.set_Installed_Programs(self.installed_programs.to_obj())
+        return analysis_system_obj
+
+    def to_dict(self):
+        analysis_system_dict = super(AnalysisSystem, self).to_dict()
+        if len(self.installed_programs) > 0 : analysis_system_dict['installed_programs'] = self.installed_programs.to_list()
+        return analysis_system_dict
+
+    @staticmethod
+    def from_dict(analysis_system_dict):
+        if not analysis_system_dict:
+            return None
+        analysis_system_ = System.from_dict(AnalysisSystem, AnalysisSystem())
+        analysis_system_.installed_programs = InstalledPrograms.from_list(analysis_system_dict.get('installed_programs'))
+        return analysis_system_
+
+    @staticmethod
+    def from_obj(analysis_system_obj):
+        if not analysis_system_obj:
+            return None
+        analysis_system_ = System.from_obj(AnalysisSystem, AnalysisSystem())
+        if analysis_system_obj.get_Installed_Programs() is not None : 
+            analysis_system_.installed_programs = InstalledPrograms.from_obj(analysis_system_obj.get_Installed_Programs())
+        return analysis_system_
+
+
+class InstalledPrograms(maec.EntityList):
+    _contained_type = PlatformSpecification
+    _binding_class = package_binding.InstalledProgramsType
+
+    def __init__(self):
+        super(InstalledPrograms, self).__init__()
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Program(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_Program()
+
+
+class AnalysisSystemList(maec.EntityList):
+    _contained_type = AnalysisSystem
+    _binding_class = package_binding.AnalysisSystemListType
+
+    def __init__(self):
+        super(AnalysisSystemList, self).__init__()
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Analysis_System(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_Analysis_System()
+
+class NetworkInfrastructure(maec.Entity):
+    def __init__(self):
+        super(NetworkInfrastructure, self).__init__()
+        self.captured_protocols = CapturedProtocolList()
+
+    def to_obj(self):
+        network_infrastructure_obj = package_binding.NetworkInfrastructureType()
+        if len(self.captured_protocols) > 0: network_infrastructure_obj.set_Captured_Protocols(self.captured_protocols.to_obj())
+        return network_infrastructure_obj
+
+    def to_dict(self):
+        network_infrastructure_dict = {}
+        if len(self.captured_protocols) > 0: network_infrastructure_dict['captured_protocols'] = self.captured_protocols.to_list()
+        return network_infrastructure_dict
+
+    @staticmethod
+    def from_dict(network_infrastructure_dict):
+        if not network_infrastructure_dict:
+            return None
+        network_infrastructure_ = NetworkInfrastructure()
+        network_infrastructure_.captured_protocols = CapturedProtocolList.from_list(network_infrastructure_dict.get('captured_protocols'))
+        return network_infrastructure_
+
+    @staticmethod
+    def from_obj(network_infrastructure_obj):
+        if not network_infrastructure_obj:
+            return None
+        network_infrastructure_ = NetworkInfrastructure()
+        if network_infrastructure_obj.get_Captured_Protocols() is not None :
+            network_infrastructure_.captured_protocols = CapturedProtocolList.from_obj(network_infrastructure_obj.get_Captured_Protocols())
+        return network_infrastructure_
+
+class CapturedProtocol(maec.Entity):
+    def __init__(self):
+        super(CapturedProtocol, self).__init__()
+        self.layer7_protocol = None
+        self.layer4_protocol = None
+        self.port_number = None
+        self.interaction_level = None
+
+    def to_obj(self):
+        captured_protocol_obj = package_binding.CapturedProtocolType()
+        if self.layer7_protocol is not None : captured_protocol_obj.set_layer7_protocol(self.layer7_protocol)
+        if self.layer4_protocol is not None : captured_protocol_obj.set_layer4_protocol(self.layer4_protocol)
+        if self.port_number is not None : captured_protocol_obj.set_port_number(self.port_number)
+        if self.interaction_level is not None : captured_protocol_obj.set_interaction_level(self.interaction_level)
+        return captured_protocol_obj
+
+    def to_dict(self):
+        captured_protocol_dict = {}
+        if self.layer7_protocol is not None : captured_protocol_dict['layer7_protocol'] = self.layer7_protocol
+        if self.layer4_protocol is not None : captured_protocol_dict['layer4_protocol'] = self.layer4_protocol
+        if self.port_number is not None : captured_protocol_dict['port_number'] = self.port_number
+        if self.interaction_level is not None : captured_protocol_dict['interaction_level'] = self.interaction_level
+        return captured_protocol_dict
+
+    @staticmethod
+    def from_dict(captured_protocol_dict):
+        if not captured_protocol_dict:
+            return None
+        captured_protocol_ = CapturedProtocol()
+        captured_protocol_.layer7_protocol = captured_protocol_dict.get('layer7_protocol')
+        captured_protocol_.layer4_protocol = captured_protocol_dict.get('layer4_protocol')
+        captured_protocol_.port_number = captured_protocol_dict.get('port_number')
+        captured_protocol_.interaction_level = captured_protocol_dict.get('interaction_level')
+        return captured_protocol_
+
+    @staticmethod
+    def from_obj(captured_protocol_obj):
+        if not captured_protocol_obj:
+            return None
+        captured_protocol_ = CapturedProtocol()
+        captured_protocol_.layer7_protocol = captured_protocol_obj.get_layer7_protocol()
+        captured_protocol_.layer4_protocol = captured_protocol_dict.get_layer4_protocol()
+        captured_protocol_.port_number = captured_protocol_dict.get_port_number()
+        captured_protocol_.interaction_level = captured_protocol_dict.get_interaction_level()
+        return captured_protocol_
+
+class CapturedProtocolList(maec.EntityList):
+    _contained_type = CapturedProtocol
+    _binding_class = package_binding.CapturedProtocolListType
+
+    def __init__(self):
+        super(CapturedProtocolList, self).__init__()
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Protocol(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_Protocol()
 
 class Source(maec.Entity):
 
