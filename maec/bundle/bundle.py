@@ -141,7 +141,7 @@ class Bundle(maec.Entity):
         if self.defined_subject is not None : bundle_dict['defined_subject'] = self.defined_subject
         if self.content_type is not None : bundle_dict['content_type'] = self.content_type
         if self.timestamp is not None : bundle_dict['timestamp'] = self.timestamp.isoformat()
-        if self.malware_instance_object_attributes is not None : bundle_dict['malware_instance_object_attributes'] = self.malware_instance_object_attributes.to_obj()
+        if self.malware_instance_object_attributes is not None : bundle_dict['malware_instance_object_attributes'] = self.malware_instance_object_attributes.to_dict()
         if len(self.av_classifications) > 0 : bundle_dict['av_classifications'] = self.av_classifications.to_list()
         if self.process_tree is not None : bundle_dict['process_tree'] = self.process_tree.to_dict()
         if len(self.behaviors) > 0 : bundle_dict['behaviors'] = self.behaviors.to_list()
