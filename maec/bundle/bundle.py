@@ -573,8 +573,8 @@ class Collections(maec.Entity):
 
     def __init__(self):
         super(Collections, self).__init__()
-        self.behavior_collections = ActionCollectionList()
-        self.action_collections = BehaviorCollectionList()
+        self.behavior_collections = BehaviorCollectionList()
+        self.action_collections = ActionCollectionList()
         self.object_collections = ObjectCollectionList()
         self.candidate_indicator_collections = CandidateIndicatorCollectionList()
 
