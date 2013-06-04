@@ -95,7 +95,9 @@ class MAECNamespaceParser(NamespaceParser):
             schemalocs.append('http://maec.mitre.org/XMLSchema/maec-bundle-4 http://maec.mitre.org/language/version4.0/maec_bundle_schema.xsd')
         output_string += 'xmlns:cybox="http://cybox.mitre.org/cybox-2" \n '
         output_string += 'xmlns:cyboxCommon="http://cybox.mitre.org/common-2" \n '
+        output_string += 'xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2" \n'
         schemalocs.append(' http://cybox.mitre.org/cybox-2 http://cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd')
+        schemalocs.append(' http://cybox.mitre.org/XMLSchema/default_vocabularies/2.0.0/cybox_default_vocabularies.xsd')
         
         for object_type in self.object_types:
             namespace_prefix = OBJECT_TYPES_DICT.get(object_type).get('namespace_prefix')
