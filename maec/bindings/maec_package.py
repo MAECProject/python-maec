@@ -1673,7 +1673,7 @@ class PackageType(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='maecPackage:', name_='MAEC_Package'):
         if self.timestamp is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
-            outfile.write(' timestamp="%s"' % self.gds_format_datetime(self.timestamp, input_name='timestamp'))
+            outfile.write(' timestamp="%s"' % self.timestamp)
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
             outfile.write(' id=%s' % (quote_attrib(self.id), ))
