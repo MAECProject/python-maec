@@ -8,7 +8,7 @@
 
 import maec.bindings.maec_bundle as bundle_binding
 import maec.bindings.maec_package as package_binding
-from cybox.utils import NamespaceParser, OBJECT_TYPES_DICT
+from cybox.utils import NamespaceParser, META
 
 import itertools
 
@@ -100,21 +100,21 @@ class MAECNamespaceParser(NamespaceParser):
         schemalocs.append(' http://maec.mitre.org/default_vocabularies-1 http://cybox.mitre.org/XMLSchema/default_vocabularies/2.0.0/cybox_default_vocabularies.xsd')
         
         for object_type in self.object_types:
-            namespace_prefix = OBJECT_TYPES_DICT.get(object_type).get('namespace_prefix')
-            namespace = OBJECT_TYPES_DICT.get(object_type).get('namespace')
+            namespace = META.lookup_object(object_type).namespace
+            namespace_prefix = META.lookup_namespace(namespace).prefix
             output_string += ('xmlns:' + namespace_prefix + '=' + '"' + namespace + '"' + ' \n ')
         
         for object_type_dependency in self.object_type_dependencies:
             if object_type_dependency not in self.object_types:
-                namespace_prefix = OBJECT_TYPES_DICT.get(object_type_dependency).get('namespace_prefix')
-                namespace = OBJECT_TYPES_DICT.get(object_type_dependency).get('namespace')
+                namespace = META.lookup_object(object_type).namespace
+                namespace_prefix = META.lookup_namespace(namespace).prefix
                 output_string += ('xmlns:' + namespace_prefix + '=' + '"' + namespace + '"' + ' \n ')
         
         output_string += 'xsi:schemaLocation="'
         
         for object_type in self.object_types:
-            namespace = OBJECT_TYPES_DICT.get(object_type).get('namespace')
-            schemalocation = OBJECT_TYPES_DICT.get(object_type).get('schemalocation')
+            namespace = META.lookup_object(object_type).namespace
+            schemalocation = META.lookup_namespace(namespace).schema_location
             schemalocs.append(' ' + namespace + ' ' + schemalocation)
         
         for schemalocation_string in schemalocs:
