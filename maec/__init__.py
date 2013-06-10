@@ -3,6 +3,7 @@ __version__ = "4.0.0a2"
 import collections
 import json
 from StringIO import StringIO
+from maec.utils.nsparser import MAECNamespaceParser
 
 class Entity(object):
     """Base class for all classes in the MAEC SimpleAPI."""
@@ -13,6 +14,15 @@ class Entity(object):
         s = StringIO()
         self.to_obj().export(s, 0)
         return s.getvalue()
+        
+    def to_xml_file(self, filename):
+        """Export an object to an XML file. Only supports Package or Bundle objects at the moment."""
+  
+        out_file  = open(filename, 'w')
+        out_file.write("<?xml version='1.0' encoding='UTF-8'?>\n")
+        out_file.write("<!DOCTYPE doc [<!ENTITY comma '&#44;'>]>\n")
+        self.to_obj().export(out_file, 0, namespacedef_=MAECNamespaceParser(self.to_obj()).get_namespace_schemalocation_str())
+        out_file.close()
 
     def to_json(self):
         return json.dumps(self.to_dict())
