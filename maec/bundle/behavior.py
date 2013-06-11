@@ -67,7 +67,7 @@ class Behavior(maec.Entity):
         self.purpose_description = purpose_description
         
     def to_obj(self):
-        behavior = bundle_binding.BehaviorType(self.id)
+        behavior = bundle_binding.BehaviorType(id=self.id)
         if self.duration is not None: behavior.set_duration(self.duration)
         if self.status is not None: behavior.set_status(self.status)
         if self.position is not None: behavior.set_ordinal_position(self.position)
