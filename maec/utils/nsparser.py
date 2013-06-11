@@ -75,7 +75,6 @@ class MAECNamespaceParser(NamespaceParser):
    
     def get_namespace_schemalocation_str(self):
         '''Get the namespace/schemalocation declaration string'''
-        
         output_string = '\n '
         schemalocs = []
         #Add the XSI, MAEC, and CybOX Core/Common namespaces and schemalocation
@@ -95,18 +94,19 @@ class MAECNamespaceParser(NamespaceParser):
             schemalocs.append('http://maec.mitre.org/XMLSchema/maec-bundle-4 http://maec.mitre.org/language/version4.0/maec_bundle_schema.xsd')
         output_string += 'xmlns:cybox="http://cybox.mitre.org/cybox-2" \n '
         output_string += 'xmlns:cyboxCommon="http://cybox.mitre.org/common-2" \n '
-        output_string += 'xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2" \n'
+        output_string += 'xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2" \n '
         schemalocs.append(' http://cybox.mitre.org/cybox-2 http://cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd')
         schemalocs.append(' http://maec.mitre.org/default_vocabularies-1 http://cybox.mitre.org/XMLSchema/default_vocabularies/2.0.0/cybox_default_vocabularies.xsd')
         
         for object_type in self.object_types:
+            print "inside loop"
             namespace = META.lookup_object(object_type).namespace
             namespace_prefix = META.lookup_namespace(namespace).prefix
             output_string += ('xmlns:' + namespace_prefix + '=' + '"' + namespace + '"' + ' \n ')
-        
+
         for object_type_dependency in self.object_type_dependencies:
             if object_type_dependency not in self.object_types:
-                namespace = META.lookup_object(object_type).namespace
+                namespace = META.lookup_object(object_type_dependency).namespace
                 namespace_prefix = META.lookup_namespace(namespace).prefix
                 output_string += ('xmlns:' + namespace_prefix + '=' + '"' + namespace + '"' + ' \n ')
         
@@ -116,7 +116,7 @@ class MAECNamespaceParser(NamespaceParser):
             namespace = META.lookup_object(object_type).namespace
             schemalocation = META.lookup_namespace(namespace).schema_location
             schemalocs.append(' ' + namespace + ' ' + schemalocation)
-        
+
         for schemalocation_string in schemalocs:
             if schemalocs.index(schemalocation_string) == (len(schemalocs) - 1):
                 output_string += (schemalocation_string + '"')
