@@ -6,7 +6,7 @@ class AVClassification(ToolInformation):
     def __init__(self, classification = None, tool_name = None, tool_vendor = None):
         super(AVClassification, self).__init__(tool_name, tool_vendor)
         self.engine_version = None
-        self.definition_Version = None
+        self.definition_version = None
         self.classification_name = None
 
     def to_obj(self):
