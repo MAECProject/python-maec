@@ -99,7 +99,6 @@ class MAECNamespaceParser(NamespaceParser):
         schemalocs.append(' http://maec.mitre.org/default_vocabularies-1 http://cybox.mitre.org/XMLSchema/default_vocabularies/2.0.0/cybox_default_vocabularies.xsd')
         
         for object_type in self.object_types:
-            print "inside loop"
             namespace = META.lookup_object(object_type).namespace
             namespace_prefix = META.lookup_namespace(namespace).prefix
             output_string += ('xmlns:' + namespace_prefix + '=' + '"' + namespace + '"' + ' \n ')
