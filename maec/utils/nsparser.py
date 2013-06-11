@@ -38,7 +38,7 @@ class MAECNamespaceParser(NamespaceParser):
             self.add_object_namespace('ProcessObjectType')
         if bundle.get_Behaviors() is not None:
             for behavior in bundle.get_Behaviors().get_Behavior():
-                self.process_behavior_namespace(self, behavior)
+                self.process_behavior_namespace(behavior)
         if bundle.get_Actions() is not None:
             for action in bundle.get_Actions().get_Action():
                 self.process_action_namespace(action)

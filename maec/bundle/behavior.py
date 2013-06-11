@@ -11,7 +11,7 @@ import maec.bindings.maec_bundle as bundle_binding
 import datetime
        
 class Behavior(maec.Entity):
-    def init(self, id, description = None, ordinal_position = None, duration = None, status = None):
+    def __init__(self, id, description = None, ordinal_position = None, duration = None, status = None):
         self.id = id
         self.action_list = []
         self.platform_list = []
@@ -19,11 +19,14 @@ class Behavior(maec.Entity):
         self.relationship_list = []
         
         self.discovery_method = None
+        self.cve_id = None
+        self.cve_description = None
+        self.purpose_description = None
         
-        if ordinal_position is not None: self.set_ordinal_position(ordinal_position)
-        if description is not None: self.set_Description(description)
-        if duration is not None: self.set_duration(duration)
-        if status is not None: self.set_status(status)
+        self.set_ordinal_position(ordinal_position)
+        self.set_description(description)
+        self.set_duration(duration)
+        self.set_status(status)
         
     def add_related_behavior(self, type, behavior):
         self.relationship_list.append({
@@ -47,11 +50,11 @@ class Behavior(maec.Entity):
         
     def add_action(self, action):
         self.action_list.append(action)
-        
+    
     def set_description(self, description):
         self.description = description
         
-    def set_oridinal_position(self, position):
+    def set_ordinal_position(self, position):
         self.position = position
         
     def set_duration(self, duration):
@@ -111,5 +114,5 @@ class Behavior(maec.Entity):
             actionComposition.add_Action_Reference(action_ref)
         if actionComposition.hasContent_(): behavior.set_Action_Composition(actionComposition)
         
-        return 
+        return behavior
         
