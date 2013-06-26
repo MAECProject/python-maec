@@ -40,7 +40,13 @@ the Python library itself.
 
 ## Installation
 
-The `maec` package depends on the `lxml` XML parsing library and the `python-cybox` library, which can be found at https://github.com/CybOXProject/python-cybox. 
+The `maec` package depends on the following Python libraries:
+* `lxml` >= 3.1.x
+* `python-cybox`
+* `setuptools` (only if installing using setup.py)
+
+For Windows installers of the above libraries, we recommend looking here: http://www.lfd.uci.edu/~gohlke/pythonlibs.
+python-cybox can be found at https://github.com/CybOXProject/python-cybox.
 
 To build `lxml` on Ubuntu, you will need the following packages from the
 Ubuntu package repository:
