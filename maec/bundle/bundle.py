@@ -36,7 +36,7 @@ class Bundle(maec.Entity):
 
     #Set the Malware Instance Object Attributes
     def set_malware_instance_object_atttributes(self, malware_instance_object):
-        self.malware_instance_object_attributes = malware_instance_object_attributes
+        self.malware_instance_object_attributes = malware_instance_object
 
     #Add an AV classification
     def add_av_classification(self, av_classification):
@@ -172,7 +172,7 @@ class Bundle(maec.Entity):
 
     @staticmethod
     def from_dict(bundle_dict):
-        if not bundle_obj:
+        if not bundle_dict:
             return None
         bundle_ = Bundle(None, None)
         bundle_.id = bundle_dict.get('id')
@@ -358,7 +358,7 @@ class BehaviorCollection(BaseCollection):
         if not behavior_collection_obj:
             return None
         behavior_collection_ = BaseCollection.from_obj(behavior_collection_obj, BehaviorCollection())
-        behavior_collection_.id = behavior_collection_dict.get_id()
+        behavior_collection_.id = behavior_collection_obj.get_id()
         behavior_collection_.behavior_list = BehaviorList.from_obj(behavior_collection_obj.get_Behavior_List())
         return behavior_collection_
 
@@ -408,7 +408,7 @@ class ObjectCollection(BaseCollection):
         if not object_collection_dict:
             return None
         object_collection_ = BaseCollection.from_dict(object_collection_dict, ObjectCollection())
-        object_collection_.id = behavior_collection_dict.get('id')
+        object_collection_.id = object_collection_dict.get('id')
         object_collection_.object_list =  ObjectList.from_list(object_collection_dict.get('object_list'))
         return object_collection_
 
