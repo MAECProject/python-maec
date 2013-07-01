@@ -71,4 +71,25 @@ class Package(maec.Entity):
         if package_obj.get_Malware_Subjects() is not None : package_.malware_subjects = MalwareSubjectList.from_obj(package_obj.get_Malware_Subjects())
         if package_obj.get_Grouping_Relationships() is not None : package_.grouping_relationships = GroupingRelationshipList.from_obj(package_obj.get_Grouping_Relationships())
         return package_
+        
+    @staticmethod
+    def from_xml(xml_file):
+        '''
+        Returns a tuple of (api_object, binding_object).
+        Parameters:
+        xml_file - either a filename or a stream object
+        '''
+        
+        if isinstance(xml_file, basestring):
+            f = open(xml_file, "rb")
+        else:
+            f = xml_file
+        
+        doc = package_binding.parsexml_(f)
+        maec_package_obj = package_binding.PackageType().factory()
+        maec_package_obj.build(doc.getroot())
+        maec_package = Package.from_obj(maec_package_obj)
+        
+        return (maec_package, maec_package_obj)
+            
 
