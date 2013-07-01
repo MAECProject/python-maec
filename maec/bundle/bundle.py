@@ -192,47 +192,17 @@ class Bundle(maec.Entity):
 class BehaviorList(maec.EntityList):
     _contained_type = Behavior
     _binding_class = bundle_binding.BehaviorListType
-
-    def __init__(self):
-        super(BehaviorList, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Behavior(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Behavior()
+    _binding_var = "Behavior"
 
 class ActionList(maec.EntityList):
     _contained_type = MalwareAction
     _binding_class = bundle_binding.ActionListType
-
-    def __init__(self):
-        super(ActionList, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Action(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Action()
-
+    _binding_var = "Action"
+    
 class ObjectList(maec.EntityList):
     _contained_type = Object
     _binding_class = bundle_binding.ObjectListType
-
-    def __init__(self):
-        super(ObjectList, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Object(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Object()
+    _binding_var = "Object"
 
 class BaseCollection(maec.Entity):
     def __init__(self, name = None):
@@ -456,7 +426,8 @@ class CandidateIndicatorCollection(BaseCollection):
 class BehaviorCollectionList(maec.EntityList):
     _contained_type = BehaviorCollection
     _binding_class = bundle_binding.BehaviorCollectionListType
-
+    _binding_var = "Behavior_Collection"
+    
     def __init__(self):
         super(BehaviorCollectionList, self).__init__()
 
@@ -474,18 +445,11 @@ class BehaviorCollectionList(maec.EntityList):
                 return collection
         return None
 
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Behavior_Collection(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Behavior_Collection()
-
 class ActionCollectionList(maec.EntityList):
     _contained_type = ActionCollection
     _binding_class = bundle_binding.ActionCollectionListType
-
+    _binding_var = "Action_Collection"
+    
     def __init__(self):
         super(ActionCollectionList, self).__init__()
 
@@ -503,18 +467,11 @@ class ActionCollectionList(maec.EntityList):
                 return collection
         return None
 
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Action_Collection(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Action_Collection()
-
 class ObjectCollectionList(maec.EntityList):
     _contained_type = ObjectCollection
     _binding_class = bundle_binding.ObjectCollectionListType
-
+    _binding_var = "Object_Collection"
+    
     def __init__(self):
         super(ObjectCollectionList, self).__init__()
 
@@ -532,18 +489,11 @@ class ObjectCollectionList(maec.EntityList):
                 return collection
         return None
 
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Object_Collection(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Object_Collection()
-
 class CandidateIndicatorCollectionList(maec.EntityList):
     _contained_type = CandidateIndicatorCollection
     _binding_class = bundle_binding.CandidateIndicatorCollectionListType
-
+    _binding_var = "Candidate_Indicator_Collection"
+    
     def __init__(self):
         super(CandidateIndicatorCollectionList, self).__init__()
 
@@ -560,14 +510,6 @@ class CandidateIndicatorCollectionList(maec.EntityList):
             if collection.name is not None and collection.name == collection_name:
                 return collection
         return None
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Candidate_Indicator_Collection(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Candidate_Indicator_Collection()
 
 class Collections(maec.Entity):
 

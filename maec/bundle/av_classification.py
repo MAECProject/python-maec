@@ -46,14 +46,4 @@ class AVClassification(ToolInformation):
 class AVClassifications(maec.EntityList):
     _contained_type = AVClassification
     _binding_class = bundle_binding.AVClassificationsType
-
-    def __init__(self):
-        super(AVClassifications, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_AV_Classification(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_AV_Classification()
+    _binding_var = "AV_Classification"

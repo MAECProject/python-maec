@@ -217,14 +217,4 @@ class CandidateIndicatorComposition(maec.Entity):
 class CandidateIndicatorList(maec.EntityList):
     _contained_type = CandidateIndicator
     _binding_class = bundle_binding.CandidateIndicatorListType
-
-    def __init__(self):
-        super(CandidateIndicatorList, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Candidate_Indicator(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Candidate_Indicator()
+    _binding_var = "Candidate_Indicator"

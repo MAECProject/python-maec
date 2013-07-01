@@ -61,17 +61,7 @@ class GroupingRelationship(maec.Entity):
 class GroupingRelationshipList(maec.EntityList):
     _contained_type = GroupingRelationship
     _binding_class = package_binding.GroupingRelationshipListType
-
-    def __init__(self):
-        super(GroupingRelationshipList, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Grouping_Relationship(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Grouping_Relationship()
+    _binding_var = "Grouping_Relationship"
 
 class ClusteringMetadata(maec.Entity):
 

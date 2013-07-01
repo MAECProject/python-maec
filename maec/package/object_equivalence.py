@@ -53,14 +53,4 @@ class ObjectEquivalence(maec.Entity):
 class ObjectEquivalenceList(maec.EntityList):
     _contained_type = ObjectEquivalence
     _binding_class = package_binding.ObjectEquivalenceListType
-
-    def __init__(self):
-        super(ObjectEquivalenceList, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Object_Equivalence(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Object_Equivalence()
+    _binding_var = "Object_Equivalence"

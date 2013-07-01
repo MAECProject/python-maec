@@ -171,18 +171,7 @@ class Comment(StructuredText):
 class CommentList(maec.EntityList):
     _contained_type = Comment
     _binding_class = package_binding.CommentListType
-
-    def __init__(self):
-        super(Objects, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Comment(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Comment()
-
+    _binding_var = "Comment"
 
 class DynamicAnalysisMetadata(maec.Entity):
 
@@ -336,33 +325,12 @@ class AnalysisSystem(System):
 class InstalledPrograms(maec.EntityList):
     _contained_type = PlatformSpecification
     _binding_class = package_binding.InstalledProgramsType
-
-    def __init__(self):
-        super(InstalledPrograms, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Program(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Program()
-
+    _binding_var = "Program"
 
 class AnalysisSystemList(maec.EntityList):
     _contained_type = AnalysisSystem
     _binding_class = package_binding.AnalysisSystemListType
-
-    def __init__(self):
-        super(AnalysisSystemList, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Analysis_System(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Analysis_System()
+    _binding_var = "Analysis_System"
 
 class NetworkInfrastructure(maec.Entity):
     def __init__(self):
@@ -445,33 +413,13 @@ class CapturedProtocol(maec.Entity):
 class CapturedProtocolList(maec.EntityList):
     _contained_type = CapturedProtocol
     _binding_class = package_binding.CapturedProtocolListType
-
-    def __init__(self):
-        super(CapturedProtocolList, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Protocol(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Protocol()
+    _binding_var = "Protocol"
 
 class ToolList(maec.EntityList):
     _contained_type = ToolInformation
     _binding_class = package_binding.ToolListType
-
-    def __init__(self):
-        super(ToolList, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Tool(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Tool()
-
+    _binding_var = "Tool"
+    
 class Source(maec.Entity):
 
     def __init__(self):
