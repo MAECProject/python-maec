@@ -2438,7 +2438,7 @@ class MinorVariantListType(GeneratedsSuper):
         if nodeName_ == 'Minor_Variant':
             obj_ = cybox_core.ObjectType.factory()
             obj_.build(child_)
-            self.set_Minor_Variant(obj_)
+            self.Minor_Variant.append(obj_)
 # end class MinorVariantListType
 
 class FindingsBundleListType(GeneratedsSuper):
