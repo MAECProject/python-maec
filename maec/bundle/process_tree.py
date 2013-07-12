@@ -78,11 +78,11 @@ class ProcessTreeNode(Process):
         process_tree_node_obj = super(ProcessTreeNode, self).to_obj(bundle_binding.ProcessTreeNodeType())
         if self.id is not None : process_tree_node_obj.set_id(self.id)
         if self.parent_action_idref is not None : process_tree_node_obj.set_parent_action_idref(self.parent_action_idref)
-        if len(self.initiated_actions) > 0: process_tree_node_obj.set_Initiated_Actions(self.initiated_actions.to_obj())
-        if len(self.spawned_processes) > 0: 
+        if self.initiated_actions: process_tree_node_obj.set_Initiated_Actions(self.initiated_actions.to_obj())
+        if self.spawned_processes: 
             for spawned_process in self.spawned_processes:
                 process_tree_node_obj.add_Spawned_Process(spawned_process.to_obj())
-        if len(self.injected_processes) > 0: 
+        if self.injected_processes: 
             for injected_process in self.injected_processes:
                 process_tree_node_obj.add_Injected_Process(injected_process.to_obj())
         return process_tree_node_obj
@@ -91,13 +91,13 @@ class ProcessTreeNode(Process):
         process_tree_node_dict = super(ProcessTreeNode, self).to_dict()
         if self.id is not None : process_tree_node_dict['id'] = self.id
         if self.parent_action_idref is not None : process_tree_node_dict['parent_action_idref'] = self.parent_action_idref
-        if len(self.initiated_actions) > 0: process_tree_node_dict['initiated_actions'] = self.initiated_actions.to_list()
-        if len(self.spawned_processes) > 0:
+        if self.initiated_actions: process_tree_node_dict['initiated_actions'] = self.initiated_actions.to_list()
+        if self.spawned_processes:
             spawned_process_list = []
             for spawned_process in self.spawned_processes:
                 spawned_process_list.append(spawned_process.to_dict())
             process_tree_node_dict['spawned_processes'] = spawned_process_list
-        if len(self.injected_processes) > 0: 
+        if self.injected_processes > 0: 
             injected_process_list = []
             for injected_process in self.injected_processes:
                 injected_process_list.append(injected_process.to_dict())
