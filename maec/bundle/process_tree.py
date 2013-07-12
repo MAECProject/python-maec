@@ -22,7 +22,7 @@ class ProcessTree(maec.Entity):
     def to_obj(self):
         process_tree_obj = bundle_binding.ProcessTreeType()
         if self.root_process is not None:
-            processtree.set_Root_Process(self.root_process.to_obj())
+            process_tree_obj.set_Root_Process(self.root_process.to_obj())
         return process_tree_obj
 
     def to_dict(self):
