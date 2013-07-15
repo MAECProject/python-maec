@@ -75,7 +75,7 @@ class Analysis(maec.Entity):
         if self.source is not None : analysis_dict['source'] = self.source.to_dict()
         if self.analysts is not None : analysis_dict['analysts'] = self.analysts.to_list()
         if self.summary is not None : analysis_dict['summary'] = self.summary.to_dict()
-        if self.comments is not None : analysis_dict['comments'] = self.comments.to_dict()
+        if self.comments is not None : analysis_dict['comments'] = self.comments.to_list()
         if self.findings_bundle_reference is not None : analysis_dict['findings_bundle_reference'] = self.findings_bundle_reference.to_dict()
         if len(self.tools) > 0 : analysis_dict['tools'] = self.tools.to_list()
         if self.dynamic_analysis_metadata is not None : analysis_dict['dynamic_analysis_metadata'] = self.dynamic_analysis_metadata.to_dict()
