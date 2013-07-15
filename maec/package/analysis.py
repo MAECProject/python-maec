@@ -164,8 +164,8 @@ class Comment(StructuredText):
         if not comment_obj:
             return None
         comment_ = StructuredText.from_obj(comment_obj, Comment())
-        comment_.author = comment_obj.get_Author()
-        comment_.timestamp = comment_obj.get_Timestamp()
+        comment_.author = comment_obj.get_author()
+        comment_.timestamp = comment_obj.get_timestamp()
         return comment_
 
 class CommentList(maec.EntityList):
