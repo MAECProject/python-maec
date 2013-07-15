@@ -73,7 +73,7 @@ class Analysis(maec.Entity):
         if self.start_datetime is not None : analysis_dict['start_datetime'] = self.start_datetime
         if self.lastupdate_datetime is not None : analysis_dict['lastupdate_datetime'] = self.lastupdate_datetime
         if self.source is not None : analysis_dict['source'] = self.source.to_dict()
-        if self.analysts is not None : analysis_dict['analysts'] = self.analysts.to_dict()
+        if self.analysts is not None : analysis_dict['analysts'] = self.analysts.to_list()
         if self.summary is not None : analysis_dict['summary'] = self.summary.to_dict()
         if self.comments is not None : analysis_dict['comments'] = self.comments.to_dict()
         if self.findings_bundle_reference is not None : analysis_dict['findings_bundle_reference'] = self.findings_bundle_reference.to_dict()
