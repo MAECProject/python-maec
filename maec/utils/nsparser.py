@@ -35,7 +35,7 @@ class MAECNamespaceParser(NamespaceParser):
         if bundle.get_Malware_Instance_Object_Attributes() is not None:
             self.get_namespace_from_object(bundle.get_Malware_Instance_Object_Attributes())
         if bundle.get_Process_Tree() is not None:
-            self.add_object_namespace('ProcessObjectType')
+            self.add_object_namespace(META.lookup_object('ProcessObjectType'))
         if bundle.get_Behaviors() is not None:
             for behavior in bundle.get_Behaviors().get_Behavior():
                 self.process_behavior_namespace(behavior)
@@ -91,7 +91,7 @@ class MAECNamespaceParser(NamespaceParser):
             output_string += 'xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-4" \n '
             output_string += 'xmlns:mmdef="http://xml/metadataSharing.xsd" \n '
             schemalocs.append('http://maec.mitre.org/default_vocabularies-1 http://maec.mitre.org/language/version4.0/maec_default_vocabularies.xsd')
-            schemalocs.append('http://maec.mitre.org/XMLSchema/maec-bundle-4 http://maec.mitre.org/language/version4.0/maec_bundle_schema.xsd')
+            schemalocs.append(' http://maec.mitre.org/XMLSchema/maec-bundle-4 http://maec.mitre.org/language/version4.0/maec_bundle_schema.xsd')
         output_string += 'xmlns:cybox="http://cybox.mitre.org/cybox-2" \n '
         output_string += 'xmlns:cyboxCommon="http://cybox.mitre.org/common-2" \n '
         output_string += 'xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2" \n '
