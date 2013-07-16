@@ -618,7 +618,7 @@ class ContainerType(GeneratedsSuper):
         if value is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
             try:
-                self.timestamp = self.gds_parse_datetime(value, node, 'timestamp')
+                self.timestamp = value
             except ValueError, exp:
                 raise ValueError('Bad date-time attribute (timestamp): %s' % exp)
         value = find_attr_value_('id', node)

@@ -965,7 +965,7 @@ class BundleType(GeneratedsSuper):
         if value is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
             try:
-                self.timestamp = self.gds_parse_datetime(value, node, 'timestamp')
+                self.timestamp = value
             except ValueError, exp:
                 raise ValueError('Bad date-time attribute (timestamp): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -3442,7 +3442,7 @@ class CandidateIndicatorType(GeneratedsSuper):
         if value is not None and 'creation_datetime' not in already_processed:
             already_processed.add('creation_datetime')
             try:
-                self.creation_datetime = self.gds_parse_datetime(value, node, 'creation_datetime')
+                self.creation_datetime = value
             except ValueError, exp:
                 raise ValueError('Bad date-time attribute (creation_datetime): %s' % exp)
         value = find_attr_value_('id', node)
@@ -3453,7 +3453,7 @@ class CandidateIndicatorType(GeneratedsSuper):
         if value is not None and 'lastupdate_datetime' not in already_processed:
             already_processed.add('lastupdate_datetime')
             try:
-                self.lastupdate_datetime = self.gds_parse_datetime(value, node, 'lastupdate_datetime')
+                self.lastupdate_datetime = value
             except ValueError, exp:
                 raise ValueError('Bad date-time attribute (lastupdate_datetime): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

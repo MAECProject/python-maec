@@ -1355,14 +1355,14 @@ class AnalysisType(GeneratedsSuper):
         if value is not None and 'start_datetime' not in already_processed:
             already_processed.add('start_datetime')
             try:
-                self.start_datetime = self.gds_parse_datetime(value, node, 'start_datetime')
+                self.start_datetime = value
             except ValueError, exp:
                 raise ValueError('Bad date-time attribute (start_datetime): %s' % exp)
         value = find_attr_value_('complete_datetime', node)
         if value is not None and 'complete_datetime' not in already_processed:
             already_processed.add('complete_datetime')
             try:
-                self.complete_datetime = self.gds_parse_datetime(value, node, 'complete_datetime')
+                self.complete_datetime = value
             except ValueError, exp:
                 raise ValueError('Bad date-time attribute (complete_datetime): %s' % exp)
         value = find_attr_value_('method', node)
@@ -1382,7 +1382,7 @@ class AnalysisType(GeneratedsSuper):
         if value is not None and 'lastupdate_datetime' not in already_processed:
             already_processed.add('lastupdate_datetime')
             try:
-                self.lastupdate_datetime = self.gds_parse_datetime(value, node, 'lastupdate_datetime')
+                self.lastupdate_datetime = value
             except ValueError, exp:
                 raise ValueError('Bad date-time attribute (lastupdate_datetime): %s' % exp)
         value = find_attr_value_('type', node)
@@ -1728,7 +1728,7 @@ class PackageType(GeneratedsSuper):
         if value is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
             try:
-                self.timestamp = self.gds_parse_datetime(value, node, 'timestamp')
+                self.timestamp = value
             except ValueError, exp:
                 raise ValueError('Bad date-time attribute (timestamp): %s' % exp)
         value = find_attr_value_('id', node)
@@ -4160,7 +4160,7 @@ class CommentType(cybox_common.StructuredTextType):
         if value is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
             try:
-                self.timestamp = self.gds_parse_datetime(value, node, 'timestamp')
+                self.timestamp = value
             except ValueError, exp:
                 raise ValueError('Bad date-time attribute (timestamp): %s' % exp)
         value = find_attr_value_('author', node)
