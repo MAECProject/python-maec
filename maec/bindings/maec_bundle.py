@@ -2758,7 +2758,7 @@ class ObjectListType(GeneratedsSuper):
         if nodeName_ == 'Object':
             obj_ = cybox_core.ObjectType.factory()
             obj_.build(child_)
-            self.set_Object(obj_)
+            self.add_Object(obj_)
 # end class ObjectListType
 
 class BehaviorReferenceType(GeneratedsSuper):
