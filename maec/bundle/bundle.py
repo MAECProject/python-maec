@@ -4,7 +4,7 @@
 #All rights reserved.
 
 #Compatible with MAEC v4.0
-#Last updated 05/20/2013
+#Last updated 07/16/2013
 
 import maec
 import datetime
@@ -119,17 +119,17 @@ class Bundle(maec.Entity):
         #Set the Malware Instance Object Attributes (a CybOX object) if they are not none
         if self.malware_instance_object_attributes is not None: bundle_obj.set_Malware_Instance_Attributes(self.malware_instance_object_attributes.to_obj())
         #Add the AV Classifications
-        if len(self.av_classifications) > 0: bundle_obj.set_AV_Classifications(self.av_classifications.to_obj())
+        if self.av_classifications: bundle_obj.set_AV_Classifications(self.av_classifications.to_obj())
         #Add the Behaviors
-        if len(self.behaviors) > 0: bundle_obj.set_Behaviors(self.behaviors.to_obj())
+        if self.behaviors: bundle_obj.set_Behaviors(self.behaviors.to_obj())
         #Add the Actions
-        if len(self.actions) > 0: bundle_obj.set_Actions(self.actions.to_obj())
+        if self.actions: bundle_obj.set_Actions(self.actions.to_obj())
         #Add the Objects
-        if len(self.objects) > 0: bundle_obj.set_Objects(self.objects.to_obj())
+        if self.objects: bundle_obj.set_Objects(self.objects.to_obj())
         #Add the Process Tree
         if self.process_tree is not None: bundle_obj.set_Process_Tree(self.process_tree.to_obj())
         #Add the Candidate Indicators
-        if len(self.candidate_indicators) > 0: bundle_obj.set_Candidate_Indicators(self.candidate_indicators.to_obj())
+        if self.candidate_indicators: bundle_obj.set_Candidate_Indicators(self.candidate_indicators.to_obj())
         #Add the collections
         if self.collections is not None and self.collections.has_content(): bundle_obj.set_Collections(self.collections.to_obj())
         return bundle_obj
@@ -142,12 +142,12 @@ class Bundle(maec.Entity):
         if self.content_type is not None : bundle_dict['content_type'] = self.content_type
         if self.timestamp is not None : bundle_dict['timestamp'] = self.timestamp.isoformat()
         if self.malware_instance_object_attributes is not None : bundle_dict['malware_instance_object_attributes'] = self.malware_instance_object_attributes.to_dict()
-        if len(self.av_classifications) > 0 : bundle_dict['av_classifications'] = self.av_classifications.to_list()
+        if self.av_classifications : bundle_dict['av_classifications'] = self.av_classifications.to_list()
         if self.process_tree is not None : bundle_dict['process_tree'] = self.process_tree.to_dict()
-        if len(self.behaviors) > 0 : bundle_dict['behaviors'] = self.behaviors.to_list()
-        if len(self.actions) > 0 : bundle_dict['actions'] = self.actions.to_list()
-        if len(self.objects) > 0 : bundle_dict['objects'] = self.objects.to_list()
-        if len(self.candidate_indicators) > 0 : bundle_dict['candidate_indicators'] = self.candidate_indicators.to_list()
+        if self.behaviors : bundle_dict['behaviors'] = self.behaviors.to_list()
+        if self.actions : bundle_dict['actions'] = self.actions.to_list()
+        if self.objects : bundle_dict['objects'] = self.objects.to_list()
+        if self.candidate_indicators : bundle_dict['candidate_indicators'] = self.candidate_indicators.to_list()
         if self.collections is not None and self.collections.has_content(): bundle_dict['collections'] = self.collections.to_dict()
         return bundle_dict
 
