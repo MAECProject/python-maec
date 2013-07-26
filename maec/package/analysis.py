@@ -138,6 +138,13 @@ class Comment(StructuredText):
         self.author = None
         self.timestamp = None
 
+    def is_plain(self):
+        """Whether this can be represented as a string rather than a dictionary
+        """
+        return (super(Comment, self).is_plain() and 
+                self.author is None and
+                self.timestamp is None)
+
     def to_obj(self):
         comment_obj = super(Comment, self).to_obj(package_binding.CommentType())
         if self.author is not None : comment_obj.set_author(self.author)
