@@ -1,6 +1,6 @@
 import maec
 import maec.bindings.maec_bundle as bundle_binding
-from cybox.common.tools import ToolInformation
+from cybox.common import ToolInformation
 
 class AVClassification(ToolInformation):
     def __init__(self, classification = None, tool_name = None, tool_vendor = None):

@@ -6,15 +6,15 @@
 #Compatible with MAEC v4.0
 #Last updated 05/29/2013
 
+from cybox.common import (PlatformSpecification, Personnel, StructuredText,
+        ToolInformation)
+from cybox.objects.system_object import System
+
 import maec
 import maec.bindings.maec_package as package_binding
-from cybox.common.structured_text import StructuredText
-from cybox.common.tools import ToolInformation
-from cybox.common.personnel import Personnel
-from cybox.common.platform_specification import PlatformSpecification
-from cybox.objects.system_object import System
 from maec.bundle.bundle_reference import BundleReference
-        
+
+
 class Analysis(maec.Entity):
     def __init__(self, id, method = None, type = None, findings_bundle_reference = None):
         super(Analysis, self).__init__()
