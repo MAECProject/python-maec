@@ -4,6 +4,8 @@
 ##A single Bundle embedded in the Malware Subject
 ##A single Action embedded in the Bundle
 
+from cybox.core import AssociatedObject, Object
+
 from maec.bundle.bundle import Bundle
 from maec.bundle.malware_action import MalwareAction
 from maec.package.analysis import Analysis
@@ -11,8 +13,6 @@ from maec.package.malware_subject import MalwareSubject
 from maec.package.package import Package
 from maec.id_generator import Generator
 from maec.utils import MAECNamespaceParser
-from cybox.core.object import Object 
-from cybox.core.associated_object import AssociatedObject
 
 #Instantiate the ID generator class (for automatic ID generation) with our example namespace
 generator = Generator('example1')

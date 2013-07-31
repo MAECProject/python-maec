@@ -6,9 +6,11 @@
 #Compatible with MAEC v4.0
 #Last updated 06/26/2013
 
+from cybox.core import ActionReference
+
 import maec
 import maec.bindings.maec_bundle as bundle_binding
-from cybox.core.action_reference import ActionReference
+
 
 class ActionReferenceList(maec.EntityList):
     _contained_type = ActionReference

@@ -6,17 +6,20 @@
 #Compatible with MAEC v4.0
 #Last updated 07/16/2013
 
-import maec
 import datetime
+
+from cybox.core import Object
+
+import maec
 import maec.bindings.maec_bundle as bundle_binding
-from cybox.core.object import Object
 from maec.bundle.malware_action import MalwareAction
 from maec.bundle.av_classification import AVClassifications
 from maec.bundle.behavior import Behavior
 from maec.bundle.candidate_indicator import CandidateIndicator, CandidateIndicatorList
 from maec.bundle.action_reference_list import ActionReferenceList
 from maec.bundle.process_tree import ProcessTree
-       
+
+
 class Bundle(maec.Entity):
     def __init__(self, id, defined_subject, schema_version = 4.0, content_type = None, malware_instance_object = None):
         self.id = id

@@ -8,7 +8,8 @@
 
 import maec
 import maec.bindings.maec_package as package_binding
-from cybox.core.action_reference import ActionReference       
+from cybox.core import ActionReference
+
 
 class ActionEquivalence(maec.Entity):
     def init(self, id = None):
