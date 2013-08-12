@@ -69,6 +69,18 @@ class Bundle(maec.Entity):
         if collection_name is not None and collection_id is not None:
             self.collections.object_collections.append(ObjectCollection(collection_name, collection_id))
               
+    # return a list of all objects from self.actions and all actions collections
+    def get_all_actions(self):
+        all_actions = []
+        for action in self.actions:
+            all_actions.append(action)
+            
+        for collection in self.collections.action_collections:
+            for action in collection:
+                all_actions.append(action)
+                
+        return all_actions
+              
     #Add an Object to an existing named collection; if it does not exist, add it to the top-level <Objects> element
     def add_object(self, object, object_collection_name = None):
         if object_collection_name is not None:
@@ -78,6 +90,18 @@ class Bundle(maec.Entity):
                 object_collection.add_object(object)
         elif object_collection_name == None:
             self.objects.append(object)
+
+    # return a list of all objects from self.objects and all object collections
+    def get_all_objects(self):
+        all_objects = []
+        for obj in self.objects:
+            all_objects.append(obj)
+            
+        for collection in self.collections.object_collections:
+            for obj in collection:
+                all_objects.append(obj)
+                
+        return all_objects
 
     #Add a new Named Behavior Collection
     def add_named_behavior_collection(self, collection_name, collection_id):
