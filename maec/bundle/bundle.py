@@ -144,7 +144,7 @@ class Bundle(maec.Entity):
         #Set the content_type if it is not none
         if self.content_type is not None: bundle_obj.set_content_type(self.content_type)
         #Set the Malware Instance Object Attributes (a CybOX object) if they are not none
-        if self.malware_instance_object_attributes is not None: bundle_obj.set_Malware_Instance_Attributes(self.malware_instance_object_attributes.to_obj())
+        if self.malware_instance_object_attributes is not None: bundle_obj.set_Malware_Instance_Object_Attributes(self.malware_instance_object_attributes.to_obj())
         #Add the AV Classifications
         if self.av_classifications: bundle_obj.set_AV_Classifications(self.av_classifications.to_obj())
         #Add the Behaviors
