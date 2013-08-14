@@ -4,14 +4,15 @@
 #All rights reserved.
 
 #Compatible with MAEC v4.0
-#Last updated 05/10/2013
+#Last updated 08/14/2013
 
 import maec
 import maec.bindings.maec_bundle as bundle_binding
 from maec.bundle.object_reference import ObjectReference
 from maec.bundle.behavior_reference import BehaviorReference
 from cybox.common import VocabString
-       
+from cybox.core import ActionReference
+
 class CandidateIndicator(maec.Entity):
     def init(self, id, generator):
         super(CandidateIndicator, self).__init__()
