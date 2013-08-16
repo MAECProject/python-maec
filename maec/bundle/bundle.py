@@ -218,6 +218,132 @@ class Bundle(maec.Entity):
         bundle_.collections = Collections.from_dict(bundle_dict.get('collections'))
         return bundle_
 
+    @classmethod
+    def compare(cls, bundle_list):
+        return BundleComparator.compare(bundle_list);
+    
+class ComparisonResult(object):
+    def __init__(self, bundle_list, lookup_table):
+        self.lookup_table = lookup_table
+        self.bundle_list = bundle_list
+    
+    def get_unique(self, bundle_list=None):
+        unique_objs = {}
+        
+        if bundle_list is None:
+            bundle_list = self.bundle_list
+        
+        for b in self.bundle_list:
+            unique_objs[b.id] = []
+        
+        for obj_hash in self.lookup_table:
+            sources = BundleComparator.get_sources(self.lookup_table, obj_hash)
+            if len(sources) == 1 and sources[0] in bundle_list:
+                result_index = sources[0].id
+                unique_objs[result_index].append(self.lookup_table[obj_hash][result_index]['object'])
+                
+        return unique_objs
+    
+    def get_common(self, bundle_list=None):
+        confirmed_objs = []
+        
+        if bundle_list is None:
+            bundle_list = self.bundle_list
+            
+        for obj_hash in self.lookup_table:
+            sources = BundleComparator.get_sources(self.lookup_table, obj_hash)
+            if len(sources) > 1:
+                
+                for key, obj_dict in self.lookup_table[obj_hash].items():
+                    particular_object = obj_dict['object']
+                    confirmed_objs.append({ 'object' : particular_object })
+                
+                for confirmed_obj in confirmed_objs:
+                    confirmed_obj['related_objects'] = {}
+                    for key, obj_dict in self.lookup_table[obj_hash].items():
+                        print obj_dict['object'].id_
+                        confirmed_obj['related_objects'][key] = obj_dict['object'].id_
+                        
+        return confirmed_objs
+    
+    
+class SimilarObjectCluster(dict):
+    def __init__(self):
+        pass
+        
+    def add_object(self, obj, owner):
+        self[owner.id] = { 'object':obj, 'ownerBundle':owner }
+        
+    def get_object_by_owner_id(self, owner_id):
+        return self[owner_id]["object"]
+            
+    
+class BundleComparator(object):
+    match_on = {
+        'FileObj:FileObjectType': 
+            ['file_path', 'file_name'],
+        'WinRegistryKeyObj:WindowsRegistryKeyObjectType': 
+            ['WinRegistryKeyObj:Hive','WinRegistryKeyObj:Key'],
+        'WinMutexObj:WindowsMutexObjectType':
+            ['MutexObj:Name'], #'@object_name'
+        'SocketObj:SocketObjectType':
+            ['AddressObj:Address_Value', 'PortObj:Port_Value'],
+        'WinPipeObj:WindowsPipeObjectType':
+            ['PipeObj:Name'],
+        'ProcessObj:ProcessObjectType':
+            ['ProcessObj:Command_Line']
+    }
+    
+    @classmethod
+    def compare(cls, bundle_list):
+        lookup_table = {}
+        
+        for bundle in bundle_list:
+            for action in bundle.get_all_actions():
+                cls.process_action(action, lookup_table, bundle)
+                    
+            for obj in bundle.get_all_objects():
+                cls.process_object(obj, lookup_table, bundle)
+
+        return ComparisonResult(bundle_list, lookup_table)
+        
+    @classmethod
+    def process_action(cls, action, lookup_table, bundle):
+        for associated_object in action.associated_objects:
+            # get actual object from associated object
+            obj = associated_object
+            cls.process_object(obj, lookup_table, bundle)
+
+            
+    @classmethod
+    def process_object(cls, obj, lookup_table, bundle):
+        # get hash string from object to use as key in lookup table
+        hash_value = cls.get_hash(obj)
+        if hash_value not in lookup_table:
+            lookup_table[hash_value] = SimilarObjectCluster()
+        lookup_table[hash_value].add_object(obj, bundle)
+                
+    @classmethod
+    def get_hash(cls, obj):
+        hash_val = ''
+        
+        for typed_field in obj.properties._get_vars():
+            if typed_field.comparable:
+                val = getattr(obj.properties, str(typed_field))
+
+                if val is not None:
+                    hash_val += str(typed_field) + ":" + str(val) + " "
+        
+        return hash_val
+    
+    @classmethod
+    def get_sources(cls, lookup_table, obj_hash):
+        val = []
+        for key, obj_dict in lookup_table[obj_hash].items():
+            if not obj_dict in val: 
+                val.append(obj_dict['ownerBundle'])
+        return val
+
 class BehaviorList(maec.EntityList):
     _contained_type = Behavior
     _binding_class = bundle_binding.BehaviorListType
