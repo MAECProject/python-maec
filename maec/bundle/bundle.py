@@ -76,7 +76,7 @@ class Bundle(maec.Entity):
             all_actions.append(action)
             
         for collection in self.collections.action_collections:
-            for action in collection:
+            for action in collection.action_list:
                 all_actions.append(action)
                 
         return all_actions
@@ -98,7 +98,7 @@ class Bundle(maec.Entity):
             all_objects.append(obj)
             
         for collection in self.collections.object_collections:
-            for obj in collection:
+            for obj in collection.object_list:
                 all_objects.append(obj)
                 
         return all_objects
@@ -282,7 +282,7 @@ class SimilarObjectCluster(dict):
 class BundleComparator(object):
     match_on = {
         'FileObj:FileObjectType': 
-            ['file_path', 'file_name'],
+            ['file_name'],
         'WinRegistryKeyObj:WindowsRegistryKeyObjectType': 
             ['WinRegistryKeyObj:Hive','WinRegistryKeyObj:Key'],
         'WinMutexObj:WindowsMutexObjectType':
