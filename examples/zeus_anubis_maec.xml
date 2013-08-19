@@ -97,7 +97,7 @@
                         <cybox:Associated_Objects>
                             <cybox:Associated_Object id="maec-anubis_to_maec-obj-8">
                                 <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
-                                    <WinRegistryKeyObj:Key datatype="string">software\microsoft\windows nt\currentversion\winlogon</WinRegistryKeyObj:Key>
+                                    <WinRegistryKeyObj:Key datatype="string">SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon</WinRegistryKeyObj:Key>
                                     <WinRegistryKeyObj:Hive datatype="string">HKEY_LOCAL_MACHINE</WinRegistryKeyObj:Hive>
                                     <WinRegistryKeyObj:Values>
                                         <WinRegistryKeyObj:Value>
@@ -193,7 +193,7 @@
                         <cybox:Associated_Objects>
                             <cybox:Associated_Object id="maec-anubis_to_maec-obj-14">
                                 <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
-                                    <WinRegistryKeyObj:Key datatype="string">software\microsoft\windows nt\currentversion\winlogon</WinRegistryKeyObj:Key>
+                                    <WinRegistryKeyObj:Key datatype="string">SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon</WinRegistryKeyObj:Key>
                                     <WinRegistryKeyObj:Hive datatype="string">HKEY_LOCAL_MACHINE</WinRegistryKeyObj:Hive>
                                     <WinRegistryKeyObj:Values>
                                         <WinRegistryKeyObj:Value>
