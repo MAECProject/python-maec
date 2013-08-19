@@ -21,7 +21,7 @@
     http://cybox.mitre.org/objects#WinProcessObject-2 http://cybox.mitre.org/XMLSchema/objects/Win_Process/2.0/Win_Process_Object.xsd
     http://cybox.mitre.org/objects#WinPipeObject-2 http://cybox.mitre.org/XMLSchema/objects/Win_Pipe/2.0/Win_Pipe_Object.xsd
     http://cybox.mitre.org/objects#WinRegistryKeyObject-2 http://cybox.mitre.org/XMLSchema/objects/Win_Registry_Key/2.0/Win_Registry_Key_Object.xsd" 
-    id="maec-example-bnd-1" schema_version="4.0" defined_subject="false" content_type="mixed">
+    id="maec-anubis_to_maec-bnd-1" schema_version="4.0" defined_subject="false" content_type="mixed">
     <maecBundle:Collections>
         <maecBundle:Action_Collections>
             <maecBundle:Action_Collection name="File System Actions" id="maec-anubis_to_maec-actc-1">
