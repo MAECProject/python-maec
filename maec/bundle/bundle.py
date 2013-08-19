@@ -238,9 +238,9 @@ class ComparisonResult(object):
         
         for obj_hash in self.lookup_table:
             sources = BundleComparator.get_sources(self.lookup_table, obj_hash)
-            if len(sources) == 1 and sources[0] in bundle_list:
-                result_index = sources[0].id
-                unique_objs[result_index].append(self.lookup_table[obj_hash][result_index]['object'])
+            if len(sources) == 1:
+                result_index = sources[0]
+                unique_objs[result_index].append(self.lookup_table[obj_hash][result_index]['object'].id_)
                 
         return unique_objs
     
@@ -256,13 +256,14 @@ class ComparisonResult(object):
                 
                 for key, obj_dict in self.lookup_table[obj_hash].items():
                     particular_object = obj_dict['object']
-                    confirmed_objs.append({ 'object' : particular_object })
+                    confirmed_obj_dict = { 'object' : particular_object.to_dict()['properties'] }
+                    if confirmed_obj_dict not in confirmed_objs:
+                        confirmed_objs.append(confirmed_obj_dict)
                 
                 for confirmed_obj in confirmed_objs:
-                    confirmed_obj['related_objects'] = {}
+                    confirmed_obj['object_instances'] = {}
                     for key, obj_dict in self.lookup_table[obj_hash].items():
-                        print obj_dict['object'].id_
-                        confirmed_obj['related_objects'][key] = obj_dict['object'].id_
+                        confirmed_obj['object_instances'][key] = obj_dict['object'].id_
                         
         return confirmed_objs
     
@@ -272,7 +273,7 @@ class SimilarObjectCluster(dict):
         pass
         
     def add_object(self, obj, owner):
-        self[owner.id] = { 'object':obj, 'ownerBundle':owner }
+        self[owner] = { 'object':obj, 'ownerBundle':owner }
         
     def get_object_by_owner_id(self, owner_id):
         return self[owner_id]["object"]
@@ -300,10 +301,10 @@ class BundleComparator(object):
         
         for bundle in bundle_list:
             for action in bundle.get_all_actions():
-                cls.process_action(action, lookup_table, bundle)
+                cls.process_action(action, lookup_table, bundle.id)
                     
             for obj in bundle.get_all_objects():
-                cls.process_object(obj, lookup_table, bundle)
+                cls.process_object(obj, lookup_table, bundle.id)
 
         return ComparisonResult(bundle_list, lookup_table)
         
