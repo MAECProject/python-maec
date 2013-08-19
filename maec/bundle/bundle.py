@@ -219,8 +219,8 @@ class Bundle(maec.Entity):
         return bundle_
 
     @classmethod
-    def compare(cls, bundle_list):
-        return BundleComparator.compare(bundle_list);
+    def compare(cls, bundle_list, match_on = None):
+        return BundleComparator.compare(bundle_list, match_on);
     
 class ComparisonResult(object):
     def __init__(self, bundle_list, lookup_table):
