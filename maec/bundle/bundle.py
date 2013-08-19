@@ -280,23 +280,26 @@ class SimilarObjectCluster(dict):
             
     
 class BundleComparator(object):
-    match_on = {
-        'FileObj:FileObjectType': 
-            ['file_name'],
-        'WinRegistryKeyObj:WindowsRegistryKeyObjectType': 
-            ['WinRegistryKeyObj:Hive','WinRegistryKeyObj:Key'],
-        'WinMutexObj:WindowsMutexObjectType':
-            ['MutexObj:Name'], #'@object_name'
-        'SocketObj:SocketObjectType':
-            ['AddressObj:Address_Value', 'PortObj:Port_Value'],
-        'WinPipeObj:WindowsPipeObjectType':
-            ['PipeObj:Name'],
-        'ProcessObj:ProcessObjectType':
-            ['ProcessObj:Command_Line']
-    }
-    
     @classmethod
-    def compare(cls, bundle_list):
+    def compare(cls, bundle_list, match_on = None):
+        if not match_on:
+            # Default matching properties
+            cls.match_on = {
+                            'FileObjectType': 
+                                ['file_name', 'file_path'],
+                            'WindowsRegistryKeyObjectType': 
+                                ['hive','key'],
+                            'WindowsMutexObjectType':
+                                ['name'],
+                            'SocketObjectType':
+                                ['address_value', 'port_value'],
+                            'WindowsPipeObjectType':
+                                ['name'],
+                            'ProcessObjectType':
+                                ['command_line']}
+        else:
+            cls.match_on = match_on
+
         lookup_table = {}
         
         for bundle in bundle_list:
@@ -315,21 +318,24 @@ class BundleComparator(object):
             obj = associated_object
             cls.process_object(obj, lookup_table, bundle)
 
-            
     @classmethod
     def process_object(cls, obj, lookup_table, bundle):
         # get hash string from object to use as key in lookup table
-        hash_value = cls.get_hash(obj)
-        if hash_value not in lookup_table:
-            lookup_table[hash_value] = SimilarObjectCluster()
-        lookup_table[hash_value].add_object(obj, bundle)
+        # Make sure the object is one of the supported types in the match_on dictionary
+        if obj.properties._XSI_TYPE in cls.match_on:
+            hash_value = cls.get_hash(obj)
+            if hash_value:
+                if hash_value not in lookup_table:
+                    lookup_table[hash_value] = SimilarObjectCluster()
+                lookup_table[hash_value].add_object(obj, bundle)
                 
     @classmethod
     def get_hash(cls, obj):
         hash_val = ''
         
         for typed_field in obj.properties._get_vars():
-            if typed_field.comparable:
+            # Make sure the typed field is comparable and is one the properties we want to match on
+            if typed_field.comparable and str(typed_field) in cls.match_on[obj.properties._XSI_TYPE]:
                 val = getattr(obj.properties, str(typed_field))
 
                 if val is not None:
