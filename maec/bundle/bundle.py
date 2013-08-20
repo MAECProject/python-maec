@@ -7,6 +7,7 @@
 #Last updated 07/16/2013
 
 import datetime
+import collections
 
 from cybox.core import Object
 
@@ -286,6 +287,7 @@ class SimilarObjectCluster(dict):
 class BundleComparator(object):
     @classmethod
     def compare(cls, bundle_list, match_on = None):
+        cls.object_table = {}
         if not match_on:
             # Default matching properties
             cls.match_on = {
@@ -338,15 +340,47 @@ class BundleComparator(object):
         hash_val = ''
         
         for typed_field in obj.properties._get_vars():
-            # Make sure the typed field is comparable and is one the properties we want to match on
-            if typed_field.comparable and str(typed_field) in cls.match_on[obj.properties._XSI_TYPE]:
-                val = getattr(obj.properties, str(typed_field))
-
-                if val is not None:
-                    hash_val += str(typed_field) + ":" + str(val) + " "
-        
+            # Make sure the typed field is comparable
+            if typed_field.comparable:
+                # Check if we're dealing with a nested element that we want to compare
+                nested_element = cls.is_nested_match(str(typed_field), cls.match_on[obj.properties._XSI_TYPE])
+                # Handle the normal, non-nested case
+                if not nested_element and str(typed_field) in cls.match_on[obj.properties._XSI_TYPE]:
+                    hash_val = cls.get_val(obj, typed_field, hash_val)
+                # Handle the nested case
+                elif nested_element:
+                   split_nested_element = nested_element.split('.')
+                   hash_val = cls.get_val(obj, typed_field, hash_val, split_nested_element[1:])
         return hash_val
-    
+
+    @classmethod
+    def get_val(cls, obj, typed_field, hash_val, nested_elements = None):
+        if not nested_elements:
+            val = getattr(obj.properties, str(typed_field))
+
+            if val is not None:
+                hash_val += str(typed_field) + ":" + str(val) + " "
+        else:
+            if len(nested_elements) == 1:
+                val = getattr(obj.properties, str(typed_field))
+                if val is not None:
+                    hash_val += str(typed_field) + ":"
+                    if isinstance(val, collections.MutableSequence):
+                        for list_item in val:
+                            if '/' in str(nested_elements[0]):
+                                hash_val += '['
+                                split_names = nested_elements[0].split('/')
+                                for name in split_names:
+                                    name_val = getattr(list_item, name)
+                                    if name_val :  hash_val += name + ':' + str(name_val) + ','
+                                hash_val = hash_val.rstrip(',')
+                                hash_val += ']'
+                            else:
+                                hash_val += '[' + str(nested_elements[0]) + ':' +  str(getattr(list_item, str(nested_elements[0]))) + ']'
+                    else:
+                        hash_val += str(getattr(val, nested_elements[0]))
+        return hash_val
+
     @classmethod
     def get_sources(cls, lookup_table, obj_hash):
         val = []
@@ -354,6 +388,13 @@ class BundleComparator(object):
             if not obj_dict_list[0] in val: 
                 val.append(obj_dict_list[0]['ownerBundle'])
         return val
+
+    @classmethod
+    def is_nested_match(cls, typed_field_name, match_on_list):
+        for matching_property in match_on_list:
+            if '.' in matching_property and typed_field_name in matching_property:
+                return matching_property
+        return False
 
 class BehaviorList(maec.EntityList):
     _contained_type = Behavior
