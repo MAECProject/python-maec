@@ -253,17 +253,15 @@ class ComparisonResult(object):
         for obj_hash in self.lookup_table:
             sources = BundleComparator.get_sources(self.lookup_table, obj_hash)
             if len(sources) > 1:
-                
+                confirmed_obj_dict = {}
+                confirmed_obj_dict['object'] = obj_hash
+                confirmed_obj_dict['object_instances'] = {}
+
                 for key, obj_dict in self.lookup_table[obj_hash].items():
-                    particular_object = obj_dict['object']
-                    confirmed_obj_dict = { 'object' : particular_object.to_dict()['properties'] }
-                    if confirmed_obj_dict not in confirmed_objs:
-                        confirmed_objs.append(confirmed_obj_dict)
-                
-                for confirmed_obj in confirmed_objs:
-                    confirmed_obj['object_instances'] = {}
-                    for key, obj_dict in self.lookup_table[obj_hash].items():
-                        confirmed_obj['object_instances'][key] = obj_dict['object'].id_
+                    confirmed_obj_dict['object_instances'][key] = obj_dict['object'].id_
+
+                if confirmed_obj_dict not in confirmed_objs:
+                    confirmed_objs.append(confirmed_obj_dict)
                         
         return confirmed_objs
     
