@@ -240,7 +240,8 @@ class ComparisonResult(object):
             sources = BundleComparator.get_sources(self.lookup_table, obj_hash)
             if len(sources) == 1:
                 result_index = sources[0]
-                unique_objs[result_index].append(self.lookup_table[obj_hash][result_index]['object'].id_)
+                for unique_obj in self.lookup_table[obj_hash][result_index]:
+                    unique_objs[result_index].append(unique_obj['object'].id_)
                 
         return unique_objs
     
@@ -257,8 +258,10 @@ class ComparisonResult(object):
                 confirmed_obj_dict['object'] = obj_hash
                 confirmed_obj_dict['object_instances'] = {}
 
-                for key, obj_dict in self.lookup_table[obj_hash].items():
-                    confirmed_obj_dict['object_instances'][key] = obj_dict['object'].id_
+                for key, obj_list in self.lookup_table[obj_hash].items():
+                    confirmed_obj_dict['object_instances'][key] = []
+                    for common_obj in obj_list:
+                        confirmed_obj_dict['object_instances'][key].append(common_obj['object'].id_)
 
                 if confirmed_obj_dict not in confirmed_objs:
                     confirmed_objs.append(confirmed_obj_dict)
@@ -271,10 +274,13 @@ class SimilarObjectCluster(dict):
         pass
         
     def add_object(self, obj, owner):
-        self[owner] = { 'object':obj, 'ownerBundle':owner }
+        if owner not in self:
+            self[owner] = [{ 'object':obj, 'ownerBundle':owner }]
+        else:
+            self[owner].append({ 'object':obj, 'ownerBundle':owner })
         
     def get_object_by_owner_id(self, owner_id):
-        return self[owner_id]["object"]
+        return self[owner_id][0]["object"]
             
     
 class BundleComparator(object):
@@ -344,9 +350,9 @@ class BundleComparator(object):
     @classmethod
     def get_sources(cls, lookup_table, obj_hash):
         val = []
-        for key, obj_dict in lookup_table[obj_hash].items():
-            if not obj_dict in val: 
-                val.append(obj_dict['ownerBundle'])
+        for obj_dict_list in lookup_table[obj_hash].values():
+            if not obj_dict_list[0] in val: 
+                val.append(obj_dict_list[0]['ownerBundle'])
         return val
 
 class BehaviorList(maec.EntityList):
