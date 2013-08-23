@@ -4,7 +4,7 @@
 #All rights reserved.
 
 #Compatible with MAEC v3.0
-#Last updated 2/14/2013
+#Last updated 8/23/2013
         
 class Generator(object):
     def __init__(self, namespace = None):
@@ -25,6 +25,7 @@ class Generator(object):
         self.objc_id_base = 0
         self.indc_id_base = 0
         self.avclass_id_base = 0
+        self.pro_id_base = 0
 
     def set_namespace(self, namespace):
         self.namespace = namespace
@@ -95,5 +96,10 @@ class Generator(object):
     def generate_avclass_id(self):
         self.avclass_id_base += 1
         return 'mmdef-class-' + str(self.avclass_id_base)
+
+    def generate_process_tree_node_id(self):
+        self.pro_id_base += 1
+        return 'maec-' + self.namespace + '-pro-' + str(self.pro_id_base)
+    
     
 
