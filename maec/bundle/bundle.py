@@ -103,6 +103,36 @@ class Bundle(maec.Entity):
                 all_objects.append(obj)
                 
         return all_objects
+    
+    # finds actions and objects by id
+    def get_object_by_id(self, id):
+        for action in self.actions:
+            if action.id == id:
+                return action
+            
+            for associated_obj in action.associated_objects:
+                    if associated_obj.id_ == id:
+                        return associated_obj
+            
+        for collection in self.collections.action_collections:
+            for action in collection.action_list:
+                if action.id == id:
+                    return action
+                
+                for associated_obj in action.associated_objects:
+                    if associated_obj.id_ == id:
+                        return associated_obj
+        
+        for obj in self.objects:
+            print obj.id
+            if obj.id == id:
+                return obj
+            
+        for collection in self.collections.object_collections:
+            for obj in collection.object_list:
+                print obj.id
+                if obj.id == id:
+                    return obj
 
     #Add a new Named Behavior Collection
     def add_named_behavior_collection(self, collection_name, collection_id):
