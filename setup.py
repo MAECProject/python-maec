@@ -10,5 +10,5 @@ setup(
     description="An API for parsing and creating MAEC content.",
     url="http://maec.mitre.org",
     packages=find_packages(),
-    install_requires=['lxml>=2.3','cybox>=2.0.0b2']
+    install_requires=['lxml>=2.3','cybox>=2.0.0,<2.0.1']
 )
