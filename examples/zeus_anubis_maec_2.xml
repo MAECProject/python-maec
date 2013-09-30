@@ -1,0 +1,228 @@
+<maecBundle:MAEC_Bundle
+    xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-4"
+    xmlns:maecVocabs="http://maec.mitre.org/default_vocabularies-1"
+    xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+    xmlns:cybox="http://cybox.mitre.org/cybox-2"
+    xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+    xmlns:PipeObj="http://cybox.mitre.org/objects#PipeObject-2"
+    xmlns:MutexObj="http://cybox.mitre.org/objects#MutexObject-2"
+    xmlns:WinPipeObj="http://cybox.mitre.org/objects#WinPipeObject-2"
+    xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
+    xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+    xmlns:WinProcessObj="http://cybox.mitre.org/objects#WinProcessObject-2"
+    xmlns:WinMutexObj="http://cybox.mitre.org/objects#WinMutexObject-2"
+    xmlns:WinExecFileObj="http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    xmlns:WinRegistryKeyObj="http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation=
+    "http://maec.mitre.org/XMLSchema/maec-bundle-4 http://maec.mitre.org/language/version4.0/maec_bundle_schema.xsd
+    http://maec.mitre.org/default_vocabularies-1 http://maec.mitre.org/language/version4.0/maec_default_vocabularies.xsd
+    http://cybox.mitre.org/default_vocabularies-2 http://cybox.mitre.org/XMLSchema/default_vocabularies/2.0.0/cybox_default_vocabularies.xsd 
+    http://cybox.mitre.org/cybox-2 http://cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd
+    http://cybox.mitre.org/objects#WinExecutableFileObject-2 http://cybox.mitre.org/XMLSchema/objects/Win_Executable_File/2.0/Win_Executable_File_Object.xsd
+    http://cybox.mitre.org/objects#WinProcessObject-2 http://cybox.mitre.org/XMLSchema/objects/Win_Process/2.0/Win_Process_Object.xsd
+    http://cybox.mitre.org/objects#WinPipeObject-2 http://cybox.mitre.org/XMLSchema/objects/Win_Pipe/2.0/Win_Pipe_Object.xsd
+    http://cybox.mitre.org/objects#WinMutexObject-2 http://cybox.mitre.org/XMLSchema/objects/Win_Mutex/2.0/Win_Mutex_Object.xsd
+    http://cybox.mitre.org/objects#WinRegistryKeyObject-2 http://cybox.mitre.org/XMLSchema/objects/Win_Registry_Key/2.0/Win_Registry_Key_Object.xsd" 
+    id="maec-anubis_to_maec-bnd-2" schema_version="4.0" defined_subject="false" content_type="mixed">
+    <maecBundle:Collections>
+        <maecBundle:Action_Collections>
+            <maecBundle:Action_Collection name="File System Actions" id="maec-anubis_to_maec-actc-1">
+                <maecBundle:Action_List>
+                    <maecBundle:Action action_status="Success" context="Host" id="maec-anubis_to_maec-act-1">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-anubis_to_maec-obj-2">
+                                <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                    <FileObj:File_Name datatype="string">twext.exe</FileObj:File_Name>
+                                    <FileObj:File_Path datatype="string">C:\WINDOWS\system32\</FileObj:File_Path>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" context="Host" id="maec-anubis_to_maec-act-2">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-anubis_to_maec-obj-3">
+                                <cybox:Properties xsi:type="WinPipeObj:WindowsPipeObjectType" named="true">
+                                    <PipeObj:Name datatype="string">lsarpc</PipeObj:Name>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" context="Host" id="maec-anubis_to_maec-act-3">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-anubis_to_maec-obj-4">
+                                <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                    <FileObj:File_Name datatype="string">twext.exe</FileObj:File_Name>
+                                    <FileObj:File_Path datatype="string">C:\WINDOWS\system32\</FileObj:File_Path>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" context="Host" id="maec-anubis_to_maec-act-4">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-anubis_to_maec-obj-5">
+                                <cybox:Properties xsi:type="WinPipeObj:WindowsPipeObjectType" named="true">
+                                    <PipeObj:Name datatype="string">lsarpc</PipeObj:Name>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" context="Host" id="maec-anubis_to_maec-act-5">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-anubis_to_maec-obj-6">
+                                <cybox:Properties xsi:type="WinPipeObj:WindowsPipeObjectType" named="true">
+                                    <PipeObj:Name datatype="string">lsarpc</PipeObj:Name>
+                                </cybox:Properties>
+                                <cybox:Defined_Effect effect_type="ControlCode_Sent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="cybox:SendControlCodeEffectType">
+                                    <cybox:Control_Code>0x0011C017</cybox:Control_Code>
+                                </cybox:Defined_Effect>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" context="Host" id="maec-anubis_to_maec-act-6">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-anubis_to_maec-obj-7">
+                                <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                    <FileObj:File_Name datatype="string">KsecDD</FileObj:File_Name>
+                                    <FileObj:File_Path datatype="string">\Device\</FileObj:File_Path>
+                                </cybox:Properties>
+                                <cybox:Defined_Effect effect_type="ControlCode_Sent" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="cybox:SendControlCodeEffectType">
+                                    <cybox:Control_Code>0x00390008</cybox:Control_Code>
+                                </cybox:Defined_Effect>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                </maecBundle:Action_List>
+            </maecBundle:Action_Collection>
+            <maecBundle:Action_Collection name="IPC Actions" id="maec-anubis_to_maec-actc-2">
+                <maecBundle:Action_List>
+                    <maecBundle:Action action_status="Success" context="Host" id="maec-anubis_to_maec-act-14">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-anubis_to_maec-obj-15">
+                                <cybox:Properties xsi:type="WinMutexObj:WindowsMutexObjectType" named="true">
+                                    <MutexObj:Name datatype="string">__SYSTEM__91C38905__</MutexObj:Name>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                </maecBundle:Action_List>
+            </maecBundle:Action_Collection>
+            <maecBundle:Action_Collection name="Registry Actions" id="maec-anubis_to_maec-actc-5">
+                <maecBundle:Action_List>
+                    <maecBundle:Action action_status="Success" context="Host" id="maec-anubis_to_maec-act-7">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-anubis_to_maec-obj-8">
+                                <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                    <WinRegistryKeyObj:Key datatype="string">software\microsoft\windows nt\currentversion\winlogon</WinRegistryKeyObj:Key>
+                                    <WinRegistryKeyObj:Hive datatype="string">HKEY_LOCAL_MACHINE</WinRegistryKeyObj:Hive>
+                                    <WinRegistryKeyObj:Values>
+                                        <WinRegistryKeyObj:Value>
+                                            <WinRegistryKeyObj:Name datatype="string">userinit</WinRegistryKeyObj:Name>
+                                            <WinRegistryKeyObj:Data datatype="string">C:\WINDOWS\system32\userinit.exe,C:\WINDOWS\system32\twext.exe,</WinRegistryKeyObj:Data>
+                                        </WinRegistryKeyObj:Value>
+                                    </WinRegistryKeyObj:Values>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" context="Host" id="maec-anubis_to_maec-act-8">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-anubis_to_maec-obj-9">
+                                <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                    <WinRegistryKeyObj:Key datatype="string">SYSTEM\CurrentControlSet\Control\Session Manager</WinRegistryKeyObj:Key>
+                                    <WinRegistryKeyObj:Hive datatype="string">HKEY_LOCAL_MACHINE</WinRegistryKeyObj:Hive>
+                                    <WinRegistryKeyObj:Values>
+                                        <WinRegistryKeyObj:Value>
+                                            <WinRegistryKeyObj:Name datatype="string">CriticalSectionTimeout</WinRegistryKeyObj:Name>
+                                            <WinRegistryKeyObj:Data datatype="string">2592000</WinRegistryKeyObj:Data>
+                                        </WinRegistryKeyObj:Value>
+                                    </WinRegistryKeyObj:Values>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" context="Host" id="maec-anubis_to_maec-act-9">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-anubis_to_maec-obj-10">
+                                <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                    <WinRegistryKeyObj:Key datatype="string">SYSTEM\Setup</WinRegistryKeyObj:Key>
+                                    <WinRegistryKeyObj:Hive datatype="string">HKEY_LOCAL_MACHINE</WinRegistryKeyObj:Hive>
+                                    <WinRegistryKeyObj:Values>
+                                        <WinRegistryKeyObj:Value>
+                                            <WinRegistryKeyObj:Name datatype="string">SystemSetupInProgress</WinRegistryKeyObj:Name>
+                                            <WinRegistryKeyObj:Data datatype="string">0</WinRegistryKeyObj:Data>
+                                        </WinRegistryKeyObj:Value>
+                                    </WinRegistryKeyObj:Values>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" context="Host" id="maec-anubis_to_maec-act-10">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-anubis_to_maec-obj-11">
+                                <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                    <WinRegistryKeyObj:Key datatype="string">Software\Policies\Microsoft\Windows\Safer\CodeIdentifiers</WinRegistryKeyObj:Key>
+                                    <WinRegistryKeyObj:Hive datatype="string">HKEY_LOCAL_MACHINE</WinRegistryKeyObj:Hive>
+                                    <WinRegistryKeyObj:Values>
+                                        <WinRegistryKeyObj:Value>
+                                            <WinRegistryKeyObj:Name datatype="string">TransparentEnabled</WinRegistryKeyObj:Name>
+                                            <WinRegistryKeyObj:Data datatype="string">1</WinRegistryKeyObj:Data>
+                                        </WinRegistryKeyObj:Value>
+                                    </WinRegistryKeyObj:Values>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" context="Host" id="maec-anubis_to_maec-act-11">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-anubis_to_maec-obj-12">
+                                <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                    <WinRegistryKeyObj:Key datatype="string">System\CurrentControlSet\Control\ComputerName\ActiveComputerName</WinRegistryKeyObj:Key>
+                                    <WinRegistryKeyObj:Hive datatype="string">HKEY_LOCAL_MACHINE</WinRegistryKeyObj:Hive>
+                                    <WinRegistryKeyObj:Values>
+                                        <WinRegistryKeyObj:Value>
+                                            <WinRegistryKeyObj:Name datatype="string">ComputerName</WinRegistryKeyObj:Name>
+                                            <WinRegistryKeyObj:Data datatype="string">PC</WinRegistryKeyObj:Data>
+                                        </WinRegistryKeyObj:Value>
+                                    </WinRegistryKeyObj:Values>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" context="Host" id="maec-anubis_to_maec-act-12">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-anubis_to_maec-obj-13">
+                                <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                    <WinRegistryKeyObj:Key datatype="string">System\CurrentControlSet\Control\Terminal Server</WinRegistryKeyObj:Key>
+                                    <WinRegistryKeyObj:Hive datatype="string">HKEY_LOCAL_MACHINE</WinRegistryKeyObj:Hive>
+                                    <WinRegistryKeyObj:Values>
+                                        <WinRegistryKeyObj:Value>
+                                            <WinRegistryKeyObj:Name datatype="string">TSUserEnabled</WinRegistryKeyObj:Name>
+                                            <WinRegistryKeyObj:Data datatype="string">0</WinRegistryKeyObj:Data>
+                                        </WinRegistryKeyObj:Value>
+                                    </WinRegistryKeyObj:Values>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" context="Host" id="maec-anubis_to_maec-act-13">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-anubis_to_maec-obj-14">
+                                <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                    <WinRegistryKeyObj:Key datatype="string">software\microsoft\windows nt\currentversion\winlogon</WinRegistryKeyObj:Key>
+                                    <WinRegistryKeyObj:Hive datatype="string">HKEY_LOCAL_MACHINE</WinRegistryKeyObj:Hive>
+                                    <WinRegistryKeyObj:Values>
+                                        <WinRegistryKeyObj:Value>
+                                            <WinRegistryKeyObj:Name datatype="string">userinit</WinRegistryKeyObj:Name>
+                                            <WinRegistryKeyObj:Data datatype="string">C:\WINDOWS\system32\userinit.exe,</WinRegistryKeyObj:Data>
+                                        </WinRegistryKeyObj:Value>
+                                    </WinRegistryKeyObj:Values>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                </maecBundle:Action_List>
+            </maecBundle:Action_Collection>
+        </maecBundle:Action_Collections>
+    </maecBundle:Collections>
+</maecBundle:MAEC_Bundle>

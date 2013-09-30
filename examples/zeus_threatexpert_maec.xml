@@ -1,0 +1,188 @@
+<maecBundle:MAEC_Bundle
+    xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-4"
+    xmlns:maecVocabs="http://maec.mitre.org/default_vocabularies-1"
+    xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+    xmlns:cybox="http://cybox.mitre.org/cybox-2"
+    xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+    xmlns:PipeObj="http://cybox.mitre.org/objects#PipeObject-2"
+    xmlns:MutexObj="http://cybox.mitre.org/objects#MutexObject-2"
+    xmlns:WinPipeObj="http://cybox.mitre.org/objects#WinPipeObject-2"
+    xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
+    xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+    xmlns:WinProcessObj="http://cybox.mitre.org/objects#WinProcessObject-2"
+    xmlns:WinMutexObj="http://cybox.mitre.org/objects#WinMutexObject-2"
+    xmlns:WinExecFileObj="http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    xmlns:WinRegistryKeyObj="http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation=
+    "http://maec.mitre.org/XMLSchema/maec-bundle-4 http://maec.mitre.org/language/version4.0/maec_bundle_schema.xsd
+    http://maec.mitre.org/default_vocabularies-1 http://maec.mitre.org/language/version4.0/maec_default_vocabularies.xsd
+    http://cybox.mitre.org/default_vocabularies-2 http://cybox.mitre.org/XMLSchema/default_vocabularies/2.0.0/cybox_default_vocabularies.xsd 
+    http://cybox.mitre.org/cybox-2 http://cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd
+    http://cybox.mitre.org/objects#WinExecutableFileObject-2 http://cybox.mitre.org/XMLSchema/objects/Win_Executable_File/2.0/Win_Executable_File_Object.xsd
+    http://cybox.mitre.org/objects#WinProcessObject-2 http://cybox.mitre.org/XMLSchema/objects/Win_Process/2.0/Win_Process_Object.xsd
+    http://cybox.mitre.org/objects#WinPipeObject-2 http://cybox.mitre.org/XMLSchema/objects/Win_Pipe/2.0/Win_Pipe_Object.xsd
+    http://cybox.mitre.org/objects#WinMutexObject-2 http://cybox.mitre.org/XMLSchema/objects/Win_Mutex/2.0/Win_Mutex_Object.xsd
+    http://cybox.mitre.org/objects#WinRegistryKeyObject-2 http://cybox.mitre.org/XMLSchema/objects/Win_Registry_Key/2.0/Win_Registry_Key_Object.xsd" 
+    id="maec-threatexpert_to_maec-bnd-1" schema_version="4.0" defined_subject="false" content_type="mixed">
+    <maecBundle:Collections>
+        <maecBundle:Action_Collections>
+            <maecBundle:Action_Collection name="File System Actions" id="maec-threatexpert_to_maec-actc-1">
+                <maecBundle:Action_List>
+                    <maecBundle:Action action_status="Success"  id="maec-threatexpert_to_maec-act-1">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-threatexpert_to_maec-obj-2">
+                                <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                    <FileObj:File_Name datatype="string">ntos.exe</FileObj:File_Name>
+                                    <FileObj:File_Path datatype="string">%System%\</FileObj:File_Path>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" id="maec-threatexpert_to_maec-act-3">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-threatexpert_to_maec-obj-4">
+                                <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                    <FileObj:File_Name datatype="string">audio.dll</FileObj:File_Name>
+                                    <FileObj:File_Path datatype="string">%System%\wsnpoem\</FileObj:File_Path>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" id="maec-threatexpert_to_maec-act-4">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-threatexpert_to_maec-obj-5">
+                                <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                    <FileObj:File_Name datatype="string">video.dll</FileObj:File_Name>
+                                    <FileObj:File_Path datatype="string">%System%\wsnpoem\</FileObj:File_Path>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                </maecBundle:Action_List>
+            </maecBundle:Action_Collection>
+            <maecBundle:Action_Collection name="IPC Actions" id="maec-threatexpert_to_maec-actc-2">
+                <maecBundle:Action_List>
+                    <maecBundle:Action action_status="Success" id="maec-threatexpert_to_maec-act-12">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-threatexpert_to_maec-obj-13">
+                                <cybox:Properties xsi:type="WinMutexObj:WindowsMutexObjectType" named="true">
+                                    <MutexObj:Name datatype="string">__SYSTEM__91C38905__</MutexObj:Name>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" id="maec-threatexpert_to_maec-act-13">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-threatexpert_to_maec-obj-14">
+                                <cybox:Properties xsi:type="WinMutexObj:WindowsMutexObjectType" named="true">
+                                    <MutexObj:Name datatype="string">__SYSTEM__23D80F10__</MutexObj:Name>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                </maecBundle:Action_List>
+            </maecBundle:Action_Collection>
+            <maecBundle:Action_Collection name="Registry Actions" id="maec-threatexpert_to_maec-actc-5">
+                <maecBundle:Action_List>
+                    <maecBundle:Action action_status="Success" id="maec-threatexpert_to_maec-act-6">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-threatexpert_to_maec-obj-7">
+                                <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                    <WinRegistryKeyObj:Key datatype="string">SOFTWARE\Microsoft\Windows NT\CurrentVersion\Network</WinRegistryKeyObj:Key>
+                                    <WinRegistryKeyObj:Hive datatype="string">HKEY_LOCAL_MACHINE</WinRegistryKeyObj:Hive>
+                                    <WinRegistryKeyObj:Values>
+                                        <WinRegistryKeyObj:Value>
+                                            <WinRegistryKeyObj:Name datatype="string">UID</WinRegistryKeyObj:Name>
+                                            <WinRegistryKeyObj:Data datatype="string">"%ComputerName%_001FAAFE"</WinRegistryKeyObj:Data>
+                                        </WinRegistryKeyObj:Value>
+                                    </WinRegistryKeyObj:Values>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" id="maec-threatexpert_to_maec-act-7">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-threatexpert_to_maec-obj-8">
+                                <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                    <WinRegistryKeyObj:Key datatype="string">.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer</WinRegistryKeyObj:Key>
+                                    <WinRegistryKeyObj:Hive datatype="string">HKEY_USERS</WinRegistryKeyObj:Hive>
+                                    <WinRegistryKeyObj:Values>
+                                        <WinRegistryKeyObj:Value>
+                                            <WinRegistryKeyObj:Name datatype="string">{F710FA10-2031-3106-8872-93A2B5C5C620}</WinRegistryKeyObj:Name>
+                                            <WinRegistryKeyObj:Data datatype="string">F7 09 F2 0D</WinRegistryKeyObj:Data>
+                                        </WinRegistryKeyObj:Value>
+                                    </WinRegistryKeyObj:Values>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" id="maec-threatexpert_to_maec-act-8">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-threatexpert_to_maec-obj-9">
+                                <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                    <WinRegistryKeyObj:Key datatype="string">SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon</WinRegistryKeyObj:Key>
+                                    <WinRegistryKeyObj:Hive datatype="string">HKEY_LOCAL_MACHINE</WinRegistryKeyObj:Hive>
+                                    <WinRegistryKeyObj:Values>
+                                        <WinRegistryKeyObj:Value>
+                                            <WinRegistryKeyObj:Name datatype="string">Userinit</WinRegistryKeyObj:Name>
+                                            <WinRegistryKeyObj:Data datatype="string">"%System%\userinit.exe,%System%\ntos.exe,"</WinRegistryKeyObj:Data>
+                                        </WinRegistryKeyObj:Value>
+                                    </WinRegistryKeyObj:Values>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" id="maec-threatexpert_to_maec-act-9">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-threatexpert_to_maec-obj-10">
+                                <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                    <WinRegistryKeyObj:Key datatype="string">.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders</WinRegistryKeyObj:Key>
+                                    <WinRegistryKeyObj:Hive datatype="string">HKEY_USERS</WinRegistryKeyObj:Hive>
+                                    <WinRegistryKeyObj:Values>
+                                        <WinRegistryKeyObj:Value>
+                                            <WinRegistryKeyObj:Name datatype="string">Cookies</WinRegistryKeyObj:Name>
+                                            <WinRegistryKeyObj:Data datatype="string">"%System%\config\systemprofile\Cookies"</WinRegistryKeyObj:Data>
+                                        </WinRegistryKeyObj:Value>
+                                    </WinRegistryKeyObj:Values>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" id="maec-threatexpert_to_maec-act-10">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-threatexpert_to_maec-obj-11">
+                                <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                    <WinRegistryKeyObj:Key datatype="string">.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders</WinRegistryKeyObj:Key>
+                                    <WinRegistryKeyObj:Hive datatype="string">HKEY_USERS</WinRegistryKeyObj:Hive>
+                                    <WinRegistryKeyObj:Values>
+                                        <WinRegistryKeyObj:Value>
+                                            <WinRegistryKeyObj:Name datatype="string">Cache</WinRegistryKeyObj:Name>
+                                            <WinRegistryKeyObj:Data datatype="string">"%System%\config\systemprofile\Local Settings\Temporary Internet Files"</WinRegistryKeyObj:Data>
+                                        </WinRegistryKeyObj:Value>
+                                    </WinRegistryKeyObj:Values>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                    <maecBundle:Action action_status="Success" id="maec-threatexpert_to_maec-act-11">
+                        <cybox:Associated_Objects>
+                            <cybox:Associated_Object id="maec-threatexpert_to_maec-obj-12">
+                                <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                    <WinRegistryKeyObj:Key datatype="string">.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders</WinRegistryKeyObj:Key>
+                                    <WinRegistryKeyObj:Hive datatype="string">HKEY_USERS</WinRegistryKeyObj:Hive>
+                                    <WinRegistryKeyObj:Values>
+                                        <WinRegistryKeyObj:Value>
+                                            <WinRegistryKeyObj:Name datatype="string">History</WinRegistryKeyObj:Name>
+                                            <WinRegistryKeyObj:Data datatype="string">"%System%\config\systemprofile\Local Settings\History"</WinRegistryKeyObj:Data>
+                                        </WinRegistryKeyObj:Value>
+                                    </WinRegistryKeyObj:Values>
+                                </cybox:Properties>
+                            </cybox:Associated_Object>
+                        </cybox:Associated_Objects>
+                    </maecBundle:Action>
+                </maecBundle:Action_List>
+            </maecBundle:Action_Collection>
+        </maecBundle:Action_Collections>
+    </maecBundle:Collections>
+</maecBundle:MAEC_Bundle>
