@@ -68,14 +68,38 @@ class ProcessTreeNode(Process):
         self.spawned_processes = []
         self.injected_processes = []
 
-    def add_spawned_process(self, process_node):
-        self.spawned_processes.append(process_node)
+    def add_spawned_process(self, process_node, process_id = None):
+        if not process_id:
+            self.spawned_processes.append(process_node)
+        elif process_id:
+            embedded_process = self.find_embedded_process(process_id)
+            if embedded_process:
+                embedded_process.spawned_processes.append(process_node)
 
-    def add_injected_process(self, process_node):
-        self.injected_processes.append(process_node)
+    def add_injected_process(self, process_node, process_id = None):
+        if not process_id:
+            self.injected_processes.append(process_node)
+        elif process_id:
+            embedded_process = self.find_embedded_process(process_id)
+            if embedded_process:
+                embedded_process.injected_processes.append(process_node)
 
     def add_initiated_action(self, action_id):
         self.initiated_actions.append(action_id)
+
+    def find_embedded_process(self, process_id):
+        embedded_process = None
+        for spawned_process in self.spawned_processes:
+            if str(spawned_process.pid) == str(process_id):
+                embedded_process = spawned_process
+            else:
+                embedded_process = spawned_process.find_embedded_process(process_id)
+        for injected_process in self.injected_processes:
+            if str(injected_process.pid) == str(process_id):
+                embedded_process = injected_process
+            else:
+                embedded_process = injected_process.find_embedded_process(process_id)
+        return embedded_process
 
     def set_id(self, id):
         self.id = id
