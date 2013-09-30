@@ -72,17 +72,23 @@ class ProcessTreeNode(Process):
         if not process_id:
             self.spawned_processes.append(process_node)
         elif process_id:
-            embedded_process = self.find_embedded_process(process_id)
-            if embedded_process:
-                embedded_process.spawned_processes.append(process_node)
+            if str(self.pid) == process_id:
+                self.spawned_processes.append(process_node)
+            else:
+                embedded_process = self.find_embedded_process(process_id)
+                if embedded_process:
+                    embedded_process.spawned_processes.append(process_node)
 
     def add_injected_process(self, process_node, process_id = None):
         if not process_id:
             self.injected_processes.append(process_node)
         elif process_id:
-            embedded_process = self.find_embedded_process(process_id)
-            if embedded_process:
-                embedded_process.injected_processes.append(process_node)
+            if str(self.pid) == process_id:
+                self.injected_processes.append(process_node)
+            else:
+                embedded_process = self.find_embedded_process(process_id)
+                if embedded_process:
+                    embedded_process.injected_processes.append(process_node)
 
     def add_initiated_action(self, action_id):
         self.initiated_actions.append(action_id)
