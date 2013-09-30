@@ -4,7 +4,7 @@
 #All rights reserved.
 
 #Compatible with MAEC v4.0
-#Last updated 07/16/2013
+#Last updated 09/20/2013
 
 import datetime
 import collections
