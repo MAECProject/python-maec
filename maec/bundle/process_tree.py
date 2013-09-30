@@ -150,7 +150,7 @@ class ProcessTreeNode(Process):
         process_tree_node_ = super(ProcessTreeNode, cls).from_dict(process_tree_node_dict)
         process_tree_node_.id = process_tree_node_dict.get('id')
         process_tree_node_.parent_action_idref = process_tree_node_dict.get('parent_action_idref')
-        process_tree_node_.initiated_actions = ActionReferenceList.from_list(process_tree_node_dict.get('initiated_actions'))
+        process_tree_node_.initiated_actions = ActionReferenceList.from_list(process_tree_node_dict.get('initiated_actions', []))
         process_tree_node_.spawned_processes = [ProcessTreeNode.from_dict(x) for x in process_tree_node_dict.get('spawned_processes', [])]
         process_tree_node_.injected_processes = [ProcessTreeNode.from_dict(x) for x in process_tree_node_dict.get('injected_processes', [])]
         return process_tree_node_
