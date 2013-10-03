@@ -668,6 +668,13 @@ class BehaviorCollectionList(maec.EntityList):
     def __init__(self):
         super(BehaviorCollectionList, self).__init__()
 
+    def to_obj(self):
+        behavior_collection_list_obj = bundle_binding.BehaviorCollectionListType()
+        for behavior_collection in self:
+            if len(behavior_collection.behavior_list) > 0:
+                behavior_collection_list_obj.add_Behavior_Collection(behavior_collection.to_obj())
+        return behavior_collection_list_obj
+
     #Checks for the existence of a named collection in the list
     def has_collection(self, collection_name):
         for collection in self:
@@ -689,6 +696,13 @@ class ActionCollectionList(maec.EntityList):
     
     def __init__(self):
         super(ActionCollectionList, self).__init__()
+
+    def to_obj(self):
+        action_collection_list_obj = bundle_binding.ActionCollectionListType()
+        for action_collection in self:
+            if len(action_collection.action_list) > 0:
+                action_collection_list_obj.add_Action_Collection(action_collection.to_obj())
+        return action_collection_list_obj
 
     #Checks for the existence of a named collection in the list
     def has_collection(self, collection_name):
@@ -712,6 +726,13 @@ class ObjectCollectionList(maec.EntityList):
     def __init__(self):
         super(ObjectCollectionList, self).__init__()
 
+    def to_obj(self):
+        object_collection_list_obj = bundle_binding.ObjectCollectionListType()
+        for object_collection in self:
+            if len(object_collection.object_list) > 0:
+                object_collection_list_obj.add_Object_Collection(object_collection.to_obj())
+        return object_collection_list_obj
+
     #Checks for the existence of a named collection in the list
     def has_collection(self, collection_name):
         for collection in self:
@@ -733,6 +754,13 @@ class CandidateIndicatorCollectionList(maec.EntityList):
     
     def __init__(self):
         super(CandidateIndicatorCollectionList, self).__init__()
+
+    def to_obj(self):
+        candidate_indicator_collection_list_obj = bundle_binding.CandidateIndicatorCollectionListType()
+        for candidate_indicator_collection in self:
+            if len(candidate_indicator_collection.candidate_indicator_list) > 0:
+                candidate_indicator_collection_list_obj.add_Candidate_Indicator_Collection(candidate_indicator_collection.to_obj())
+        return candidate_indicator_collection_list_obj
 
     #Checks for the existence of a named collection in the list
     def has_collection(self, collection_name):
