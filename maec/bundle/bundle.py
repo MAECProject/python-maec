@@ -22,7 +22,7 @@ from maec.bundle.process_tree import ProcessTree
 
 
 class Bundle(maec.Entity):
-    def __init__(self, id, defined_subject, schema_version = 4.0, content_type = None, malware_instance_object = None):
+    def __init__(self, id, defined_subject, schema_version = "4.0.1", content_type = None, malware_instance_object = None):
         self.id = id
         self.schema_version = schema_version
         self.defined_subject = defined_subject
