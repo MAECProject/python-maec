@@ -527,7 +527,7 @@ class ContainerType(GeneratedsSuper):
     def __init__(self, timestamp=None, id=None, schema_version=None, Packages=None):
         self.timestamp = _cast(None, timestamp)
         self.id = _cast(None, id)
-        self.schema_version = _cast(float, schema_version)
+        self.schema_version = schema_version
         self.Packages = Packages
     def factory(*args_, **kwargs_):
         if ContainerType.subclass:
@@ -575,7 +575,7 @@ class ContainerType(GeneratedsSuper):
             outfile.write(' id=%s' % (quote_attrib(self.id), ))
         if self.schema_version is not None and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
-            outfile.write(' schema_version="%s"' % self.gds_format_float(self.schema_version, input_name='schema_version'))
+            outfile.write(' schema_version="%s"' % self.schema_version)
     def exportChildren(self, outfile, level, namespace_='maecContainer:', name_='MAEC_Container', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -601,7 +601,7 @@ class ContainerType(GeneratedsSuper):
         if self.schema_version is not None and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
             showIndent(outfile, level)
-            outfile.write('schema_version = %f,\n' % (self.schema_version,))
+            outfile.write('schema_version = %s,\n' % (self.schema_version))
     def exportLiteralChildren(self, outfile, level, name_):
         if self.Packages is not None:
             outfile.write('Packages=model_.PackageListType(\n')
@@ -628,10 +628,7 @@ class ContainerType(GeneratedsSuper):
         value = find_attr_value_('schema_version', node)
         if value is not None and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
-            try:
-                self.schema_version = float(value)
-            except ValueError, exp:
-                raise ValueError('Bad float/double attribute (schema_version): %s' % exp)
+            self.schema_version = float(value)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Packages':
             obj_ = PackageListType.factory()

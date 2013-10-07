@@ -1627,7 +1627,7 @@ class PackageType(GeneratedsSuper):
     def __init__(self, timestamp=None, id=None, schema_version=None, Malware_Subjects=None, Grouping_Relationships=None):
         self.timestamp = _cast(None, timestamp)
         self.id = _cast(None, id)
-        self.schema_version = _cast(float, schema_version)
+        self.schema_version = schema_version
         self.Malware_Subjects = Malware_Subjects
         self.Grouping_Relationships = Grouping_Relationships
     def factory(*args_, **kwargs_):
@@ -1707,7 +1707,7 @@ class PackageType(GeneratedsSuper):
         if self.schema_version is not None and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
             showIndent(outfile, level)
-            outfile.write('schema_version = %f,\n' % (self.schema_version,))
+            outfile.write('schema_version = %s,\n' % (self.schema_version,))
     def exportLiteralChildren(self, outfile, level, name_):
         if self.Malware_Subjects is not None:
             outfile.write('Malware_Subjects=model_.MalwareSubjectListType(\n')
@@ -1738,10 +1738,7 @@ class PackageType(GeneratedsSuper):
         value = find_attr_value_('schema_version', node)
         if value is not None and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
-            try:
-                self.schema_version = float(value)
-            except ValueError, exp:
-                raise ValueError('Bad float/double attribute (schema_version): %s' % exp)
+            self.schema_version = float(value)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Malware_Subjects':
             obj_ = MalwareSubjectListType.factory()

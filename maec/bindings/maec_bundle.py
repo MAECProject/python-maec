@@ -761,7 +761,7 @@ class BundleType(GeneratedsSuper):
         self.defined_subject = _cast(bool, defined_subject)
         self.content_type = _cast(None, content_type)
         self.id = _cast(None, id)
-        self.schema_version = _cast(float, schema_version)
+        self.schema_version = schema_version
         self.timestamp = _cast(None, timestamp)
         self.Malware_Instance_Object_Attributes = Malware_Instance_Object_Attributes
         self.AV_Classifications = AV_Classifications
@@ -892,7 +892,7 @@ class BundleType(GeneratedsSuper):
         if self.schema_version is not None and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
             showIndent(outfile, level)
-            outfile.write('schema_version = %f,\n' % (self.schema_version,))
+            outfile.write('schema_version = %s,\n' % (self.schema_version,))
         if self.timestamp is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
             showIndent(outfile, level)
@@ -957,10 +957,7 @@ class BundleType(GeneratedsSuper):
         value = find_attr_value_('schema_version', node)
         if value is not None and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
-            try:
-                self.schema_version = float(value)
-            except ValueError, exp:
-                raise ValueError('Bad float/double attribute (schema_version): %s' % exp)
+            self.schema_version = float(value)
         value = find_attr_value_('timestamp', node)
         if value is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
