@@ -4,7 +4,7 @@
 #All rights reserved.
 
 #Compatible with MAEC v4.0
-#Last updated 5/28/2013
+#Last updated 10/07/2013
 
 import maec.bindings.maec_bundle as bundle_binding
 import maec.bindings.maec_package as package_binding
@@ -48,18 +48,18 @@ class MAECNamespaceParser(NamespaceParser):
         if bundle.get_Collections() is not None:
             collections = bundle.get_Collections()
             if collections.get_Behavior_Collections() is not None:
-                for behavior_collection in collections.get_Behavior_Collections().get_Behavior_Collection():
-                    if behavior_collection.get_Behavior_List() is not None:
+                for bbehavior_collection in collections.get_Behavior_Collections().get_Behavior_Collection():
+                    if behavior_collection and behavior_collection.get_Behavior_List() is not None:
                         for behavior in behavior_collection.get_Behavior_List().get_Behavior():
                             self.process_behavior_namespace(behavior)
             if collections.get_Action_Collections() is not None:
                 for action_collection in collections.get_Action_Collections().get_Action_Collection():
-                    if action_collection.get_Action_List() is not None:
+                    if action_collection and action_collection.get_Action_List():
                         for action in action_collection.get_Action_List().get_Action():
                             self.process_action_namespace(action)
             if collections.get_Object_Collections() is not None:
                 for object_collection in collections.get_Object_Collections().get_Object_Collection():
-                    if object_collection.get_Object_List() is not None:
+                    if object_collection and object_collection.get_Object_List() is not None:
                         for object in object_collection.get_Object_List().get_Object():
                             self.get_namespace_from_object(object)
 
@@ -84,19 +84,19 @@ class MAECNamespaceParser(NamespaceParser):
             output_string += 'xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-4" \n '
             output_string += 'xmlns:maecVocabs="http://maec.mitre.org/default_vocabularies-1" \n '
             output_string += 'xmlns:mmdef="http://xml/metadataSharing.xsd" \n '
-            schemalocs.append('http://maec.mitre.org/default_vocabularies-1 http://maec.mitre.org/language/version4.0/maec_default_vocabularies.xsd')
-            schemalocs.append(' http://maec.mitre.org/XMLSchema/maec-package-2 http://maec.mitre.org/language/version4.0/maec_package_schema.xsd')
+            schemalocs.append('http://maec.mitre.org/default_vocabularies-1 http://maec.mitre.org/language/version4.0.1/maec_default_vocabularies.xsd')
+            schemalocs.append(' http://maec.mitre.org/XMLSchema/maec-package-2 http://maec.mitre.org/language/version4.0.1/maec_package_schema.xsd')
         elif isinstance(self.maec_entity, bundle_binding.BundleType):
             output_string += 'xmlns:maecVocabs="http://maec.mitre.org/default_vocabularies-1" \n '
             output_string += 'xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-4" \n '
             output_string += 'xmlns:mmdef="http://xml/metadataSharing.xsd" \n '
-            schemalocs.append('http://maec.mitre.org/default_vocabularies-1 http://maec.mitre.org/language/version4.0/maec_default_vocabularies.xsd')
-            schemalocs.append(' http://maec.mitre.org/XMLSchema/maec-bundle-4 http://maec.mitre.org/language/version4.0/maec_bundle_schema.xsd')
+            schemalocs.append('http://maec.mitre.org/default_vocabularies-1 http://maec.mitre.org/language/version4.0.1/maec_default_vocabularies.xsd')
+            schemalocs.append(' http://maec.mitre.org/XMLSchema/maec-bundle-4 http://maec.mitre.org/language/version4.0.1/maec_bundle_schema.xsd')
         output_string += 'xmlns:cybox="http://cybox.mitre.org/cybox-2" \n '
         output_string += 'xmlns:cyboxCommon="http://cybox.mitre.org/common-2" \n '
         output_string += 'xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2" \n '
-        schemalocs.append(' http://cybox.mitre.org/cybox-2 http://cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd')
-        schemalocs.append(' http://maec.mitre.org/default_vocabularies-1 http://cybox.mitre.org/XMLSchema/default_vocabularies/2.0.0/cybox_default_vocabularies.xsd')
+        schemalocs.append(' http://cybox.mitre.org/cybox-2 http://cybox.mitre.org/XMLSchema/core/2.0.1/cybox_core.xsd')
+        schemalocs.append(' http://maec.mitre.org/default_vocabularies-1 http://cybox.mitre.org/XMLSchema/default_vocabularies/2.0.1/cybox_default_vocabularies.xsd')
         
         for object_type in self.object_types:
             namespace = META.lookup_object(object_type).namespace
