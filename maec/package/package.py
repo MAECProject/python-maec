@@ -13,7 +13,7 @@ from maec.package.malware_subject import MalwareSubjectList
 from maec.package.grouping_relationship import GroupingRelationshipList
 
 class Package(maec.Entity):
-    def __init__(self, id, schema_version = 2.0, timestamp = None):
+    def __init__(self, id, schema_version = "2.0.1", timestamp = None):
         super(Package, self).__init__()
         self.id = id
         self.schema_version = schema_version
