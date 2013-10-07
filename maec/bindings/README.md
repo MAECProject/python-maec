@@ -2,11 +2,11 @@ MAEC Python Bindings
 --------------------------------
 These are the latest Python bindings for MAEC v4.0. The required CybOX Bindings can be found at: https://github.com/CybOXProject/Tools/tree/master/Bindings/Python 
 
--maec_bundle: the MAEC Bundle v4.0 schema bindings. 
+-maec_bundle: the MAEC Bundle v4.0.1 schema bindings. 
 
--maec_package: the MAEC Package v2.0 schema bindings. 
+-maec_package: the MAEC Package v2.0.1 schema bindings. 
 
--maec_container: the MAEC Container v2.0 schema bindings.  
+-maec_container: the MAEC Container v2.0.1 schema bindings.  
 
 -mmdef_1_2: the Malware Metadata Exchange Format (MMDEF) v1.2 bindings, imported
 and used by the MAEC Package.
