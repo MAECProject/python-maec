@@ -43,7 +43,10 @@ bundle2.add_action(action5)
 
 
 comparator = Bundle.compare([bundle, bundle2])
-#print comparator.lookup_table
+print "******Common Objects:*******\n"
 print comparator.get_common()
+print "****************************"
+print "******Unique Objects:*******\n"
 print comparator.get_unique()
+print "****************************"
 
