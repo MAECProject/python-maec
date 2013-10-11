@@ -250,8 +250,8 @@ class Bundle(maec.Entity):
         return bundle_
 
     @classmethod
-    def compare(cls, bundle_list, match_on = None):
-        return BundleComparator.compare(bundle_list, match_on);
+    def compare(cls, bundle_list, match_on = None, case_sensitive = True):
+        return BundleComparator.compare(bundle_list, match_on, case_sensitive);
     
 class ComparisonResult(object):
     def __init__(self, bundle_list, lookup_table):
@@ -316,8 +316,9 @@ class SimilarObjectCluster(dict):
     
 class BundleComparator(object):
     @classmethod
-    def compare(cls, bundle_list, match_on = None):
+    def compare(cls, bundle_list, match_on = None, case_sensitive = True):
         cls.object_table = {}
+        cls.case_sensitive = case_sensitive
         if not match_on:
             # Default matching properties
             cls.match_on = {
@@ -381,7 +382,10 @@ class BundleComparator(object):
                 elif nested_element:
                    split_nested_element = nested_element.split('.')
                    hash_val = cls.get_val(obj, typed_field, hash_val, split_nested_element[1:])
-        return hash_val
+        if not cls.case_sensitive:
+            return hash_val.lower()
+        else:
+            return hash_val
 
     @classmethod
     def get_val(cls, obj, typed_field, hash_val, nested_elements = None):
