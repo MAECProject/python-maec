@@ -332,7 +332,7 @@ class BundleComparator(object):
                             'WindowsPipeObjectType':
                                 ['name'],
                             'ProcessObjectType':
-                                ['command_line']}
+                                ['name']}
         else:
             cls.match_on = match_on
 
