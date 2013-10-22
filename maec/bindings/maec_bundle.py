@@ -957,7 +957,7 @@ class BundleType(GeneratedsSuper):
         value = find_attr_value_('schema_version', node)
         if value is not None and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
-            self.schema_version = float(value)
+            self.schema_version = value
         value = find_attr_value_('timestamp', node)
         if value is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
