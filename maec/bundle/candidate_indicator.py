@@ -14,7 +14,7 @@ from cybox.common import VocabString
 from cybox.core import ActionReference
 
 class CandidateIndicator(maec.Entity):
-    def __init__(self, id, generator):
+    def __init__(self, id, generator = None):
         super(CandidateIndicator, self).__init__()
         if id is not None:
             self.id = id
