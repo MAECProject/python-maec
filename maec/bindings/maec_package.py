@@ -1738,7 +1738,7 @@ class PackageType(GeneratedsSuper):
         value = find_attr_value_('schema_version', node)
         if value is not None and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
-            self.schema_version = float(value)
+            self.schema_version = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Malware_Subjects':
             obj_ = MalwareSubjectListType.factory()
