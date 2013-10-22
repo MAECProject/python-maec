@@ -21,8 +21,6 @@ class CandidateIndicator(maec.Entity):
         elif generator is not None:
             self.generator = generator
             self.id = self.generator.generate_candidate_indicator_id()
-        else:
-            raise Exception("Must specify id or generator for CandidateIndicator constructor")
         self.creation_datetime = None
         self.lastupdate_datetime = None
         self.version = None
