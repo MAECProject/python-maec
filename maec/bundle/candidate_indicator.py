@@ -77,7 +77,7 @@ class CandidateIndicator(maec.Entity):
 
     @staticmethod
     def from_obj(candidate_indicator_obj):
-        if not candidate_indicator_dict:
+        if not candidate_indicator_obj:
             return None
         candidate_indicator_ = CandidateIndicator()
         candidate_indicator_.id = candidate_indicator_obj.get_id()
