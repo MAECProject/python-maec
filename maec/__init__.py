@@ -27,6 +27,15 @@ class Entity(object):
     def to_json(self):
         return json.dumps(self.to_dict())
 
+    @classmethod
+    def istypeof(cls, obj):
+        """Check if `cls` is the type of `obj`
+
+        In the normal case, as implemented here, a simple isinstance check is
+        used. However, there are more complex checks possible.
+        """
+        return isinstance(obj, cls)
+
 
 class EntityList(collections.MutableSequence, Entity):
     _contained_type = object
