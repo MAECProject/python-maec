@@ -30,11 +30,16 @@
                         <cybox:Associated_Objects>
                             <cybox:Associated_Object id="maec-anubis_to_maec-obj-2">
                                 <cybox:Properties xsi:type="FileObj:FileObjectType">
-                                    <FileObj:File_Name>ntos.exe</FileObj:File_Name>
+                                    <FileObj:File_Name>NTos.exe</FileObj:File_Name>
                                     <FileObj:File_Path>C:\WINDOWS\system32\</FileObj:File_Path>
                                 </cybox:Properties>
                             </cybox:Associated_Object>
                         </cybox:Associated_Objects>
+                        <maecBundle:Implementation type="api call">
+                            <maecBundle:API_Call>
+                                <maecBundle:Return_Value>F00</maecBundle:Return_Value>
+                            </maecBundle:API_Call>
+                        </maecBundle:Implementation>
                     </maecBundle:Action>
                     <maecBundle:Action action_status="Success" context="Host" id="maec-anubis_to_maec-act-2">
                         <cybox:Associated_Objects>
@@ -49,7 +54,7 @@
                         <cybox:Associated_Objects>
                             <cybox:Associated_Object id="maec-anubis_to_maec-obj-4">
                                 <cybox:Properties xsi:type="FileObj:FileObjectType">
-                                    <FileObj:File_Name>ntos.exe</FileObj:File_Name>
+                                    <FileObj:File_Name>NTOs.exe</FileObj:File_Name>
                                     <FileObj:File_Path>C:\WINDOWS\system32\</FileObj:File_Path>
                                 </cybox:Properties>
                             </cybox:Associated_Object>
@@ -197,7 +202,7 @@
                                     <WinRegistryKeyObj:Hive datatype="string">HKEY_LOCAL_MACHINE</WinRegistryKeyObj:Hive>
                                     <WinRegistryKeyObj:Values>
                                         <WinRegistryKeyObj:Value>
-                                            <WinRegistryKeyObj:Name datatype="string">userinit</WinRegistryKeyObj:Name>
+                                            <WinRegistryKeyObj:Name datatype="string">Userinit</WinRegistryKeyObj:Name>
                                             <WinRegistryKeyObj:Data datatype="string">C:\WINDOWS\system32\userinit.exe,</WinRegistryKeyObj:Data>
                                         </WinRegistryKeyObj:Value>
                                     </WinRegistryKeyObj:Values>
