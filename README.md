@@ -32,10 +32,10 @@ There are currently two levels of APIs for dealing with MAEC content:
 
 ## Versioning
 
-Releases of the python-maec library will be given `major.minor.revision`
-version numbers, where `major` and `minor` correspond to the MAEC version
-being supported. The `revision` number is used to indicate new versions of
-the Python library itself.
+Releases of the python-maec library will be given version numbers of the form
+`major.minor.update.revision`, where `major`, `minor`, and `update`
+correspond to the MAEC version being supported. The `revision` number is
+used to indicate new versions of the python-maec library itself.
 
 
 ## Installation
