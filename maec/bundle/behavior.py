@@ -1,18 +1,18 @@
-#MAEC Bundle Class
+#MAEC Behavior Class
 
 #Copyright (c) 2013, The MITRE Corporation
 #All rights reserved.
 
-#Compatible with MAEC v4.0
-#Last updated 05/10/2013
+#Compatible with MAEC v4.0.1
+#Last updated 11/19/2013
 
 import maec
 import maec.bindings.maec_bundle as bundle_binding
 import datetime
        
 class Behavior(maec.Entity):
-    def __init__(self, id, description = None, ordinal_position = None, duration = None, status = None):
-        self.id = id
+    def __init__(self, id = None, description = None, ordinal_position = None, duration = None, status = None):
+        self.id_ = id
         self.action_list = []
         self.platform_list = []
         self.snippet_list = []
@@ -67,7 +67,7 @@ class Behavior(maec.Entity):
         self.purpose_description = purpose_description
         
     def to_obj(self):
-        behavior = bundle_binding.BehaviorType(id=self.id)
+        behavior = bundle_binding.BehaviorType(id=self.id_)
         if self.duration is not None: behavior.set_duration(self.duration)
         if self.status is not None: behavior.set_status(self.status)
         if self.position is not None: behavior.set_ordinal_position(self.position)
@@ -115,4 +115,30 @@ class Behavior(maec.Entity):
         if actionComposition.hasContent_(): behavior.set_Action_Composition(actionComposition)
         
         return behavior
+        
+    @staticmethod
+    def from_dict(behavior_dict):
+        if not behavior_dict:
+            return None
+        behavior_ = Behavior()
+        behavior_.id_ = behavior_dict.get('id')
+        behavior_.position = behavior_dict.get('ordinal_position')
+        behavior_.status = behavior_dict.get('status')
+        behavior_.duration = behavior_dict.get('duration')
+        behavior_.description = behavior_dict.get('description')
+        
+        return behavior_
+
+    @staticmethod
+    def from_obj(behavior_obj):
+        if not behavior_obj:
+            return None
+        behavior_ = Behavior()
+        behavior_.id_ = behavior_obj.get_id()
+        behavior_.position = behavior_obj.get_ordinal_position()
+        behavior_.status = behavior_obj.get_status()
+        behavior_.duration = behavior_obj.get_duration()
+        behavior_.description = behavior_obj.get_Description()
+
+        return behavior_
         
