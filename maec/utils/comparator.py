@@ -105,14 +105,24 @@ class BundleComparator(object):
         # get hash string from object to use as key in lookup table
         # Make sure the object is one of the supported types in the match_on dictionary
         if obj.properties._XSI_TYPE in cls.match_on:
-            hash_value = cls.get_hash(obj)
+            hash_value = ObjectHash.get_hash(obj, cls.match_on)
             if hash_value:
                 if hash_value not in lookup_table:
                     lookup_table[hash_value] = SimilarObjectCluster()
                 lookup_table[hash_value].add_object(obj, bundle)
-                
+
     @classmethod
-    def get_hash(cls, obj):
+    def get_sources(cls, lookup_table, obj_hash):
+        val = []
+        for obj_dict_list in lookup_table[obj_hash].values():
+            if not obj_dict_list[0] in val: 
+                val.append(obj_dict_list[0]['ownerBundle'])
+        return val
+
+class ObjectHash(object):
+    @classmethod
+    def get_hash(cls, obj, match_on):
+        cls.match_on = match_on
         hash_val = ''
         
         for typed_field in obj.properties._get_vars():
@@ -159,14 +169,6 @@ class BundleComparator(object):
                     else:
                         hash_val += str(getattr(val, nested_elements[0]))
         return hash_val
-
-    @classmethod
-    def get_sources(cls, lookup_table, obj_hash):
-        val = []
-        for obj_dict_list in lookup_table[obj_hash].values():
-            if not obj_dict_list[0] in val: 
-                val.append(obj_dict_list[0]['ownerBundle'])
-        return val
 
     @classmethod
     def is_nested_match(cls, typed_field_name, match_on_list):
