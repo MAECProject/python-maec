@@ -1,4 +1,5 @@
 # MAEC Comparator Classes
+import collections
 
 class ComparisonResult(object):
     def __init__(self, bundle_list, lookup_table):
