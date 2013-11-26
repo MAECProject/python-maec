@@ -92,6 +92,18 @@ class Bundle(maec.Entity):
         elif object_collection_name == None:
             self.objects.append(object)
 
+    # return a list of all actions from self.actions and all actions collections
+    def get_all_actions(self):
+        all_actions = []
+        for act in self.actions:
+            all_actions.append(act)
+            
+        for collection in self.collections.action_collections:
+            for act in collection.action_list:
+                all_actions.append(act)
+                
+        return all_actions
+
     # return a list of all objects from self.objects and all object collections
     def get_all_objects(self):
         all_objects = []
