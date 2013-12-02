@@ -106,7 +106,7 @@ class BundleComparator(object):
         # get hash string from object to use as key in lookup table
         # Make sure the object is one of the supported types in the match_on dictionary
         if obj.properties._XSI_TYPE in cls.match_on:
-            hash_value = ObjectHash.get_hash(obj, cls.match_on)
+            hash_value = ObjectHash.get_hash(obj, cls.match_on, cls.case_sensitive)
             if hash_value:
                 if hash_value not in lookup_table:
                     lookup_table[hash_value] = SimilarObjectCluster()
@@ -122,8 +122,9 @@ class BundleComparator(object):
 
 class ObjectHash(object):
     @classmethod
-    def get_hash(cls, obj, match_on):
+    def get_hash(cls, obj, match_on, case_sensitive):
         cls.match_on = match_on
+        cls.case_sensitive = case_sensitive
         hash_val = ''
         
         for typed_field in obj.properties._get_vars():
