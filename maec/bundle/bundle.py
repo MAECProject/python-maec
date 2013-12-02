@@ -7,7 +7,6 @@
 #Last updated 10/07/2013
 
 import datetime
-import collections
 
 from cybox.core import Object
 
