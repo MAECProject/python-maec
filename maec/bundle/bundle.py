@@ -3,8 +3,8 @@
 #Copyright (c) 2013, The MITRE Corporation
 #All rights reserved.
 
-#Compatible with MAEC v4.0
-#Last updated 10/07/2013
+#Compatible with MAEC v4.0.1
+#Last updated 12/02/2013
 
 import datetime
 
@@ -19,7 +19,6 @@ from maec.bundle.candidate_indicator import CandidateIndicator, CandidateIndicat
 from maec.bundle.action_reference_list import ActionReferenceList
 from maec.bundle.process_tree import ProcessTree
 from maec.utils.comparator import BundleComparator
-
 
 class Bundle(maec.Entity):
     def __init__(self, id, defined_subject, schema_version = "4.0.1", content_type = None, malware_instance_object = None):
