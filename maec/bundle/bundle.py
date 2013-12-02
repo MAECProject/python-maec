@@ -69,7 +69,7 @@ class Bundle(maec.Entity):
         if collection_name is not None and collection_id is not None:
             self.collections.object_collections.append(ObjectCollection(collection_name, collection_id))
               
-    # return a list of all objects from self.actions and all actions collections
+    # return a list of all abjects from self.actions and all action collections
     def get_all_actions(self):
         all_actions = []
         for action in self.actions:
@@ -90,18 +90,6 @@ class Bundle(maec.Entity):
                 object_collection.add_object(object)
         elif object_collection_name == None:
             self.objects.append(object)
-
-    # return a list of all actions from self.actions and all actions collections
-    def get_all_actions(self):
-        all_actions = []
-        for act in self.actions:
-            all_actions.append(act)
-            
-        for collection in self.collections.action_collections:
-            for act in collection.action_list:
-                all_actions.append(act)
-                
-        return all_actions
 
     # return a list of all objects from self.objects and all object collections
     def get_all_objects(self):
