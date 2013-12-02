@@ -19,6 +19,7 @@ from maec.bundle.candidate_indicator import CandidateIndicator, CandidateIndicat
 from maec.bundle.action_reference_list import ActionReferenceList
 from maec.bundle.process_tree import ProcessTree
 from maec.utils.comparator import BundleComparator
+from maec.utils.deduplicator import BundleDeduplicator
 
 class Bundle(maec.Entity):
     def __init__(self, id, defined_subject, schema_version = "4.0.1", content_type = None, malware_instance_object = None):
@@ -92,15 +93,27 @@ class Bundle(maec.Entity):
             self.objects.append(object)
 
     # return a list of all objects from self.objects and all object collections
-    def get_all_objects(self):
+    def get_all_objects(self, include_actions = False):
         all_objects = []
         for obj in self.objects:
             all_objects.append(obj)
+            for related_obj in obj.related_objects:
+                all_objects.append(related_obj)
             
         for collection in self.collections.object_collections:
             for obj in collection.object_list:
                 all_objects.append(obj)
-                
+                for related_obj in obj.related_objects:
+                    all_objects.append(related_obj)
+
+        # Include Objects in Actions, if include_actions flag is specified
+        if include_actions:
+            for action in self.get_all_actions():
+                associated_objects = action.associated_objects
+                for associated_object in associated_objects:
+                    all_objects.append(associated_object)
+                    for related_obj in associated_object.related_objects:
+                        all_objects.append(related_obj)
         return all_objects
     
     # finds actions and objects by id
@@ -251,6 +264,9 @@ class Bundle(maec.Entity):
     @classmethod
     def compare(cls, bundle_list, match_on = None, case_sensitive = True):
         return BundleComparator.compare(bundle_list, match_on, case_sensitive);
+
+    def deduplicate(self):
+        BundleDeduplicator.deduplicate(self)
 
 class BehaviorList(maec.EntityList):
     _contained_type = Behavior
