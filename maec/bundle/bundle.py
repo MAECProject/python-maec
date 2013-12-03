@@ -522,7 +522,8 @@ class BehaviorCollectionList(maec.EntityList):
         for behavior_collection in self:
             if len(behavior_collection.behavior_list) > 0:
                 behavior_collection_list_obj.add_Behavior_Collection(behavior_collection.to_obj())
-        return behavior_collection_list_obj
+        if behavior_collection_list_obj.hasContent_():
+            return behavior_collection_list_obj
 
     #Checks for the existence of a named collection in the list
     def has_collection(self, collection_name):
@@ -551,7 +552,8 @@ class ActionCollectionList(maec.EntityList):
         for action_collection in self:
             if len(action_collection.action_list) > 0:
                 action_collection_list_obj.add_Action_Collection(action_collection.to_obj())
-        return action_collection_list_obj
+        if action_collection_list_obj.hasContent_():
+            return action_collection_list_obj
 
     #Checks for the existence of a named collection in the list
     def has_collection(self, collection_name):
@@ -580,7 +582,8 @@ class ObjectCollectionList(maec.EntityList):
         for object_collection in self:
             if len(object_collection.object_list) > 0:
                 object_collection_list_obj.add_Object_Collection(object_collection.to_obj())
-        return object_collection_list_obj
+        if object_collection_list_obj.hasContent_():
+            return object_collection_list_obj
 
     #Checks for the existence of a named collection in the list
     def has_collection(self, collection_name):
@@ -609,7 +612,8 @@ class CandidateIndicatorCollectionList(maec.EntityList):
         for candidate_indicator_collection in self:
             if len(candidate_indicator_collection.candidate_indicator_list) > 0:
                 candidate_indicator_collection_list_obj.add_Candidate_Indicator_Collection(candidate_indicator_collection.to_obj())
-        return candidate_indicator_collection_list_obj
+        if candidate_indicator_collection_list_obj.hasContent_():
+            return candidate_indicator_collection_list_obj
 
     #Checks for the existence of a named collection in the list
     def has_collection(self, collection_name):
@@ -648,18 +652,18 @@ class Collections(maec.Entity):
 
     def to_obj(self):
         collections_obj = bundle_binding.CollectionsType()
-        if len(self.behavior_collections) > 0 : collections_obj.set_Behavior_Collections(self.behavior_collections.to_obj())
-        if len(self.action_collections) > 0 : collections_obj.set_Action_Collections(self.action_collections.to_obj())
-        if len(self.object_collections) > 0 : collections_obj.set_Object_Collections(self.object_collections.to_obj())
-        if len(self.candidate_indicator_collections) > 0 : collections_obj.set_Candidate_Indicator_Collections(self.candidate_indicator_collections.to_obj())
+        if self.behavior_collections: collections_obj.set_Behavior_Collections(self.behavior_collections.to_obj())
+        if self.action_collections: collections_obj.set_Action_Collections(self.action_collections.to_obj())
+        if self.object_collections: collections_obj.set_Object_Collections(self.object_collections.to_obj())
+        if self.candidate_indicator_collections: collections_obj.set_Candidate_Indicator_Collections(self.candidate_indicator_collections.to_obj())
         return collections_obj
 
     def to_dict(self):
         collections_dict = {}
-        if len(self.behavior_collections) > 0 : collections_dict['behavior_collections'] = self.behavior_collections.to_list()
-        if len(self.action_collections) > 0 : collections_dict['action_collections'] = self.action_collections.to_list()
-        if len(self.object_collections) > 0 : collections_dict['object_collections'] = self.object_collections.to_list()
-        if len(self.candidate_indicator_collections) > 0 : collections_dict['candidate_indicator_collections'] = self.candidate_indicator_collections.to_list()
+        if self.behavior_collections: collections_dict['behavior_collections'] = self.behavior_collections.to_list()
+        if self.action_collections: collections_dict['action_collections'] = self.action_collections.to_list()
+        if self.object_collections: collections_dict['object_collections'] = self.object_collections.to_list()
+        if self.candidate_indicator_collections: collections_dict['candidate_indicator_collections'] = self.candidate_indicator_collections.to_list()
         return collections_dict
 
     @staticmethod
