@@ -34,7 +34,6 @@ class BundleDeduplicator(object):
 
     # Cleanup and remove and Objects that may be referencing the re-used Objects
     # Otherwise, this can create Object->Object->Object etc. references which don't make sense
-    # make sense
     @classmethod
     def cleanup(cls, bundle):
         # Cleanup the root-level Objects
