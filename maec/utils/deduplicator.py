@@ -48,7 +48,6 @@ class BundleDeduplicator(object):
                 if collection.name and collection.name == "Deduplicated Objects":
                     continue
 
-                print collection.name
                 # List of Objects to remove
                 objs = [x for x in collection.object_list if (x.idref and x.idref in cls.object_ids_mapping.values())]
 
