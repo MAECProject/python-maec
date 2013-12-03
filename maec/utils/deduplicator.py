@@ -22,10 +22,41 @@ class BundleDeduplicator(object):
         cls.map_objects(all_objects)
         # Next, add the unique objects to their own collection
         cls.handle_unique_objects(bundle, all_objects)
-        # Finally, replace the non-unique Objects with references 
+        # Replace the non-unique Objects with references 
         # to unique Objects across the entire Bundle
         cls.handle_duplicate_objects(bundle, all_objects)
+        # Finally, perform some cleanup to handle strange
+        # cases where you may have Objects pointing to each other
+        cls.cleanup(bundle)
 
+    # Cleanup and remove and Objects that may be referencing the re-used Objects
+    # Otherwise, this can create Object->Object->Object etc. references which don't make sense
+    # make sense
+    @classmethod
+    def cleanup(cls, bundle):
+        # Cleanup the root-level Objects
+        if bundle.objects:
+            # List of Objects to remove
+            objs = [x for x in bundle.objects if (x.idref and x.idref in cls.object_ids_mapping.values())]
+            # Remove the extraneous Objects
+            for obj in objs:
+                bundle.objects.remove(obj)
+        # Cleanup the Object Collections
+        if bundle.collections and bundle.collections.object_collections:
+            for collection in bundle.collections.object_collections:
+                # Ignore the re-used objects collection
+                if collection.name and collection.name == "Deduplicated Objects":
+                    continue
+
+                print collection.name
+                # List of Objects to remove
+                objs = [x for x in collection.object_list if (x.idref and x.idref in cls.object_ids_mapping.values())]
+
+                for obj in objs:
+                    collection.object_list.remove(obj)
+
+    # Replace all of the duplicate Objects with references to
+    # the unique object placed in the "Re-used Objects" Collection
     @classmethod
     def handle_duplicate_objects(cls, bundle, all_objects):
         for duplicate_object_id, unique_object_id in cls.object_ids_mapping.items():
@@ -55,7 +86,7 @@ class BundleDeduplicator(object):
         # Build the collection ID
         collection_id = "maec-" + bundle_namespace + "-objc-" + str(counter)
         # Add the named Object collection
-        bundle.add_named_object_collection("Re-used Objects", collection_id)
+        bundle.add_named_object_collection("Deduplicated Objects", collection_id)
         # Add the unique Objects to the collection
         cls.add_unique_objects(bundle, all_objects)
 
@@ -79,7 +110,7 @@ class BundleDeduplicator(object):
                         object.related_objects = None
                         object.domain_specific_object_properties = None
                         # Add the unique Object to the collection
-                        bundle.add_object(object_copy, "Re-used Objects")
+                        bundle.add_object(object_copy, "Deduplicated Objects")
                         # Break out of the all_objects loop
                         break
                 added_ids.append(unique_object_id)
