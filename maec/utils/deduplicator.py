@@ -1,4 +1,5 @@
 # MAEC Bundle Deduplicator Module
+# Last updated: 12/3/2013
 import collections
 import cybox
 import sets
@@ -62,7 +63,7 @@ class BundleDeduplicator(object):
     def handle_duplicate_objects(cls, bundle, all_objects):
         for duplicate_object_id, unique_object_id in cls.object_ids_mapping.items():
             for object in all_objects:
-                if object.id_ == duplicate_object_id:
+                if object.id_ == duplicate_object_id or object.idref == duplicate_object_id:
                     # Modify the existing Object to serve as a reference to
                     # the unique Object in the collection
                     object.idref = unique_object_id
@@ -70,8 +71,6 @@ class BundleDeduplicator(object):
                     object.properties = None
                     object.related_objects = None
                     object.domain_specific_object_properties = None
-                    # Break out of the all_objects loop
-                    break
 
     # Add a new Object collection to the Bundle for storing the unique Objects
     # Add the Objects to said collection
@@ -98,7 +97,7 @@ class BundleDeduplicator(object):
         for unique_object_id in cls.object_ids_mapping.values():
             if unique_object_id not in added_ids:
                 for object in all_objects:
-                    if object.id_ == unique_object_id:
+                    if object.id_ and object.id_ == unique_object_id:
                         object_copy = copy.deepcopy(object)
                         if isinstance(object_copy, cybox.core.AssociatedObject):
                             object_copy.association_type = None
