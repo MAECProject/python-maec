@@ -52,6 +52,8 @@ class Bundle(maec.Entity):
 
     #Add a new Named Action Collection
     def add_named_action_collection(self, collection_name, collection_id):
+        if not self.collections:
+            self.collections = Collections()
         if collection_name is not None and collection_id is not None:
             self.collections.action_collections.append(ActionCollection(collection_name, collection_id))
         
@@ -67,6 +69,8 @@ class Bundle(maec.Entity):
 
     #Add a new Named Object Collection
     def add_named_object_collection(self, collection_name, collection_id):
+        if not self.collections:
+            self.collections = Collections()
         if collection_name is not None and collection_id is not None:
             self.collections.object_collections.append(ObjectCollection(collection_name, collection_id))
               
