@@ -20,14 +20,16 @@ class BundleDeduplicator(object):
         all_objects = bundle.get_all_objects(include_actions=True)
         # Perform the Object mapping
         cls.map_objects(all_objects)
-        # Next, add the unique objects to their own collection
-        cls.handle_unique_objects(bundle, all_objects)
-        # Replace the non-unique Objects with references 
-        # to unique Objects across the entire Bundle
-        cls.handle_duplicate_objects(bundle, all_objects)
-        # Finally, perform some cleanup to handle strange
-        # cases where you may have Objects pointing to each other
-        cls.cleanup(bundle)
+        # Do the actual deduplication if duplicate objects were found
+        if cls.object_ids_mapping:
+            # Next, add the unique objects to their own collection
+            cls.handle_unique_objects(bundle, all_objects)
+            # Replace the non-unique Objects with references 
+            # to unique Objects across the entire Bundle
+            cls.handle_duplicate_objects(bundle, all_objects)
+            # Finally, perform some cleanup to handle strange
+            # cases where you may have Objects pointing to each other
+            cls.cleanup(bundle)
 
     # Cleanup and remove and Objects that may be referencing the re-used Objects
     # Otherwise, this can create Object->Object->Object etc. references which don't make sense
