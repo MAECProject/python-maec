@@ -124,13 +124,11 @@ class Bundle(maec.Entity):
                         return associated_obj
         
         for obj in self.objects:
-            print obj.id
             if obj.id == id:
                 return obj
             
         for collection in self.collections.object_collections:
             for obj in collection.object_list:
-                print obj.id
                 if obj.id == id:
                     return obj
 
