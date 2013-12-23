@@ -76,10 +76,11 @@ class Bundle(maec.Entity):
         for action in self.actions:
             all_actions.append(action)
             
-        for collection in self.collections.action_collections:
-            for action in collection.action_list:
-                all_actions.append(action)
-                
+        if self.collections is not None:
+            for collection in self.collections.action_collections:
+                for action in collection.action_list:
+                    all_actions.append(action)
+                    
         return all_actions
               
     #Add an Object to an existing named collection; if it does not exist, add it to the top-level <Objects> element
@@ -98,9 +99,10 @@ class Bundle(maec.Entity):
         for obj in self.objects:
             all_objects.append(obj)
             
-        for collection in self.collections.object_collections:
-            for obj in collection.object_list:
-                all_objects.append(obj)
+        if self.collections is not None:
+            for collection in self.collections.object_collections:
+                for obj in collection.object_list:
+                    all_objects.append(obj)
                 
         return all_objects
     
@@ -124,13 +126,11 @@ class Bundle(maec.Entity):
                         return associated_obj
         
         for obj in self.objects:
-            print obj.id
             if obj.id == id:
                 return obj
             
         for collection in self.collections.object_collections:
             for obj in collection.object_list:
-                print obj.id
                 if obj.id == id:
                     return obj
 
