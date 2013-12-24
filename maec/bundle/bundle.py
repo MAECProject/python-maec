@@ -76,10 +76,11 @@ class Bundle(maec.Entity):
         for action in self.actions:
             all_actions.append(action)
             
-        for collection in self.collections.action_collections:
-            for action in collection.action_list:
-                all_actions.append(action)
-                
+        if self.collections is not None:
+            for collection in self.collections.action_collections:
+                for action in collection.action_list:
+                    all_actions.append(action)
+                    
         return all_actions
               
     #Add an Object to an existing named collection; if it does not exist, add it to the top-level <Objects> element
