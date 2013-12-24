@@ -353,21 +353,11 @@ class BundleComparator(object):
         lookup_table = {}
         
         for bundle in bundle_list:
-            for action in bundle.get_all_actions():
-                cls.process_action(action, lookup_table, bundle.id)
-                    
-            for obj in bundle.get_all_objects():
+            for obj in bundle.get_all_objects(True):
                 cls.process_object(obj, lookup_table, bundle.id)
 
         return ComparisonResult(bundle_list, lookup_table)
-        
-    @classmethod
-    def process_action(cls, action, lookup_table, bundle):
-        for associated_object in action.associated_objects:
-            # get actual object from associated object
-            obj = associated_object
-            cls.process_object(obj, lookup_table, bundle)
-
+       
     @classmethod
     def process_object(cls, obj, lookup_table, bundle):
         # get hash string from object to use as key in lookup table
