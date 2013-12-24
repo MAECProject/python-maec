@@ -3,9 +3,23 @@ __version__ = "4.0.1.0"
 import collections
 import json
 from StringIO import StringIO
+import bindings.maec_bundle as bundle_binding
+import bindings.maec_package as package_binding
 
 class Entity(object):
     """Base class for all classes in the MAEC SimpleAPI."""
+
+    def __eq__(self, other):
+        # This fixes some strange behavior where an object isn't equal to
+        # itself
+        if other is self:
+            return True
+
+        # I'm not sure about this, if we want to compare exact classes or if
+        # various subclasses will also do (I think not), but for now I'm going
+        # to assume they must be equal. - GTB
+        if self.__class__ != other.__class__:
+            return False
 
     def to_xml(self):
         """Export an object as an XML String"""
@@ -135,3 +149,14 @@ class EntityList(collections.MutableSequence, Entity):
             list_.append(cls._contained_type.from_dict(item))
 
         return list_
+
+# Parse a MAEC instance and return the correct Binding object
+# Returns a tuple where pos 0 = Package, and pos 1 = Bundle, or None 
+def parse_xml_instance(filename):
+    package_obj = package_binding.parse(filename)
+    bundle_obj = bundle_binding.parse(filename)
+    
+    if not bundle_obj.hasContent_():
+        return (package_obj, None)
+    elif package_obj.hasContent_():
+        return (None, bundle_obj)
