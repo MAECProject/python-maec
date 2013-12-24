@@ -93,15 +93,30 @@ class Bundle(maec.Entity):
             self.objects.append(object)
 
     # return a list of all objects from self.objects and all object collections
-    def get_all_objects(self):
+    def get_all_objects(self, include_actions = False):
         all_objects = []
         for obj in self.objects:
             all_objects.append(obj)
+            for related_obj in obj.related_objects:
+                all_objects.append(related_obj)
             
-        for collection in self.collections.object_collections:
-            for obj in collection.object_list:
-                all_objects.append(obj)
-                
+        if self.collections:
+            for collection in self.collections.object_collections:
+                for obj in collection.object_list:
+                    all_objects.append(obj)
+                    for related_obj in obj.related_objects:
+                        all_objects.append(related_obj)
+
+        # Include Objects in Actions, if include_actions flag is specified
+        if include_actions:
+            for action in self.get_all_actions():
+                associated_objects = action.associated_objects
+                if associated_objects:
+                    for associated_object in associated_objects:
+                        all_objects.append(associated_object)
+                        for related_obj in associated_object.related_objects:
+                            all_objects.append(related_obj)
+
         return all_objects
     
     # finds actions and objects by id
