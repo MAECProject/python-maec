@@ -84,7 +84,7 @@ class Bundle(maec.Entity):
             for collection in self.collections.action_collections:
                 for action in collection.action_list:
                     all_actions.append(action)
-                
+
         return all_actions
               
     #Add an Object to an existing named collection; if it does not exist, add it to the top-level <Objects> element
@@ -121,12 +121,13 @@ class Bundle(maec.Entity):
                         all_objects.append(associated_object)
                         for related_obj in associated_object.related_objects:
                             all_objects.append(related_obj)
+
         return all_objects
     
     # finds actions and objects by id
     def get_object_by_id(self, id):
         for action in self.actions:
-            if action.id == id:
+            if action.id_ == id:
                 return action
             
             for associated_obj in action.associated_objects:
@@ -135,7 +136,7 @@ class Bundle(maec.Entity):
             
         for collection in self.collections.action_collections:
             for action in collection.action_list:
-                if action.id == id:
+                if action.id_ == id:
                     return action
                 
                 for associated_obj in action.associated_objects:
@@ -143,14 +144,12 @@ class Bundle(maec.Entity):
                         return associated_obj
         
         for obj in self.objects:
-            print obj.id
-            if obj.id == id:
+            if obj.id_ == id:
                 return obj
             
         for collection in self.collections.object_collections:
             for obj in collection.object_list:
-                print obj.id
-                if obj.id == id:
+                if obj.id_ == id:
                     return obj
 
     #Add a new Named Behavior Collection
