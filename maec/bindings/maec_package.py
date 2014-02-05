@@ -4195,6 +4195,137 @@ class CommentType(cybox_common.StructuredTextType):
         pass
 # end class CommentType
 
+class MalwareExceptionType(cybox_common.ErrorType):
+    """The MalwareExceptionType captures details of exceptions that may be
+    raised as a result of a malware instance executing on a
+    system.The is_fatal field specifies whether the exception is
+    fatal; that is, whether it caused the malware instance to
+    terminate."""
+    subclass = None
+    superclass = cybox_common.ErrorType
+    def __init__(self, is_fatal=None, Error_Type=None, Error_Count=None, Error_Instances=None, Exception_Code=None, Faulting_Address=None, Description=None):
+        super(MalwareExceptionType, self).__init__(Error_Type=None, Error_Count=None, Error_Instances=None)
+        self.is_fatal = _cast(bool, is_fatal)
+        self.Exception_Code = Exception_Code
+        self.Faulting_Address = Faulting_Address
+        self.Description = Description
+    def factory(*args_, **kwargs_):
+        if MalwareExceptionType.subclass:
+            return MalwareExceptionType.subclass(*args_, **kwargs_)
+        else:
+            return MalwareExceptionType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Exception_Code(self): return self.Exception_Code
+    def set_Exception_Code(self, Exception_Code): self.Exception_Code = Exception_Code
+    def get_Faulting_Address(self): return self.Faulting_Address
+    def set_Faulting_Address(self, Faulting_Address): self.Faulting_Address = Faulting_Address
+    def get_Description(self): return self.Description
+    def set_Description(self, Description): self.Description = Description
+    def get_is_fatal(self): return self.is_fatal
+    def set_is_fatal(self, is_fatal): self.is_fatal = is_fatal
+    def hasContent_(self):
+        if (
+            self.Exception_Code is not None or
+            self.Faulting_Address is not None or
+            self.Description is not None
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='maecPackage:', name_='MalwareExceptionType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MalwareExceptionType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecPackage:', name_='MalwareExceptionType'):
+        super(MalwareExceptionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='MalwareExceptionType')
+        if self.is_fatal is not None and 'is_fatal' not in already_processed:
+            already_processed.add('is_fatal')
+            outfile.write(' is_fatal="%s"' % self.gds_format_boolean(self.is_fatal, input_name='is_fatal'))
+    def exportChildren(self, outfile, level, namespace_='maecPackage:', name_='MalwareExceptionType', fromsubclass_=False, pretty_print=True):
+        super(MalwareExceptionType, self).exportChildren(outfile, level, namespace_, name_, True, pretty_print=pretty_print)
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.Exception_Code is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sException_Code>%s</%sException_Code>%s' % (namespace_, self.gds_format_string(quote_xml(self.Exception_Code).encode(ExternalEncoding), input_name='Exception_Code'), namespace_, eol_))
+        if self.Faulting_Address is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sFaulting_Address>%s</%sFaulting_Address>%s' % (namespace_, self.gds_format_string(quote_xml(self.Faulting_Address).encode(ExternalEncoding), input_name='Faulting_Address'), namespace_, eol_))
+        if self.Description is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sDescription>%s</%sDescription>%s' % (namespace_, self.gds_format_integer(self.Description, input_name='Description'), namespace_, eol_))
+    def exportLiteral(self, outfile, level, name_='MalwareExceptionType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.is_fatal is not None and 'is_fatal' not in already_processed:
+            already_processed.add('is_fatal')
+            showIndent(outfile, level)
+            outfile.write('is_fatal = %s,\n' % (self.is_fatal,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.Exception_Code is not None:
+            showIndent(outfile, level)
+            outfile.write('Exception_Code=%s,\n' % quote_python(self.Exception_Code).encode(ExternalEncoding))
+        if self.Faulting_Address is not None:
+            showIndent(outfile, level)
+            outfile.write('Faulting_Address=%s,\n' % quote_python(self.Faulting_Address).encode(ExternalEncoding))
+        if self.Description is not None:
+            showIndent(outfile, level)
+            outfile.write('Description=%d,\n' % self.Description)
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('is_fatal', node)
+        if value is not None and 'is_fatal' not in already_processed:
+            already_processed.add('is_fatal')
+            if value in ('true', '1'):
+                self.is_fatal = True
+            elif value in ('false', '0'):
+                self.is_fatal = False
+            else:
+                raise_parse_error(node, 'Bad boolean attribute')
+        super(MalwareExceptionType, self).buildAttributes(node, attrs, already_processed)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Exception_Code':
+            Exception_Code_ = child_.text
+            Exception_Code_ = self.gds_validate_string(Exception_Code_, node, 'Exception_Code')
+            self.Exception_Code = Exception_Code_
+        elif nodeName_ == 'Faulting_Address':
+            Faulting_Address_ = child_.text
+            Faulting_Address_ = self.gds_validate_string(Faulting_Address_, node, 'Faulting_Address')
+            self.Faulting_Address = Faulting_Address_
+        elif nodeName_ == 'Description':
+            sval_ = child_.text
+            try:
+                ival_ = int(sval_)
+            except (TypeError, ValueError), exp:
+                raise_parse_error(child_, 'requires integer: %s' % exp)
+            ival_ = self.gds_validate_integer(ival_, node, 'Description')
+            self.Description = ival_
+        super(MalwareExceptionType, self).buildChildren(child_, node, nodeName_, True)
+# end class MalwareExceptionType
+
 GDSClassesMapping = {
     'Processor_Architecture': system_object.ProcessorArchType,
     'Metadata': cybox_common.MetadataType,
