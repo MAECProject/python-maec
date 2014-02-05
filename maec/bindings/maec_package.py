@@ -1759,7 +1759,7 @@ class MalwareSubjectType(GeneratedsSuper):
     MalwareSubjectIDPattern simple type."""
     subclass = None
     superclass = None
-    def __init__(self, id=None, Malware_Instance_Object_Attributes=None, Minor_Variants=None, Field_Data=None, Analyses=None, Findings_Bundles=None, Relationships=None):
+    def __init__(self, id=None, Malware_Instance_Object_Attributes=None, Minor_Variants=None, Field_Data=None, Analyses=None, Findings_Bundles=None, Relationships=None, Compatible_Platform=None):
         self.id = _cast(None, id)
         self.Malware_Instance_Object_Attributes = Malware_Instance_Object_Attributes
         self.Minor_Variants = Minor_Variants
@@ -1767,6 +1767,10 @@ class MalwareSubjectType(GeneratedsSuper):
         self.Analyses = Analyses
         self.Findings_Bundles = Findings_Bundles
         self.Relationships = Relationships
+        if Compatible_Platform is None:
+            self.Compatible_Platform = []
+        else:
+            self.Compatible_Platform = Compatible_Platform
     def factory(*args_, **kwargs_):
         if MalwareSubjectType.subclass:
             return MalwareSubjectType.subclass(*args_, **kwargs_)
@@ -1785,6 +1789,10 @@ class MalwareSubjectType(GeneratedsSuper):
     def set_Findings_Bundles(self, Findings_Bundles): self.Findings_Bundles = Findings_Bundles
     def get_Relationships(self): return self.Relationships
     def set_Relationships(self, Relationships): self.Relationships = Relationships
+    def get_Compatible_Platform(self): return self.Compatible_Platform
+    def set_Compatible_Platform(self, Compatible_Platform): self.Compatible_Platform = Compatible_Platform
+    def add_Compatible_Platform(self, value): self.Compatible_Platform.append(value)
+    def insert_Compatible_Platform(self, index, value): self.Compatible_Platform[index] = value
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
     def hasContent_(self):
@@ -1795,6 +1803,7 @@ class MalwareSubjectType(GeneratedsSuper):
             self.Analyses is not None or
             self.Findings_Bundles is not None or
             self.Relationships is not None
+            self.Compatible_Platform is not None
             ):
             return True
         else:
@@ -1836,6 +1845,8 @@ class MalwareSubjectType(GeneratedsSuper):
             self.Findings_Bundles.export(outfile, level, 'maecPackage:', name_='Findings_Bundles', pretty_print=pretty_print)
         if self.Relationships is not None:
             self.Relationships.export(outfile, level, 'maecPackage:', name_='Relationships', pretty_print=pretty_print)
+        for Compatible_Platform_ in self.Compatible_Platform:
+            Compatible_Platform_.export(outfile, level, 'maecPackage:', name_='Compatible_Platform', pretty_print=pretty_print)
     def exportLiteral(self, outfile, level, name_='MalwareSubjectType'):
         level += 1
         already_processed = set()
@@ -1908,6 +1919,10 @@ class MalwareSubjectType(GeneratedsSuper):
             obj_ = MalwareSubjectRelationshipListType.factory()
             obj_.build(child_)
             self.set_Relationships(obj_)
+        elif nodeName_ == 'Compatible_Platform':
+            obj_ = cybox_common.PlatformSpecificationType.factory()
+            obj_.build(child_)
+            self.Compatible_Platform.append(obj_)
 # end class MalwareSubjectType
 
 class MetaAnalysisType(GeneratedsSuper):
@@ -4072,10 +4087,11 @@ class CommentType(cybox_common.StructuredTextType):
     comment was added."""
     subclass = None
     superclass = cybox_common.StructuredTextType
-    def __init__(self, structuring_format=None, timestamp=None, author=None, valueOf_=None):
+    def __init__(self, structuring_format=None, timestamp=None, author=None, observation_name=None, valueOf_=None):
         super(CommentType, self).__init__(structuring_format, valueOf_, )
         self.timestamp = _cast(None, timestamp)
         self.author = _cast(None, author)
+        self.observation_name = observation_name
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
         if CommentType.subclass:
@@ -4087,6 +4103,8 @@ class CommentType(cybox_common.StructuredTextType):
     def set_timestamp(self, timestamp): self.timestamp = timestamp
     def get_author(self): return self.author
     def set_author(self, author): self.author = author
+    def get_observation_name(self): return self.observation_name
+    def set_observation_name(self, observation_name): self.observation_name = observation_name
     def get_valueOf_(self): return self.valueOf_
     def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
@@ -4121,6 +4139,9 @@ class CommentType(cybox_common.StructuredTextType):
         if self.author is not None and 'author' not in already_processed:
             already_processed.add('author')
             outfile.write(' author=%s' % (self.gds_format_string(quote_attrib(self.author).encode(ExternalEncoding), input_name='author'), ))
+        if self.observation_name is not None and 'observation_name' not in already_processed:
+            already_processed.add('observation_name')
+            outfile.write(' observation_name=%s' % (self.gds_format_string(quote_attrib(self.observation_name).encode(ExternalEncoding), input_name='observation_name'), ))
     def exportChildren(self, outfile, level, namespace_='maecPackage:', name_='CommentType', fromsubclass_=False, pretty_print=True):
         super(CommentType, self).exportChildren(outfile, level, 'maecPackage:', name_, True, pretty_print=pretty_print)
         pass
@@ -4165,6 +4186,11 @@ class CommentType(cybox_common.StructuredTextType):
             already_processed.add('author')
             self.author = value
         super(CommentType, self).buildAttributes(node, attrs, already_processed)
+        value = find_attr_value_('observation_name', node)
+        if value is not None and 'observation_name' not in already_processed:
+            already_processed.add('observation_name')
+            self.observation_name = value
+        super(CommentType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
 # end class CommentType
@@ -4181,7 +4207,6 @@ GDSClassesMapping = {
     'Refresh': cybox_common.IntegerObjectPropertyType,
     'Behaviors': maec_bundle_schema.BehaviorListType,
     'API_Call': maec_bundle_schema.APICallType,
-    'Reference': cybox_common.ReferenceType,
     'MAC': cybox_common.StringObjectPropertyType,
     'Object_Pool': cybox_core.ObjectPoolType,
     'X_Forwarded_Proto': cybox_common.StringObjectPropertyType,
