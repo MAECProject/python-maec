@@ -1760,10 +1760,11 @@ class MalwareSubjectType(GeneratedsSuper):
     MalwareSubjectIDPattern simple type."""
     subclass = None
     superclass = None
-    def __init__(self, id=None, Malware_Instance_Object_Attributes=None, Minor_Variants=None, Field_Data=None, Analyses=None, Findings_Bundles=None, Relationships=None, Compatible_Platform=None):
+    def __init__(self, id=None, Malware_Instance_Object_Attributes=None, Minor_Variants=None, Development_Environment=None, Field_Data=None, Analyses=None, Findings_Bundles=None, Relationships=None, Compatible_Platform=None):
         self.id = _cast(None, id)
         self.Malware_Instance_Object_Attributes = Malware_Instance_Object_Attributes
         self.Minor_Variants = Minor_Variants
+        self.Development_Environment = Development_Environment 
         self.Field_Data = Field_Data
         self.Analyses = Analyses
         self.Findings_Bundles = Findings_Bundles
@@ -1782,6 +1783,8 @@ class MalwareSubjectType(GeneratedsSuper):
     def set_Malware_Instance_Object_Attributes(self, Malware_Instance_Object_Attributes): self.Malware_Instance_Object_Attributes = Malware_Instance_Object_Attributes
     def get_Minor_Variants(self): return self.Minor_Variants
     def set_Minor_Variants(self, Minor_Variants): self.Minor_Variants = Minor_Variants
+    def get_Development_Environment(self): return self.Development_Environment
+    def set_Development_Environment(self, Development_Environment): self.Development_Environment = Development_Environment
     def get_Field_Data(self): return self.Field_Data
     def set_Field_Data(self, Field_Data): self.Field_Data = Field_Data
     def get_Analyses(self): return self.Analyses
@@ -1800,6 +1803,7 @@ class MalwareSubjectType(GeneratedsSuper):
         if (
             self.Malware_Instance_Object_Attributes is not None or
             self.Minor_Variants is not None or
+            self.Development_Environment is not None or
             self.Field_Data is not None or
             self.Analyses is not None or
             self.Findings_Bundles is not None or
@@ -1838,6 +1842,8 @@ class MalwareSubjectType(GeneratedsSuper):
             self.Malware_Instance_Object_Attributes.export(outfile, level, 'maecPackage:', name_='Malware_Instance_Object_Attributes', pretty_print=pretty_print)
         if self.Minor_Variants is not None:
             self.Minor_Variants.export(outfile, level, 'maecPackage:', name_='Minor_Variants', pretty_print=pretty_print)
+        if self.Development_Environment is not None:
+            self.Development_Environment.export(outfile, level, 'maecPackage:', name_='Development_Environment', pretty_print=pretty_print)
         if self.Field_Data is not None:
             self.Field_Data.export(outfile, level, 'maecPackage:', name_='Field_Data', pretty_print=pretty_print)
         if self.Analyses is not None:
@@ -1904,6 +1910,10 @@ class MalwareSubjectType(GeneratedsSuper):
             obj_ = MinorVariantListType.factory()
             obj_.build(child_)
             self.set_Minor_Variants(obj_)
+        elif nodeName_ == 'Development_Environment':
+            obj_ = MalwareDevelopmentEnvironmentType.factory()
+            obj_.build(child_)
+            self.set_Development_Environment(obj_)
         elif nodeName_ == 'Field_Data':
             obj_ = metadatasharing.fieldDataEntry.factory()
             obj_.build(child_)
