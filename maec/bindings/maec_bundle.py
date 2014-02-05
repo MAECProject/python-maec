@@ -4685,10 +4685,11 @@ class ProcessTreeNodeType(process_object.ProcessObjectType):
     created or injected this process."""
     subclass = None
     superclass = process_object.ProcessObjectType
-    def __init__(self, object_reference=None, Custom_Properties=None, is_hidden=None, PID=None, Name=None, Creation_Time=None, Parent_PID=None, Child_PID_List=None, Image_Info=None, Argument_List=None, Environment_Variable_List=None, Kernel_Time=None, Port_List=None, Network_Connection_List=None, Start_Time=None, Status=None, Username=None, User_Time=None, Extracted_Features=None, id=None, parent_action_idref=None, Initiated_Actions=None, Spawned_Process=None, Injected_Process=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, is_hidden=None, PID=None, Name=None, Creation_Time=None, Parent_PID=None, Child_PID_List=None, Image_Info=None, Argument_List=None, Environment_Variable_List=None, Kernel_Time=None, Port_List=None, Network_Connection_List=None, Start_Time=None, Status=None, Username=None, User_Time=None, Extracted_Features=None, id=None, parent_action_idref=None, ordinal_position=None, Initiated_Actions=None, Spawned_Process=None, Injected_Process=None):
         super(ProcessTreeNodeType, self).__init__(object_reference, Custom_Properties, is_hidden, PID, Name, Creation_Time, Parent_PID, Child_PID_List, Image_Info, Argument_List, Environment_Variable_List, Kernel_Time, Port_List, Network_Connection_List, Start_Time, Status, Username, User_Time, Extracted_Features, )
         self.id = _cast(None, id)
         self.parent_action_idref = _cast(None, parent_action_idref)
+        self.ordinal_position = ordinal_position
         self.Initiated_Actions = Initiated_Actions
         if Spawned_Process is None:
             self.Spawned_Process = []
@@ -4718,6 +4719,8 @@ class ProcessTreeNodeType(process_object.ProcessObjectType):
     def set_id(self, id): self.id = id
     def get_parent_action_idref(self): return self.parent_action_idref
     def set_parent_action_idref(self, parent_action_idref): self.parent_action_idref = parent_action_idref
+    def get_ordinal_position(self): return self.ordinal_position
+    def set_ordinal_position(self, ordinal_position): self.ordinal_position = ordinal_position
     def hasContent_(self):
         if (
             self.Initiated_Actions is not None or
@@ -4752,6 +4755,9 @@ class ProcessTreeNodeType(process_object.ProcessObjectType):
         if self.parent_action_idref is not None and 'parent_action_idref' not in already_processed:
             already_processed.add('parent_action_idref')
             outfile.write(' parent_action_idref=%s' % (quote_attrib(self.parent_action_idref), ))
+        if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
+            already_processed.add('ordinal_position')
+            outfile.write(' ordinal_position=%s' % (quote_attrib(self.ordinal_position), ))
     def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ProcessTreeNodeType', fromsubclass_=False, pretty_print=True):
         super(ProcessTreeNodeType, self).exportChildren(outfile, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
         if pretty_print:
@@ -4823,6 +4829,10 @@ class ProcessTreeNodeType(process_object.ProcessObjectType):
         if value is not None and 'parent_action_idref' not in already_processed:
             already_processed.add('parent_action_idref')
             self.parent_action_idref = value
+        value = find_attr_value_('ordinal_position', node)
+        if value is not None and 'ordinal_position' not in already_processed:
+            already_processed.add('ordinal_position')
+            self.ordinal_position = value
         super(ProcessTreeNodeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Initiated_Actions':
