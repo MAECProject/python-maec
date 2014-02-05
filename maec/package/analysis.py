@@ -3,8 +3,8 @@
 #Copyright (c) 2013, The MITRE Corporation
 #All rights reserved.
 
-#Compatible with MAEC v4.0
-#Last updated 05/29/2013
+#Compatible with MAEC v4.1
+#Last updated 02/05/2014
 
 from cybox.common import (PlatformSpecification, Personnel, StructuredText,
         ToolInformation)
@@ -137,24 +137,28 @@ class Comment(StructuredText):
         super(Comment, self).__init__()
         self.author = None
         self.timestamp = None
+        self.observation_name = None
 
     def is_plain(self):
         """Whether this can be represented as a string rather than a dictionary
         """
         return (super(Comment, self).is_plain() and 
                 self.author is None and
-                self.timestamp is None)
+                self.timestamp is None and 
+                self.observation_name is None)
 
     def to_obj(self):
         comment_obj = super(Comment, self).to_obj(package_binding.CommentType())
         if self.author is not None : comment_obj.set_author(self.author)
         if self.timestamp is not None : comment_obj.set_timestamp(self.timestamp)
+        if self.observation_name is not None : comment_obj.set_observation_name(self.observation_name)
         return comment_obj
 
     def to_dict(self):
         comment_dict = super(Comment, self).to_dict()
         if self.author is not None : comment_dict['author'] = self.author
         if self.timestamp is not None : comment_dict['timestamp'] = self.timestamp
+        if self.observation_name is not None : comment_dict['observation_name'] = self.observation_name
         return comment_dict
 
     @staticmethod
@@ -164,6 +168,7 @@ class Comment(StructuredText):
         comment_ = StructuredText.from_dict(comment_dict, Comment())
         comment_.author = comment_dict.get('author')
         comment_.timestamp = comment_dict.get('timestamp')
+        comment_.observation_name = comment_dict.get('observation_name')
         return comment_
 
     @staticmethod
@@ -173,6 +178,7 @@ class Comment(StructuredText):
         comment_ = StructuredText.from_obj(comment_obj, Comment())
         comment_.author = comment_obj.get_author()
         comment_.timestamp = comment_obj.get_timestamp()
+        comment_.observation_name = comment_obj.get_observation_name()
         return comment_
 
 class CommentList(maec.EntityList):
