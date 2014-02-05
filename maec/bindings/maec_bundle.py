@@ -5455,7 +5455,6 @@ GDSClassesMapping = {
     'If_Range': cybox_common.StringObjectPropertyType,
     'Evasion_Techniques': cybox_core.ObfuscationTechniquesType,
     'Parent_PID': cybox_common.UnsignedIntegerObjectPropertyType,
-    'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Block_Hash_Value': cybox_common.HashValueType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,
