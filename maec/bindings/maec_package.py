@@ -14,6 +14,7 @@ from maec.bindings import mmdef_1_2 as metadatasharing
 from cybox.bindings import cybox_core
 from cybox.bindings import system_object
 from cybox.bindings import cybox_common
+from cybox.bindings import file_object
 import base64
 from datetime import datetime, tzinfo, timedelta
 
@@ -4325,6 +4326,105 @@ class MalwareExceptionType(cybox_common.ErrorType):
             self.Description = ival_
         super(MalwareExceptionType, self).buildChildren(child_, node, nodeName_, True)
 # end class MalwareExceptionType
+
+class MalwareDevelopmentEnvironmentType(GeneratedsSuper):
+    """The MalwareDevelopmentEnvironmentType captures details of the
+    development environment used in developing the malware instance,
+    such as information on any tools that were used."""
+    subclass = None
+    superclass = None
+    def __init__(self, Tools=None, Debugging_File=None):
+        self.Tools = Tools
+        if Debugging_File is None:
+            self.Debugging_File = []
+        else:
+            self.Debugging_File = Debugging_File
+    def factory(*args_, **kwargs_):
+        if MalwareDevelopmentEnvironmentType.subclass:
+            return MalwareDevelopmentEnvironmentType.subclass(*args_, **kwargs_)
+        else:
+            return MalwareDevelopmentEnvironmentType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Tools(self): return self.Tools
+    def set_Tools(self, Tools): self.Tools = Tools
+    def get_Debugging_File(self): return self.Debugging_File
+    def set_Debugging_File(self, Debugging_File): self.Debugging_File = Debugging_File
+    def add_Debugging_File(self, value): self.Debugging_File.append(value)
+    def insert_Debugging_File(self, index, value): self.Debugging_File[index] = value
+    def hasContent_(self):
+        if (
+            self.Tools is not None or
+            self.Debugging_File
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='maecPackage:', name_='MalwareDevelopmentEnvironmentType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MalwareDevelopmentEnvironmentType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecPackage:', name_='MalwareDevelopmentEnvironmentType'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='maecPackage:', name_='MalwareDevelopmentEnvironmentType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.Tools is not None:
+            self.Tools.export(outfile, level, namespace_, name_='Tools', pretty_print=pretty_print)
+        for Debugging_File_ in self.Debugging_File:
+            Debugging_File_.export(outfile, level, namespace_, name_='Debugging_File', pretty_print=pretty_print)
+    def exportLiteral(self, outfile, level, name_='MalwareDevelopmentEnvironmentType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.Tools is not None:
+            showIndent(outfile, level)
+            outfile.write('Tools=%s,\n' % quote_python(self.Tools).encode(ExternalEncoding))
+        showIndent(outfile, level)
+        outfile.write('Debugging_File=[\n')
+        level += 1
+        for Debugging_File_ in self.Debugging_File:
+            showIndent(outfile, level)
+            outfile.write('%s,\n' % quote_python(Debugging_File_).encode(ExternalEncoding))
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Tools':
+            obj_ = cybox_common.ToolsInformationType.factory()
+            obj_.build(child_)
+            self.set_Tools(obj_)
+        elif nodeName_ == 'Debugging_File':
+            obj_ = file_object.FileObjectType.factory()
+            obj_.build(child_)
+            self.Debugging_File.append(obj_)
+# end class MalwareDevelopmentEnvironmentType
 
 GDSClassesMapping = {
     'Processor_Architecture': system_object.ProcessorArchType,
