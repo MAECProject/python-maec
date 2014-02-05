@@ -3,8 +3,8 @@
 #Copyright (c) 2013, The MITRE Corporation
 #All rights reserved.
 
-#Compatible with MAEC v4.0
-#Last updated 5/13/2013
+#Compatible with MAEC v4.1
+#Last updated 2/05/2014
 
 from cybox.objects.process_object import Process
 
@@ -64,6 +64,7 @@ class ProcessTreeNode(Process):
         super(ProcessTreeNode, self).__init__()
         self.id = id
         self.parent_action_idref = parent_action_idref
+        self.ordinal_position = None
         self.initiated_actions = ActionReferenceList()
         self.spawned_processes = []
         self.injected_processes = []
@@ -117,6 +118,7 @@ class ProcessTreeNode(Process):
         process_tree_node_obj = super(ProcessTreeNode, self).to_obj()
         if self.id is not None : process_tree_node_obj.set_id(self.id)
         if self.parent_action_idref is not None : process_tree_node_obj.set_parent_action_idref(self.parent_action_idref)
+        if self.ordinal_position is not None : process_tree_node_obj.set_ordinal_position(self.ordinal_position)
         if self.initiated_actions: process_tree_node_obj.set_Initiated_Actions(self.initiated_actions.to_obj())
         if self.spawned_processes: 
             for spawned_process in self.spawned_processes:
@@ -130,6 +132,7 @@ class ProcessTreeNode(Process):
         process_tree_node_dict = super(ProcessTreeNode, self).to_dict()
         if self.id is not None : process_tree_node_dict['id'] = self.id
         if self.parent_action_idref is not None : process_tree_node_dict['parent_action_idref'] = self.parent_action_idref
+        if self.ordinal_position is not None : process_tree_node_dict['ordinal_position'] = self.ordinal_position
         if self.initiated_actions: process_tree_node_dict['initiated_actions'] = self.initiated_actions.to_list()
         if self.spawned_processes:
             spawned_process_list = []
@@ -150,6 +153,7 @@ class ProcessTreeNode(Process):
         process_tree_node_ = super(ProcessTreeNode, cls).from_dict(process_tree_node_dict)
         process_tree_node_.id = process_tree_node_dict.get('id')
         process_tree_node_.parent_action_idref = process_tree_node_dict.get('parent_action_idref')
+        process_tree_node_.ordinal_position = process_tree_node_dict.get('ordinal_position')
         process_tree_node_.initiated_actions = ActionReferenceList.from_list(process_tree_node_dict.get('initiated_actions', []))
         process_tree_node_.spawned_processes = [ProcessTreeNode.from_dict(x) for x in process_tree_node_dict.get('spawned_processes', [])]
         process_tree_node_.injected_processes = [ProcessTreeNode.from_dict(x) for x in process_tree_node_dict.get('injected_processes', [])]
@@ -162,6 +166,7 @@ class ProcessTreeNode(Process):
         process_tree_node_ = super(ProcessTreeNode, cls).from_obj(process_tree_node_obj)
         process_tree_node_.id = process_tree_node_obj.get_id()
         process_tree_node_.parent_action_idref = process_tree_node_obj.get_parent_action_idref()
+        process_tree_node_.ordinal_position = process_tree_node_obj.get_ordinal_position()
         if process_tree_node_obj.get_Initiated_Actions() is not None:
             process_tree_node_.initiated_actions = ActionReferenceList.from_obj(process_tree_node_obj.get_Initiated_Actions())
         process_tree_node_.spawned_processes = [ProcessTreeNode.from_obj(x) for x in process_tree_node_obj.get_Spawned_Process()]
