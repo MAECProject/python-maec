@@ -4451,6 +4451,576 @@ class MalwareDevelopmentEnvironmentType(GeneratedsSuper):
             self.Debugging_File.append(obj_)
 # end class MalwareDevelopmentEnvironmentType
 
+class MalwareConfigurationDetailsType(GeneratedsSuper):
+    """The MalwareConfigurationDetailsType captures details of malware
+    configuration parameters and associated metadata."""
+    subclass = None
+    superclass = None
+    def __init__(self, Storage=None, Obfuscation=None, Configuration_Parameter=None):
+        self.Storage = Storage
+        self.Obfuscation = Obfuscation
+        if Configuration_Parameter is None:
+            self.Configuration_Parameter = []
+        else:
+            self.Configuration_Parameter = Configuration_Parameter
+    def factory(*args_, **kwargs_):
+        if MalwareConfigurationDetailsType.subclass:
+            return MalwareConfigurationDetailsType.subclass(*args_, **kwargs_)
+        else:
+            return MalwareConfigurationDetailsType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Storage(self): return self.Storage
+    def set_Storage(self, Storage): self.Storage = Storage
+    def get_Obfuscation(self): return self.Obfuscation
+    def set_Obfuscation(self, Obfuscation): self.Obfuscation = Obfuscation
+    def get_Configuration_Parameter(self): return self.Configuration_Parameter
+    def set_Configuration_Parameter(self, Configuration_Parameter): self.Configuration_Parameter = Configuration_Parameter
+    def add_Configuration_Parameter(self, value): self.Configuration_Parameter.append(value)
+    def insert_Configuration_Parameter(self, index, value): self.Configuration_Parameter[index] = value
+    def hasContent_(self):
+        if (
+            self.Storage is not None or
+            self.Obfuscation is not None or
+            self.Configuration_Parameter
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='maecPackage:', name_='MalwareConfigurationDetailsType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MalwareConfigurationDetailsType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecPackage:', name_='MalwareConfigurationDetailsType'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='maecPackage:', name_='MalwareConfigurationDetailsType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.Storage is not None:
+            self.Storage.export(outfile, level, 'maecPackage:', name_='Storage', pretty_print=pretty_print)
+        if self.Obfuscation is not None:
+            self.Obfuscation.export(outfile, level, 'maecPackage:', name_='Obfuscation', pretty_print=pretty_print)
+        for Configuration_Parameter_ in self.Configuration_Parameter:
+            Configuration_Parameter_.export(outfile, level, 'maecPackage:', name_='Configuration_Parameter', pretty_print=pretty_print)
+    def exportLiteral(self, outfile, level, name_='MalwareConfigurationDetailsType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.Storage is not None:
+            outfile.write('Storage=model_.MalwareConfigurationStorageDetailsType(\n')
+            self.Storage.exportLiteral(outfile, level, name_='Storage')
+            outfile.write('),\n')
+        if self.Obfuscation is not None:
+            outfile.write('Obfuscation=model_.MalwareConfigurationObfuscationDetailsType(\n')
+            self.Obfuscation.exportLiteral(outfile, level, name_='Obfuscation')
+            outfile.write('),\n')
+        showIndent(outfile, level)
+        outfile.write('Configuration_Parameter=[\n')
+        level += 1
+        for Configuration_Parameter_ in self.Configuration_Parameter:
+            outfile.write('model_.MalwareConfigurationParameterType(\n')
+            Configuration_Parameter_.exportLiteral(outfile, level, name_='MalwareConfigurationParameterType')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Storage':
+            obj_ = MalwareConfigurationStorageDetailsType.factory()
+            obj_.build(child_)
+            self.set_Storage(obj_)
+        elif nodeName_ == 'Obfuscation':
+            obj_ = MalwareConfigurationObfuscationDetailsType.factory()
+            obj_.build(child_)
+            self.set_Obfuscation(obj_)
+        elif nodeName_ == 'Configuration_Parameter':
+            obj_ = MalwareConfigurationParameterType.factory()
+            obj_.build(child_)
+            self.Configuration_Parameter.append(obj_)
+# end class MalwareConfigurationDetailsType
+
+class MalwareConfigurationObfuscationDetailsType(GeneratedsSuper):
+    """The MalwareConfigurationObfuscationDetailsType captures details
+    relating to the obfuscation of malware configuration
+    parameters.The is_encoded field specifies that the malware
+    configuration parameters are encoded with the algorithm captured
+    in the Algorithm_Details field.The is_encrypted field specifies
+    that the malware configuration parameters are encrypted with the
+    algorithm captured in the Algorithm_Details field."""
+    subclass = None
+    superclass = None
+    def __init__(self, is_encoded=None, is_encrypted=None, Algorithm_Details=None):
+        self.is_encoded = _cast(bool, is_encoded)
+        self.is_encrypted = _cast(bool, is_encrypted)
+        if Algorithm_Details is None:
+            self.Algorithm_Details = []
+        else:
+            self.Algorithm_Details = Algorithm_Details
+    def factory(*args_, **kwargs_):
+        if MalwareConfigurationObfuscationDetailsType.subclass:
+            return MalwareConfigurationObfuscationDetailsType.subclass(*args_, **kwargs_)
+        else:
+            return MalwareConfigurationObfuscationDetailsType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Algorithm_Details(self): return self.Algorithm_Details
+    def set_Algorithm_Details(self, Algorithm_Details): self.Algorithm_Details = Algorithm_Details
+    def add_Algorithm_Details(self, value): self.Algorithm_Details.append(value)
+    def insert_Algorithm_Details(self, index, value): self.Algorithm_Details[index] = value
+    def get_is_encoded(self): return self.is_encoded
+    def set_is_encoded(self, is_encoded): self.is_encoded = is_encoded
+    def get_is_encrypted(self): return self.is_encrypted
+    def set_is_encrypted(self, is_encrypted): self.is_encrypted = is_encrypted
+    def hasContent_(self):
+        if (
+            self.Algorithm_Details
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='maecPackage:', name_='MalwareConfigurationObfuscationDetailsType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MalwareConfigurationObfuscationDetailsType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecPackage:', name_='MalwareConfigurationObfuscationDetailsType'):
+        if self.is_encoded is not None and 'is_encoded' not in already_processed:
+            already_processed.add('is_encoded')
+            outfile.write(' is_encoded="%s"' % self.gds_format_boolean(self.is_encoded, input_name='is_encoded'))
+        if self.is_encrypted is not None and 'is_encrypted' not in already_processed:
+            already_processed.add('is_encrypted')
+            outfile.write(' is_encrypted="%s"' % self.gds_format_boolean(self.is_encrypted, input_name='is_encrypted'))
+    def exportChildren(self, outfile, level, namespace_='maecPackage:', name_='MalwareConfigurationObfuscationDetailsType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for Algorithm_Details_ in self.Algorithm_Details:
+            Algorithm_Details_.export(outfile, level, 'maecPackage:', name_='Algorithm_Details', pretty_print=pretty_print)
+    def exportLiteral(self, outfile, level, name_='MalwareConfigurationObfuscationDetailsType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.is_encoded is not None and 'is_encoded' not in already_processed:
+            already_processed.add('is_encoded')
+            showIndent(outfile, level)
+            outfile.write('is_encoded = %s,\n' % (self.is_encoded,))
+        if self.is_encrypted is not None and 'is_encrypted' not in already_processed:
+            already_processed.add('is_encrypted')
+            showIndent(outfile, level)
+            outfile.write('is_encrypted = %s,\n' % (self.is_encrypted,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('Algorithm_Details=[\n')
+        level += 1
+        for Algorithm_Details_ in self.Algorithm_Details:
+            outfile.write('model_.MalwareConfigurationObfuscationAlgorithmType(\n')
+            Algorithm_Details_.exportLiteral(outfile, level, name_='MalwareConfigurationObfuscationAlgorithmType')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('is_encoded', node)
+        if value is not None and 'is_encoded' not in already_processed:
+            already_processed.add('is_encoded')
+            if value in ('true', '1'):
+                self.is_encoded = True
+            elif value in ('false', '0'):
+                self.is_encoded = False
+            else:
+                raise_parse_error(node, 'Bad boolean attribute')
+        value = find_attr_value_('is_encrypted', node)
+        if value is not None and 'is_encrypted' not in already_processed:
+            already_processed.add('is_encrypted')
+            if value in ('true', '1'):
+                self.is_encrypted = True
+            elif value in ('false', '0'):
+                self.is_encrypted = False
+            else:
+                raise_parse_error(node, 'Bad boolean attribute')
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Algorithm_Details':
+            obj_ = MalwareConfigurationObfuscationAlgorithmType.factory()
+            obj_.build(child_)
+            self.Algorithm_Details.append(obj_)
+# end class MalwareConfigurationObfuscationDetailsType
+
+class MalwareConfigurationObfuscationAlgorithmType(GeneratedsSuper):
+    """The MalwareConfigurationObfuscationDetailsType captures of an
+    algorithm used to encode or encrypt malware configuration
+    parameters.The ordinal_position field specifies the explicit
+    ordering of the usage of the algorithm with respect to the other
+    algorithms used to encrypt or encode the malware configuration
+    parameters, for cases where more than one algorithm was used."""
+    subclass = None
+    superclass = None
+    def __init__(self, ordinal_position=None, Key=None, Algorithm_Name=None):
+        self.ordinal_position = _cast(int, ordinal_position)
+        self.Key = Key
+        self.Algorithm_Name = Algorithm_Name
+    def factory(*args_, **kwargs_):
+        if MalwareConfigurationObfuscationAlgorithmType.subclass:
+            return MalwareConfigurationObfuscationAlgorithmType.subclass(*args_, **kwargs_)
+        else:
+            return MalwareConfigurationObfuscationAlgorithmType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Key(self): return self.Key
+    def set_Key(self, Key): self.Key = Key
+    def get_Algorithm_Name(self): return self.Algorithm_Name
+    def set_Algorithm_Name(self, Algorithm_Name): self.Algorithm_Name = Algorithm_Name
+    def get_ordinal_position(self): return self.ordinal_position
+    def set_ordinal_position(self, ordinal_position): self.ordinal_position = ordinal_position
+    def hasContent_(self):
+        if (
+            self.Key is not None or
+            self.Algorithm_Name is not None
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='maecPackage:', name_='MalwareConfigurationObfuscationAlgorithmType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MalwareConfigurationObfuscationAlgorithmType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecPackage:', name_='MalwareConfigurationObfuscationAlgorithmType'):
+        if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
+            already_processed.add('ordinal_position')
+            outfile.write(' ordinal_position="%s"' % self.gds_format_integer(self.ordinal_position, input_name='ordinal_position'))
+    def exportChildren(self, outfile, level, namespace_='maecPackage:', name_='MalwareConfigurationObfuscationAlgorithmType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.Key is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sKey>%s</%sKey>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Key).encode(ExternalEncoding), input_name='Key'), 'maecPackage:', eol_))
+        if self.Algorithm_Name is not None:
+            self.Algorithm_Name.export(outfile, level, 'maecPackage:', name_='Algorithm_Name', pretty_print=pretty_print)
+    def exportLiteral(self, outfile, level, name_='MalwareConfigurationObfuscationAlgorithmType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
+            already_processed.add('ordinal_position')
+            showIndent(outfile, level)
+            outfile.write('ordinal_position = %d,\n' % (self.ordinal_position,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.Key is not None:
+            showIndent(outfile, level)
+            outfile.write('Key=%s,\n' % quote_python(self.Key).encode(ExternalEncoding))
+        if self.Algorithm_Name is not None:
+            outfile.write('Algorithm_Name=model_.cybox_common.ControlledVocabularyStringType(\n')
+            self.Algorithm_Name.exportLiteral(outfile, level, name_='Algorithm_Name')
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('ordinal_position', node)
+        if value is not None and 'ordinal_position' not in already_processed:
+            already_processed.add('ordinal_position')
+            try:
+                self.ordinal_position = int(value)
+            except ValueError, exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+            if self.ordinal_position <= 0:
+                raise_parse_error(node, 'Invalid PositiveInteger')
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Key':
+            Key_ = child_.text
+            Key_ = self.gds_validate_string(Key_, node, 'Key')
+            self.Key = Key_
+        elif nodeName_ == 'Algorithm_Name':
+            obj_ = cybox_common.ControlledVocabularyStringType.factory()
+            obj_.build(child_)
+            self.set_Algorithm_Name(obj_)
+# end class MalwareConfigurationObfuscationAlgorithmType
+
+class MalwareConfigurationStorageDetailsType(GeneratedsSuper):
+    """The MalwareConfigurationStorageDetailsType captures details relating
+    to the storage of malware configuration parameters."""
+    subclass = None
+    superclass = None
+    def __init__(self, Malware_Binary=None, File=None, URL=None):
+        self.Malware_Binary = Malware_Binary
+        self.File = File
+        if URL is None:
+            self.URL = []
+        else:
+            self.URL = URL
+    def factory(*args_, **kwargs_):
+        if MalwareConfigurationStorageDetailsType.subclass:
+            return MalwareConfigurationStorageDetailsType.subclass(*args_, **kwargs_)
+        else:
+            return MalwareConfigurationStorageDetailsType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Malware_Binary(self): return self.Malware_Binary
+    def set_Malware_Binary(self, Malware_Binary): self.Malware_Binary = Malware_Binary
+    def get_File(self): return self.File
+    def set_File(self, File): self.File = File
+    def get_URL(self): return self.URL
+    def set_URL(self, URL): self.URL = URL
+    def add_URL(self, value): self.URL.append(value)
+    def insert_URL(self, index, value): self.URL[index] = value
+    def hasContent_(self):
+        if (
+            self.Malware_Binary is not None or
+            self.File is not None or
+            self.URL
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='maecPackage:', name_='MalwareConfigurationStorageDetailsType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MalwareConfigurationStorageDetailsType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecPackage:', name_='MalwareConfigurationStorageDetailsType'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='maecPackage:', name_='MalwareConfigurationStorageDetailsType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.Malware_Binary is not None:
+            self.Malware_Binary.export(outfile, level, 'maecPackage:', name_='Malware_Binary', pretty_print=pretty_print)
+        if self.File is not None:
+            self.File.export(outfile, level, 'maecPackage:', name_='File', pretty_print=pretty_print)
+        for URL_ in self.URL:
+            URL_.export(outfile, level, 'maecPackage:', name_='URL', pretty_print=pretty_print)
+    def exportLiteral(self, outfile, level, name_='MalwareConfigurationStorageDetailsType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.Malware_Binary is not None:
+            outfile.write('Malware_Binary=model_.MalwareBinaryConfigurationStorageDetailsType(\n')
+            self.Malware_Binary.exportLiteral(outfile, level, name_='Malware_Binary')
+            outfile.write('),\n')
+        if self.File is not None:
+            outfile.write('File=model_.file_object.FileObjectType(\n')
+            self.File.exportLiteral(outfile, level, name_='File')
+            outfile.write('),\n')
+        showIndent(outfile, level)
+        outfile.write('URL=[\n')
+        level += 1
+        for URL_ in self.URL:
+            outfile.write('model_.uri_object.URIObjectType(\n')
+            URL_.exportLiteral(outfile, level, name_='uri_object.URIObjectType')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Malware_Binary':
+            obj_ = MalwareBinaryConfigurationStorageDetailsType.factory()
+            obj_.build(child_)
+            self.set_Malware_Binary(obj_)
+        elif nodeName_ == 'File':
+            obj_ = file_object.FileObjectType.factory()
+            obj_.build(child_)
+            self.set_File(obj_)
+        elif nodeName_ == 'URL':
+            obj_ = uri_object.URIObjectType.factory()
+            obj_.build(child_)
+            self.URL.append(obj_)
+# end class MalwareConfigurationStorageDetailsType
+
+class MalwareBinaryConfigurationStorageDetailsType(GeneratedsSuper):
+    """The MalwareBinaryConfigurationStorageDetailsType captures details
+    relating to the storage of malware configuration parameters
+    inside the malware binary itself."""
+    subclass = None
+    superclass = None
+    def __init__(self, File_Offset=None, Section_Name=None, Section_Offset=None):
+        self.File_Offset = File_Offset
+        self.Section_Name = Section_Name
+        self.Section_Offset = Section_Offset
+    def factory(*args_, **kwargs_):
+        if MalwareBinaryConfigurationStorageDetailsType.subclass:
+            return MalwareBinaryConfigurationStorageDetailsType.subclass(*args_, **kwargs_)
+        else:
+            return MalwareBinaryConfigurationStorageDetailsType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_File_Offset(self): return self.File_Offset
+    def set_File_Offset(self, File_Offset): self.File_Offset = File_Offset
+    def get_Section_Name(self): return self.Section_Name
+    def set_Section_Name(self, Section_Name): self.Section_Name = Section_Name
+    def get_Section_Offset(self): return self.Section_Offset
+    def set_Section_Offset(self, Section_Offset): self.Section_Offset = Section_Offset
+    def hasContent_(self):
+        if (
+            self.File_Offset is not None or
+            self.Section_Name is not None or
+            self.Section_Offset is not None
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='maecPackage:', name_='MalwareBinaryConfigurationStorageDetailsType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MalwareBinaryConfigurationStorageDetailsType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecPackage:', name_='MalwareBinaryConfigurationStorageDetailsType'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='maecPackage:', name_='MalwareBinaryConfigurationStorageDetailsType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.File_Offset is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sFile_Offset>%s</%sFile_Offset>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.File_Offset).encode(ExternalEncoding), input_name='File_Offset'), 'maecPackage:', eol_))
+        if self.Section_Name is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sSection_Name>%s</%sSection_Name>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Section_Name).encode(ExternalEncoding), input_name='Section_Name'), 'maecPackage:', eol_))
+        if self.Section_Offset is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sSection_Offset>%s</%sSection_Offset>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Section_Offset).encode(ExternalEncoding), input_name='Section_Offset'), 'maecPackage:', eol_))
+    def exportLiteral(self, outfile, level, name_='MalwareBinaryConfigurationStorageDetailsType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.File_Offset is not None:
+            showIndent(outfile, level)
+            outfile.write('File_Offset=%s,\n' % quote_python(self.File_Offset).encode(ExternalEncoding))
+        if self.Section_Name is not None:
+            showIndent(outfile, level)
+            outfile.write('Section_Name=%s,\n' % quote_python(self.Section_Name).encode(ExternalEncoding))
+        if self.Section_Offset is not None:
+            showIndent(outfile, level)
+            outfile.write('Section_Offset=%s,\n' % quote_python(self.Section_Offset).encode(ExternalEncoding))
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'File_Offset':
+            File_Offset_ = child_.text
+            File_Offset_ = self.gds_validate_string(File_Offset_, node, 'File_Offset')
+            self.File_Offset = File_Offset_
+        elif nodeName_ == 'Section_Name':
+            Section_Name_ = child_.text
+            Section_Name_ = self.gds_validate_string(Section_Name_, node, 'Section_Name')
+            self.Section_Name = Section_Name_
+        elif nodeName_ == 'Section_Offset':
+            Section_Offset_ = child_.text
+            Section_Offset_ = self.gds_validate_string(Section_Offset_, node, 'Section_Offset')
+            self.Section_Offset = Section_Offset_
+# end class MalwareBinaryConfigurationStorageDetailsType
+
 GDSClassesMapping = {
     'Processor_Architecture': system_object.ProcessorArchType,
     'Metadata': cybox_common.MetadataType,
