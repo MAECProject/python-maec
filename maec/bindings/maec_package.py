@@ -15,6 +15,7 @@ from cybox.bindings import cybox_core
 from cybox.bindings import system_object
 from cybox.bindings import cybox_common
 from cybox.bindings import file_object
+from cybox.bindings import uri_object
 import base64
 from datetime import datetime, tzinfo, timedelta
 
