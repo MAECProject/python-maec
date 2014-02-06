@@ -1760,7 +1760,7 @@ class MalwareSubjectType(GeneratedsSuper):
     MalwareSubjectIDPattern simple type."""
     subclass = None
     superclass = None
-    def __init__(self, id=None, Malware_Instance_Object_Attributes=None, Minor_Variants=None, Development_Environment=None, Field_Data=None, Analyses=None, Findings_Bundles=None, Relationships=None, Compatible_Platform=None):
+    def __init__(self, id=None, Malware_Instance_Object_Attributes=None, Label=None, Minor_Variants=None, Development_Environment=None, Field_Data=None, Analyses=None, Findings_Bundles=None, Relationships=None, Compatible_Platform=None):
         self.id = _cast(None, id)
         self.Malware_Instance_Object_Attributes = Malware_Instance_Object_Attributes
         self.Minor_Variants = Minor_Variants
@@ -1769,10 +1769,14 @@ class MalwareSubjectType(GeneratedsSuper):
         self.Analyses = Analyses
         self.Findings_Bundles = Findings_Bundles
         self.Relationships = Relationships
-        if Compatible_Platform is None:
-            self.Compatible_Platform = []
+        if Label is None:
+            self.Label = []
         else:
-            self.Compatible_Platform = Compatible_Platform
+            self.Label = Label
+        if Label is None:
+            self.Label = []
+        else:
+            self.Label = Label
     def factory(*args_, **kwargs_):
         if MalwareSubjectType.subclass:
             return MalwareSubjectType.subclass(*args_, **kwargs_)
@@ -1781,6 +1785,10 @@ class MalwareSubjectType(GeneratedsSuper):
     factory = staticmethod(factory)
     def get_Malware_Instance_Object_Attributes(self): return self.Malware_Instance_Object_Attributes
     def set_Malware_Instance_Object_Attributes(self, Malware_Instance_Object_Attributes): self.Malware_Instance_Object_Attributes = Malware_Instance_Object_Attributes
+    def get_Label(self): return self.Label
+    def set_Label(self, Label): self.Label = Label
+    def add_Label(self, value): self.Label.append(value)
+    def insert_Label(self, index, value): self.Label[index] = value
     def get_Minor_Variants(self): return self.Minor_Variants
     def set_Minor_Variants(self, Minor_Variants): self.Minor_Variants = Minor_Variants
     def get_Development_Environment(self): return self.Development_Environment
@@ -1802,6 +1810,7 @@ class MalwareSubjectType(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.Malware_Instance_Object_Attributes is not None or
+            self.Label is not None or
             self.Minor_Variants is not None or
             self.Development_Environment is not None or
             self.Field_Data is not None or
@@ -1840,6 +1849,8 @@ class MalwareSubjectType(GeneratedsSuper):
             eol_ = ''
         if self.Malware_Instance_Object_Attributes is not None:
             self.Malware_Instance_Object_Attributes.export(outfile, level, 'maecPackage:', name_='Malware_Instance_Object_Attributes', pretty_print=pretty_print)
+        for Label_ in self.Label:
+            Label_.export(outfile, level, 'maecPackage:', name_='Label', pretty_print=pretty_print)
         if self.Minor_Variants is not None:
             self.Minor_Variants.export(outfile, level, 'maecPackage:', name_='Minor_Variants', pretty_print=pretty_print)
         if self.Development_Environment is not None:
@@ -1906,6 +1917,10 @@ class MalwareSubjectType(GeneratedsSuper):
             obj_ = cybox_core.ObjectType.factory()
             obj_.build(child_)
             self.set_Malware_Instance_Object_Attributes(obj_)
+        elif nodeName_ == 'Label':
+            obj_ = cybox_common.ControlledVocabularyStringType.factory()
+            obj_.build(child_)
+            self.Label.append(obj_)
         elif nodeName_ == 'Minor_Variants':
             obj_ = MinorVariantListType.factory()
             obj_.build(child_)
