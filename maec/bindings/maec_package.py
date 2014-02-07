@@ -1779,10 +1779,10 @@ class MalwareSubjectType(GeneratedsSuper):
             self.Label = []
         else:
             self.Label = Label
-        if Label is None:
-            self.Label = []
+        if Compatible_Platform is None:
+            self.Compatible_Platform = []
         else:
-            self.Label = Label
+            self.Compatible_Platform = Compatible_Platform
     def factory(*args_, **kwargs_):
         if MalwareSubjectType.subclass:
             return MalwareSubjectType.subclass(*args_, **kwargs_)
