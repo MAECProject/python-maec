@@ -5430,6 +5430,970 @@ class BehavioralActionType(MalwareActionType):
         pass
 # end class BehavioralActionType
 
+class CapabilityType(GeneratedsSuper):
+    """The CapabilityType captures details of a Capability that may be
+    implemented in the malware instance, along with its child
+    Strategic and Tactical Objectives.The required id field
+    specifies a unique ID for this MAEC Capability.The name field
+    captures the name of the Capability. It uses the
+    MalwareCapabilityEnum-1.0 enumeration from the MAEC Vocabularies
+    schema."""
+    subclass = None
+    superclass = None
+    def __init__(self, id=None, name=None, Description=None, Property=None, Strategic_Objective=None, Tactical_Objective=None, Behavior_Reference=None, Relationship=None):
+        self.id = _cast(None, id)
+        self.name = _cast(None, name)
+        self.Description = Description
+        if Property is None:
+            self.Property = []
+        else:
+            self.Property = Property
+        if Strategic_Objective is None:
+            self.Strategic_Objective = []
+        else:
+            self.Strategic_Objective = Strategic_Objective
+        if Tactical_Objective is None:
+            self.Tactical_Objective = []
+        else:
+            self.Tactical_Objective = Tactical_Objective
+        if Behavior_Reference is None:
+            self.Behavior_Reference = []
+        else:
+            self.Behavior_Reference = Behavior_Reference
+        if Relationship is None:
+            self.Relationship = []
+        else:
+            self.Relationship = Relationship
+    def factory(*args_, **kwargs_):
+        if CapabilityType.subclass:
+            return CapabilityType.subclass(*args_, **kwargs_)
+        else:
+            return CapabilityType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Description(self): return self.Description
+    def set_Description(self, Description): self.Description = Description
+    def get_Property(self): return self.Property
+    def set_Property(self, Property): self.Property = Property
+    def add_Property(self, value): self.Property.append(value)
+    def insert_Property(self, index, value): self.Property[index] = value
+    def get_Strategic_Objective(self): return self.Strategic_Objective
+    def set_Strategic_Objective(self, Strategic_Objective): self.Strategic_Objective = Strategic_Objective
+    def add_Strategic_Objective(self, value): self.Strategic_Objective.append(value)
+    def insert_Strategic_Objective(self, index, value): self.Strategic_Objective[index] = value
+    def get_Tactical_Objective(self): return self.Tactical_Objective
+    def set_Tactical_Objective(self, Tactical_Objective): self.Tactical_Objective = Tactical_Objective
+    def add_Tactical_Objective(self, value): self.Tactical_Objective.append(value)
+    def insert_Tactical_Objective(self, index, value): self.Tactical_Objective[index] = value
+    def get_Behavior_Reference(self): return self.Behavior_Reference
+    def set_Behavior_Reference(self, Behavior_Reference): self.Behavior_Reference = Behavior_Reference
+    def add_Behavior_Reference(self, value): self.Behavior_Reference.append(value)
+    def insert_Behavior_Reference(self, index, value): self.Behavior_Reference[index] = value
+    def get_Relationship(self): return self.Relationship
+    def set_Relationship(self, Relationship): self.Relationship = Relationship
+    def add_Relationship(self, value): self.Relationship.append(value)
+    def insert_Relationship(self, index, value): self.Relationship[index] = value
+    def get_id(self): return self.id
+    def set_id(self, id): self.id = id
+    def get_name(self): return self.name
+    def set_name(self, name): self.name = name
+    def hasContent_(self):
+        if (
+            self.Description is not None or
+            self.Property or
+            self.Strategic_Objective or
+            self.Tactical_Objective or
+            self.Behavior_Reference or
+            self.Relationship
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='maecBundle:', name_='CapabilityType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CapabilityType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CapabilityType'):
+        if self.id is not None and 'id' not in already_processed:
+            already_processed.add('id')
+            outfile.write(' id=%s' % (quote_attrib(self.id), ))
+        if self.name is not None and 'name' not in already_processed:
+            already_processed.add('name')
+            outfile.write(' name=%s' % (quote_attrib(self.name), ))
+    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CapabilityType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.Description is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+        for Property_ in self.Property:
+            Property_.export(outfile, level, 'maecBundle:', name_='Property', pretty_print=pretty_print)
+        for Strategic_Objective_ in self.Strategic_Objective:
+            Strategic_Objective_.export(outfile, level, 'maecBundle:', name_='Strategic_Objective', pretty_print=pretty_print)
+        for Tactical_Objective_ in self.Tactical_Objective:
+            Tactical_Objective_.export(outfile, level, 'maecBundle:', name_='Tactical_Objective', pretty_print=pretty_print)
+        for Behavior_Reference_ in self.Behavior_Reference:
+            Behavior_Reference_.export(outfile, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
+        for Relationship_ in self.Relationship:
+            Relationship_.export(outfile, level, 'maecBundle:', name_='Relationship', pretty_print=pretty_print)
+    def exportLiteral(self, outfile, level, name_='CapabilityType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.id is not None and 'id' not in already_processed:
+            already_processed.add('id')
+            showIndent(outfile, level)
+            outfile.write('id = %s,\n' % (self.id,))
+        if self.name is not None and 'name' not in already_processed:
+            already_processed.add('name')
+            showIndent(outfile, level)
+            outfile.write('name = %s,\n' % (self.name,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.Description is not None:
+            showIndent(outfile, level)
+            outfile.write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
+        showIndent(outfile, level)
+        outfile.write('Property=[\n')
+        level += 1
+        for Property_ in self.Property:
+            outfile.write('model_.CapabilityPropertyType(\n')
+            Property_.exportLiteral(outfile, level, name_='CapabilityPropertyType')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        showIndent(outfile, level)
+        outfile.write('Strategic_Objective=[\n')
+        level += 1
+        for Strategic_Objective_ in self.Strategic_Objective:
+            outfile.write('model_.CapabilityObjectiveType(\n')
+            Strategic_Objective_.exportLiteral(outfile, level, name_='CapabilityObjectiveType')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        showIndent(outfile, level)
+        outfile.write('Tactical_Objective=[\n')
+        level += 1
+        for Tactical_Objective_ in self.Tactical_Objective:
+            outfile.write('model_.CapabilityObjectiveType(\n')
+            Tactical_Objective_.exportLiteral(outfile, level, name_='CapabilityObjectiveType')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        showIndent(outfile, level)
+        outfile.write('Behavior_Reference=[\n')
+        level += 1
+        for Behavior_Reference_ in self.Behavior_Reference:
+            outfile.write('model_.BehaviorReferenceType(\n')
+            Behavior_Reference_.exportLiteral(outfile, level, name_='BehaviorReferenceType')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        showIndent(outfile, level)
+        outfile.write('Relationship=[\n')
+        level += 1
+        for Relationship_ in self.Relationship:
+            outfile.write('model_.CapabilityRelationshipType(\n')
+            Relationship_.exportLiteral(outfile, level, name_='CapabilityRelationshipType')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('id', node)
+        if value is not None and 'id' not in already_processed:
+            already_processed.add('id')
+            self.id = value
+        value = find_attr_value_('name', node)
+        if value is not None and 'name' not in already_processed:
+            already_processed.add('name')
+            self.name = value
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Description':
+            Description_ = child_.text
+            Description_ = self.gds_validate_string(Description_, node, 'Description')
+            self.Description = Description_
+        elif nodeName_ == 'Property':
+            obj_ = CapabilityPropertyType.factory()
+            obj_.build(child_)
+            self.Property.append(obj_)
+        elif nodeName_ == 'Strategic_Objective':
+            obj_ = CapabilityObjectiveType.factory()
+            obj_.build(child_)
+            self.Strategic_Objective.append(obj_)
+        elif nodeName_ == 'Tactical_Objective':
+            obj_ = CapabilityObjectiveType.factory()
+            obj_.build(child_)
+            self.Tactical_Objective.append(obj_)
+        elif nodeName_ == 'Behavior_Reference':
+            obj_ = BehaviorReferenceType.factory()
+            obj_.build(child_)
+            self.Behavior_Reference.append(obj_)
+        elif nodeName_ == 'Relationship':
+            obj_ = BehaviorRelationshipType.factory()
+            obj_.build(child_)
+            self.Relationship.append(obj_)
+# end class CapabilityType
+
+class CapabilityListType(GeneratedsSuper):
+    """The CapabilityListType captures a list of Capabilities."""
+    subclass = None
+    superclass = None
+    def __init__(self, Capability=None, Capability_Reference=None):
+        if Capability is None:
+            self.Capability = []
+        else:
+            self.Capability = Capability
+        if Capability_Reference is None:
+            self.Capability_Reference = []
+        else:
+            self.Capability_Reference = Capability_Reference
+    def factory(*args_, **kwargs_):
+        if CapabilityListType.subclass:
+            return CapabilityListType.subclass(*args_, **kwargs_)
+        else:
+            return CapabilityListType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Capability(self): return self.Capability
+    def set_Capability(self, Capability): self.Capability = Capability
+    def add_Capability(self, value): self.Capability.append(value)
+    def insert_Capability(self, index, value): self.Capability[index] = value
+    def get_Capability_Reference(self): return self.Capability_Reference
+    def set_Capability_Reference(self, Capability_Reference): self.Capability_Reference = Capability_Reference
+    def add_Capability_Reference(self, value): self.Capability_Reference.append(value)
+    def insert_Capability_Reference(self, index, value): self.Capability_Reference[index] = value
+    def hasContent_(self):
+        if (
+            self.Capability or
+            self.Capability_Reference
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='maecBundle:', name_='CapabilityListType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CapabilityListType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CapabilityListType'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CapabilityListType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for Capability_ in self.Capability:
+            Capability_.export(outfile, level, 'maecBundle:', name_='Capability', pretty_print=pretty_print)
+        for Capability_Reference_ in self.Capability_Reference:
+            Capability_Reference_.export(outfile, level, 'maecBundle:', name_='Capability_Reference', pretty_print=pretty_print)
+    def exportLiteral(self, outfile, level, name_='CapabilityListType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.Capability is not None:
+            outfile.write('Capability=model_.CapabilityType(\n')
+            self.Capability.exportLiteral(outfile, level, name_='Capability')
+            outfile.write('),\n')
+        showIndent(outfile, level)
+        outfile.write('Capability_Reference=[\n')
+        level += 1
+        for Capability_Reference_ in self.Capability_Reference:
+            outfile.write('model_.CapabilityReferenceType(\n')
+            Capability_Reference_.exportLiteral(outfile, level, name_='CapabilityReferenceType')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Capability':
+            obj_ = CapabilityType.factory()
+            obj_.build(child_)
+            self.Capability.append(obj_)
+        elif nodeName_ == 'Capability_Reference':
+            obj_ = CapabilityReferenceType.factory()
+            obj_.build(child_)
+            self.Capability_Reference.append(obj_)
+# end class CapabilityListType
+
+class CapabilityReferenceType(GeneratedsSuper):
+    """The CapabilityReferenceType serves as a method for referencing
+    existing Capabilities contained in the MAEC document.The
+    capability_idref field references the ID of a Capability
+    contained inside the current MAEC document."""
+    subclass = None
+    superclass = None
+    def __init__(self, capability_idref=None):
+        self.capability_idref = _cast(None, capability_idref)
+        pass
+    def factory(*args_, **kwargs_):
+        if CapabilityReferenceType.subclass:
+            return CapabilityReferenceType.subclass(*args_, **kwargs_)
+        else:
+            return CapabilityReferenceType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_capability_idref(self): return self.capability_idref
+    def set_capability_idref(self, capability_idref): self.capability_idref = capability_idref
+    def hasContent_(self):
+        if (
+            self.capability_idref is not None
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='maecBundle:', name_='CapabilityReferenceType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CapabilityReferenceType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CapabilityReferenceType'):
+        if self.capability_idref is not None and 'capability_idref' not in already_processed:
+            already_processed.add('capability_idref')
+            outfile.write(' capability_idref=%s' % (quote_attrib(self.capability_idref), ))
+    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CapabilityReferenceType', fromsubclass_=False, pretty_print=True):
+        pass
+    def exportLiteral(self, outfile, level, name_='CapabilityReferenceType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.capability_idref is not None and 'capability_idref' not in already_processed:
+            already_processed.add('capability_idref')
+            showIndent(outfile, level)
+            outfile.write('capability_idref = %s,\n' % (self.capability_idref,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('capability_idref', node)
+        if value is not None and 'capability_idref' not in already_processed:
+            already_processed.add('capability_idref')
+            self.capability_idref = value
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class CapabilityReferenceType
+
+class CapabilityObjectiveType(GeneratedsSuper):
+    """The CapabilityObjectiveType captures details of a Capability
+    Strategic or Tactical Objective may be implemented in the
+    malware instance and its properties.The required id field
+    specifies a unique ID for this Capability Objective."""
+    subclass = None
+    superclass = None
+    def __init__(self, id=None, Name=None, Description=None, Property=None, Behavior_Reference=None, Relationship=None):
+        self.id = _cast(None, id)
+        self.Name = Name
+        self.Description = Description
+        if Property is None:
+            self.Property = []
+        else:
+            self.Property = Property
+        if Behavior_Reference is None:
+            self.Behavior_Reference = []
+        else:
+            self.Behavior_Reference = Behavior_Reference
+        if Relationship is None:
+            self.Relationship = []
+        else:
+            self.Relationship = Relationship
+    def factory(*args_, **kwargs_):
+        if CapabilityObjectiveType.subclass:
+            return CapabilityObjectiveType.subclass(*args_, **kwargs_)
+        else:
+            return CapabilityObjectiveType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Name(self): return self.Name
+    def set_Name(self, Name): self.Name = Name
+    def get_Description(self): return self.Description
+    def set_Description(self, Description): self.Description = Description
+    def get_Property(self): return self.Property
+    def set_Property(self, Property): self.Property = Property
+    def add_Property(self, value): self.Property.append(value)
+    def insert_Property(self, index, value): self.Property[index] = value
+    def get_Behavior_Reference(self): return self.Behavior_Reference
+    def set_Behavior_Reference(self, Behavior_Reference): self.Behavior_Reference = Behavior_Reference
+    def add_Behavior_Reference(self, value): self.Behavior_Reference.append(value)
+    def insert_Behavior_Reference(self, index, value): self.Behavior_Reference[index] = value
+    def get_Relationship(self): return self.Relationship
+    def set_Relationship(self, Relationship): self.Relationship = Relationship
+    def add_Relationship(self, value): self.Relationship.append(value)
+    def insert_Relationship(self, index, value): self.Relationship[index] = value
+    def get_id(self): return self.id
+    def set_id(self, id): self.id = id
+    def hasContent_(self):
+        if (
+            self.Name is not None or
+            self.Description is not None or
+            self.Property or
+            self.Behavior_Reference or
+            self.Relationship
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='maecBundle:', name_='CapabilityObjectiveType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CapabilityObjectiveType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CapabilityObjectiveType'):
+        if self.id is not None and 'id' not in already_processed:
+            already_processed.add('id')
+            outfile.write(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CapabilityObjectiveType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.Name is not None:
+            self.Name.export(outfile, level, 'maecBundle:', name_='Name', pretty_print=pretty_print)
+        if self.Description is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+        for Property_ in self.Property:
+            Property_.export(outfile, level, 'maecBundle:', name_='Property', pretty_print=pretty_print)
+        for Behavior_Reference_ in self.Behavior_Reference:
+            Behavior_Reference_.export(outfile, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
+        for Relationship_ in self.Relationship:
+            Relationship_.export(outfile, level, 'maecBundle:', name_='Relationship', pretty_print=pretty_print)
+    def exportLiteral(self, outfile, level, name_='CapabilityObjectiveType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.id is not None and 'id' not in already_processed:
+            already_processed.add('id')
+            showIndent(outfile, level)
+            outfile.write('id = %s,\n' % (self.id,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.Name is not None:
+            outfile.write('Name=model_.cybox_common.ControlledVocabularyStringType(\n')
+            self.Name.exportLiteral(outfile, level, name_='Name')
+            outfile.write('),\n')
+        if self.Description is not None:
+            showIndent(outfile, level)
+            outfile.write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
+        showIndent(outfile, level)
+        outfile.write('Property=[\n')
+        level += 1
+        for Property_ in self.Property:
+            outfile.write('model_.CapabilityPropertyType(\n')
+            Property_.exportLiteral(outfile, level, name_='CapabilityPropertyType')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        showIndent(outfile, level)
+        outfile.write('Behavior_Reference=[\n')
+        level += 1
+        for Behavior_Reference_ in self.Behavior_Reference:
+            outfile.write('model_.BehaviorReferenceType(\n')
+            Behavior_Reference_.exportLiteral(outfile, level, name_='BehaviorReferenceType')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        showIndent(outfile, level)
+        outfile.write('Relationship=[\n')
+        level += 1
+        for Relationship_ in self.Relationship:
+            outfile.write('model_.CapabilityObjectiveRelationshipType(\n')
+            Relationship_.exportLiteral(outfile, level, name_='CapabilityObjectiveRelationshipType')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('id', node)
+        if value is not None and 'id' not in already_processed:
+            already_processed.add('id')
+            self.id = value
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Name':
+            obj_ = cybox_common.ControlledVocabularyStringType.factory()
+            obj_.build(child_)
+            self.set_Name(obj_)
+        elif nodeName_ == 'Description':
+            Description_ = child_.text
+            Description_ = self.gds_validate_string(Description_, node, 'Description')
+            self.Description = Description_
+        elif nodeName_ == 'Property':
+            obj_ = CapabilityPropertyType.factory()
+            obj_.build(child_)
+            self.Property.append(obj_)
+        elif nodeName_ == 'Behavior_Reference':
+            obj_ = BehaviorReferenceType.factory()
+            obj_.build(child_)
+            self.Behavior_Reference.append(obj_)
+        elif nodeName_ == 'Relationship':
+            obj_ = BehaviorRelationshipType.factory()
+            obj_.build(child_)
+            self.Relationship.append(obj_)
+# end class CapabilityObjectiveType
+
+class CapabilityRelationshipType(GeneratedsSuper):
+    """The CapabilityObjectiveRelationshipType captures a relationship
+    between a Capability and one or more other Capabilitys."""
+    subclass = None
+    superclass = None
+    def __init__(self, Relationship_Type=None, Capability_Reference=None):
+        self.Relationship_Type = Relationship_Type
+        if Capability_Reference is None:
+            self.Capability_Reference = []
+        else:
+            self.Capability_Reference = Capability_Reference
+    def factory(*args_, **kwargs_):
+        if CapabilityRelationshipType.subclass:
+            return CapabilityRelationshipType.subclass(*args_, **kwargs_)
+        else:
+            return CapabilityRelationshipType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Relationship_Type(self): return self.Relationship_Type
+    def set_Relationship_Type(self, Relationship_Type): self.Relationship_Type = Relationship_Type
+    def get_Capability_Reference(self): return self.Capability_Reference
+    def set_Capability_Reference(self, Capability_Reference): self.Capability_Reference = Capability_Reference
+    def add_Capability_Reference(self, value): self.Capability_Reference.append(value)
+    def insert_Capability_Reference(self, index, value): self.Capability_Reference[index] = value
+    def hasContent_(self):
+        if (
+            self.Relationship_Type is not None or
+            self.Capability_Reference
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='maecBundle:', name_='CapabilityRelationshipType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CapabilityRelationshipType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CapabilityRelationshipType'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CapabilityRelationshipType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.Relationship_Type is not None:
+            self.Relationship_Type.export(outfile, level, 'maecBundle:', name_='Relationship_Type', pretty_print=pretty_print)
+        for Capability_Reference_ in self.Capability_Reference:
+            Capability_Reference_.export(outfile, level, 'maecBundle:', name_='Capability_Reference', pretty_print=pretty_print)
+    def exportLiteral(self, outfile, level, name_='CapabilityRelationshipType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.Relationship_Type is not None:
+            outfile.write('Relationship_Type=model_.cybox_common.ControlledVocabularyStringType(\n')
+            self.Relationship_Type.exportLiteral(outfile, level, name_='Relationship_Type')
+            outfile.write('),\n')
+        showIndent(outfile, level)
+        outfile.write('Capability_Reference=[\n')
+        level += 1
+        for Capability_Reference_ in self.Capability_Reference:
+            outfile.write('model_.CapabilityType(\n')
+            Capability_Reference_.exportLiteral(outfile, level, name_='CapabilityType')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Relationship_Type':
+            obj_ = cybox_common.ControlledVocabularyStringType.factory()
+            obj_.build(child_)
+            self.set_Relationship_Type(obj_)
+        elif nodeName_ == 'Capability_Reference':
+            obj_ = CapabilityReferenceType.factory()
+            obj_.build(child_)
+            self.Capability_Reference.append(obj_)
+# end class CapabilityRelationshipType
+
+class CapabilityObjectiveRelationshipType(GeneratedsSuper):
+    """The CapabilityObjectiveRelationshipType captures a relationship
+    between a Strategic or Tactical Objective and one or more other
+    Strategic or Tactical Objectives."""
+    subclass = None
+    superclass = None
+    def __init__(self, Relationship_Type=None, Objective_Reference=None):
+        self.Relationship_Type = Relationship_Type
+        if Objective_Reference is None:
+            self.Objective_Reference = []
+        else:
+            self.Objective_Reference = Objective_Reference
+    def factory(*args_, **kwargs_):
+        if CapabilityObjectiveRelationshipType.subclass:
+            return CapabilityObjectiveRelationshipType.subclass(*args_, **kwargs_)
+        else:
+            return CapabilityObjectiveRelationshipType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Relationship_Type(self): return self.Relationship_Type
+    def set_Relationship_Type(self, Relationship_Type): self.Relationship_Type = Relationship_Type
+    def get_Objective_Reference(self): return self.Objective_Reference
+    def set_Objective_Reference(self, Objective_Reference): self.Objective_Reference = Objective_Reference
+    def add_Objective_Reference(self, value): self.Objective_Reference.append(value)
+    def insert_Objective_Reference(self, index, value): self.Objective_Reference[index] = value
+    def hasContent_(self):
+        if (
+            self.Relationship_Type is not None or
+            self.Objective_Reference
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='maecBundle:', name_='CapabilityObjectiveRelationshipType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CapabilityObjectiveRelationshipType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CapabilityObjectiveRelationshipType'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CapabilityObjectiveRelationshipType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.Relationship_Type is not None:
+            self.Relationship_Type.export(outfile, level, 'maecBundle:', name_='Relationship_Type', pretty_print=pretty_print)
+        for Objective_Reference_ in self.Objective_Reference:
+            Objective_Reference_.export(outfile, level, 'maecBundle:', name_='Objective_Reference', pretty_print=pretty_print)
+    def exportLiteral(self, outfile, level, name_='CapabilityObjectiveRelationshipType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.Relationship_Type is not None:
+            outfile.write('Relationship_Type=model_.cybox_common.ControlledVocabularyStringType(\n')
+            self.Relationship_Type.exportLiteral(outfile, level, name_='Relationship_Type')
+            outfile.write('),\n')
+        showIndent(outfile, level)
+        outfile.write('Objective_Reference=[\n')
+        level += 1
+        for Objective_Reference_ in self.Objective_Reference:
+            outfile.write('model_.CapabilityObjectiveReferenceType(\n')
+            Objective_Reference_.exportLiteral(outfile, level, name_='CapabilityObjectiveReferenceType')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Relationship_Type':
+            obj_ = cybox_common.ControlledVocabularyStringType.factory()
+            obj_.build(child_)
+            self.set_Relationship_Type(obj_)
+        elif nodeName_ == 'Objective_Reference':
+            obj_ = CapabilityObjectiveReferenceType.factory()
+            obj_.build(child_)
+            self.Objective_Reference.append(obj_)
+# end class CapabilityObjectiveRelationshipType
+
+class CapabilityObjectiveReferenceType(GeneratedsSuper):
+    """The CapabilityObjectiveReferenceType serves as a method for
+    referencing existing Capability Objectives (either Strategic or
+    Tactical) contained in the Bundle.The objective_idref field
+    references the ID of a Capability Objective (either Strategic or
+    Tactical) contained inside the current MAEC document."""
+    subclass = None
+    superclass = None
+    def __init__(self, objective_idref=None):
+        self.objective_idref = _cast(None, objective_idref)
+        pass
+    def factory(*args_, **kwargs_):
+        if CapabilityObjectiveReferenceType.subclass:
+            return CapabilityObjectiveReferenceType.subclass(*args_, **kwargs_)
+        else:
+            return CapabilityObjectiveReferenceType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_objective_idref(self): return self.objective_idref
+    def set_objective_idref(self, objective_idref): self.objective_idref = objective_idref
+    def hasContent_(self):
+        if (
+
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='maecBundle:', name_='CapabilityObjectiveReferenceType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CapabilityObjectiveReferenceType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CapabilityObjectiveReferenceType'):
+        if self.objective_idref is not None and 'objective_idref' not in already_processed:
+            already_processed.add('objective_idref')
+            outfile.write(' objective_idref=%s' % (quote_attrib(self.objective_idref), ))
+    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CapabilityObjectiveReferenceType', fromsubclass_=False, pretty_print=True):
+        pass
+    def exportLiteral(self, outfile, level, name_='CapabilityObjectiveReferenceType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.objective_idref is not None and 'objective_idref' not in already_processed:
+            already_processed.add('objective_idref')
+            showIndent(outfile, level)
+            outfile.write('objective_idref = %s,\n' % (self.objective_idref,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('objective_idref', node)
+        if value is not None and 'objective_idref' not in already_processed:
+            already_processed.add('objective_idref')
+            self.objective_idref = value
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class CapabilityObjectiveReferenceType
+
+class CapabilityPropertyType(GeneratedsSuper):
+    """The CapabilityPropertyType captures a single property of a
+    Capability or Capability Objective."""
+    subclass = None
+    superclass = None
+    def __init__(self, Name=None, Value=None):
+        self.Name = Name
+        self.Value = Value
+    def factory(*args_, **kwargs_):
+        if CapabilityPropertyType.subclass:
+            return CapabilityPropertyType.subclass(*args_, **kwargs_)
+        else:
+            return CapabilityPropertyType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Name(self): return self.Name
+    def set_Name(self, Name): self.Name = Name
+    def get_Value(self): return self.Value
+    def set_Value(self, Value): self.Value = Value
+    def validate_StringObjectPropertyType(self, value):
+        # Validate type cybox_common.StringObjectPropertyType, a restriction on None.
+        pass
+    def hasContent_(self):
+        if (
+            self.Name is not None or
+            self.Value is not None
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='maecBundle:', name_='CapabilityPropertyType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CapabilityPropertyType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CapabilityPropertyType'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CapabilityPropertyType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.Name is not None:
+            self.Name.export(outfile, level, 'maecBundle:', name_='Name', pretty_print=pretty_print)
+        if self.Value is not None:
+            self.Value.export(outfile, level, 'maecBundle:', name_='Value', pretty_print=pretty_print)
+    def exportLiteral(self, outfile, level, name_='CapabilityPropertyType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.Name is not None:
+            outfile.write('Name=model_.cybox_common.ControlledVocabularyStringType(\n')
+            self.Name.exportLiteral(outfile, level, name_='Name')
+            outfile.write('),\n')
+        if self.Value is not None:
+            outfile.write('Value=model_.cybox_common.StringObjectPropertyType(\n')
+            self.Value.exportLiteral(outfile, level, name_='Value')
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Name':
+            obj_ = cybox_common.ControlledVocabularyStringType.factory()
+            obj_.build(child_)
+            self.set_Name(obj_)
+        elif nodeName_ == 'Value':
+            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Value(obj_)
+# end class CapabilityPropertyType
+
 USAGE_TEXT = """
 Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
