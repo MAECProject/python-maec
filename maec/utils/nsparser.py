@@ -3,8 +3,8 @@
 #Copyright (c) 2013, The MITRE Corporation
 #All rights reserved.
 
-#Compatible with MAEC v4.0
-#Last updated 10/07/2013
+#Compatible with MAEC v4.1
+#Last updated 02/07/2014
 
 import maec.bindings.maec_bundle as bundle_binding
 import maec.bindings.maec_package as package_binding
@@ -84,19 +84,19 @@ class MAECNamespaceParser(NamespaceParser):
             output_string += 'xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-4" \n '
             output_string += 'xmlns:maecVocabs="http://maec.mitre.org/default_vocabularies-1" \n '
             output_string += 'xmlns:mmdef="http://xml/metadataSharing.xsd" \n '
-            schemalocs.append('http://maec.mitre.org/default_vocabularies-1 http://maec.mitre.org/language/version4.0.1/maec_default_vocabularies.xsd')
-            schemalocs.append(' http://maec.mitre.org/XMLSchema/maec-package-2 http://maec.mitre.org/language/version4.0.1/maec_package_schema.xsd')
+            schemalocs.append('http://maec.mitre.org/default_vocabularies-1 http://maec.mitre.org/language/version4.1/maec_default_vocabularies.xsd')
+            schemalocs.append(' http://maec.mitre.org/XMLSchema/maec-package-2 http://maec.mitre.org/language/version4.1/maec_package_schema.xsd')
         elif isinstance(self.maec_entity, bundle_binding.BundleType):
             output_string += 'xmlns:maecVocabs="http://maec.mitre.org/default_vocabularies-1" \n '
             output_string += 'xmlns:maecBundle="http://maec.mitre.org/XMLSchema/maec-bundle-4" \n '
             output_string += 'xmlns:mmdef="http://xml/metadataSharing.xsd" \n '
-            schemalocs.append('http://maec.mitre.org/default_vocabularies-1 http://maec.mitre.org/language/version4.0.1/maec_default_vocabularies.xsd')
-            schemalocs.append(' http://maec.mitre.org/XMLSchema/maec-bundle-4 http://maec.mitre.org/language/version4.0.1/maec_bundle_schema.xsd')
+            schemalocs.append('http://maec.mitre.org/default_vocabularies-1 http://maec.mitre.org/language/version4.1/maec_default_vocabularies.xsd')
+            schemalocs.append(' http://maec.mitre.org/XMLSchema/maec-bundle-4 http://maec.mitre.org/language/version4.1/maec_bundle_schema.xsd')
         output_string += 'xmlns:cybox="http://cybox.mitre.org/cybox-2" \n '
         output_string += 'xmlns:cyboxCommon="http://cybox.mitre.org/common-2" \n '
         output_string += 'xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2" \n '
-        schemalocs.append(' http://cybox.mitre.org/cybox-2 http://cybox.mitre.org/XMLSchema/core/2.0.1/cybox_core.xsd')
-        schemalocs.append(' http://maec.mitre.org/default_vocabularies-1 http://cybox.mitre.org/XMLSchema/default_vocabularies/2.0.1/cybox_default_vocabularies.xsd')
+        schemalocs.append(' http://cybox.mitre.org/cybox-2 http://cybox.mitre.org/XMLSchema/core/2.1/cybox_core.xsd')
+        schemalocs.append(' http://maec.mitre.org/default_vocabularies-1 http://cybox.mitre.org/XMLSchema/default_vocabularies/2.1/cybox_default_vocabularies.xsd')
         
         for object_type in self.object_types:
             namespace = META.lookup_object(object_type).namespace
