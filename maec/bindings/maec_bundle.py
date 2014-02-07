@@ -742,30 +742,30 @@ class BundleType(GeneratedsSuper):
     data (from any arbitrary set of analyses) for a single malware
     instance in terms of its MAEC Components (e.g., Behaviors,
     Actions, Objects, etc.).The required id field specifies a unique
-    ID for this MAEC Bundle. The ID must follow the pattern defined
-    in the BundleIDPattern simple type.The required schema_version
-    field specifies the version of the MAEC Bundle Schema that the
+    ID for this MAEC Bundle. The required schema_version field
+    specifies the version of the MAEC Bundle Schema that the
     document has been written in and that should be used for
     validation.The required defined_subject field specifies whether
-    the subject attributes of the malware instance characterized
-    here are included inside this Bundle (via the top-level
-    Malware_Instance_Object_Attributes element) or elsewhere (such
-    as a MAEC Subject in a MAEC Package).The content_type field
+    the subject attributes of the characterized malware instance are
+    included inside this Bundle (via the top-level
+    Malware_Instance_Object_Attributes field) or elsewhere (such as
+    a MAEC Subject in a MAEC Package).The content_type field
     specifies the general type of content contained in this Bundle,
     e.g. static analysis tool output, dynamic analysis tool output,
     etc.The timestamp field specifies the date/time that the bundle
     was generated."""
     subclass = None
     superclass = None
-    def __init__(self, defined_subject=None, content_type=None, id=None, schema_version=None, timestamp=None, Malware_Instance_Object_Attributes=None, AV_Classifications=None, Process_Tree=None, Behaviors=None, Actions=None, Objects=None, Candidate_Indicators=None, Collections=None):
+    def __init__(self, defined_subject=None, content_type=None, id=None, schema_version=None, timestamp=None, Malware_Instance_Object_Attributes=None, AV_Classifications=None, Process_Tree=None, Capabilities=None, Behaviors=None, Actions=None, Objects=None, Candidate_Indicators=None, Collections=None):
         self.defined_subject = _cast(bool, defined_subject)
         self.content_type = _cast(None, content_type)
         self.id = _cast(None, id)
-        self.schema_version = schema_version
+        self.schema_version = _cast(None, schema_version)
         self.timestamp = _cast(None, timestamp)
         self.Malware_Instance_Object_Attributes = Malware_Instance_Object_Attributes
         self.AV_Classifications = AV_Classifications
         self.Process_Tree = Process_Tree
+        self.Capabilities = Capabilities
         self.Behaviors = Behaviors
         self.Actions = Actions
         self.Objects = Objects
@@ -783,6 +783,8 @@ class BundleType(GeneratedsSuper):
     def set_AV_Classifications(self, AV_Classifications): self.AV_Classifications = AV_Classifications
     def get_Process_Tree(self): return self.Process_Tree
     def set_Process_Tree(self, Process_Tree): self.Process_Tree = Process_Tree
+    def get_Capabilities(self): return self.Capabilities
+    def set_Capabilities(self, Capabilities): self.Capabilities = Capabilities
     def get_Behaviors(self): return self.Behaviors
     def set_Behaviors(self, Behaviors): self.Behaviors = Behaviors
     def get_Actions(self): return self.Actions
@@ -808,6 +810,7 @@ class BundleType(GeneratedsSuper):
             self.Malware_Instance_Object_Attributes is not None or
             self.AV_Classifications is not None or
             self.Process_Tree is not None or
+            self.Capabilities is not None or
             self.Behaviors is not None or
             self.Actions is not None or
             self.Objects is not None or
@@ -817,7 +820,7 @@ class BundleType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='MAEC_Bundle', namespacedef_='', pretty_print=True):
+    def export(self, outfile, level, namespace_='maecBundle:', name_='BundleType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -825,7 +828,7 @@ class BundleType(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MAEC_Bundle')
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BundleType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
@@ -833,7 +836,7 @@ class BundleType(GeneratedsSuper):
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='MAEC_Bundle'):
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='BundleType'):
         if self.defined_subject is not None and 'defined_subject' not in already_processed:
             already_processed.add('defined_subject')
             outfile.write(' defined_subject="%s"' % self.gds_format_boolean(self.defined_subject, input_name='defined_subject'))
@@ -845,11 +848,11 @@ class BundleType(GeneratedsSuper):
             outfile.write(' id=%s' % (quote_attrib(self.id), ))
         if self.schema_version is not None and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
-            outfile.write(' schema_version="%s"' % self.schema_version)
+            outfile.write(' schema_version=%s' % (self.gds_format_string(quote_attrib(self.schema_version).encode(ExternalEncoding), input_name='schema_version'), ))
         if self.timestamp is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
-            outfile.write(' timestamp="%s"' % self.timestamp)
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='MAEC_Bundle', fromsubclass_=False, pretty_print=True):
+            outfile.write(' timestamp="%s"' % self.gds_format_datetime(self.timestamp, input_name='timestamp'))
+    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='BundleType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -860,6 +863,8 @@ class BundleType(GeneratedsSuper):
             self.AV_Classifications.export(outfile, level, 'maecBundle:', name_='AV_Classifications', pretty_print=pretty_print)
         if self.Process_Tree is not None:
             self.Process_Tree.export(outfile, level, 'maecBundle:', name_='Process_Tree', pretty_print=pretty_print)
+        if self.Capabilities is not None:
+            self.Capabilities.export(outfile, level, 'maecBundle:', name_='Capabilities', pretty_print=pretty_print)
         if self.Behaviors is not None:
             self.Behaviors.export(outfile, level, 'maecBundle:', name_='Behaviors', pretty_print=pretty_print)
         if self.Actions is not None:
@@ -870,7 +875,7 @@ class BundleType(GeneratedsSuper):
             self.Candidate_Indicators.export(outfile, level, 'maecBundle:', name_='Candidate_Indicators', pretty_print=pretty_print)
         if self.Collections is not None:
             self.Collections.export(outfile, level, 'maecBundle:', name_='Collections', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='MAEC_Bundle'):
+    def exportLiteral(self, outfile, level, name_='BundleType'):
         level += 1
         already_processed = set()
         self.exportLiteralAttributes(outfile, level, already_processed, name_)
@@ -892,7 +897,7 @@ class BundleType(GeneratedsSuper):
         if self.schema_version is not None and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
             showIndent(outfile, level)
-            outfile.write('schema_version = %s,\n' % (self.schema_version,))
+            outfile.write('schema_version = "%s",\n' % (self.schema_version,))
         if self.timestamp is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
             showIndent(outfile, level)
@@ -909,6 +914,10 @@ class BundleType(GeneratedsSuper):
         if self.Process_Tree is not None:
             outfile.write('Process_Tree=model_.ProcessTreeType(\n')
             self.Process_Tree.exportLiteral(outfile, level, name_='Process_Tree')
+            outfile.write('),\n')
+        if self.Capabilities is not None:
+            outfile.write('Capabilities=model_.CapabilityListType(\n')
+            self.Capabilities.exportLiteral(outfile, level, name_='Capabilities')
             outfile.write('),\n')
         if self.Behaviors is not None:
             outfile.write('Behaviors=model_.BehaviorListType(\n')
@@ -962,7 +971,7 @@ class BundleType(GeneratedsSuper):
         if value is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
             try:
-                self.timestamp = value
+                self.timestamp = self.gds_parse_datetime(value, node, 'timestamp')
             except ValueError, exp:
                 raise ValueError('Bad date-time attribute (timestamp): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -978,6 +987,10 @@ class BundleType(GeneratedsSuper):
             obj_ = ProcessTreeType.factory()
             obj_.build(child_)
             self.set_Process_Tree(obj_)
+        elif nodeName_ == 'Capabilities':
+            obj_ = CapabilityListType.factory()
+            obj_.build(child_)
+            self.set_Capabilities(obj_)
         elif nodeName_ == 'Behaviors':
             obj_ = BehaviorListType.factory()
             obj_.build(child_)
