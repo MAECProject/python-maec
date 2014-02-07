@@ -5038,10 +5038,8 @@ def usage():
 def parse(inFileName):
     doc = parsexml_(inFileName)
     rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'MAEC_Package'
-        rootClass = PackageType
+    rootTag = 'MAEC_Package'
+    rootClass = PackageType
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -5055,10 +5053,8 @@ def parse(inFileName):
 def parseEtree(inFileName):
     doc = parsexml_(inFileName)
     rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'MAEC_Package'
-        rootClass = PackageType
+    rootTag = 'MAEC_Package'
+    rootClass = PackageType
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -5074,10 +5070,8 @@ def parseString(inString):
     from StringIO import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'MAEC_Package'
-        rootClass = PackageType
+    rootTag = 'MAEC_Package'
+    rootClass = PackageType
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -5090,10 +5084,8 @@ def parseString(inString):
 def parseLiteral(inFileName):
     doc = parsexml_(inFileName)
     rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'MAEC_Package'
-        rootClass = PackageType
+    rootTag = 'MAEC_Package'
+    rootClass = PackageType
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
