@@ -1822,7 +1822,7 @@ class MalwareSubjectType(GeneratedsSuper):
             self.Field_Data is not None or
             self.Analyses is not None or
             self.Findings_Bundles is not None or
-            self.Relationships is not None
+            self.Relationships is not None or
             self.Compatible_Platform is not None
             ):
             return True
