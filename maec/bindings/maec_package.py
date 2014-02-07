@@ -1155,7 +1155,10 @@ class AnalysisType(GeneratedsSuper):
         self.Analysts = Analysts
         self.Summary = Summary
         self.Comments = Comments
-        self.Findings_Bundle_Reference = Findings_Bundle_Reference
+        if Findings_Bundle_Reference is None:
+            self.Findings_Bundle_Reference = []
+        else:
+            self.Findings_Bundle_Reference = Findings_Bundle_Reference
         self.Tools = Tools
         self.Dynamic_Analysis_Metadata = Dynamic_Analysis_Metadata
         self.Analysis_Environment = Analysis_Environment
@@ -1176,6 +1179,8 @@ class AnalysisType(GeneratedsSuper):
     def set_Comments(self, Comments): self.Comments = Comments
     def get_Findings_Bundle_Reference(self): return self.Findings_Bundle_Reference
     def set_Findings_Bundle_Reference(self, Findings_Bundle_Reference): self.Findings_Bundle_Reference = Findings_Bundle_Reference
+    def add_Findings_Bundle_Reference(self, value): self.Findings_Bundle_Reference.append(value)
+    def insert_Findings_Bundle_Reference(self, index, value): self.Findings_Bundle_Reference[index] = value
     def get_Tools(self): return self.Tools
     def set_Tools(self, Tools): self.Tools = Tools
     def get_Dynamic_Analysis_Metadata(self): return self.Dynamic_Analysis_Metadata
@@ -1264,8 +1269,8 @@ class AnalysisType(GeneratedsSuper):
             self.Summary.export(outfile, level, 'maecPackage:', name_='Summary', pretty_print=pretty_print)
         if self.Comments is not None:
             self.Comments.export(outfile, level, 'maecPackage:', name_='Comments', pretty_print=pretty_print)
-        if self.Findings_Bundle_Reference is not None:
-            self.Findings_Bundle_Reference.export(outfile, level, 'maecPackage:', name_='Findings_Bundle_Reference', pretty_print=pretty_print)
+        for Findings_Bundle_Reference_ in self.Findings_Bundle_Reference:
+            Findings_Bundle_Reference_.export(outfile, level, 'maecPackage:', name_='Findings_Bundle_Reference', pretty_print=pretty_print)
         if self.Tools is not None:
             self.Tools.export(outfile, level, 'maecPackage:', name_='Tools', pretty_print=pretty_print)
         if self.Dynamic_Analysis_Metadata is not None:
@@ -1415,7 +1420,7 @@ class AnalysisType(GeneratedsSuper):
         elif nodeName_ == 'Findings_Bundle_Reference':
             obj_ = maec_bundle_schema.BundleReferenceType.factory()
             obj_.build(child_)
-            self.set_Findings_Bundle_Reference(obj_)
+            self.Findings_Bundle_Reference.append(obj_)
         elif nodeName_ == 'Tools':
             obj_ = ToolListType.factory()
             obj_.build(child_)
