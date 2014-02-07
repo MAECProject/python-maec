@@ -722,43 +722,6 @@ class PackageListType(GeneratedsSuper):
             self.Package.append(obj_)
 # end class PackageListType
 
-GDSClassesMapping = {
-    'Findings_Bundles': maec_package_schema.FindingsBundleListType,
-    'Analysis_Systems': maec_package_schema.AnalysisSystemListType,
-    'MAEC_Package': maec_package_schema.PackageType,
-    'Installed_Programs': maec_package_schema.InstalledProgramsType,
-    'Protocol': maec_package_schema.CapturedProtocolType,
-    'Minor_Variants': maec_package_schema.MinorVariantListType,
-    'Action_Equivalences': maec_package_schema.ActionEquivalenceListType,
-    'Malware_Subject_Reference': maec_package_schema.MalwareSubjectReferenceType,
-    'Clustering_Metadata': maec_package_schema.ClusteringMetadataType,
-    'Edge_Node_Pair': maec_package_schema.ClusterEdgeNodePairType,
-    'Meta_Analysis': maec_package_schema.MetaAnalysisType,
-    'Analysis': maec_package_schema.AnalysisType,
-    'Dynamic_Analysis_Metadata': maec_package_schema.DynamicAnalysisMetadataType,
-    'Analyses': maec_package_schema.AnalysisListType,
-    'Grouping_Relationships': maec_package_schema.GroupingRelationshipListType,
-    'Network_Infrastructure': maec_package_schema.NetworkInfrastructureType,
-    'Comments': maec_package_schema.CommentListType,
-    'Captured_Protocols': maec_package_schema.CapturedProtocolListType,
-    'Malware_Subject': maec_package_schema.MalwareSubjectType,
-    'Cluster_Composition': maec_package_schema.ClusterCompositionType,
-    'Action_Equivalence': maec_package_schema.ActionEquivalenceType,
-    'Analysis_Environment': maec_package_schema.AnalysisEnvironmentType,
-    'Object_Equivalences': maec_package_schema.ObjectEquivalenceListType,
-    'Hypervisor_Host_System': maec_package_schema.HypervisorHostSystemType,
-    'Source': maec_package_schema.SourceType,
-    'Algorithm_Parameters': maec_package_schema.ClusteringAlgorithmParametersType,
-    'Malware_Subject_Node_A': maec_package_schema.MalwareSubjectReferenceType,
-    'Malware_Subject_Node_B': maec_package_schema.MalwareSubjectReferenceType,
-    'Grouping_Relationship': maec_package_schema.GroupingRelationshipType,
-    'Package': maec_package_schema.PackageType,
-    'Analysis_System': maec_package_schema.AnalysisSystemType,
-    'Malware_Subjects': maec_package_schema.MalwareSubjectListType,
-    'Comment': maec_package_schema.CommentType,
-    'Object_Equivalence': maec_package_schema.ObjectEquivalenceType,
-}
-
 USAGE_TEXT = """
 Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
@@ -766,13 +729,6 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 def usage():
     print USAGE_TEXT
     sys.exit(1)
-
-def get_root_tag(node):
-    tag = Tag_pattern_.match(node.tag).groups()[-1]
-    rootClass = GDSClassesMapping.get(tag)
-    if rootClass is None:
-        rootClass = globals().get(tag)
-    return tag, rootClass
 
 def parse(inFileName):
     doc = parsexml_(inFileName)

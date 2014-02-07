@@ -4511,13 +4511,6 @@ def usage():
     print USAGE_TEXT
     sys.exit(1)
 
-
-def get_root_tag(node):
-    tag = Tag_pattern_.match(node.tag).groups()[-1]
-    rootClass = globals().get(tag)
-    return tag, rootClass
-
-
 def parse(inFileName):
     doc = parsexml_(inFileName)
     rootNode = doc.getroot()
