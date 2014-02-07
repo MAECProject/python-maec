@@ -3,8 +3,8 @@
 #Copyright (c) 2013, The MITRE Corporation
 #All rights reserved.
 
-#Compatible with MAEC v4.0
-#Last updated 10/07/2013
+#Compatible with MAEC v4.1
+#Last updated 02/07/2014
 
 import datetime
 import collections
@@ -19,10 +19,11 @@ from maec.bundle.behavior import Behavior
 from maec.bundle.candidate_indicator import CandidateIndicator, CandidateIndicatorList
 from maec.bundle.action_reference_list import ActionReferenceList
 from maec.bundle.process_tree import ProcessTree
+from maec.bundle.capability import CapabilityList
 
 
 class Bundle(maec.Entity):
-    def __init__(self, id, defined_subject, schema_version = "4.0.1", content_type = None, malware_instance_object = None):
+    def __init__(self, id, defined_subject, schema_version = "4.1", content_type = None, malware_instance_object = None):
         self.id = id
         self.schema_version = schema_version
         self.defined_subject = defined_subject
@@ -34,6 +35,7 @@ class Bundle(maec.Entity):
         self.actions = ActionList()
         self.process_tree = None
         self.behaviors = BehaviorList()
+        self.capabilities = CapabilityList()
         self.objects = ObjectList()
         self.candidate_indicators = CandidateIndicatorList()
         self.collections = Collections()
@@ -76,7 +78,7 @@ class Bundle(maec.Entity):
         for action in self.actions:
             all_actions.append(action)
             
-        if self.collections is not None:
+        if self.collections and self.collections.action_collections:
             for collection in self.collections.action_collections:
                 for action in collection.action_list:
                     all_actions.append(action)
@@ -194,6 +196,8 @@ class Bundle(maec.Entity):
         if self.av_classifications: bundle_obj.set_AV_Classifications(self.av_classifications.to_obj())
         #Add the Behaviors
         if self.behaviors: bundle_obj.set_Behaviors(self.behaviors.to_obj())
+        #Add the Capabilities
+        if self.capabilities: bundle_obj.set_Capabilities(self.capabilities.to_obj())
         #Add the Actions
         if self.actions: bundle_obj.set_Actions(self.actions.to_obj())
         #Add the Objects
@@ -217,6 +221,7 @@ class Bundle(maec.Entity):
         if self.av_classifications : bundle_dict['av_classifications'] = self.av_classifications.to_list()
         if self.process_tree is not None : bundle_dict['process_tree'] = self.process_tree.to_dict()
         if self.behaviors : bundle_dict['behaviors'] = self.behaviors.to_list()
+        if self.capabilities : bundle_dict['capabilities'] = self.capabilities.to_dict()
         if self.actions : bundle_dict['actions'] = self.actions.to_list()
         if self.objects : bundle_dict['objects'] = self.objects.to_list()
         if self.candidate_indicators : bundle_dict['candidate_indicators'] = self.candidate_indicators.to_list()
@@ -237,6 +242,7 @@ class Bundle(maec.Entity):
         if bundle_obj.get_AV_Classifications() is not None: bundle_.av_classifications = AVClassifications.from_obj(bundle_obj.get_AV_Classifications())
         bundle_.process_tree = ProcessTree.from_obj(bundle_obj.get_Process_Tree())
         if bundle_obj.get_Behaviors() is not None : bundle_.behaviors = BehaviorList.from_obj(bundle_obj.get_Behaviors())
+        if bundle_obj.get_Capabilities() is not None : bundle_.capabilities = CapabilityList.from_obj(bundle_obj.get_Capabilities())
         if bundle_obj.get_Actions() is not None : bundle_.actions = ActionList.from_obj(bundle_obj.get_Actions())
         if bundle_obj.get_Objects() is not None : bundle_.objects = ObjectList.from_obj(bundle_obj.get_Objects())
         if bundle_obj.get_Candidate_Indicators() is not None : bundle_.candidate_indicators = CandidateIndicatorList.from_obj(bundle_obj.get_Candidate_Indicators())
@@ -257,6 +263,7 @@ class Bundle(maec.Entity):
         bundle_.av_classifications = AVClassifications.from_list(bundle_dict.get('av_classifications'))
         bundle_.process_tree = ProcessTree.from_dict(bundle_dict.get('process_tree'))
         bundle_.behaviors = BehaviorList.from_list(bundle_dict.get('behaviors', []))
+        bundle_.capabilities = CapabilityList.from_dict(bundle_dict.get('capabilities'))
         bundle_.actions = ActionList.from_list(bundle_dict.get('actions', []))
         bundle_.objects = ObjectList.from_list(bundle_dict.get('objects', []))
         bundle_.candidate_indicators = CandidateIndicatorList.from_list(bundle_dict.get('candidate_indicators', []))
