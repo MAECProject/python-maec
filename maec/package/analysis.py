@@ -16,7 +16,7 @@ from maec.bundle.bundle_reference import BundleReference
 
 
 class Analysis(maec.Entity):
-    def __init__(self, id, method = None, type = None, findings_bundle_reference = None):
+    def __init__(self, id, method = None, type = None, findings_bundle_reference = []):
         super(Analysis, self).__init__()
         self.id = id
         self.method = method
@@ -56,7 +56,9 @@ class Analysis(maec.Entity):
         if self.analysts is not None : analysis_obj.set_Analysts(self.analysts.to_obj())
         if self.summary is not None : analysis_obj.set_Summary(self.summary.to_obj())
         if self.comments is not None : analysis_obj.set_Comments(self.comments.to_obj())
-        if self.findings_bundle_reference is not None : analysis_obj.set_Findings_Bundle_Reference(self.findings_bundle_reference.to_obj())
+        if self.findings_bundle_reference is not None :
+            for findings_bundle_ref in self.findings_bundle_reference:
+                analysis_obj.add_Findings_Bundle_Reference(findings_bundle_ref.to_obj())
         if self.tools: analysis_obj.set_Tools(self.tools.to_obj())
         if self.dynamic_analysis_metadata is not None : analysis_obj.set_Dynamic_Analysis_Metadata(self.dynamic_analysis_metadata.to_obj())
         if self.analysis_environment is not None : analysis_obj.set_Analysis_Environment(self.analysis_environment.to_obj())
@@ -76,7 +78,8 @@ class Analysis(maec.Entity):
         if self.analysts is not None : analysis_dict['analysts'] = self.analysts.to_list()
         if self.summary is not None : analysis_dict['summary'] = self.summary.to_dict()
         if self.comments is not None : analysis_dict['comments'] = self.comments.to_list()
-        if self.findings_bundle_reference is not None : analysis_dict['findings_bundle_reference'] = self.findings_bundle_reference.to_dict()
+        if self.findings_bundle_reference is not None :
+             analysis_dict['findings_bundle_reference'] = [x.to_dict() for x in self.findings_bundle_reference]
         if self.tools: analysis_dict['tools'] = self.tools.to_list()
         if self.dynamic_analysis_metadata is not None : analysis_dict['dynamic_analysis_metadata'] = self.dynamic_analysis_metadata.to_dict()
         if self.analysis_environment is not None : analysis_dict['analysis_environment'] = self.analysis_environment.to_dict()
@@ -100,7 +103,8 @@ class Analysis(maec.Entity):
         analysis_.analysts = Personnel.from_obj(analysis_obj.get_Analysts())
         analysis_.summary = StructuredText.from_obj(analysis_obj.get_Summary())
         analysis_.comments = CommentList.from_obj(analysis_obj.get_Comments())
-        analysis_.findings_bundle_reference = BundleReference.from_obj(analysis_obj.get_Findings_Bundle_Reference())
+        if analysis_obj.get_Findings_Bundle_Reference():
+            analysis_.findings_bundle_reference = [BundleReference.from_obj(x) for x in analysis_obj.get_Findings_Bundle_Reference()] 
         analysis_.tools = ToolList.from_obj(analysis_obj.get_Tools())
         analysis_.dynamic_analysis_metadata = DynamicAnalysisMetadata.from_obj(analysis_obj.get_Dynamic_Analysis_Metadata())
         analysis_.analysis_environment = AnalysisEnvironment.from_obj(analysis_obj.get_Analysis_Environment())
@@ -124,7 +128,8 @@ class Analysis(maec.Entity):
         analysis_.analysts = Personnel.from_list(analysis_dict.get('analysts'))
         analysis_.summary = StructuredText.from_dict(analysis_dict.get('summary'))
         analysis_.comments = CommentList.from_list(analysis_dict.get('comments'))
-        analysis_.findings_bundle_reference = BundleReference.from_dict(analysis_dict.get('findings_bundle_reference'))
+        if analysis_dict.get('findings_bundle_reference'):
+            analysis_.findings_bundle_reference = [BundleReference.from_dict(x) for x in analysis_dict.get('findings_bundle_reference')]
         analysis_.tools = ToolList.from_list(analysis_dict.get('tools', []))
         analysis_.dynamic_analysis_metadata = DynamicAnalysisMetadata.from_dict(analysis_dict.get('dynamic_analysis_metadata'))
         analysis_.analysis_environment = AnalysisEnvironment.from_dict(analysis_dict.get('analysis_environment'))
