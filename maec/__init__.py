@@ -147,13 +147,15 @@ class EntityList(collections.MutableSequence, Entity):
 
         return list_
 
-# Parse a MAEC instance and return the correct Binding object
-# Returns a tuple where pos 0 = Package, and pos 1 = Bundle, or None 
+# Parse a MAEC instance and return the correct Binding and API objects
+# Returns a tuple where pos 0 = Package (binding, API) tuple, and pos 1 = Bundle (binding, API) tuple, or None 
 def parse_xml_instance(filename):
     package_obj = package_binding.parse(filename)
     bundle_obj = bundle_binding.parse(filename)
     
     if not bundle_obj.hasContent_():
-        return (package_obj, None)
+        package_tuple = (package_obj, package.package.Package.from_obj(package_obj))
+        return (package_tuple, None)
     elif package_obj.hasContent_():
-        return (None, bundle_obj)
+        bundle_tuple = (bundle_obj, bundle.bundle.Bundle.from_obj(bundle_obj))
+        return (None, bundle_tuple)
