@@ -1,19 +1,17 @@
-# MAEC Example 3 - Simple Parsing Example
-# Demonstrates how to parse existing MAEC documents using
-# a combination of the API and bindings
+# MAEC Example 2 - Simple Parsing Example
+# Demonstrates how to parse existing MAEC documents the parse_xml_instance() method
+# Uses the MAEC Package created by the package_generation_example as input
 
-from maec.bindings import maec_bundle as bundle_binding
-from maec.bundle.bundle import Bundle
+import maec
+from maec.package.package import Package
 
-# Parse the input document using the binding
-binding_obj = bundle_binding.parse("zeus_anubis_maec.xml")
+# Parse the input document using the parse_xml_instance() method
+maec_objects = maec.parse_xml_instance("sample_maec_package.xml")
 
-# Create the API Object from the parsed output
-bundle_obj = Bundle.from_obj(binding_obj)
+# Get the Package Object from the parsed input
+maec_package = maec_objects[0][1]
 
-# For this example, iterate through the Action Collections
-# in the input bundle, and print the ID of each Action
-action_collections = bundle_obj.collections.action_collections
-for action_collection in action_collections:
-    for action in action_collection.action_list:
-        print action.id_
+# For this example, iterate through the Malware Subjects
+# in the input Package, and print the ID of each
+for malware_subject in maec_package.malware_subjects:
+    print malware_subject.id
