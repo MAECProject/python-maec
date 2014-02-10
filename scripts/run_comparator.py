@@ -1,14 +1,13 @@
 # run_comparator script
-# v0.1
+# v0.11
 # Runs the MAEC Comparator against a list or folder of MAEC files
 import pprint
 import sys
 import os
 import maec
 from maec.bundle.bundle import Bundle
-from maec.package.package import Package
 USAGE_TEXT = """
-MAEC Run Comparator Script v0.1 BETA
+MAEC Run Comparator Script v0.11 BETA
    *Performs Object->Object comparison of 2 or more input MAEC documents
    *Prints common/unique Objects between MAEC Bundles
 
@@ -17,15 +16,15 @@ Usage: python run_comparator.py -l <single whitespace separated list of MAEC fil
 
 # Process a set of MAEC binding objects and extract the Bundles as appropriate
 def process_maec_file(filename, bundle_list):
-    binding_objects = maec.parse_xml_instance(filename)
-    if binding_objects and binding_objects[0]:
-        package_obj = Package.from_obj(binding_objects[0])
+    parsed_objects = maec.parse_xml_instance(filename)
+    if parsed_objects and parsed_objects[0]:
+        package_obj = parsed_objects[0][1]
         if package_obj.malware_subjects:
             for malware_subject in package_obj.malware_subjects:
                 for bundle in malware_subject.get_all_bundles():
                     bundle_list.append(bundle)
-    elif binding_objects and binding_objects[1]:
-        bundle_list.append(Bundle.from_obj(binding_objects[1]))
+    elif parsed_objects and parsed_objects[1]:
+        bundle_list.append(parsed_objects[1][1])
         
 def main():
     infilenames = []
@@ -61,8 +60,9 @@ def main():
 
     # Matching properties dictionary
     match_on_dictionary = {'FileObjectType': ['file_path'],
-                           'WindowsRegistryKeyObjectType': ['hive', 'values.name/data'],
-                           'WindowsMutexObjectType': ['name']}
+                           'WindowsRegistryKeyObjectType': ['hive', 'key'],
+                           'WindowsMutexObjectType': ['name'],
+                           'WindowsProcessObjectType': ['name']}
     # Perform the comparison and get the results
     comparison_results = Bundle.compare(bundle_list, match_on = match_on_dictionary, case_sensitive = False)
     # Pretty print the common and unique Objects
