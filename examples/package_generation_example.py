@@ -28,7 +28,7 @@ subject.set_malware_instance_object_attributes(Object.from_dict(subject_object_d
 #Create the Associated Object Dictionary for use in the Action
 associated_object_dict = {'id' : generator.generate_object_id(), 'properties' : {'xsi:type' : 'FileObjectType', 'file_name' : 'abcd.dll', 'size_in_bytes' : '12346'}, 'association_type' : {'value' : 'output', 'xsi:type' : 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'}}
 #Create the Action from another dictionary
-action = MalwareAction.from_dict({'id' : generator.generate_malware_action_id(), 'name' : {'value' : 'create file', 'xsi:type' : 'maecVocabs:FileActionNameVocab-1.0'}, 'associated_objects' : [associated_object_dict]})
+action = MalwareAction.from_dict({'id' : generator.generate_malware_action_id(), 'name' : {'value' : 'create file', 'xsi:type' : 'maecVocabs:FileActionNameVocab-1.0', 'delimiter' : 'asd##'}, 'associated_objects' : [associated_object_dict]})
 #Add the Action to the buundle
 bundle.add_action(action)
 #Add the Bundle to the Malware Subject
