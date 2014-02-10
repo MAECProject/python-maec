@@ -209,7 +209,7 @@ class CapabilityObjective(maec.Entity):
             capability_objective_.behavior_reference = [BehaviorReference.from_obj(x) for x in capability_objective_obj.get_Behavior_Reference()]
         if capability_objective_obj.get_Relationship(): 
             capability_objective_.relationship = [CapabilityObjectiveRelationship.from_obj(x) for x in capability_objective_obj.get_Relationship()]
-        return capability_
+        return capability_objective_
 
     @staticmethod
     def from_dict(capability_objective_dict):
@@ -225,7 +225,7 @@ class CapabilityObjective(maec.Entity):
             capability_objective_.behavior_reference = [BehaviorReference.from_dict(x) for x in capability_objective_dict.get('behavior_reference')]
         if capability_objective_dict.get('relationship'): 
             capability_objective_.relationship = [CapabilityObjectiveRelationship.from_dict(x) for x in capability_objective_dict.get('relationship')]
-        return capability_
+        return capability_objective_
        
 class CapabilityProperty(maec.Entity):
     def __init__(self):
