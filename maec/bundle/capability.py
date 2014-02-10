@@ -352,7 +352,7 @@ class Capability(maec.Entity):
             capability_.tactical_objective = [CapabilityObjective.from_obj(x) for x in capability_obj.get_Tactical_Objective()]
         if capability_obj.get_Behavior_Reference(): 
             capability_.behavior_reference = [BehaviorReference.from_obj(x) for x in capability_obj.get_Behavior_Reference()]
-        if capability_dict.get_Relationship(): 
+        if capability_obj.get_Relationship(): 
             capability_.relationship = [CapabilityRelationship.from_obj(x) for x in capability_obj.get_Relationship()]
         return capability_
         
