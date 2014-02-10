@@ -197,7 +197,7 @@ class Bundle(maec.Entity):
         #Add the Behaviors
         if self.behaviors: bundle_obj.set_Behaviors(self.behaviors.to_obj())
         #Add the Capabilities
-        if self.capabilities: bundle_obj.set_Capabilities(self.capabilities.to_obj())
+        if self.capabilities and (self.capabilities.capability or self.capabilities.capability_reference): bundle_obj.set_Capabilities(self.capabilities.to_obj())
         #Add the Actions
         if self.actions: bundle_obj.set_Actions(self.actions.to_obj())
         #Add the Objects
