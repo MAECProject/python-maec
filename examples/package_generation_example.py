@@ -1,13 +1,15 @@
 # Example 1 - Simple Package Generation Example
 # Generates and exports MAEC Package with:
-# 1) A Single Malware Subject
-# 2) A single Bundle embedded in the Malware Subject
-# 3) A single Action embedded in the Bundle
+# - A single Malware Subject
+# - A single Bundle embedded in the Malware Subject
+# - A single Action embedded in the Bundle
+# - A single Capability embedded in the Bundle
 
 from cybox.core import AssociatedObject, Object
 
 from maec.bundle.bundle import Bundle
 from maec.bundle.malware_action import MalwareAction
+from maec.bundle.capability import Capability
 from maec.package.analysis import Analysis
 from maec.package.malware_subject import MalwareSubject
 from maec.package.package import Package
@@ -29,8 +31,12 @@ subject.set_malware_instance_object_attributes(Object.from_dict(subject_object_d
 associated_object_dict = {'id' : generator.generate_object_id(), 'properties' : {'xsi:type' : 'FileObjectType', 'file_name' : 'abcd.dll', 'size_in_bytes' : '12346'}, 'association_type' : {'value' : 'output', 'xsi:type' : 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'}}
 # Create the Action from another dictionary
 action = MalwareAction.from_dict({'id' : generator.generate_malware_action_id(), 'name' : {'value' : 'create file', 'xsi:type' : 'maecVocabs:FileActionNameVocab-1.0'}, 'associated_objects' : [associated_object_dict]})
-# Add the Action to the buundle
+# Add the Action to the Bundle
 bundle.add_action(action)
+# Create the Capability from another dictionary
+capability = Capability.from_dict({'id' : 'maec-example1-cpb-1', 'name' : 'persistence'})
+# Add the Capability to the Bundle
+bundle.add_capability(capability)
 # Add the Bundle to the Malware Subject
 subject.add_findings_bundle(bundle)
 # Add the Malware Subject to the Package
