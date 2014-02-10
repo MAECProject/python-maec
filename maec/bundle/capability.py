@@ -372,14 +372,18 @@ class CapabilityList(maec.Entity):
         if not capability_list_obj:
             return None
         capability_list_ = CapabilityList()
-        capability_list_.capability = Capability.from_obj(capability_list_obj.get_Capability())
-        capability_list_.capability_reference = CapabilityReference.from_obj(capability_list_obj.get_Capability_Reference())
+        if capability_list_obj.get_Capability():
+            capability_list_.capability = [Capability.from_obj(x) for x in capability_list_obj.get_Capability()]
+        if capability_list_obj.get_Capability_Reference(): 
+            capability_list_.capability_reference = [CapabilityReference.from_obj(x) for x in capability_list_obj.get_Capability_Reference()]
         return capability_list_
 
     def from_dict(capability_list_dict):
         if not capability_list_dict:
             return None
         capability_list_ = CapabilityList()
-        capability_list_.capability = Capability.from_dict(capability_list_dict['capability'])
-        capability_list_.capability_reference = CapabilityReference.from_dict(capability_list_dict['capability_reference'])
+        if capability_list_dict['capability']:
+            capability_list_.capability = [Capability.from_dict(x) for x in capability_list_dict['capability']]
+        if capability_list_dict['capability_reference']:
+            capability_list_.capability_reference = [CapabilityReference.from_dict(x) for x in capability_list_dict['capability_reference']]
         return capability_list_
