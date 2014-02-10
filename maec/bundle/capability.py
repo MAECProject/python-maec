@@ -4,7 +4,7 @@
 #All rights reserved.
 
 #Compatible with MAEC v4.1
-#Last updated 2/07/2014
+#Last updated 2/10/2014
 
 import maec
 import maec.bindings.maec_bundle as bundle_binding
@@ -274,6 +274,12 @@ class Capability(maec.Entity):
         self.tactical_objective = []
         self.behavior_reference = []
         self.relationship = []
+
+    def add_tactical_objective(self, tactical_objective):
+        self.tactical_objective.append(tactical_objective)
+
+    def add_strategic_objective(self, strategic_objective):
+        self.strategic_objective.append(strategic_objective)
 
     def to_obj(self):
         capability_obj = bundle_binding.CapabilityType()
