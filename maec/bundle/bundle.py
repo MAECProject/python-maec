@@ -48,6 +48,15 @@ class Bundle(maec.Entity):
     def add_av_classification(self, av_classification):
         self.av_classifications.append(av_classification)
 
+    #Add a Capability
+    def add_capability(self, capability):
+        capabilities = None
+        if self.capabilities:
+            capabilities = self.capabilities
+        else:
+            capabilities = CapabilityList()
+        capabilities.capability.append(capability)
+
     #Set the Process Tree, in the top-level <Process_Tree> element
     def set_process_tree(self, process_tree):
         self.process_tree = process_tree
