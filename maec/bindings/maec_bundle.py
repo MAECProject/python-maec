@@ -6032,7 +6032,7 @@ class CapabilityObjectiveType(GeneratedsSuper):
             obj_.build(child_)
             self.Behavior_Reference.append(obj_)
         elif nodeName_ == 'Relationship':
-            obj_ = CapabilityRelationshipType.factory()
+            obj_ = CapabilityObjectiveRelationshipType.factory()
             obj_.build(child_)
             self.Relationship.append(obj_)
 # end class CapabilityObjectiveType
