@@ -26,6 +26,7 @@ class CapabilityObjectiveReference(maec.Entity):
         if self.objective_idref is not None: capability_objective_reference_dict['capability_idref'] = self.objective_idref
         return capability_objective_reference_dict
 
+    @staticmethod
     def from_obj(capability_objective_reference_obj):
         if not capability_objective_reference_obj:
             return None
@@ -33,6 +34,7 @@ class CapabilityObjectiveReference(maec.Entity):
         capability_objective_reference_.objective_idref = capability_objective_reference_obj.get_objective_idref()
         return capability_objective_reference_
 
+    @staticmethod
     def from_dict(capability_objective_reference_dict):
         if not capability_objective_reference_dict:
             return None
@@ -55,6 +57,7 @@ class CapabilityReference(maec.Entity):
         if self.capability_idref is not None: capability_reference_dict['capability_idref'] = self.capability_idref
         return capability_reference_dict
 
+    @staticmethod
     def from_obj(capability_reference_obj):
         if not capability_reference_obj:
             return None
@@ -62,6 +65,7 @@ class CapabilityReference(maec.Entity):
         capability_reference_.capability_idref = capability_reference_obj.get_capability_idref()
         return capability_reference_
 
+    @staticmethod
     def from_dict(capability_reference_dict):
         if not capability_reference_dict:
             return None
@@ -90,6 +94,7 @@ class CapabilityObjectiveRelationship(maec.Entity):
             capability_obj_rel_dict['objective_reference'] = [x.to_dict() for x in self.objective_reference]
         return capability_obj_rel_dict
 
+    @staticmethod
     def from_obj(capability_obj_rel_obj):
         if not capability_obj_rel_obj:
             return None
@@ -99,6 +104,7 @@ class CapabilityObjectiveRelationship(maec.Entity):
             capability_obj_rel_.objective_reference = [CapabilityObjectiveReference.from_obj(x) for x in capability_obj_rel_obj.get_Objective_Reference()]
         return capability_obj_rel_
 
+    @staticmethod
     def from_dict(capability_obj_rel_dict):
         if not capability_obj_rel_dict:
             return None
@@ -129,6 +135,7 @@ class CapabilityRelationship(maec.Entity):
             capability_rel_dict['capability_reference'] = [x.to_dict() for x in self.capability_reference]
         return capability_rel_dict
 
+    @staticmethod
     def from_obj(capability_rel_obj):
         if not capability_rel_obj:
             return None
@@ -138,6 +145,7 @@ class CapabilityRelationship(maec.Entity):
             capability_rel_.capability_reference = [CapabilityReference.from_obj(x) for x in capability_rel_obj.get_Capability_Reference()]
         return capability_rel_
 
+    @staticmethod
     def from_dict(capability_rel_dict):
         if not capability_rel_dict:
             return None
@@ -187,6 +195,7 @@ class CapabilityObjective(maec.Entity):
 
         return capability_objective_dict
 
+    @staticmethod
     def from_obj(capability_objective_obj):
         if not capability_objective_obj:
             return None
@@ -202,6 +211,7 @@ class CapabilityObjective(maec.Entity):
             capability_objective_.relationship = [CapabilityObjectiveRelationship.from_obj(x) for x in capability_dict.get_Relationship()]
         return capability_
 
+    @staticmethod
     def from_dict(capability_objective_dict):
         if not capability_objective_dict:
             return None
@@ -235,6 +245,7 @@ class CapabilityProperty(maec.Entity):
         if self.value is not None: capability_property_dict['value'] = self.value.to_dict()
         return capability_property_dict
 
+    @staticmethod
     def from_obj(capability_property_obj):
         if not capability_property_obj:
             return None
@@ -243,6 +254,7 @@ class CapabilityProperty(maec.Entity):
         capability_property_.value = String.from_obj(capability_property_obj.get_Value())
         return capability_property_
 
+    @staticmethod
     def from_dict(capability_property_dict):
         if not capability_property_obj:
             return None
@@ -368,6 +380,7 @@ class CapabilityList(maec.Entity):
             capability_list_dict['capability_reference'] = [x.to_dict() for x in self.capability_reference]
         return capability_list_dict
 
+    @staticmethod
     def from_obj(capability_list_obj):
         if not capability_list_obj:
             return None
@@ -378,6 +391,7 @@ class CapabilityList(maec.Entity):
             capability_list_.capability_reference = [CapabilityReference.from_obj(x) for x in capability_list_obj.get_Capability_Reference()]
         return capability_list_
 
+    @staticmethod
     def from_dict(capability_list_dict):
         if not capability_list_dict:
             return None
