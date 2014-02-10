@@ -203,12 +203,12 @@ class CapabilityObjective(maec.Entity):
         capability_objective_.id_ = capability_objective_obj.get_id()
         capability_objective_.name = VocabString.from_obj(capability_objective_obj.get_Name())
         capability_objective_.description = capability_objective_obj.get_Description()
-        if capability_obj.get_Property(): 
+        if capability_objective_obj.get_Property(): 
             capability_objective_.property = [CapabilityProperty.from_obj(x) for x in capability_objective_obj.get_Property()]
-        if capability_obj.get_Behavior_Reference(): 
+        if capability_objective_obj.get_Behavior_Reference(): 
             capability_objective_.behavior_reference = [BehaviorReference.from_obj(x) for x in capability_objective_obj.get_Behavior_Reference()]
-        if capability_dict.get_Relationship(): 
-            capability_objective_.relationship = [CapabilityObjectiveRelationship.from_obj(x) for x in capability_dict.get_Relationship()]
+        if capability_objective_obj.get_Relationship(): 
+            capability_objective_.relationship = [CapabilityObjectiveRelationship.from_obj(x) for x in capability_objective_obj.get_Relationship()]
         return capability_
 
     @staticmethod
