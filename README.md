@@ -42,7 +42,7 @@ used to indicate new versions of the python-maec library itself.
 
 The `maec` package depends on the following Python libraries:
 * `lxml` >= 3.1.x
-* `python-cybox`
+* `python-cybox` >= 2.1.x.x
 * `setuptools` (only if installing using setup.py)
 
 For Windows installers of the above libraries, we recommend looking here: http://www.lfd.uci.edu/~gohlke/pythonlibs.
