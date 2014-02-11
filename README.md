@@ -42,11 +42,11 @@ used to indicate new versions of the python-maec library itself.
 
 The `maec` package depends on the following Python libraries:
 * `lxml` >= 3.1.x
-* `python-cybox` >= 2.1.x.x
+* `python-cybox` >= 2.1.*.*
 * `setuptools` (only if installing using setup.py)
 
 For Windows installers of the above libraries, we recommend looking here: http://www.lfd.uci.edu/~gohlke/pythonlibs.
-python-cybox can be found at https://github.com/CybOXProject/python-cybox.
+python-cybox can be found at https://github.com/CybOXProject/python-cybox/releases.
 
 To build `lxml` on Ubuntu, you will need the following packages from the
 Ubuntu package repository:
