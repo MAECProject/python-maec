@@ -8,7 +8,7 @@
 
 """MAEC utility methods"""
 
-from .nsparser import MAECNamespaceParser
+from .nsparser import MAECNamespaceParser, META
 
 
     
