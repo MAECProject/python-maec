@@ -37,7 +37,7 @@ class Analysis(maec.Entity):
 
     #"Public" methods
     def set_findings_bundle(self, bundle_id):
-        self.findings_bundle_reference = BundleReference.from_dict({'bundle_idref' : bundle_id})
+        self.findings_bundle_reference = [BundleReference.from_dict({'bundle_idref' : bundle_id})]
    
     def add_tool(self, tool):
         self.tools.append(tool)
