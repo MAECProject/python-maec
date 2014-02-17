@@ -6,8 +6,9 @@ import inspect
 from StringIO import StringIO
 import bindings.maec_bundle as bundle_binding
 import bindings.maec_package as package_binding
+from cybox import Entity as cyboxEntity
 from cybox.utils import Namespace
-from maec.utils import MAECNamespaceParser, META
+from maec.utils import MAECNamespaceParser, maecMETA
 
 def get_xmlns_string(ns_set):
     """Build a string with 'xmlns' definitions for every namespace in ns_set.
@@ -242,7 +243,7 @@ class Entity(object):
 
         # if there are any other namepaces, include xsi for "schemaLocation"
         if namespaces:
-            namespaces.update([META.lookup_prefix('xsi')])
+            namespaces.update([maecMETA.lookup_prefix('xsi')])
 
         if not namespaces:
             return ""
@@ -260,7 +261,7 @@ class Entity(object):
         namespaces = [x._namespace for x in self.__class__.__mro__
                       if hasattr(x, '_namespace')]
 
-        nsset.update([META.lookup_namespace(ns) for ns in namespaces])
+        nsset.update([maecMETA.lookup_namespace(ns) for ns in namespaces])
 
         #In case of recursive relationships, don't process this item twice
         self.touched = True
@@ -276,11 +277,11 @@ class Entity(object):
         #TODO: eventually everything should be in _fields, not the top level
         # of vars()
         for k, v in vars(self).items() + self._fields.items():
-            if isinstance(v, Entity):
+            if isinstance(v, Entity) or isinstance(v, cyboxEntity):
                 yield v
             elif isinstance(v, list):
                 for item in v:
-                    if isinstance(item, Entity):
+                    if isinstance(item, Entity) or isinstance(v, cyboxEntity):
                         yield item
 
     @classmethod

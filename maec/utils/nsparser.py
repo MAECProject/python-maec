@@ -8,7 +8,8 @@
 
 import maec.bindings.maec_bundle as bundle_binding
 import maec.bindings.maec_package as package_binding
-from cybox.utils import NamespaceParser, META, Namespace
+from cybox.utils import NamespaceParser, Namespace
+from cybox.utils import META
 
 import itertools
 
@@ -40,10 +41,10 @@ NS_LIST = [
     ('http://www.w3.org/2001/XMLSchema-instance', 'xsi', ''),
     ('http://maec.mitre.org/XMLSchema/maec-bundle-4', 'maecBundle', 'http://maec.mitre.org/language/version4.1/maec_bundle_schema.xsd'),
     ('http://maec.mitre.org/XMLSchema/maec-package-2', 'maecPackage', 'http://maec.mitre.org/language/version4.1/maec_package_schema.xsd'),
-    ('http://maec.mitre.org/default_vocabularies-1', 'maecVocabs', 'http://maec.mitre.org/language/version4.1/maec_default_vocabularies.xsd'),
+    ('http://maec.mitre.org/default_vocabularies-1', 'maecVocabs', 'http://maec.mitre.org/language/version4.1/maec_default_vocabularies.xsd')
 ]
 
-META = Metadata(NS_LIST)
+maecMETA = Metadata(NS_LIST)
 
 class MAECNamespaceParser(NamespaceParser):
     superclass = NamespaceParser
@@ -68,7 +69,7 @@ class MAECNamespaceParser(NamespaceParser):
         if bundle.get_Malware_Instance_Object_Attributes() is not None:
             self.get_namespace_from_object(bundle.get_Malware_Instance_Object_Attributes())
         if bundle.get_Process_Tree() is not None:
-            self.add_object_namespace(META.lookup_object('ProcessObjectType'))
+            self.add_object_namespace(cyboxMETA.lookup_object('ProcessObjectType'))
         if bundle.get_Behaviors() is not None:
             for behavior in bundle.get_Behaviors().get_Behavior():
                 self.process_behavior_namespace(behavior)
@@ -132,21 +133,21 @@ class MAECNamespaceParser(NamespaceParser):
         schemalocs.append(' http://maec.mitre.org/default_vocabularies-1 http://cybox.mitre.org/XMLSchema/default_vocabularies/2.1/cybox_default_vocabularies.xsd')
         
         for object_type in self.object_types:
-            namespace = META.lookup_object(object_type).namespace
-            namespace_prefix = META.lookup_namespace(namespace).prefix
+            namespace = cyboxMETA.lookup_object(object_type).namespace
+            namespace_prefix = cyboxMETA.lookup_namespace(namespace).prefix
             output_string += ('xmlns:' + namespace_prefix + '=' + '"' + namespace + '"' + ' \n ')
 
         for object_type_dependency in self.object_type_dependencies:
             if object_type_dependency not in self.object_types:
-                namespace = META.lookup_object(object_type_dependency).namespace
-                namespace_prefix = META.lookup_namespace(namespace).prefix
+                namespace = cyboxMETA.lookup_object(object_type_dependency).namespace
+                namespace_prefix = cyboxMETA.lookup_namespace(namespace).prefix
                 output_string += ('xmlns:' + namespace_prefix + '=' + '"' + namespace + '"' + ' \n ')
         
         output_string += 'xsi:schemaLocation="'
         
         for object_type in self.object_types:
-            namespace = META.lookup_object(object_type).namespace
-            schemalocation = META.lookup_namespace(namespace).schema_location
+            namespace = cyboxMETA.lookup_object(object_type).namespace
+            schemalocation = cyboxMETA.lookup_namespace(namespace).schema_location
             schemalocs.append(' ' + namespace + ' ' + schemalocation)
 
         for schemalocation_string in schemalocs:
