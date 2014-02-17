@@ -14,6 +14,8 @@ from cybox.common import VocabString
 from cybox.core import ActionReference
 
 class CandidateIndicator(maec.Entity):
+    _namespace = maec.bundle._namespace
+
     def __init__(self, id = None, generator = None):
         super(CandidateIndicator, self).__init__()
         if id is not None:
@@ -90,6 +92,8 @@ class CandidateIndicator(maec.Entity):
         return candidate_indicator_
 
 class MalwareEntity(maec.Entity):
+    _namespace = maec.bundle._namespace
+
     def __init__(self):
         super(MalwareEntity, self).__init__()
         self.type = None
@@ -131,6 +135,8 @@ class MalwareEntity(maec.Entity):
         return malware_entity_
 
 class CandidateIndicatorComposition(maec.Entity):
+    _namespace = maec.bundle._namespace
+
     def __init__(self):
         super(CandidateIndicatorComposition, self).__init__()
         self.operator = None
@@ -217,3 +223,4 @@ class CandidateIndicatorList(maec.EntityList):
     _contained_type = CandidateIndicator
     _binding_class = bundle_binding.CandidateIndicatorListType
     _binding_var = "Candidate_Indicator"
+    _namespace = maec.bundle._namespace

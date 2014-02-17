@@ -23,6 +23,8 @@ from maec.bundle.capability import CapabilityList
 
 
 class Bundle(maec.Entity):
+    _namespace = maec.bundle._namespace
+
     def __init__(self, id, defined_subject, schema_version = "4.1", content_type = None, malware_instance_object = None):
         super(Bundle, self).__init__()
         self.id = id
@@ -455,18 +457,23 @@ class BehaviorList(maec.EntityList):
     _contained_type = Behavior
     _binding_class = bundle_binding.BehaviorListType
     _binding_var = "Behavior"
+    _namespace = maec.bundle._namespace
 
 class ActionList(maec.EntityList):
     _contained_type = MalwareAction
     _binding_class = bundle_binding.ActionListType
     _binding_var = "Action"
+    _namespace = maec.bundle._namespace
     
 class ObjectList(maec.EntityList):
     _contained_type = Object
     _binding_class = bundle_binding.ObjectListType
     _binding_var = "Object"
+    _namespace = maec.bundle._namespace
 
 class BaseCollection(maec.Entity):
+    _namespace = maec.bundle._namespace
+
     def __init__(self, name = None):
         super(BaseCollection, self).__init__()
         self.name = name
@@ -689,7 +696,8 @@ class BehaviorCollectionList(maec.EntityList):
     _contained_type = BehaviorCollection
     _binding_class = bundle_binding.BehaviorCollectionListType
     _binding_var = "Behavior_Collection"
-    
+    _namespace = maec.bundle._namespace
+
     def __init__(self):
         super(BehaviorCollectionList, self).__init__()
 
@@ -718,7 +726,8 @@ class ActionCollectionList(maec.EntityList):
     _contained_type = ActionCollection
     _binding_class = bundle_binding.ActionCollectionListType
     _binding_var = "Action_Collection"
-    
+    _namespace = maec.bundle._namespace
+
     def __init__(self):
         super(ActionCollectionList, self).__init__()
 
@@ -747,7 +756,8 @@ class ObjectCollectionList(maec.EntityList):
     _contained_type = ObjectCollection
     _binding_class = bundle_binding.ObjectCollectionListType
     _binding_var = "Object_Collection"
-    
+    _namespace = maec.bundle._namespace
+
     def __init__(self):
         super(ObjectCollectionList, self).__init__()
 
@@ -776,7 +786,8 @@ class CandidateIndicatorCollectionList(maec.EntityList):
     _contained_type = CandidateIndicatorCollection
     _binding_class = bundle_binding.CandidateIndicatorCollectionListType
     _binding_var = "Candidate_Indicator_Collection"
-    
+    _namespace = maec.bundle._namespace
+
     def __init__(self):
         super(CandidateIndicatorCollectionList, self).__init__()
 
@@ -802,6 +813,7 @@ class CandidateIndicatorCollectionList(maec.EntityList):
         return None
 
 class Collections(maec.Entity):
+    _namespace = maec.bundle._namespace
 
     def __init__(self):
         super(Collections, self).__init__()

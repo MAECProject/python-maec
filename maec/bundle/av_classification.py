@@ -3,6 +3,8 @@ import maec.bindings.maec_bundle as bundle_binding
 from cybox.common import ToolInformation
 
 class AVClassification(ToolInformation):
+    _namespace = maec.bundle._namespace
+
     def __init__(self, classification = None, tool_name = None, tool_vendor = None):
         super(AVClassification, self).__init__(tool_name, tool_vendor)
         self.engine_version = None
@@ -47,3 +49,4 @@ class AVClassifications(maec.EntityList):
     _contained_type = AVClassification
     _binding_class = bundle_binding.AVClassificationsType
     _binding_var = "AV_Classification"
+    _namespace = maec.bundle._namespace

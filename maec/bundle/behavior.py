@@ -11,7 +11,10 @@ import maec.bindings.maec_bundle as bundle_binding
 import datetime
        
 class Behavior(maec.Entity):
+    _namespace = maec.bundle._namespace
+
     def __init__(self, id = None, description = None, ordinal_position = None, duration = None, status = None):
+        super(Behavior, self).__init__()
         self.id_ = id
         self.action_list = []
         self.platform_list = []

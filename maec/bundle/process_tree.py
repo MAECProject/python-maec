@@ -14,6 +14,7 @@ from maec.bundle.action_reference_list import ActionReferenceList
 
 
 class ProcessTree(maec.Entity):
+    _namespace = maec.bundle._namespace
 
     def __init__(self, root_process = None):
         super(ProcessTree, self).__init__()

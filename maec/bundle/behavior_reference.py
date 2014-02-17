@@ -10,6 +10,8 @@ import maec
 import maec.bindings.maec_bundle as bundle_binding
        
 class BehaviorReference(maec.Entity):
+    _namespace = maec.bundle._namespace
+
     def init(self, behavior_idref = None):
         super(BehaviorReference, self).__init__()
         self.behavior_idref = behavior_idref

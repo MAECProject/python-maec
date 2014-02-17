@@ -16,3 +16,4 @@ class ActionReferenceList(maec.EntityList):
     _contained_type = ActionReference
     _binding_class = bundle_binding.ActionReferenceListType
     _binding_var = "Action_Reference"
+    _namespace = maec.bundle._namespace
