@@ -24,6 +24,7 @@ from maec.bundle.capability import CapabilityList
 
 class Bundle(maec.Entity):
     def __init__(self, id, defined_subject, schema_version = "4.1", content_type = None, malware_instance_object = None):
+        super(Bundle, self).__init__()
         self.id = id
         self.schema_version = schema_version
         self.defined_subject = defined_subject
