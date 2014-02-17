@@ -11,6 +11,8 @@ import maec.bindings.maec_package as package_binding
 from maec.bundle.object_reference import ObjectReference    
 
 class ObjectEquivalence(maec.Entity):
+    _namespace = maec.package._namespace
+
     def init(self, id = None):
         super(ObjectEquivalence, self).__init__()
         self.id = id
@@ -54,3 +56,4 @@ class ObjectEquivalenceList(maec.EntityList):
     _contained_type = ObjectEquivalence
     _binding_class = package_binding.ObjectEquivalenceListType
     _binding_var = "Object_Equivalence"
+    _namespace = maec.package._namespace

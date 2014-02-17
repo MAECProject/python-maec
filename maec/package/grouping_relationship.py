@@ -12,6 +12,7 @@ from maec.package.malware_subject_reference import MalwareSubjectReference
 from cybox.common import VocabString
 
 class GroupingRelationship(maec.Entity):
+    _namespace = maec.package._namespace
 
     def init(self):
         super(GroupingRelationship, self).__init__()
@@ -62,8 +63,10 @@ class GroupingRelationshipList(maec.EntityList):
     _contained_type = GroupingRelationship
     _binding_class = package_binding.GroupingRelationshipListType
     _binding_var = "Grouping_Relationship"
+    _namespace = maec.package._namespace
 
 class ClusteringMetadata(maec.Entity):
+    _namespace = maec.package._namespace
 
     def __init__(self):
         super(ClusteringMetadata, self).__init__()
@@ -122,6 +125,7 @@ class ClusteringMetadata(maec.Entity):
 
 
 class ClusteringAlgorithmParameters(maec.Entity):
+    _namespace = maec.package._namespace
 
     def __init__(self):
         super(ClusteringAlgorithmParameters, self).__init__()
@@ -159,6 +163,7 @@ class ClusteringAlgorithmParameters(maec.Entity):
         return clustering_algorithm_parameters_
 
 class ClusterComposition(maec.Entity):
+    _namespace = maec.package._namespace
 
     def __init__(self):
         super(ClusterComposition, self).__init__()
@@ -198,6 +203,7 @@ class ClusterComposition(maec.Entity):
         return cluster_composition_
 
 class ClusterEdgeNodePair(maec.Entity):
+    _namespace = maec.package._namespace
 
     def __init__(self):
         super(ClusterEdgeNodePair, self).__init__()
