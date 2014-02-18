@@ -55,7 +55,6 @@ class ProcessTree(maec.Entity):
 class ProcessTreeNode(Process):
     _binding = bundle_binding
     _binding_class = bundle_binding.ProcessTreeNodeType
-    _namespace = "http://maec.mitre.org/XMLSchema/maec-bundle-4"
     _XSI_NS = "maecBundle"
     _XSI_TYPE = "ProcessTreeNodeType"
 
