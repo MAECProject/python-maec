@@ -224,7 +224,7 @@ class Entity(object):
         """Export an object to an XML file. Only supports Package or Bundle objects at the moment."""
         out_file  = open(filename, 'w')
         out_file.write("<?xml version='1.0' encoding='UTF-8'?>\n")
-        self.to_obj().export(out_file, 0, namespacedef = self._get_namespace_def(namespace_dict))
+        self.to_obj().export(out_file, 0, namespacedef_ = self._get_namespace_def(namespace_dict))
         out_file.close()
 
     def to_json(self):
