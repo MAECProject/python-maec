@@ -1,7 +1,7 @@
 #MAEC Namespace Parser
 
-#Copyright (c) 2013, The MITRE Corporation
-#All rights reserved.
+#Copyright (c) 2014, The MITRE Corporation
+#All rights reserved
 
 #Compatible with MAEC v4.1
 #Last updated 02/18/2014

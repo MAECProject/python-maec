@@ -1,10 +1,11 @@
 #MAEC Capability Class
 
 #Copyright (c) 2014, The MITRE Corporation
-#All rights reserved.
+#All rights reserved
+
 
 #Compatible with MAEC v4.1
-#Last updated 2/10/2014
+#Last updated 02/18/2014
 
 import maec
 import maec.bindings.maec_bundle as bundle_binding
