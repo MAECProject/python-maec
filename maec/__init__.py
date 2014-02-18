@@ -269,7 +269,6 @@ class Entity(object):
         self.touched = True
         if recurse:
             for x in self._get_children():
-                print x.__class__
                 if not hasattr(x, 'touched'):
                     nsset.update(x._get_namespaces())
         del self.touched
