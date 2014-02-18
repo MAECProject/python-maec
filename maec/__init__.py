@@ -220,7 +220,7 @@ class Entity(object):
                              pretty_print=pretty)
         return s.getvalue()
 
-    def to_xml_file(self, filename):
+    def to_xml_file(self, filename, namespace_dict=None):
         """Export an object to an XML file. Only supports Package or Bundle objects at the moment."""
         out_file  = open(filename, 'w')
         out_file.write("<?xml version='1.0' encoding='UTF-8'?>\n")
