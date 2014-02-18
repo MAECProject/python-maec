@@ -42,3 +42,4 @@ subject.add_findings_bundle(bundle)
 package.add_malware_subject(subject)
 # Export the Package Bindings Object to an XML file and use the namespaceparser for writing out the namespace definitions
 package.to_xml_file('sample_maec_package.xml')
+print "Wrote to sample_maec_package.xml"
