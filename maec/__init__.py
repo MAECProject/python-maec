@@ -242,8 +242,10 @@ class Entity(object):
                 namespaces.update([Namespace(ns, prefix)])
 
         # if there are any other namepaces, include xsi for "schemaLocation"
+        # also, include the MAEC default vocabularies schema by default
         if namespaces:
             namespaces.update([maecMETA.lookup_prefix('xsi')])
+            namespaces.update([maecMETA.lookup_prefix('maecVocabs')])
 
         if not namespaces:
             return ""
