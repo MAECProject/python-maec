@@ -14,7 +14,6 @@ from maec.package.analysis import Analysis
 from maec.package.malware_subject import MalwareSubject
 from maec.package.package import Package
 from maec.id_generator import Generator
-from maec.utils import MAECNamespaceParser
 
 # Instantiate the ID generator class (for automatic ID generation) with our example namespace
 generator = Generator('example1')
