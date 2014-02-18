@@ -8,7 +8,7 @@ import bindings.maec_bundle as bundle_binding
 import bindings.maec_package as package_binding
 from cybox import Entity as cyboxEntity
 from cybox.utils import Namespace
-from maec.utils import MAECNamespaceParser, maecMETA
+from maec.utils import maecMETA
 
 def get_xmlns_string(ns_set):
     """Build a string with 'xmlns' definitions for every namespace in ns_set.
@@ -224,7 +224,7 @@ class Entity(object):
         """Export an object to an XML file. Only supports Package or Bundle objects at the moment."""
         out_file  = open(filename, 'w')
         out_file.write("<?xml version='1.0' encoding='UTF-8'?>\n")
-        self.to_obj().export(out_file, 0, namespacedef_=MAECNamespaceParser(self.to_obj()).get_namespace_schemalocation_str())
+        self.to_obj().export(out_file, 0, namespace_def = self._get_namespace_def(namespace_dict))
         out_file.close()
 
     def to_json(self):
