@@ -1,10 +1,10 @@
 #MAEC Package Class
 
-#Copyright (c) 2013, The MITRE Corporation
-#All rights reserved.
+#Copyright (c) 2014, The MITRE Corporation
+#All rights reserved
 
 #Compatible with MAEC v4.1
-#Last updated 02/07/2014
+#Last updated 02/18/2014
 
 import maec
 import datetime
@@ -13,6 +13,8 @@ from maec.package.malware_subject import MalwareSubjectList
 from maec.package.grouping_relationship import GroupingRelationshipList
 
 class Package(maec.Entity):
+    _namespace = maec.package._namespace
+
     def __init__(self, id, schema_version = "2.1", timestamp = None):
         super(Package, self).__init__()
         self.id = id

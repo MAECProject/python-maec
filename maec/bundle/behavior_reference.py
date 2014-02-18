@@ -1,15 +1,17 @@
 #MAEC Behavior Reference Class
 
-#Copyright (c) 2013, The MITRE Corporation
-#All rights reserved.
+#Copyright (c) 2014, The MITRE Corporation
+#All rights reserved
 
-#Compatible with MAEC v4.0
-#Last updated 05/10/2013
+#Compatible with MAEC v4.1
+#Last updated 02/18/2014
 
 import maec
 import maec.bindings.maec_bundle as bundle_binding
        
 class BehaviorReference(maec.Entity):
+    _namespace = maec.bundle._namespace
+
     def init(self, behavior_idref = None):
         super(BehaviorReference, self).__init__()
         self.behavior_idref = behavior_idref

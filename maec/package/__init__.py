@@ -1,0 +1,1 @@
+_namespace = 'http://maec.mitre.org/XMLSchema/maec-package-2'

@@ -1,10 +1,10 @@
 #MAEC Bundle Class
 
-#Copyright (c) 2013, The MITRE Corporation
-#All rights reserved.
+#Copyright (c) 2014, The MITRE Corporation
+#All rights reserved
 
 #Compatible with MAEC v4.1
-#Last updated 2/05/2014
+#Last updated 02/18/2014
 
 from cybox.objects.process_object import Process
 
@@ -14,6 +14,7 @@ from maec.bundle.action_reference_list import ActionReferenceList
 
 
 class ProcessTree(maec.Entity):
+    _namespace = maec.bundle._namespace
 
     def __init__(self, root_process = None):
         super(ProcessTree, self).__init__()
@@ -54,7 +55,6 @@ class ProcessTree(maec.Entity):
 class ProcessTreeNode(Process):
     _binding = bundle_binding
     _binding_class = bundle_binding.ProcessTreeNodeType
-    _namespace = "http://maec.mitre.org/XMLSchema/maec-bundle-4"
     _XSI_NS = "maecBundle"
     _XSI_TYPE = "ProcessTreeNodeType"
 

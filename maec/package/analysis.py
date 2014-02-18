@@ -1,10 +1,10 @@
 #MAEC Analysis Class
 
-#Copyright (c) 2013, The MITRE Corporation
-#All rights reserved.
+#Copyright (c) 2014, The MITRE Corporation
+#All rights reserved
 
 #Compatible with MAEC v4.1
-#Last updated 02/05/2014
+#Last updated 02/18/2014
 
 from cybox.common import (PlatformSpecification, Personnel, StructuredText,
         ToolInformation)
@@ -16,6 +16,8 @@ from maec.bundle.bundle_reference import BundleReference
 
 
 class Analysis(maec.Entity):
+    _namespace = maec.package._namespace
+
     def __init__(self, id, method = None, type = None, findings_bundle_reference = []):
         super(Analysis, self).__init__()
         self.id = id
@@ -137,6 +139,7 @@ class Analysis(maec.Entity):
         return analysis_
 
 class Comment(StructuredText):
+    _namespace = maec.package._namespace
 
     def __init__(self):
         super(Comment, self).__init__()
@@ -190,8 +193,10 @@ class CommentList(maec.EntityList):
     _contained_type = Comment
     _binding_class = package_binding.CommentListType
     _binding_var = "Comment"
+    _namespace = maec.package._namespace
 
 class DynamicAnalysisMetadata(maec.Entity):
+    _namespace = maec.package._namespace
 
     def __init__(self):
         super(DynamicAnalysisMetadata, self).__init__()
@@ -234,6 +239,7 @@ class DynamicAnalysisMetadata(maec.Entity):
         return dynamic_analysis_metadata_
 
 class AnalysisEnvironment(maec.Entity):
+    _namespace = maec.package._namespace
 
     def __init__(self):
         super(AnalysisEnvironment, self).__init__()
@@ -276,6 +282,7 @@ class AnalysisEnvironment(maec.Entity):
         return analysis_environment_
 
 class HypervisorHostSystem(System):
+    _namespace = maec.package._namespace
 
     def __init__(self):
         super(HypervisorHostSystem, self).__init__()
@@ -308,6 +315,8 @@ class HypervisorHostSystem(System):
         return hypervisor_host_system_
 
 class AnalysisSystem(System):
+    _namespace = maec.package._namespace
+
     def __init__(self):
         super(AnalysisSystem, self).__init__()
         self.installed_programs = InstalledPrograms()
@@ -344,13 +353,17 @@ class InstalledPrograms(maec.EntityList):
     _contained_type = PlatformSpecification
     _binding_class = package_binding.InstalledProgramsType
     _binding_var = "Program"
+    _namespace = maec.package._namespace
 
 class AnalysisSystemList(maec.EntityList):
     _contained_type = AnalysisSystem
     _binding_class = package_binding.AnalysisSystemListType
     _binding_var = "Analysis_System"
+    _namespace = maec.package._namespace
 
 class NetworkInfrastructure(maec.Entity):
+    _namespace = maec.package._namespace
+
     def __init__(self):
         super(NetworkInfrastructure, self).__init__()
         self.captured_protocols = CapturedProtocolList()
@@ -383,6 +396,8 @@ class NetworkInfrastructure(maec.Entity):
         return network_infrastructure_
 
 class CapturedProtocol(maec.Entity):
+    _namespace = maec.package._namespace
+
     def __init__(self):
         super(CapturedProtocol, self).__init__()
         self.layer7_protocol = None
@@ -432,13 +447,16 @@ class CapturedProtocolList(maec.EntityList):
     _contained_type = CapturedProtocol
     _binding_class = package_binding.CapturedProtocolListType
     _binding_var = "Protocol"
+    _namespace = maec.package._namespace
 
 class ToolList(maec.EntityList):
     _contained_type = ToolInformation
     _binding_class = package_binding.ToolListType
     _binding_var = "Tool"
+    _namespace = maec.package._namespace
     
 class Source(maec.Entity):
+    _namespace = maec.package._namespace
 
     def __init__(self):
         super(Source, self).__init__()

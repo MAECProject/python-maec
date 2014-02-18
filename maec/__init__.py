@@ -2,13 +2,56 @@ __version__ = "4.1.0.0"
 
 import collections
 import json
+import inspect
 from StringIO import StringIO
 import bindings.maec_bundle as bundle_binding
 import bindings.maec_package as package_binding
-from maec.utils import MAECNamespaceParser
+from cybox import Entity as cyboxEntity
+from cybox.utils import Namespace
+from maec.utils import maecMETA
+
+def get_xmlns_string(ns_set):
+    """Build a string with 'xmlns' definitions for every namespace in ns_set.
+
+    Arguments:
+    - ns_set: a set (or other iterable) of Namespace objects
+    """
+    xmlns_format = 'xmlns:{0.prefix}="{0.name}"'
+    return "\n\t".join([xmlns_format.format(x) for x in ns_set if x])
+
+
+def get_schemaloc_string(ns_set):
+    """Build a "schemaLocation" string for every namespace in ns_set.
+
+    Arguments:
+    - ns_set: a set (or other iterable) of Namespace objects
+    """
+    schemaloc_format = '{0.name} {0.schema_location}'
+    # Only include schemas that have a schema_location defined (for instance,
+    # 'xsi' does not.
+    return " ".join([schemaloc_format.format(x) for x in ns_set
+                     if x and x.schema_location])
 
 class Entity(object):
     """Base class for all classes in the MAEC SimpleAPI."""
+
+    # By default (unless a particular subclass states otherwise), try to "cast"
+    # invalid objects to the correct class using the constructor. Entity
+    # subclasses should either provide a "sane" constructor or set this to
+    # False.
+    _try_cast = True
+
+    def __init__(self):
+        self._fields = {}
+
+    @classmethod
+    def _get_vars(cls):
+        var_list = []
+        for (name, obj) in inspect.getmembers(cls, inspect.isdatadescriptor):
+            if isinstance(obj, TypedField):
+                var_list.append(obj)
+
+        return var_list
 
     def __eq__(self, other):
         # This fixes some strange behavior where an object isn't equal to
@@ -22,28 +65,235 @@ class Entity(object):
         if self.__class__ != other.__class__:
             return False
 
-    def to_xml(self):
-        """Export an object as an XML String"""
+        var_list = self.__class__._get_vars()
+
+        # If there are no TypedFields, assume this class hasn't been
+        # "TypedField"-ified, so we don't want these to inadvertently return
+        # equal.
+        if not var_list:
+            return False
+
+        for f in var_list:
+            if not f.comparable:
+                continue
+            if getattr(self, f.attr_name) != getattr(other, f.attr_name):
+                return False
+
+        return True
+
+    def __ne__(self, other):
+        return not self == other
+
+    def to_obj(self):
+        """Default implementation of a to_obj function.
+
+        Subclasses can override this function."""
+
+        entity_obj = self._binding_class()
+
+        for field in self.__class__._get_vars():
+            val = getattr(self, field.attr_name)
+
+            if field.multiple and val:
+                val = [x.to_obj() for x in val]
+            elif isinstance(val, Entity):
+                val = val.to_obj()
+
+            setattr(entity_obj, field.name, val)
+
+        self._finalize_obj(entity_obj)
+
+        return entity_obj
+
+    def _finalize_obj(self, entity_obj):
+        """Subclasses can define additional items in the binding object.
+
+        `entity_obj` should be modified in place.
+        """
+        pass
+
+    def to_dict(self):
+        """Default implementation of a to_dict function.
+
+        Subclasses can override this function."""
+
+        entity_dict = {}
+
+        for field in self.__class__._get_vars():
+            val = getattr(self, field.attr_name)
+
+            if field.multiple and val:
+                val = [x.to_dict() for x in val]
+            if isinstance(val, Entity):
+                val = val.to_dict()
+
+            # Only add non-None objects or non-empty lists
+            if val is not None and val != []:
+                entity_dict[field.key_name] = val
+
+        self._finalize_dict(entity_dict)
+
+        return entity_dict
+
+    def _finalize_dict(self, entity_dict):
+        """Subclasses can define additional items in the dictionary.
+
+        `entity_dict` should be modified in place.
+        """
+        pass
+
+    @classmethod
+    def from_obj(cls, cls_obj=None):
+        if not cls_obj:
+            return None
+
+        entity = cls()
+
+        for field in cls._get_vars():
+            val = getattr(cls_obj, field.name)
+            if field.type_:
+                if field.multiple and val is not None:
+                    val = [field.type_.from_obj(x) for x in val]
+                else:
+                    val = field.type_.from_obj(val)
+            setattr(entity, field.attr_name, val)
+
+        return entity
+
+    @classmethod
+    def from_dict(cls, cls_dict=None):
+        if cls_dict is None:
+            return None
+
+        entity = cls()
+
+        # Shortcut if an actual dict is not provided:
+        if not isinstance(cls_dict, dict):
+            value = cls_dict
+            # Call the class's constructor
+            try:
+                return cls(value)
+            except TypeError:
+                raise TypeError("Could not instantiate a %s from a %s: %s" %
+                                (cls, type(value), value))
+
+        for field in cls._get_vars():
+            val = cls_dict.get(field.key_name)
+            if field.type_:
+                if issubclass(field.type_, EntityList):
+                    val = field.type_.from_list(val)
+                elif field.multiple:
+                    if val is not None:
+                        val = [field.type_.from_dict(x) for x in val]
+                    else:
+                        val = []
+                else:
+                    val = field.type_.from_dict(val)
+            setattr(entity, field.attr_name, val)
+
+        return entity
+
+    def to_xml(self, include_namespaces=True, namespace_dict=None,
+               pretty=True):
+        """Export an object as an XML String.
+
+        :param include_namespaces: whether to include xmlns and
+          xsi:schemaLocation attributes on the root element. Set to true by
+          default.
+        :type include_namespaces: bool
+        :param namespace_dict: mapping of additional XML namespaces to prefixes
+        :type namespace_dict: dict
+        :param pretty: produce readable (``True``) or compact (``False``)
+          output. Default is ``True``
+        :type pretty: bool
+        """
+        namespace_def = ""
+
+        if include_namespaces:
+            namespace_def = self._get_namespace_def(namespace_dict)
+
+        if not pretty:
+            namespace_def = namespace_def.replace('\n\t', ' ')
+
         s = StringIO()
-        self.to_obj().export(s, 0, namespacedef_=MAECNamespaceParser(self.to_obj()).get_namespace_schemalocation_str())
+        self.to_obj().export(s, 0, namespacedef_=namespace_def,
+                             pretty_print=pretty)
         return s.getvalue()
-        
-    def to_xml_file(self, filename):
+
+    def to_xml_file(self, filename, namespace_dict=None):
         """Export an object to an XML file. Only supports Package or Bundle objects at the moment."""
         out_file  = open(filename, 'w')
         out_file.write("<?xml version='1.0' encoding='UTF-8'?>\n")
-        self.to_obj().export(out_file, 0, namespacedef_=MAECNamespaceParser(self.to_obj()).get_namespace_schemalocation_str())
+        self.to_obj().export(out_file, 0, namespacedef_ = self._get_namespace_def(namespace_dict))
         out_file.close()
 
     def to_json(self):
+        """Export an object as a JSON string.
+        """
         return json.dumps(self.to_dict())
+
+    def _get_namespace_def(self, additional_ns_dict=None):
+        # copy necessary namespaces
+
+        namespaces = self._get_namespaces()
+
+        if additional_ns_dict:
+            for ns, prefix in additional_ns_dict.iteritems():
+                namespaces.update([Namespace(ns, prefix)])
+
+        # if there are any other namepaces, include xsi for "schemaLocation"
+        # also, include the MAEC default vocabularies schema by default
+        if namespaces:
+            namespaces.update([maecMETA.lookup_prefix('xsi')])
+            namespaces.update([maecMETA.lookup_prefix('maecVocabs')])
+
+        if not namespaces:
+            return ""
+
+        namespaces = sorted(namespaces, key=str)
+
+        return ('\n\t' + get_xmlns_string(namespaces) +
+                '\n\txsi:schemaLocation="' + get_schemaloc_string(namespaces) +
+                '"')
+
+    def _get_namespaces(self, recurse=True):
+        nsset = set()
+
+        # Get all _namespaces for parent classes
+        namespaces = [x._namespace for x in self.__class__.__mro__
+                      if hasattr(x, '_namespace')]
+
+        nsset.update([maecMETA.lookup_namespace(ns) for ns in namespaces])
+
+        #In case of recursive relationships, don't process this item twice
+        self.touched = True
+        if recurse:
+            for x in self._get_children():
+                if not hasattr(x, 'touched'):
+                    nsset.update(x._get_namespaces())
+        del self.touched
+
+        return nsset
+
+    def _get_children(self):
+        #TODO: eventually everything should be in _fields, not the top level
+        # of vars()
+        for k, v in vars(self).items() + self._fields.items():
+            if isinstance(v, Entity) or isinstance(v, cyboxEntity):
+                yield v
+            elif isinstance(v, list):
+                for item in v:
+                    if isinstance(item, Entity) or isinstance(item, cyboxEntity):
+                        yield item
 
     @classmethod
     def istypeof(cls, obj):
         """Check if `cls` is the type of `obj`
 
         In the normal case, as implemented here, a simple isinstance check is
-        used. However, there are more complex checks possible.
+        used. However, there are more complex checks possible. For instance,
+        EmailAddress.istypeof(obj) checks if obj is an Address object with
+        a category of Address.CAT_EMAIL
         """
         return isinstance(obj, cls)
 
@@ -51,15 +301,25 @@ class Entity(object):
 class EntityList(collections.MutableSequence, Entity):
     _contained_type = object
 
-    def __init__(self):
+    # Don't try to cast list types (yet)
+    _try_cast = False
+
+    def __init__(self, *args):
+        super(EntityList, self).__init__()
         self._inner = []
+
+        for arg in args:
+            if isinstance(arg, list):
+                self.extend(arg)
+            else:
+                self.append(arg)
 
     def __getitem__(self, key):
         return self._inner.__getitem__(key)
 
     def __setitem__(self, key, value):
         if not self._is_valid(value):
-            value = self._try_fix_value(value)
+            value = self._fix_value(value)
         self._inner.__setitem__(key, value)
 
     def __delitem__(self, key):
@@ -70,30 +330,28 @@ class EntityList(collections.MutableSequence, Entity):
 
     def insert(self, idx, value):
         if not self._is_valid(value):
-            value = self._try_fix_value(value)
+            value = self._fix_value(value)
         self._inner.insert(idx, value)
 
     def _is_valid(self, value):
         """Check if this is a valid object to add to the list.
 
-        If the function is not overridden, only objects of type
-        _contained_type can be added.
+        Subclasses can override this function, but it's probably better to
+        modify the istypeof function on the _contained_type.
         """
-        return isinstance(value, self._contained_type)
-
-    def _try_fix_value(self, value):
-        new_value = self._fix_value(value)
-        if not new_value:
-            raise ValueError("Can't put '%s' (%s) into a %s" %
-                (value, type(value), self.__class__))
-        return new_value
+        return self._contained_type.istypeof(value)
 
     def _fix_value(self, value):
         """Attempt to coerce value into the correct type.
 
-        Subclasses should define this function.
+        Subclasses can override this function.
         """
-        pass
+        try:
+            new_value = self._contained_type(value)
+        except:
+            raise ValueError("Can't put '%s' (%s) into a %s" %
+                (value, type(value), self.__class__))
+        return new_value
 
     # The next four functions can be overridden, but otherwise define the
     # default behavior for EntityList subclasses which define the following
@@ -102,13 +360,10 @@ class EntityList(collections.MutableSequence, Entity):
     # - _binding_var
     # - _contained_type
 
-    def to_obj(self, object_type=None):
+    def to_obj(self):
         tmp_list = [x.to_obj() for x in self]
 
-        if not object_type:
-            list_obj = self._binding_class()
-        else:
-            list_obj = object_type
+        list_obj = self._binding_class()
 
         setattr(list_obj, self._binding_var, tmp_list)
 
@@ -117,15 +372,15 @@ class EntityList(collections.MutableSequence, Entity):
     def to_list(self):
         return [h.to_dict() for h in self]
 
+    # Alias the `to_list` function as `to_dict`
+    to_dict = to_list
+
     @classmethod
-    def from_obj(cls, list_obj, list_class=None):
+    def from_obj(cls, list_obj):
         if not list_obj:
             return None
 
-        if not list_class:
-            list_ = cls()
-        else:
-            list_ = list_class
+        list_ = cls()
 
         for item in getattr(list_obj, cls._binding_var):
             list_.append(cls._contained_type.from_obj(item))
@@ -133,19 +388,109 @@ class EntityList(collections.MutableSequence, Entity):
         return list_
 
     @classmethod
-    def from_list(cls, list_list, list_class=None):
+    def from_list(cls, list_list):
         if not isinstance(list_list, list):
             return None
 
-        if not list_class:
-            list_ = cls()
-        else:
-            return None
+        list_ = cls()
 
         for item in list_list:
             list_.append(cls._contained_type.from_dict(item))
 
         return list_
+
+    @classmethod
+    def object_from_list(cls, entitylist_list):
+        """Convert from list representation to object representation."""
+        return cls.from_list(entitylist_list).to_obj()
+
+    @classmethod
+    def list_from_object(cls, entitylist_obj):
+        """Convert from object representation to list representation."""
+        return cls.from_obj(entitylist_obj).to_list()
+
+class TypedField(object):
+
+    def __init__(self, name, type_=None, callback_hook=None, key_name=None,
+                 comparable=True, multiple=False):
+        """
+        Create a new field.
+
+        - `name` is the name of the field in the Binding class
+        - `type_` is the type that objects assigned to this field must be.
+          If `None`, no type checking is performed.
+        - `key_name` is only needed if the desired key for the dictionary
+          representation is differen than the lower-case version of `name`
+        - `comparable` (boolean) - whether this field should be considered
+          when checking Entities for equality. Default is True. If false, this
+          field is not considered
+        - `multiple` (boolean) - Whether multiple instances of this field can
+          exist on the Entity.
+        """
+        self.name = name
+        self.type_ = type_
+        self.callback_hook = callback_hook
+        self._key_name = key_name
+        self.comparable = comparable
+        self.multiple = multiple
+
+    def __get__(self, instance, owner):
+        # If we are calling this on a class, we want the actual Field, not its
+        # value
+        if not instance:
+            return self
+
+        return instance._fields.get(self.name, [] if self.multiple else None)
+
+    def __set__(self, instance, value):
+        if ((value is not None) and (self.type_ is not None) and
+                (not self.type_.istypeof(value))):
+            if self.multiple and isinstance(value, list):
+                # TODO: if a list, check if each item in the list is the
+                # correct type.
+                pass
+            elif self.type_._try_cast:
+                value = self.type_(value)
+            else:
+                raise ValueError("%s must be a %s, not a %s" %
+                                    (self.name, self.type_, type(value)))
+        instance._fields[self.name] = value
+
+        if self.callback_hook:
+            self.callback_hook(instance)
+
+    def __str__(self):
+        return self.attr_name
+
+    @property
+    def key_name(self):
+        if self._key_name:
+            return self._key_name
+        else:
+            return self.name.lower()
+
+    @property
+    def attr_name(self):
+        """The name of this field as an attribute name.
+
+        This is identical to the key_name, unless the key name conflicts with
+        a builtin Python keyword, in which case a single underscore is
+        appended.
+
+        This should match the name given to the TypedField class variable (see
+        examples below), but this is not enforced.
+
+        Examples:
+            data = maec.TypedField("Data", String)
+            from_ = maec.TypedField("From", String)
+        """
+
+        attr = self.key_name
+        # TODO: expand list with other Python keywords
+        if attr in ('from', 'class', 'type', 'with', 'for', 'id', 'type',
+                'range'):
+            attr = attr + "_"
+        return attr
 
 # Parse a MAEC instance and return the correct Binding and API objects
 # Returns a tuple where pos 0 = Package (binding, API) tuple, and pos 1 = Bundle (binding, API) tuple, or None 

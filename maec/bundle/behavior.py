@@ -1,17 +1,20 @@
 #MAEC Behavior Class
 
-#Copyright (c) 2013, The MITRE Corporation
-#All rights reserved.
+#Copyright (c) 2014, The MITRE Corporation
+#All rights reserved
 
-#Compatible with MAEC v4.0.1
-#Last updated 11/19/2013
+#Compatible with MAEC v4.1
+#Last updated 02/18/2014
 
 import maec
 import maec.bindings.maec_bundle as bundle_binding
 import datetime
        
 class Behavior(maec.Entity):
+    _namespace = maec.bundle._namespace
+
     def __init__(self, id = None, description = None, ordinal_position = None, duration = None, status = None):
+        super(Behavior, self).__init__()
         self.id_ = id
         self.action_list = []
         self.platform_list = []

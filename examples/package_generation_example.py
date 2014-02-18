@@ -14,7 +14,6 @@ from maec.package.analysis import Analysis
 from maec.package.malware_subject import MalwareSubject
 from maec.package.package import Package
 from maec.id_generator import Generator
-from maec.utils import MAECNamespaceParser
 
 # Instantiate the ID generator class (for automatic ID generation) with our example namespace
 generator = Generator('example1')
@@ -43,3 +42,4 @@ subject.add_findings_bundle(bundle)
 package.add_malware_subject(subject)
 # Export the Package Bindings Object to an XML file and use the namespaceparser for writing out the namespace definitions
 package.to_xml_file('sample_maec_package.xml')
+print "Wrote to sample_maec_package.xml"

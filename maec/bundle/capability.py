@@ -1,10 +1,11 @@
 #MAEC Capability Class
 
 #Copyright (c) 2014, The MITRE Corporation
-#All rights reserved.
+#All rights reserved
+
 
 #Compatible with MAEC v4.1
-#Last updated 2/10/2014
+#Last updated 02/18/2014
 
 import maec
 import maec.bindings.maec_bundle as bundle_binding
@@ -12,6 +13,8 @@ from maec.bundle.behavior_reference import BehaviorReference
 from cybox.common import VocabString, String
 
 class CapabilityObjectiveReference(maec.Entity):
+    _namespace = maec.bundle._namespace
+
     def __init__(self):
         super(CapabilityObjectiveReference, self).__init__()
         self.objective_idref = None
@@ -43,6 +46,8 @@ class CapabilityObjectiveReference(maec.Entity):
         return capability_objective_reference_
 
 class CapabilityReference(maec.Entity):
+    _namespace = maec.bundle._namespace
+
     def __init__(self):
         super(CapabilityReference, self).__init__()
         self.capability_idref = None
@@ -74,6 +79,8 @@ class CapabilityReference(maec.Entity):
         return capability_reference_
 
 class CapabilityObjectiveRelationship(maec.Entity):
+    _namespace = maec.bundle._namespace
+
     def __init__(self):
         super(CapabilityObjectiveRelationship, self).__init__()
         self.relationship_type = None
@@ -115,6 +122,8 @@ class CapabilityObjectiveRelationship(maec.Entity):
         return capability_obj_rel_
 
 class CapabilityRelationship(maec.Entity):
+    _namespace = maec.bundle._namespace
+
     def __init__(self):
         super(CapabilityRelationship, self).__init__()
         self.relationship_type = None
@@ -156,6 +165,8 @@ class CapabilityRelationship(maec.Entity):
         return capability_rel_
 
 class CapabilityObjective(maec.Entity):
+    _namespace = maec.bundle._namespace
+
     def __init__(self):
         super(CapabilityObjective, self).__init__()
         self.id_ = None
@@ -228,6 +239,8 @@ class CapabilityObjective(maec.Entity):
         return capability_objective_
        
 class CapabilityProperty(maec.Entity):
+    _namespace = maec.bundle._namespace
+
     def __init__(self):
         super(CapabilityProperty, self).__init__()
         self.name = None
@@ -264,6 +277,8 @@ class CapabilityProperty(maec.Entity):
         return capability_property_
 
 class Capability(maec.Entity):
+    _namespace = maec.bundle._namespace
+
     def __init__(self, id = None, name = None):
         super(Capability, self).__init__()
         self.id_ = id
@@ -363,6 +378,8 @@ class Capability(maec.Entity):
         return capability_
         
 class CapabilityList(maec.Entity):
+    _namespace = maec.bundle._namespace
+
     def __init__(self):
         super(CapabilityList, self).__init__()
         self.capability = []
