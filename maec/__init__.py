@@ -269,6 +269,7 @@ class Entity(object):
         self.touched = True
         if recurse:
             for x in self._get_children():
+                print x.__class__
                 if not hasattr(x, 'touched'):
                     nsset.update(x._get_namespaces())
         del self.touched
@@ -283,7 +284,7 @@ class Entity(object):
                 yield v
             elif isinstance(v, list):
                 for item in v:
-                    if isinstance(item, Entity) or isinstance(v, cyboxEntity):
+                    if isinstance(item, Entity) or isinstance(item, cyboxEntity):
                         yield item
 
     @classmethod
