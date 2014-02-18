@@ -17,7 +17,7 @@ def get_xmlns_string(ns_set):
     - ns_set: a set (or other iterable) of Namespace objects
     """
     xmlns_format = 'xmlns:{0.prefix}="{0.name}"'
-    return "\n\t".join([xmlns_format.format(x) for x in ns_set])
+    return "\n\t".join([xmlns_format.format(x) for x in ns_set if x])
 
 
 def get_schemaloc_string(ns_set):
@@ -30,7 +30,7 @@ def get_schemaloc_string(ns_set):
     # Only include schemas that have a schema_location defined (for instance,
     # 'xsi' does not.
     return " ".join([schemaloc_format.format(x) for x in ns_set
-                     if x.schema_location])
+                     if x and x.schema_location])
 
 class Entity(object):
     """Base class for all classes in the MAEC SimpleAPI."""
