@@ -3,6 +3,7 @@ __version__ = "4.1.0.1"
 import collections
 import json
 import inspect
+import maec
 from StringIO import StringIO
 import bindings.maec_bundle as bundle_binding
 import bindings.maec_package as package_binding
@@ -495,6 +496,8 @@ class TypedField(object):
 # Parse a MAEC instance and return the correct Binding and API objects
 # Returns a tuple where pos 0 = Package (binding, API) tuple, and pos 1 = Bundle (binding, API) tuple, or None 
 def parse_xml_instance(filename):
+    from maec.bundle.bundle import Bundle
+    from maec.package.package import Package
     package_obj = package_binding.parse(filename)
     bundle_obj = bundle_binding.parse(filename)
     
