@@ -493,17 +493,19 @@ class TypedField(object):
             attr = attr + "_"
         return attr
 
-# Parse a MAEC instance and return the correct Binding and API objects
-# Returns a tuple where pos 0 = Package (binding, API) tuple, and pos 1 = Bundle (binding, API) tuple, or None 
+
 def parse_xml_instance(filename):
+    """Parse a MAEC instance and return the correct Binding and API objects
+       Returns a dictionary of MAEC Package or Bundle Binding/API Objects"""
     from maec.bundle.bundle import Bundle
     from maec.package.package import Package
     package_obj = package_binding.parse(filename)
     bundle_obj = bundle_binding.parse(filename)
-    
-    if not bundle_obj.hasContent_():
-        package_tuple = (package_obj, package.package.Package.from_obj(package_obj))
-        return (package_tuple, None)
-    elif package_obj.hasContent_():
-        bundle_tuple = (bundle_obj, bundle.bundle.Bundle.from_obj(bundle_obj))
-        return (None, bundle_tuple)
+    object_dictionary = {}
+
+    if package_obj.hasContent_():
+        object_dictionary['package'] = {'binding' : package_obj, 'api': Package.from_obj(package_obj)}
+        return object_dictionary
+    elif bundle_obj.hasContent_():
+        object_dictionary['bundle'] = {'binding' : bundle_obj, 'api': Bundle.from_obj(bundle_obj)}
+        return object_dictionary
