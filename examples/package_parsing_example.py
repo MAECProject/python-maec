@@ -3,7 +3,6 @@
 # Uses the MAEC Package created by the package_generation_example as input
 
 import maec
-from maec.package.package import Package
 
 # Parse the input document using the parse_xml_instance() method
 maec_objects = maec.parse_xml_instance("sample_maec_package.xml")
