@@ -820,7 +820,7 @@ class BundleType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='BundleType', namespacedef_='', pretty_print=True):
+    def export(self, outfile, level, namespace_='maecBundle:', name_='MAEC_Bundle', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -828,7 +828,7 @@ class BundleType(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BundleType')
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MAEC_Bundle')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
@@ -836,7 +836,7 @@ class BundleType(GeneratedsSuper):
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='BundleType'):
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='MAEC_Bundle'):
         if self.defined_subject is not None and 'defined_subject' not in already_processed:
             already_processed.add('defined_subject')
             outfile.write(' defined_subject="%s"' % self.gds_format_boolean(self.defined_subject, input_name='defined_subject'))
@@ -852,7 +852,7 @@ class BundleType(GeneratedsSuper):
         if self.timestamp is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
             outfile.write(' timestamp="%s"' % self.gds_format_datetime(self.timestamp, input_name='timestamp'))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='BundleType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='MAEC_Bundle', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -875,7 +875,7 @@ class BundleType(GeneratedsSuper):
             self.Candidate_Indicators.export(outfile, level, 'maecBundle:', name_='Candidate_Indicators', pretty_print=pretty_print)
         if self.Collections is not None:
             self.Collections.export(outfile, level, 'maecBundle:', name_='Collections', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='BundleType'):
+    def exportLiteral(self, outfile, level, name_='MAEC_Bundle'):
         level += 1
         already_processed = set()
         self.exportLiteralAttributes(outfile, level, already_processed, name_)
