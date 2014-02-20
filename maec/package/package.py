@@ -93,5 +93,12 @@ class Package(maec.Entity):
         maec_package = Package.from_obj(maec_package_obj)
         
         return (maec_package, maec_package_obj)
+
+
+    def deduplicate_malware_subjects(self):
+        """DeDuplicate all Malware_Subjects in the Package. For now, only handles Objects in Findings Bundles"""
+        for malware_subject in self.malware_subjects:
+            malware_subject.deduplicate_bundles()
+
             
 
