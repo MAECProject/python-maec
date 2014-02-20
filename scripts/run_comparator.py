@@ -6,6 +6,7 @@ import sys
 import os
 import maec
 from maec.bundle.bundle import Bundle
+
 USAGE_TEXT = """
 MAEC Run Comparator Script v0.11 BETA
    *Performs Object->Object comparison of 2 or more input MAEC documents
@@ -17,14 +18,14 @@ Usage: python run_comparator.py -l <single whitespace separated list of MAEC fil
 # Process a set of MAEC binding objects and extract the Bundles as appropriate
 def process_maec_file(filename, bundle_list):
     parsed_objects = maec.parse_xml_instance(filename)
-    if parsed_objects and parsed_objects[0]:
-        package_obj = parsed_objects[0][1]
+    if parsed_objects and 'package' in parsed_objects:
+        package_obj = parsed_objects['package']['api']
         if package_obj.malware_subjects:
             for malware_subject in package_obj.malware_subjects:
                 for bundle in malware_subject.get_all_bundles():
                     bundle_list.append(bundle)
-    elif parsed_objects and parsed_objects[1]:
-        bundle_list.append(parsed_objects[1][1])
+    elif parsed_objects and 'bundle' in parsed_objects:
+        bundle_list.append(parsed_objects['bundle']['api'])
         
 def main():
     infilenames = []
