@@ -29,7 +29,10 @@ class Bundle(maec.Entity):
 
     def __init__(self, id, defined_subject, schema_version = "4.1", content_type = None, malware_instance_object = None):
         super(Bundle, self).__init__()
-        self.id = id
+        if id:
+            self.id = id
+        else:
+            self.id = maec.utils.idgen.create_id(prefix="bundle")
         self.schema_version = schema_version
         self.defined_subject = defined_subject
         self.content_type = content_type
@@ -376,7 +379,10 @@ class ActionCollection(BaseCollection):
 
     def __init__(self, name = None, id = None):
         super(ActionCollection, self).__init__(name)
-        self.id = id
+        if id:
+            self.id = id
+        else:
+            self.id = maec.utils.idgen.create_id(prefix="action_collection")
         self.action_list = ActionList()
 
     def add_action(self, action):
@@ -417,7 +423,10 @@ class BehaviorCollection(BaseCollection):
 
     def __init__(self, name = None, id = None):
         super(BehaviorCollection, self).__init__(name)
-        self.id = id
+        if id:
+            self.id = id
+        else:
+            self.id = maec.utils.idgen.create_id(prefix="behavior_collection")
         self.behavior_list = BehaviorList()
 
     def add_behavior(self, behavior):
@@ -458,7 +467,10 @@ class ObjectCollection(BaseCollection):
 
     def __init__(self, name = None, id = None):
         super(ObjectCollection, self).__init__(name)
-        self.id = id
+        if id:
+            self.id = id
+        else:
+            self.id = maec.utils.idgen.create_id(prefix="object_collection")
         self.object_list = ObjectList()
 
     def add_object(self, object):
@@ -499,7 +511,10 @@ class CandidateIndicatorCollection(BaseCollection):
 
     def __init__(self, name = None, id = None):
         super(CandidateIndicatorCollection, self).__init__(name)
-        self.id = id
+        if id:
+            self.id = id
+        else:
+            self.id = maec.utils.idgen.create_id(prefix="candidate_indicator_collection")
         self.candidate_indicator_list = CandidateIndicatorList()
 
     def add_candidate_indicator(self, candidate_indicator):
