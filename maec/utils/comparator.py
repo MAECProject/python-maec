@@ -105,7 +105,7 @@ class BundleComparator(object):
     def process_object(cls, obj, lookup_table, bundle):
         # get hash string from object to use as key in lookup table
         # Make sure the object is one of the supported types in the match_on dictionary
-        if obj.properties._XSI_TYPE in cls.match_on:
+        if obj.properties and obj.properties._XSI_TYPE in cls.match_on:
             hash_value = ObjectHash.get_hash(obj, cls.match_on, cls.case_sensitive)
             if hash_value:
                 if hash_value not in lookup_table:
