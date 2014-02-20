@@ -6,8 +6,8 @@
 #Compatible with MAEC v4.1
 #Last updated 02/18/2014
 
+
 import datetime
-import collections
 
 from cybox.core import Object
 
@@ -20,6 +20,8 @@ from maec.bundle.candidate_indicator import CandidateIndicator, CandidateIndicat
 from maec.bundle.action_reference_list import ActionReferenceList
 from maec.bundle.process_tree import ProcessTree
 from maec.bundle.capability import CapabilityList
+from maec.utils.comparator import BundleComparator
+from maec.utils.deduplicator import BundleDeduplicator
 
 
 class Bundle(maec.Entity):
@@ -66,6 +68,8 @@ class Bundle(maec.Entity):
 
     #Add a new Named Action Collection
     def add_named_action_collection(self, collection_name, collection_id):
+        if not self.collections:
+            self.collections = Collections()
         if collection_name is not None and collection_id is not None:
             self.collections.action_collections.append(ActionCollection(collection_name, collection_id))
         
@@ -81,10 +85,12 @@ class Bundle(maec.Entity):
 
     #Add a new Named Object Collection
     def add_named_object_collection(self, collection_name, collection_id):
+        if not self.collections:
+            self.collections = Collections()
         if collection_name is not None and collection_id is not None:
             self.collections.object_collections.append(ObjectCollection(collection_name, collection_id))
               
-    # return a list of all objects from self.actions and all actions collections
+    # return a list of all abjects from self.actions and all action collections
     def get_all_actions(self):
         all_actions = []
         for action in self.actions:
@@ -94,7 +100,7 @@ class Bundle(maec.Entity):
             for collection in self.collections.action_collections:
                 for action in collection.action_list:
                     all_actions.append(action)
-                    
+
         return all_actions
               
     #Add an Object to an existing named collection; if it does not exist, add it to the top-level <Objects> element
@@ -285,173 +291,10 @@ class Bundle(maec.Entity):
     @classmethod
     def compare(cls, bundle_list, match_on = None, case_sensitive = True):
         return BundleComparator.compare(bundle_list, match_on, case_sensitive);
-    
-class ComparisonResult(object):
-    def __init__(self, bundle_list, lookup_table):
-        self.lookup_table = lookup_table
-        self.bundle_list = bundle_list
-    
-    def get_unique(self, bundle_list=None):
-        unique_objs = {}
-        
-        if bundle_list is None:
-            bundle_list = self.bundle_list
-        
-        for b in self.bundle_list:
-            unique_objs[b.id] = []
-        
-        for obj_hash in self.lookup_table:
-            sources = BundleComparator.get_sources(self.lookup_table, obj_hash)
-            if len(sources) == 1:
-                result_index = sources[0]
-                for unique_obj in self.lookup_table[obj_hash][result_index]:
-                    unique_objs[result_index].append(unique_obj['object'].id_)
-                
-        return unique_objs
-    
-    def get_common(self, bundle_list=None):
-        confirmed_objs = []
-        
-        if bundle_list is None:
-            bundle_list = self.bundle_list
-            
-        for obj_hash in self.lookup_table:
-            sources = BundleComparator.get_sources(self.lookup_table, obj_hash)
-            if len(sources) > 1:
-                confirmed_obj_dict = {}
-                confirmed_obj_dict['object'] = obj_hash
-                confirmed_obj_dict['object_instances'] = {}
 
-                for key, obj_list in self.lookup_table[obj_hash].items():
-                    confirmed_obj_dict['object_instances'][key] = []
-                    for common_obj in obj_list:
-                        confirmed_obj_dict['object_instances'][key].append(common_obj['object'].id_)
+    def deduplicate(self):
+        BundleDeduplicator.deduplicate(self)
 
-                if confirmed_obj_dict not in confirmed_objs:
-                    confirmed_objs.append(confirmed_obj_dict)
-                        
-        return confirmed_objs
-    
-    
-class SimilarObjectCluster(dict):
-    def __init__(self):
-        pass
-        
-    def add_object(self, obj, owner):
-        if owner not in self:
-            self[owner] = [{ 'object':obj, 'ownerBundle':owner }]
-        else:
-            self[owner].append({ 'object':obj, 'ownerBundle':owner })
-        
-    def get_object_by_owner_id(self, owner_id):
-        return self[owner_id][0]["object"]
-            
-    
-class BundleComparator(object):
-    @classmethod
-    def compare(cls, bundle_list, match_on = None, case_sensitive = True):
-        cls.object_table = {}
-        cls.case_sensitive = case_sensitive
-        if not match_on:
-            # Default matching properties
-            cls.match_on = {
-                            'FileObjectType': 
-                                ['file_name', 'file_path'],
-                            'WindowsRegistryKeyObjectType': 
-                                ['hive','key'],
-                            'WindowsMutexObjectType':
-                                ['name'],
-                            'SocketObjectType':
-                                ['address_value', 'port_value'],
-                            'WindowsPipeObjectType':
-                                ['name'],
-                            'ProcessObjectType':
-                                ['name']}
-        else:
-            cls.match_on = match_on
-
-        lookup_table = {}
-        
-        for bundle in bundle_list:
-            for obj in bundle.get_all_objects(True):
-                cls.process_object(obj, lookup_table, bundle.id)
-
-        return ComparisonResult(bundle_list, lookup_table)
-       
-    @classmethod
-    def process_object(cls, obj, lookup_table, bundle):
-        # get hash string from object to use as key in lookup table
-        # Make sure the object is one of the supported types in the match_on dictionary
-        if obj.properties and obj.properties._XSI_TYPE in cls.match_on:
-            hash_value = cls.get_hash(obj)
-            if hash_value:
-                if hash_value not in lookup_table:
-                    lookup_table[hash_value] = SimilarObjectCluster()
-                lookup_table[hash_value].add_object(obj, bundle)
-                
-    @classmethod
-    def get_hash(cls, obj):
-        hash_val = ''
-        
-        for typed_field in obj.properties._get_vars():
-            # Make sure the typed field is comparable
-            if typed_field.comparable:
-                # Check if we're dealing with a nested element that we want to compare
-                nested_element = cls.is_nested_match(str(typed_field), cls.match_on[obj.properties._XSI_TYPE])
-                # Handle the normal, non-nested case
-                if not nested_element and str(typed_field) in cls.match_on[obj.properties._XSI_TYPE]:
-                    hash_val = cls.get_val(obj, typed_field, hash_val)
-                # Handle the nested case
-                elif nested_element:
-                   split_nested_element = nested_element.split('.')
-                   hash_val = cls.get_val(obj, typed_field, hash_val, split_nested_element[1:])
-        if not cls.case_sensitive:
-            return hash_val.lower()
-        else:
-            return hash_val
-
-    @classmethod
-    def get_val(cls, obj, typed_field, hash_val, nested_elements = None):
-        if not nested_elements:
-            val = getattr(obj.properties, str(typed_field))
-
-            if val is not None:
-                hash_val += str(typed_field) + ":" + str(val) + " "
-        else:
-            if len(nested_elements) == 1:
-                val = getattr(obj.properties, str(typed_field))
-                if val is not None:
-                    hash_val += str(typed_field) + ":"
-                    if isinstance(val, collections.MutableSequence):
-                        for list_item in val:
-                            if '/' in str(nested_elements[0]):
-                                hash_val += '['
-                                split_names = nested_elements[0].split('/')
-                                for name in split_names:
-                                    name_val = getattr(list_item, name)
-                                    if name_val :  hash_val += name + ':' + str(name_val) + ','
-                                hash_val = hash_val.rstrip(',')
-                                hash_val += ']'
-                            else:
-                                hash_val += '[' + str(nested_elements[0]) + ':' +  str(getattr(list_item, str(nested_elements[0]))) + ']'
-                    else:
-                        hash_val += str(getattr(val, nested_elements[0]))
-        return hash_val
-
-    @classmethod
-    def get_sources(cls, lookup_table, obj_hash):
-        val = []
-        for obj_dict_list in lookup_table[obj_hash].values():
-            if not obj_dict_list[0] in val: 
-                val.append(obj_dict_list[0]['ownerBundle'])
-        return val
-
-    @classmethod
-    def is_nested_match(cls, typed_field_name, match_on_list):
-        for matching_property in match_on_list:
-            if '.' in matching_property and typed_field_name in matching_property:
-                return matching_property
-        return False
 
 class BehaviorList(maec.EntityList):
     _contained_type = Behavior
@@ -706,7 +549,8 @@ class BehaviorCollectionList(maec.EntityList):
         for behavior_collection in self:
             if len(behavior_collection.behavior_list) > 0:
                 behavior_collection_list_obj.add_Behavior_Collection(behavior_collection.to_obj())
-        return behavior_collection_list_obj
+        if behavior_collection_list_obj.hasContent_():
+            return behavior_collection_list_obj
 
     #Checks for the existence of a named collection in the list
     def has_collection(self, collection_name):
@@ -736,7 +580,8 @@ class ActionCollectionList(maec.EntityList):
         for action_collection in self:
             if len(action_collection.action_list) > 0:
                 action_collection_list_obj.add_Action_Collection(action_collection.to_obj())
-        return action_collection_list_obj
+        if action_collection_list_obj.hasContent_():
+            return action_collection_list_obj
 
     #Checks for the existence of a named collection in the list
     def has_collection(self, collection_name):
@@ -766,7 +611,8 @@ class ObjectCollectionList(maec.EntityList):
         for object_collection in self:
             if len(object_collection.object_list) > 0:
                 object_collection_list_obj.add_Object_Collection(object_collection.to_obj())
-        return object_collection_list_obj
+        if object_collection_list_obj.hasContent_():
+            return object_collection_list_obj
 
     #Checks for the existence of a named collection in the list
     def has_collection(self, collection_name):
@@ -796,7 +642,8 @@ class CandidateIndicatorCollectionList(maec.EntityList):
         for candidate_indicator_collection in self:
             if len(candidate_indicator_collection.candidate_indicator_list) > 0:
                 candidate_indicator_collection_list_obj.add_Candidate_Indicator_Collection(candidate_indicator_collection.to_obj())
-        return candidate_indicator_collection_list_obj
+        if candidate_indicator_collection_list_obj.hasContent_():
+            return candidate_indicator_collection_list_obj
 
     #Checks for the existence of a named collection in the list
     def has_collection(self, collection_name):
@@ -836,18 +683,18 @@ class Collections(maec.Entity):
 
     def to_obj(self):
         collections_obj = bundle_binding.CollectionsType()
-        if len(self.behavior_collections) > 0 : collections_obj.set_Behavior_Collections(self.behavior_collections.to_obj())
-        if len(self.action_collections) > 0 : collections_obj.set_Action_Collections(self.action_collections.to_obj())
-        if len(self.object_collections) > 0 : collections_obj.set_Object_Collections(self.object_collections.to_obj())
-        if len(self.candidate_indicator_collections) > 0 : collections_obj.set_Candidate_Indicator_Collections(self.candidate_indicator_collections.to_obj())
+        if self.behavior_collections: collections_obj.set_Behavior_Collections(self.behavior_collections.to_obj())
+        if self.action_collections: collections_obj.set_Action_Collections(self.action_collections.to_obj())
+        if self.object_collections: collections_obj.set_Object_Collections(self.object_collections.to_obj())
+        if self.candidate_indicator_collections: collections_obj.set_Candidate_Indicator_Collections(self.candidate_indicator_collections.to_obj())
         return collections_obj
 
     def to_dict(self):
         collections_dict = {}
-        if len(self.behavior_collections) > 0 : collections_dict['behavior_collections'] = self.behavior_collections.to_list()
-        if len(self.action_collections) > 0 : collections_dict['action_collections'] = self.action_collections.to_list()
-        if len(self.object_collections) > 0 : collections_dict['object_collections'] = self.object_collections.to_list()
-        if len(self.candidate_indicator_collections) > 0 : collections_dict['candidate_indicator_collections'] = self.candidate_indicator_collections.to_list()
+        if self.behavior_collections: collections_dict['behavior_collections'] = self.behavior_collections.to_list()
+        if self.action_collections: collections_dict['action_collections'] = self.action_collections.to_list()
+        if self.object_collections: collections_dict['object_collections'] = self.object_collections.to_list()
+        if self.candidate_indicator_collections: collections_dict['candidate_indicator_collections'] = self.candidate_indicator_collections.to_list()
         return collections_dict
 
     @staticmethod
