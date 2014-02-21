@@ -70,10 +70,10 @@ class Bundle(maec.Entity):
         self.process_tree = process_tree
 
     #Add a new Named Action Collection
-    def add_named_action_collection(self, collection_name, collection_id):
+    def add_named_action_collection(self, collection_name, collection_id = None):
         if not self.collections:
             self.collections = Collections()
-        if collection_name is not None and collection_id is not None:
+        if collection_name is not None:
             self.collections.action_collections.append(ActionCollection(collection_name, collection_id))
         
     #Add an Action to an existing named collection; if it does not exist, add it to the top-level <Actions> element
@@ -87,10 +87,10 @@ class Bundle(maec.Entity):
             self.actions.append(action)
 
     #Add a new Named Object Collection
-    def add_named_object_collection(self, collection_name, collection_id):
+    def add_named_object_collection(self, collection_name, collection_id = None):
         if not self.collections:
             self.collections = Collections()
-        if collection_name is not None and collection_id is not None:
+        if collection_name is not None:
             self.collections.object_collections.append(ObjectCollection(collection_name, collection_id))
               
     # return a list of all abjects from self.actions and all action collections
@@ -172,8 +172,8 @@ class Bundle(maec.Entity):
                     return obj
 
     #Add a new Named Behavior Collection
-    def add_named_behavior_collection(self, collection_name, collection_id):
-        if collection_name is not None and collection_id is not None:
+    def add_named_behavior_collection(self, collection_name):
+        if collection_name is not None:
             self.collections.behavior_collections.append(BehaviorCollection(collection_name, collection_id))
 
     #Add a Behavior to an existing named collection; if it does not exist, add it to the top-level <Behaviors> element
