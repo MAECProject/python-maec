@@ -11,15 +11,18 @@ class InvalidMethodError(ValueError):
 
 
 class IDGenerator(object):
-    """Utility class for generating MAEC ids"""
+    """Utility class for generating MAEC IDs for objects"""
     METHOD_UUID = 1
     METHOD_INT = 2
 
-    METHODS = (METHOD_UUID, METHOD_INT,)
+    METHODS = (METHOD_UUID, METHOD_INT)
 
     def __init__(self, namespace=EXAMPLE_NAMESPACE, method=METHOD_UUID):
         self.namespace = namespace
         self.method = method
+        self.reset()
+
+    def reset(self):
         self.next_int = 1
 
     @property
@@ -28,13 +31,10 @@ class IDGenerator(object):
 
     @namespace.setter
     def namespace(self, value):
-        if not isinstance(value, dict):
-            raise ValueError("Must be a dictionary: ex {'http://example.com' : 'example'}")
-        
-        if len(value) != 1:
-            raise ValueError("Provided dictionary must have at most one entry")
-        
+        if not isinstance(value, Namespace):
+            raise ValueError("Must be a Namespace object")
         self._namespace = value
+        self.reset()
 
     @property
     def method(self):
@@ -45,30 +45,27 @@ class IDGenerator(object):
         if value not in IDGenerator.METHODS:
             raise InvalidMethodError("invalid method: %s" % value)
         self._method = value
+        self.reset()
 
     def create_id(self, prefix="guid"):
         """Create an ID.
 
-        Note that if `prefix` is not provided, it will be `guid`, even if the
+        Note that if `prefix` is not provided, it will be `quid`, even if the
         `method` is `METHOD_INT`.
         """
         if self.method == IDGenerator.METHOD_UUID:
-            id_ = str(uuid.uuid1())
+            id_ = str(uuid.uuid4())
         elif self.method == IDGenerator.METHOD_INT:
             id_ = self.next_int
             self.next_int += 1
         else:
             raise InvalidMethodError()
 
-        ns, ns_prefix = self.namespace.iteritems().next()
-        return "%s:%s-%s" % (ns_prefix, prefix, id_)
-
-
+        return "%s:%s-%s" % (self.namespace.prefix, prefix, id_)
 
 # Singleton instance within this module. It is lazily instantiated, so simply
 # importing the utils module will not create the object.
 __generator = None
-
 
 def _get_generator():
     """Return the `maec.utils` module's generator object.
