@@ -62,7 +62,7 @@ class ProcessTreeNode(Process):
 
     def __init__(self, id = None, parent_action_idref = None):
         super(ProcessTreeNode, self).__init__()
-        self.id = id
+        self.id = maec.utils.idgen.create_id(prefix="process_tree")
         self.parent_action_idref = parent_action_idref
         self.ordinal_position = None
         self.initiated_actions = ActionReferenceList()
