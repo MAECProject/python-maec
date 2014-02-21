@@ -2,6 +2,7 @@
 # See LICENSE.txt for complete terms.
 
 import uuid
+from cybox.utils import Namespace
 
 EXAMPLE_NAMESPACE = {'http://example.com' : 'example'}
 
