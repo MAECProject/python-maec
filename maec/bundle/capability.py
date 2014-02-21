@@ -169,7 +169,7 @@ class CapabilityObjective(maec.Entity):
 
     def __init__(self):
         super(CapabilityObjective, self).__init__()
-        self.id_ = None
+        self.id_ = maec.utils.idgen.create_id(prefix="capability_objective")
         self.name = None
         self.description = None
         self.property = []
@@ -281,7 +281,7 @@ class Capability(maec.Entity):
 
     def __init__(self, id = None, name = None):
         super(Capability, self).__init__()
-        self.id_ = id
+        self.id_ = maec.utils.idgen.create_id(prefix="capability")
         self.name = name
         self.description = None
         self.property = []
