@@ -4,12 +4,11 @@
 import uuid
 from cybox.utils import Namespace
 
-EXAMPLE_NAMESPACE = {'http://example.com' : 'example'}
+EXAMPLE_NAMESPACE = Namespace("http://example.com", "example")
 
 class InvalidMethodError(ValueError):
     def __init__(self, method):
         ValueError.__init__(self, "invalid method: %s" % method)
-
 
 class IDGenerator(object):
     """Utility class for generating MAEC IDs for objects"""
