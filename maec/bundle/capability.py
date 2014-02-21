@@ -281,7 +281,10 @@ class Capability(maec.Entity):
 
     def __init__(self, id = None, name = None):
         super(Capability, self).__init__()
-        self.id_ = maec.utils.idgen.create_id(prefix="capability")
+        if id:
+            self.id_ = id
+        else:
+            self.id_ = maec.utils.idgen.create_id(prefix="capability")
         self.name = name
         self.description = None
         self.property = []
