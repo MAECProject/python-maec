@@ -27,7 +27,7 @@ from maec.utils.deduplicator import BundleDeduplicator
 class Bundle(maec.Entity):
     _namespace = maec.bundle._namespace
 
-    def __init__(self, id, defined_subject, schema_version = "4.1", content_type = None, malware_instance_object = None):
+    def __init__(self, id = None, defined_subject = "False", schema_version = "4.1", content_type = None, malware_instance_object = None):
         super(Bundle, self).__init__()
         if id:
             self.id = id
