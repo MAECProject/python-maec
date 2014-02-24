@@ -8,7 +8,7 @@ import maec
 from maec.bundle.bundle import Bundle
 
 USAGE_TEXT = """
-MAEC Run Comparator Script v0.10 BETA
+MAEC Run Deduplicator Script v0.10 BETA
    *Performs Object-based Deduplication on one or more input MAEC Documents
    *Saves deduplicated documents as <original_document_name>_deduplicated.xml
 
