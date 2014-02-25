@@ -91,8 +91,9 @@ class Bundle(maec.Entity):
             self.collections.object_collections.append(ObjectCollection(collection_name, collection_id))
               
     # return a list of all abjects from self.actions and all action collections
-    def get_all_actions(self):
+    def get_all_actions(self, bin = False):
         all_actions = []
+
         for action in self.actions:
             all_actions.append(action)
             
@@ -101,7 +102,16 @@ class Bundle(maec.Entity):
                 for action in collection.action_list:
                     all_actions.append(action)
 
-        return all_actions
+        if bin:
+            binned_actions = {}
+            for action in all_actions:
+                if action.name and action.name.value not in binned_actions:
+                    binned_actions[action.name.value] = [action]
+                elif action.name and action.name.value in binned_actions:
+                    binned_actions[action.name.value].append(action)
+            return binned_actions
+        else:
+            return all_actions
               
     #Add an Object to an existing named collection; if it does not exist, add it to the top-level <Objects> element
     def add_object(self, object, object_collection_name = None):
@@ -295,6 +305,18 @@ class Bundle(maec.Entity):
     def deduplicate(self):
         BundleDeduplicator.deduplicate(self)
 
+    def get_action_objects(self, action_name_list):
+        """Get all Objects corresponding to one or more types of Actions, specified via a list of Action names"""
+        action_objects = {}
+        all_actions = self.get_all_actions(bin=True)
+        for action_name in action_name_list:
+            if action_name in all_actions:
+                associated_objects = []
+                associated_object_lists = [[y for y in x.associated_objects if x.associated_objects] for x in all_actions[action_name]]
+                for associated_object_list in associated_object_lists:
+                    associated_objects += associated_object_list
+                action_objects[action_name] = associated_objects
+        return action_objects
 
 class BehaviorList(maec.EntityList):
     _contained_type = Behavior
