@@ -16,13 +16,12 @@ from cybox.core import ActionReference
 class CandidateIndicator(maec.Entity):
     _namespace = maec.bundle._namespace
 
-    def __init__(self, id = None, generator = None):
+    def __init__(self, id = None):
         super(CandidateIndicator, self).__init__()
-        if id is not None:
+        if id:
             self.id = id
-        elif generator is not None:
-            self.generator = generator
-            self.id = self.generator.generate_candidate_indicator_id()
+        else:
+            self.id = maec.utils.idgen.create_id(prefix="candidate_indicator")
         self.creation_datetime = None
         self.lastupdate_datetime = None
         self.version = None

@@ -169,7 +169,7 @@ class CapabilityObjective(maec.Entity):
 
     def __init__(self):
         super(CapabilityObjective, self).__init__()
-        self.id_ = None
+        self.id_ = maec.utils.idgen.create_id(prefix="capability_objective")
         self.name = None
         self.description = None
         self.property = []
@@ -211,7 +211,7 @@ class CapabilityObjective(maec.Entity):
         if not capability_objective_obj:
             return None
         capability_objective_ = CapabilityObjective()
-        capability_objective_.id_ = capability_objective_obj.get_id()
+        if capability_objective_obj.get_id(): capability_objective_.id_ = capability_objective_obj.get_id()
         capability_objective_.name = VocabString.from_obj(capability_objective_obj.get_Name())
         capability_objective_.description = capability_objective_obj.get_Description()
         if capability_objective_obj.get_Property(): 
@@ -227,7 +227,7 @@ class CapabilityObjective(maec.Entity):
         if not capability_objective_dict:
             return None
         capability_objective_ = CapabilityObjective()
-        capability_objective_.id_ = capability_objective_dict.get('id')
+        if capability_objective_dict.get('id'): capability_objective_.id_ = capability_objective_dict.get('id')
         capability_objective_.name = VocabString.from_dict(capability_objective_dict.get('name'))
         capability_objective_.description = capability_objective_dict.get('description')
         if capability_objective_dict.get('property'): 
@@ -281,7 +281,10 @@ class Capability(maec.Entity):
 
     def __init__(self, id = None, name = None):
         super(Capability, self).__init__()
-        self.id_ = id
+        if id:
+            self.id_ = id
+        else:
+            self.id_ = maec.utils.idgen.create_id(prefix="capability")
         self.name = name
         self.description = None
         self.property = []
@@ -342,7 +345,7 @@ class Capability(maec.Entity):
         if not capability_dict:
             return None
         capability_ = Capability()
-        capability_.id_ = capability_dict.get('id')
+        if capability_dict.get('id'): capability_.id_ = capability_dict.get('id')
         capability_.name = capability_dict.get('name')
         capability_.description = capability_dict.get('description')
         if capability_dict.get('property'): 
@@ -362,7 +365,7 @@ class Capability(maec.Entity):
         if not capability_obj:
             return None
         capability_ = Capability()
-        capability_.id_ = capability_obj.get_id()
+        if capability_obj.get_id(): capability_.id_ = capability_obj.get_id()
         capability_.name = capability_obj.get_name()
         capability_.description = capability_obj.get_Description()
         if capability_obj.get_Property(): 

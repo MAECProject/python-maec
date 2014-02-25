@@ -15,9 +15,12 @@ from maec.package.grouping_relationship import GroupingRelationshipList
 class Package(maec.Entity):
     _namespace = maec.package._namespace
 
-    def __init__(self, id, schema_version = "2.1", timestamp = None):
+    def __init__(self, id = None, schema_version = "2.1", timestamp = None):
         super(Package, self).__init__()
-        self.id = id
+        if id:
+            self.id = id
+        else:
+            self.id = maec.utils.idgen.create_id(prefix="package")
         self.schema_version = schema_version
         self.timestamp = timestamp
         self.malware_subjects = MalwareSubjectList()

@@ -19,6 +19,10 @@ class ActionEquivalence(maec.Entity):
      id = maec.TypedField('id')
      action_reference = maec.TypedField('Action_Reference', ActionReference, multiple = True)
 
+     def __init__(self):
+         super(ActionEquivalence, self).__init__()
+         self.id = maec.utils.idgen.create_id(prefix="action_equivalence")
+
         
 class ActionEquivalenceList(maec.EntityList):
     _contained_type = ActionEquivalence

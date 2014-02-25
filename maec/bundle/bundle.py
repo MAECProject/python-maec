@@ -27,9 +27,12 @@ from maec.utils.deduplicator import BundleDeduplicator
 class Bundle(maec.Entity):
     _namespace = maec.bundle._namespace
 
-    def __init__(self, id, defined_subject, schema_version = "4.1", content_type = None, malware_instance_object = None):
+    def __init__(self, id = None, defined_subject = "False", schema_version = "4.1", content_type = None, malware_instance_object = None):
         super(Bundle, self).__init__()
-        self.id = id
+        if id:
+            self.id = id
+        else:
+            self.id = maec.utils.idgen.create_id(prefix="bundle")
         self.schema_version = schema_version
         self.defined_subject = defined_subject
         self.content_type = content_type
@@ -67,10 +70,10 @@ class Bundle(maec.Entity):
         self.process_tree = process_tree
 
     #Add a new Named Action Collection
-    def add_named_action_collection(self, collection_name, collection_id):
+    def add_named_action_collection(self, collection_name, collection_id = None):
         if not self.collections:
             self.collections = Collections()
-        if collection_name is not None and collection_id is not None:
+        if collection_name is not None:
             self.collections.action_collections.append(ActionCollection(collection_name, collection_id))
         
     #Add an Action to an existing named collection; if it does not exist, add it to the top-level <Actions> element
@@ -84,10 +87,10 @@ class Bundle(maec.Entity):
             self.actions.append(action)
 
     #Add a new Named Object Collection
-    def add_named_object_collection(self, collection_name, collection_id):
+    def add_named_object_collection(self, collection_name, collection_id = None):
         if not self.collections:
             self.collections = Collections()
-        if collection_name is not None and collection_id is not None:
+        if collection_name is not None:
             self.collections.object_collections.append(ObjectCollection(collection_name, collection_id))
               
     # return a list of all abjects from self.actions and all action collections
@@ -179,8 +182,8 @@ class Bundle(maec.Entity):
                     return obj
 
     #Add a new Named Behavior Collection
-    def add_named_behavior_collection(self, collection_name, collection_id):
-        if collection_name is not None and collection_id is not None:
+    def add_named_behavior_collection(self, collection_name):
+        if collection_name is not None:
             self.collections.behavior_collections.append(BehaviorCollection(collection_name, collection_id))
 
     #Add a Behavior to an existing named collection; if it does not exist, add it to the top-level <Behaviors> element
@@ -398,7 +401,10 @@ class ActionCollection(BaseCollection):
 
     def __init__(self, name = None, id = None):
         super(ActionCollection, self).__init__(name)
-        self.id = id
+        if id:
+            self.id = id
+        else:
+            self.id = maec.utils.idgen.create_id(prefix="action_collection")
         self.action_list = ActionList()
 
     def add_action(self, action):
@@ -439,7 +445,10 @@ class BehaviorCollection(BaseCollection):
 
     def __init__(self, name = None, id = None):
         super(BehaviorCollection, self).__init__(name)
-        self.id = id
+        if id:
+            self.id = id
+        else:
+            self.id = maec.utils.idgen.create_id(prefix="behavior_collection")
         self.behavior_list = BehaviorList()
 
     def add_behavior(self, behavior):
@@ -480,7 +489,10 @@ class ObjectCollection(BaseCollection):
 
     def __init__(self, name = None, id = None):
         super(ObjectCollection, self).__init__(name)
-        self.id = id
+        if id:
+            self.id = id
+        else:
+            self.id = maec.utils.idgen.create_id(prefix="object_collection")
         self.object_list = ObjectList()
 
     def add_object(self, object):
@@ -521,7 +533,10 @@ class CandidateIndicatorCollection(BaseCollection):
 
     def __init__(self, name = None, id = None):
         super(CandidateIndicatorCollection, self).__init__(name)
-        self.id = id
+        if id:
+            self.id = id
+        else:
+            self.id = maec.utils.idgen.create_id(prefix="candidate_indicator_collection")
         self.candidate_indicator_list = CandidateIndicatorList()
 
     def add_candidate_indicator(self, candidate_indicator):

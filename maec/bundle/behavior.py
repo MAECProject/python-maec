@@ -15,7 +15,10 @@ class Behavior(maec.Entity):
 
     def __init__(self, id = None, description = None, ordinal_position = None, duration = None, status = None):
         super(Behavior, self).__init__()
-        self.id_ = id
+        if id:
+            self.id_ = id
+        else:
+            self.id_ = maec.utils.idgen.create_id(prefix="behavior")
         self.action_list = []
         self.platform_list = []
         self.snippet_list = []

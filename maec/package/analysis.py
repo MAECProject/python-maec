@@ -18,9 +18,12 @@ from maec.bundle.bundle_reference import BundleReference
 class Analysis(maec.Entity):
     _namespace = maec.package._namespace
 
-    def __init__(self, id, method = None, type = None, findings_bundle_reference = []):
+    def __init__(self, id = None, method = None, type = None, findings_bundle_reference = []):
         super(Analysis, self).__init__()
-        self.id = id
+        if id:
+            self.id = id
+        else:
+            self.id = maec.utils.idgen.create_id(prefix="analysis")
         self.method = method
         self.type = type
         self.ordinal_position = None

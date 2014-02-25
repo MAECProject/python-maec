@@ -10,6 +10,8 @@
 """MAEC utility methods"""
 
 from .nsparser import maecMETA
+from .idgen import *
+
 
 
     
