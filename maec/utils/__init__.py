@@ -11,6 +11,7 @@
 
 from .nsparser import maecMETA
 from .idgen import *
+from .parser import EntityParser
 
 
 
