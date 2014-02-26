@@ -126,6 +126,8 @@ class Bundle(maec.Entity):
                     for associated_object in associated_objects:
                         if associated_object.idref and associated_object.idref == object.id_:
                             object_actions.append(action)
+                        elif associated_object.id_ and associated_object.id_ == object.id_:
+                            object_actions.append(action)
             return object_actions
 
     #Add an Object to an existing named collection; if it does not exist, add it to the top-level <Objects> element
@@ -172,7 +174,7 @@ class Bundle(maec.Entity):
 
     def get_all_non_reference_objects(self):
         """Return a list of all Objects in the Bundle that are not references (i.e. all of the actual Objects in the Bundle)."""
-        return [x for x in self.get_all_objects() if x.id_ and not x.idref]
+        return [x for x in self.get_all_objects(True) if x.id_ and not x.idref]
 
     # finds actions and objects by id
     def get_object_by_id(self, id):
@@ -351,14 +353,13 @@ class ObjectHistory(object):
     def build(cls, bundle):
         """Build the Object History for a Bundle"""
         cls.entries = [] # A list of the Objects in the Object History
-        # Get all of the Objects in the Bundle
-        all_actions = bundle.get_all_actions()
         # Get the Objects that are not references
         objects = bundle.get_all_non_reference_objects()
         for object in objects:
             object_history_entry = ObjectHistoryEntry(object)
-            # Find all Actions that operate on the Object
-            object_history_entry.actions = bundle.get_all_actions_on_object(object)
+            # Find and set all Actions that operate on the Object
+            if bundle.get_all_actions_on_object(object):
+                object_history_entry.actions = bundle.get_all_actions_on_object(object)
             # Add the history entry to the list
             cls.entries.append(object_history_entry)
 
