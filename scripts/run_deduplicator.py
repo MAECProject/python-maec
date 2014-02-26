@@ -6,6 +6,7 @@ import sys
 import os
 import maec
 from maec.bundle.bundle import Bundle
+from maec.package.package import Package
 
 USAGE_TEXT = """
 MAEC Run Deduplicator Script v0.10 BETA
@@ -19,12 +20,12 @@ Usage: python run_deduplicator.py -l <single whitespace separated list of MAEC f
 def process_maec_file(filename):
     new_filename = filename[:filename.find(".xml")] + "_deduplicated.xml"
     parsed_objects = maec.parse_xml_instance(filename)
-    if parsed_objects and 'package' in parsed_objects:
-        parsed_objects['package']['api'].deduplicate_malware_subjects()
-        parsed_objects['package']['api'].to_xml_file(new_filename)
-    elif parsed_objects and 'bundle' in parsed_objects:
-        parsed_objects['bundle']['api'].deduplicate()
-        parsed_objects['bundle']['api'].to_xml_file(new_filename)
+    if parsed_objects and isinstance(parsed_objects['api'], Package):
+        parsed_objects['api'].deduplicate_malware_subjects()
+        parsed_objects['api'].to_xml_file(new_filename)
+    elif parsed_objects and isinstance(parsed_objects['api'], Bundle):
+        parsed_objects['api'].deduplicate()
+        parsed_objects['api'].to_xml_file(new_filename)
 
 def main():
     sys.stdout.write("Deduplicating.")
