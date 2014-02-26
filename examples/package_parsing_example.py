@@ -8,7 +8,7 @@ import maec
 maec_objects = maec.parse_xml_instance("sample_maec_package.xml")
 
 # Get the Package Object from the parsed input
-maec_package = maec_objects['package']['api']
+maec_package = maec_objects['api']
 
 # For this example, iterate through the Malware Subjects
 # in the input Package, and print the ID of each
