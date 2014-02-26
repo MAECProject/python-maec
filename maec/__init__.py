@@ -494,13 +494,13 @@ class TypedField(object):
         return attr
 
 
-def parse_xml_instance(filename):
+def parse_xml_instance(filename, check_version = True):
     """Parse a MAEC instance and return the correct Binding and API objects
        Returns a dictionary of MAEC Package or Bundle Binding/API Objects"""
     object_dictionary = {}
     entity_parser = EntityParser()
     
-    object_dictionary['binding'] = entity_parser.parse_xml_to_obj(filename)
-    object_dictionary['api'] = entity_parser.parse_xml(filename)
+    object_dictionary['binding'] = entity_parser.parse_xml_to_obj(filename, check_version)
+    object_dictionary['api'] = entity_parser.parse_xml(filename, check_version)
 
     return object_dictionary
