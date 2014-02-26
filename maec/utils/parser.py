@@ -45,7 +45,7 @@ class EntityParser(object):
         except AttributeError:
             root = tree
         # General compatibility check
-        if root.tag != "{http://maec.mitre.org/XMLSchema/maec-bundle-4}MAEC_Bundle" or "{http://maec.mitre.org/XMLSchema/maec-package-2}MAEC_Package":
+        if root.tag not in ("{http://maec.mitre.org/XMLSchema/maec-bundle-4}MAEC_Bundle", "{http://maec.mitre.org/XMLSchema/maec-package-2}MAEC_Package"):
             raise UnsupportedRootElement("Document root element must be an instance of MAEC_Package or MAEC_Bundle")
 
         # Determine if we're dealing with a MAEC Bundle or MAEC Package
@@ -101,6 +101,8 @@ class EntityParser(object):
         xml_file -- A filename/path or a file-like object reprenting a MAEC instance (i.e. Package or Bundle) document
         check_version -- Inspect the version before parsing.
         """
+        parser = etree.ETCompatXMLParser(huge_tree=True)
+        tree = etree.parse(xml_file, parser=parser)
 
         api_obj = None
         binding_obj = self.parse_xml_to_obj(xml_file, check_version)
