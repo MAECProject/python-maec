@@ -96,10 +96,11 @@ class BundleComparator(object):
         
     @classmethod
     def process_action(cls, action, lookup_table, bundle):
-        for associated_object in action.associated_objects:
-            # get actual object from associated object
-            obj = associated_object
-            cls.process_object(obj, lookup_table, bundle)
+        if action.associated_objects:
+            for associated_object in action.associated_objects:
+                # get actual object from associated object
+                obj = associated_object
+                cls.process_object(obj, lookup_table, bundle)
 
     @classmethod
     def process_object(cls, obj, lookup_table, bundle):

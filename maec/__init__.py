@@ -9,7 +9,7 @@ import bindings.maec_bundle as bundle_binding
 import bindings.maec_package as package_binding
 from cybox import Entity as cyboxEntity
 from cybox.utils import Namespace
-from maec.utils import maecMETA
+from maec.utils import maecMETA, EntityParser
 
 def get_xmlns_string(ns_set):
     """Build a string with 'xmlns' definitions for every namespace in ns_set.
@@ -211,6 +211,11 @@ class Entity(object):
         namespace_def = ""
 
         if include_namespaces:
+            # Update the namespace dictionary with namespaces found upon import
+            if namespace_dict and self.__input_namespaces__:
+                namespace_dict.update(self.__input_namespaces__)
+            elif not namespace_dict and self.__input_namespaces__:
+                namespace_dict = self.__input_namespaces__
             namespace_def = self._get_namespace_def(namespace_dict)
 
         if not pretty:
@@ -223,6 +228,11 @@ class Entity(object):
 
     def to_xml_file(self, filename, namespace_dict=None):
         """Export an object to an XML file. Only supports Package or Bundle objects at the moment."""
+        # Update the namespace dictionary with namespaces found upon import
+        if namespace_dict and self.__input_namespaces__:
+            namespace_dict.update(self.__input_namespaces__)
+        elif not namespace_dict and self.__input_namespaces__:
+            namespace_dict = self.__input_namespaces__
         out_file  = open(filename, 'w')
         out_file.write("<?xml version='1.0' encoding='UTF-8'?>\n")
         self.to_obj().export(out_file, 0, namespacedef_ = self._get_namespace_def(namespace_dict))
@@ -238,15 +248,17 @@ class Entity(object):
 
         namespaces = self._get_namespaces()
 
-        if additional_ns_dict:
-            for ns, prefix in additional_ns_dict.iteritems():
-                namespaces.update([Namespace(ns, prefix)])
-
         # if there are any other namepaces, include xsi for "schemaLocation"
         # also, include the MAEC default vocabularies schema by default
         if namespaces:
             namespaces.update([maecMETA.lookup_prefix('xsi')])
             namespaces.update([maecMETA.lookup_prefix('maecVocabs')])
+
+        if namespaces and additional_ns_dict:
+            namespace_list = [x.name for x in namespaces if x]
+            for ns, prefix in additional_ns_dict.iteritems():
+                if ns not in namespace_list:
+                    namespaces.update([Namespace(ns, prefix)])
 
         if not namespaces:
             return ""
@@ -494,18 +506,13 @@ class TypedField(object):
         return attr
 
 
-def parse_xml_instance(filename):
+def parse_xml_instance(filename, check_version = True):
     """Parse a MAEC instance and return the correct Binding and API objects
        Returns a dictionary of MAEC Package or Bundle Binding/API Objects"""
-    from maec.bundle.bundle import Bundle
-    from maec.package.package import Package
-    package_obj = package_binding.parse(filename)
-    bundle_obj = bundle_binding.parse(filename)
     object_dictionary = {}
+    entity_parser = EntityParser()
+    
+    object_dictionary['binding'] = entity_parser.parse_xml_to_obj(filename, check_version)
+    object_dictionary['api'] = entity_parser.parse_xml(filename, check_version)
 
-    if package_obj.hasContent_():
-        object_dictionary['package'] = {'binding' : package_obj, 'api': Package.from_obj(package_obj)}
-        return object_dictionary
-    elif bundle_obj.hasContent_():
-        object_dictionary['bundle'] = {'binding' : bundle_obj, 'api': Bundle.from_obj(bundle_obj)}
-        return object_dictionary
+    return object_dictionary
