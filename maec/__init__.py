@@ -211,6 +211,11 @@ class Entity(object):
         namespace_def = ""
 
         if include_namespaces:
+            # Update the namespace dictionary with namespaces found upon import
+            if namespace_dict and self.__input_namespaces__:
+                namespace_dict.update(self.__input_namespaces__)
+            elif not namespace_dict and self.__input_namespaces__:
+                namespace_dict = self.__input_namespaces__
             namespace_def = self._get_namespace_def(namespace_dict)
 
         if not pretty:
@@ -223,6 +228,11 @@ class Entity(object):
 
     def to_xml_file(self, filename, namespace_dict=None):
         """Export an object to an XML file. Only supports Package or Bundle objects at the moment."""
+        # Update the namespace dictionary with namespaces found upon import
+        if namespace_dict and self.__input_namespaces__:
+            namespace_dict.update(self.__input_namespaces__)
+        elif not namespace_dict and self.__input_namespaces__:
+            namespace_dict = self.__input_namespaces__
         out_file  = open(filename, 'w')
         out_file.write("<?xml version='1.0' encoding='UTF-8'?>\n")
         self.to_obj().export(out_file, 0, namespacedef_ = self._get_namespace_def(namespace_dict))
@@ -238,15 +248,17 @@ class Entity(object):
 
         namespaces = self._get_namespaces()
 
-        if additional_ns_dict:
-            for ns, prefix in additional_ns_dict.iteritems():
-                namespaces.update([Namespace(ns, prefix)])
-
         # if there are any other namepaces, include xsi for "schemaLocation"
         # also, include the MAEC default vocabularies schema by default
         if namespaces:
             namespaces.update([maecMETA.lookup_prefix('xsi')])
             namespaces.update([maecMETA.lookup_prefix('maecVocabs')])
+
+        if namespaces and additional_ns_dict:
+            namespace_list = [x.name for x in namespaces if x]
+            for ns, prefix in additional_ns_dict.iteritems():
+                if ns not in namespace_list:
+                    namespaces.update([Namespace(ns, prefix)])
 
         if not namespaces:
             return ""
