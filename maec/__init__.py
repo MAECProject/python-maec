@@ -9,7 +9,7 @@ import bindings.maec_bundle as bundle_binding
 import bindings.maec_package as package_binding
 from cybox import Entity as cyboxEntity
 from cybox.utils import Namespace
-from maec.utils import maecMETA
+from maec.utils import maecMETA, EntityParser
 
 def get_xmlns_string(ns_set):
     """Build a string with 'xmlns' definitions for every namespace in ns_set.
@@ -497,15 +497,10 @@ class TypedField(object):
 def parse_xml_instance(filename):
     """Parse a MAEC instance and return the correct Binding and API objects
        Returns a dictionary of MAEC Package or Bundle Binding/API Objects"""
-    from maec.bundle.bundle import Bundle
-    from maec.package.package import Package
-    package_obj = package_binding.parse(filename)
-    bundle_obj = bundle_binding.parse(filename)
     object_dictionary = {}
+    entity_parser = EntityParser()
+    
+    object_dictionary['binding'] = entity_parser.parse_xml_to_obj(filename)
+    object_dictionary['api'] = entity_parser.parse_xml(filename)
 
-    if package_obj.hasContent_():
-        object_dictionary['package'] = {'binding' : package_obj, 'api': Package.from_obj(package_obj)}
-        return object_dictionary
-    elif bundle_obj.hasContent_():
-        object_dictionary['bundle'] = {'binding' : bundle_obj, 'api': Bundle.from_obj(bundle_obj)}
-        return object_dictionary
+    return object_dictionary
