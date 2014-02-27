@@ -212,9 +212,9 @@ class Entity(object):
 
         if include_namespaces:
             # Update the namespace dictionary with namespaces found upon import
-            if namespace_dict and self.__input_namespaces__:
+            if namespace_dict and hasattr(self, '__input_namespaces__'):
                 namespace_dict.update(self.__input_namespaces__)
-            elif not namespace_dict and self.__input_namespaces__:
+            elif not namespace_dict and hasattr(self, '__input_namespaces__'):
                 namespace_dict = self.__input_namespaces__
             namespace_def = self._get_namespace_def(namespace_dict)
 
@@ -229,15 +229,15 @@ class Entity(object):
     def to_xml_file(self, filename, namespace_dict=None):
         """Export an object to an XML file. Only supports Package or Bundle objects at the moment."""
         # Update the namespace dictionary with namespaces found upon import
-        if namespace_dict and self.__input_namespaces__:
+        if namespace_dict and hasattr(self, '__input_namespaces__'):
             namespace_dict.update(self.__input_namespaces__)
-        elif not namespace_dict and self.__input_namespaces__:
+        elif not namespace_dict and hasattr(self, '__input_namespaces__'):
             namespace_dict = self.__input_namespaces__
         out_file  = open(filename, 'w')
         out_file.write("<?xml version='1.0' encoding='UTF-8'?>\n")
         self.to_obj().export(out_file, 0, namespacedef_ = self._get_namespace_def(namespace_dict))
         out_file.close()
-
+         
     def to_json(self):
         """Export an object as a JSON string.
         """
