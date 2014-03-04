@@ -181,19 +181,19 @@ class Bundle(maec.Entity):
         for action in self.actions:
             if action.id_ == id:
                 return action
-            
-            for associated_obj in action.associated_objects:
-                    if associated_obj.id_ == id:
-                        return associated_obj
+            if action.associated_objects:
+                for associated_obj in action.associated_objects:
+                        if associated_obj.id_ == id:
+                            return associated_obj
             
         for collection in self.collections.action_collections:
             for action in collection.action_list:
                 if action.id_ == id:
                     return action
-                
-                for associated_obj in action.associated_objects:
-                    if associated_obj.id_ == id:
-                        return associated_obj
+                if action.associated_objects:
+                    for associated_obj in action.associated_objects:
+                        if associated_obj.id_ == id:
+                            return associated_obj
         
         for obj in self.objects:
             if obj.id_ == id:
