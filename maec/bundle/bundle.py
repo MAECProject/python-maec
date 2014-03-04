@@ -354,7 +354,9 @@ class Bundle(maec.Entity):
         for object in all_objects:
             if object.idref and not object.id_:
                 real_object = self.get_object_by_id(object.idref)
-                object = real_object
+                object.idref = None
+                object.id_ = real_object.id_
+                object.properties = real_object.properties
 
 class BundleSummary(object):
     @classmethod
