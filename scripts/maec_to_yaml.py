@@ -138,7 +138,7 @@ def main():
             outfilename = args[i+1]
         elif args[i] == '-m':
             mode = args[i+1]
-
+    # Test the mode value
     if mode not in ['simple', 'full']:
         sys.stdout.writelines("Error: incorrect output mode specified. Possible values are 'simple' and 'full'\n")
         sys.exit(0)
@@ -147,6 +147,7 @@ def main():
     normalized_obj = normalize_maec(objects_dict['api'])
     api_obj_dict = normalized_obj.to_dict()
     output_dict = {}
+    # If mode is 'simple', prune the dictionary add the YAML representer
     if mode == 'simple':
         # Prune the MAEC dictionary
         pruned_dict = prune_dict(api_obj_dict)
@@ -155,6 +156,7 @@ def main():
             return dumper.represent_mapping( u'tag:yaml.org,2002:map', data.items(), flow_style=False )
         yaml.add_representer( OrderedDict, order_rep )
         output_dict = order_dict(api_obj_dict)
+    # Otherwise, use the full dictionary as-is
     elif mode == 'full':
         output_dict = api_obj_dict
     # Output the pruned dictionary as YAML
