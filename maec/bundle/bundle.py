@@ -348,6 +348,22 @@ class Bundle(maec.Entity):
         """Build and return the Object history for the Bundle"""
         return ObjectHistory.build(self)
 
+    def dereference_objects(self):
+        """Dereference any Objects in the Bundle by replacing them with the entities they reference"""
+        all_objects = self.get_all_objects(include_actions=True)
+        for object in all_objects:
+            if object.idref and not object.id_:
+                real_object = self.get_object_by_id(object.idref)
+                object = real_object
+
+class BundleSummary(object):
+    @classmethod
+    def build_summary(cls, bundle):
+       """Build a summary of the contents of a Bundle. For now this is just information on the 
+          Malware_Instance_Object_Attributes and Actions."""
+       all_actions = bundle.get_all_actions(bin=True)
+       malware_instance_obj = bundle.malware_instance_object_attributes
+
 class ObjectHistory(object):
     @classmethod
     def build(cls, bundle):
