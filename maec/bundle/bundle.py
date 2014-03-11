@@ -141,8 +141,9 @@ class Bundle(maec.Entity):
             self.objects.append(object)
 
     # return a list of all objects from self.objects and all object collections
-    def get_all_objects(self, include_actions = False):
+    def get_all_objects(self, include_actions = False, bin = False):
         all_objects = []
+
         for obj in self.objects:
             all_objects.append(obj)
             for related_obj in obj.related_objects:
@@ -164,8 +165,19 @@ class Bundle(maec.Entity):
                         all_objects.append(associated_object)
                         for related_obj in associated_object.related_objects:
                             all_objects.append(related_obj)
-
-        return all_objects
+        # Bin the Objects by their xsi_type, if bin == True
+        if bin:
+            binned_objects = {}
+            for object in all_objects:
+                if object.properties and object.properties._XSI_TYPE:
+                    xsi_type = object.properties._XSI_TYPE
+                    if xsi_type in binned_objects:
+                        binned_objects[xsi_type].append(object)
+                    elif xsi_type not in binned_objects:
+                        binned_objects[xsi_type] = [object]
+            return binned_objects
+        else:
+            return all_objects
 
     def get_all_multiple_referenced_objects(self):
         """Return a list of all Objects in the Bundle that are referenced more than once."""
