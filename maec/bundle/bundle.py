@@ -4,7 +4,7 @@
 #All rights reserved
 
 #Compatible with MAEC v4.1
-#Last updated 02/18/2014
+#Last updated 03/11/2014
 
 
 import datetime
@@ -22,7 +22,7 @@ from maec.bundle.process_tree import ProcessTree
 from maec.bundle.capability import CapabilityList
 from maec.utils.comparator import BundleComparator
 from maec.utils.deduplicator import BundleDeduplicator
-
+from maec.utils.fuzzy_comparator import BundleFuzzyComparator
 
 class Bundle(maec.Entity):
     _namespace = maec.bundle._namespace
@@ -339,6 +339,10 @@ class Bundle(maec.Entity):
     @classmethod
     def compare(cls, bundle_list, match_on = None, case_sensitive = True):
         return BundleComparator.compare(bundle_list, match_on, case_sensitive);
+    
+    # Perform a fuzzy string comparison of all Objects in the Bundle
+    def fuzzy_compare(self):
+        BundleFuzzyComparator.compare(self)
 
     def deduplicate(self):
         BundleDeduplicator.deduplicate(self)
