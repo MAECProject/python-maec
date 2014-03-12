@@ -40,7 +40,6 @@ def usage():
     
 USAGE_TEXT = """
 MAEC 4.0.1 --> MAEC 4.1 XML Converter Utility
-v0.10 BETA 
 
 Usage: python maec_4.0.1_to_4.1.py -i <input maec 4.0.1 xml file> -o <output maec 4.1 xml file>
 """    
