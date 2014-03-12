@@ -154,7 +154,7 @@ class CandidateIndicatorComposition(maec.Entity):
         if len(self.object_references) > 0: 
             for object_reference in self.object_references: candidate_indc_comp_obj.add_Object_Reference(object_reference.to_obj())
         if len(self.sub_compositions) > 0: 
-            for sub_composition in self.object_references: candidate_indc_comp_obj.add_Sub_Composition(sub_composition.to_obj())
+            for sub_composition in self.sub_compositions: candidate_indc_comp_obj.add_Sub_Composition(sub_composition.to_obj())
         return candidate_indc_comp_obj
 
     def to_dict(self):
