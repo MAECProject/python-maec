@@ -16,13 +16,13 @@ experienced Python developers who want to add MAEC support to their programs.
 
 There are currently two levels of APIs for dealing with MAEC content:
 
--  A low-level API is provided by auto-generated XML Schema - Python class
+- A low-level API is provided by auto-generated XML Schema - Python class
   bindings. These bindings were generated using `generateDS
   <http://www.rexx.com/~dkuhlman/generateDS.html>`_. With these, any CybOX
   content can be parsed from or written to XML, but requires a bit more
   knowledge of the actual MAEC schemas. These "binding classes" are all located
   in the ``maec.bindings`` package.
--  A higher-level API consisting of manually designed Python classes.  These
+- A higher-level API consisting of manually designed Python classes.  These
   "native classes" are intended to behave more like Python programmers would
   expect. As they are designed manually, they currently do not support the
   entire MAEC standard, but rather those object types we expect are used most
