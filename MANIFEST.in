@@ -1,0 +1,8 @@
+include LICENSE.txt
+include README.rst
+recursive-include examples *
+recursive-exclude examples *.pyc
+recursive-exclude examples *.pyo
+recursive-include scripts *
+recursive-exclude scripts *.pyc
+recursive-exclude scripts *.pyo
