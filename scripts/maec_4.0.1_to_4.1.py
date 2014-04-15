@@ -2,6 +2,8 @@
 # Translates a MAEC 4.0.1 Package or Bundle into a valid MAEC 4.1 Package or Bundle
 
 import sys
+import os
+import shutil
 import maec
 from maec.bundle.bundle import Bundle
 from maec.package.package import Package
@@ -47,6 +49,8 @@ Usage: python maec_4.0.1_to_4.1.py -i <input maec 4.0.1 xml file> -o <output mae
 def main():
     infilename = None
     outfilename = None
+    directoryname = ''
+    filepath = ''
     
     #Get the command-line arguments
     args = sys.argv[1:]
@@ -60,9 +64,23 @@ def main():
             infilename = args[i+1]
         elif args[i] == '-o':
             outfilename = args[i+1]
+        elif args[i] == '-d':
+            directoryname = args[i+1]
+
+    if directoryname != '':
+        for filename in os.listdir(directoryname):
+            print filename
+            if '.xml' not in filename:
+                pass
+            elif '_report.maec-4.0.1' not in filename:
+                update_maec(os.path.join(directoryname, filename), filename.rstrip('.xml') + '_cuckoobox_maec.xml')
+            else:
+                new_filepath = os.path.join(directoryname, filename.replace('_report.maec-4.0.1', ''))
+                shutil.move(os.path.join(directoryname, filename), new_filepath)
+                update_maec(new_filepath, new_filepath.rstrip('.xml') + '_cuckoobox_maec.xml')
 
     # Basic parameter checking
-    if infilename and outfilename:
+    elif infilename and outfilename:
         update_maec(infilename, outfilename)
         
 if __name__ == "__main__":
