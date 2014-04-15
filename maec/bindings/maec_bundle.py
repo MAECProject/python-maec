@@ -2041,7 +2041,7 @@ class BehaviorPurposeType(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
         if self.Vulnerability_Exploit is not None:
-            outfile.write('Vulnerability_Exploit=model_.VulnerabilityExploitType(\n')
+            outfile.write('Vulnerability_Exploit=model_.ExploitType(\n')
             self.Vulnerability_Exploit.exportLiteral(outfile, level, name_='Vulnerability_Exploit')
             outfile.write('),\n')
     def build(self, node):
@@ -2058,7 +2058,7 @@ class BehaviorPurposeType(GeneratedsSuper):
             Description_ = self.gds_validate_string(Description_, node, 'Description')
             self.Description = Description_
         elif nodeName_ == 'Vulnerability_Exploit':
-            obj_ = VulnerabilityExploitType.factory()
+            obj_ = ExploitType.factory()
             obj_.build(child_)
             self.set_Vulnerability_Exploit(obj_)
 # end class BehaviorPurposeType
@@ -2150,29 +2150,39 @@ class PlatformListType(GeneratedsSuper):
             self.Platform.append(obj_)
 # end class PlatformListType
 
-class VulnerabilityExploitType(GeneratedsSuper):
-    """The VulnerabilityExploitType characterizes any vulnerability that
-    may be exploited by malware through a Behavior.The
-    known_vulnerability field specifies whether the vulnerability
-    that the malware is exploiting has been previously identified.
-    If so, it should be referenced via a CVE ID in the CVE element.
-    If not, the platform(s) targeted by the vulnerability
-    exploitation behavior may be specified in the Targeted_Platforms
-    element."""
+class ExploitType(GeneratedsSuper):
+    """The ExploitType characterizes any exploitable weakness that may be
+    targeted for exploitation by a malware instance through a
+    Behavior. Most commonly, this refers to a known and identifiable
+    vulnerability, but it may also refer to one or more
+    weaknesses.The known_vulnerability field specifies whether the
+    vulnerability that the malware is exploiting has been previously
+    identified. If so, it should be referenced via a CVE ID in the
+    CVE element. If not, the platform(s) targeted by the
+    vulnerability exploitation behavior may be specified in the
+    Targeted_Platforms element."""
     subclass = None
     superclass = None
-    def __init__(self, known_vulnerability=None, CVE=None, Targeted_Platforms=None):
+    def __init__(self, known_vulnerability=None, CVE=None, CWE_ID=None, Targeted_Platforms=None):
         self.known_vulnerability = _cast(bool, known_vulnerability)
         self.CVE = CVE
+        if CWE_ID is None:
+            self.CWE_ID = []
+        else:
+            self.CWE_ID = CWE_ID
         self.Targeted_Platforms = Targeted_Platforms
     def factory(*args_, **kwargs_):
-        if VulnerabilityExploitType.subclass:
-            return VulnerabilityExploitType.subclass(*args_, **kwargs_)
+        if ExploitType.subclass:
+            return ExploitType.subclass(*args_, **kwargs_)
         else:
-            return VulnerabilityExploitType(*args_, **kwargs_)
+            return ExploitType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_CVE(self): return self.CVE
     def set_CVE(self, CVE): self.CVE = CVE
+    def get_CWE_ID(self): return self.CWE_ID
+    def set_CWE_ID(self, CWE_ID): self.CWE_ID = CWE_ID
+    def add_CWE_ID(self, value): self.CWE_ID.append(value)
+    def insert_CWE_ID(self, index, value): self.CWE_ID[index] = value
     def get_Targeted_Platforms(self): return self.Targeted_Platforms
     def set_Targeted_Platforms(self, Targeted_Platforms): self.Targeted_Platforms = Targeted_Platforms
     def get_known_vulnerability(self): return self.known_vulnerability
@@ -2180,12 +2190,13 @@ class VulnerabilityExploitType(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.CVE is not None or
+            self.CWE_ID or
             self.Targeted_Platforms is not None
             ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='VulnerabilityExploitType', namespacedef_='', pretty_print=True):
+    def export(self, outfile, level, namespace_='maecBundle:', name_='ExploitType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -2193,7 +2204,7 @@ class VulnerabilityExploitType(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='VulnerabilityExploitType')
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ExploitType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
@@ -2201,20 +2212,23 @@ class VulnerabilityExploitType(GeneratedsSuper):
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='VulnerabilityExploitType'):
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='ExploitType'):
         if self.known_vulnerability is not None and 'known_vulnerability' not in already_processed:
             already_processed.add('known_vulnerability')
             outfile.write(' known_vulnerability="%s"' % self.gds_format_boolean(self.known_vulnerability, input_name='known_vulnerability'))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='VulnerabilityExploitType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ExploitType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.CVE is not None:
             self.CVE.export(outfile, level, 'maecBundle:', name_='CVE', pretty_print=pretty_print)
+        for CWE_ID_ in self.CWE_ID:
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sCWE_ID>%s</%sCWE_ID>%s' % ('maecBundle:', self.gds_format_string(quote_xml(CWE_ID_).encode(ExternalEncoding), input_name='CWE_ID'), 'maecBundle:', eol_))
         if self.Targeted_Platforms is not None:
             self.Targeted_Platforms.export(outfile, level, 'maecBundle:', name_='Targeted_Platforms', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='VulnerabilityExploitType'):
+    def exportLiteral(self, outfile, level, name_='ExploitType'):
         level += 1
         already_processed = set()
         self.exportLiteralAttributes(outfile, level, already_processed, name_)
@@ -2230,6 +2244,15 @@ class VulnerabilityExploitType(GeneratedsSuper):
             outfile.write('CVE=model_.CVEVulnerabilityType(\n')
             self.CVE.exportLiteral(outfile, level, name_='CVE')
             outfile.write('),\n')
+        showIndent(outfile, level)
+        outfile.write('CWE_ID=[\n')
+        level += 1
+        for CWE_ID_ in self.CWE_ID:
+            showIndent(outfile, level)
+            outfile.write('%s,\n' % quote_python(CWE_ID_).encode(ExternalEncoding))
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
         if self.Targeted_Platforms is not None:
             outfile.write('Targeted_Platforms=model_.PlatformListType(\n')
             self.Targeted_Platforms.exportLiteral(outfile, level, name_='Targeted_Platforms')
@@ -2255,11 +2278,15 @@ class VulnerabilityExploitType(GeneratedsSuper):
             obj_ = CVEVulnerabilityType.factory()
             obj_.build(child_)
             self.set_CVE(obj_)
+        elif nodeName_ == 'CWE_ID':
+            CWE_ID_ = child_.text
+            CWE_ID_ = self.gds_validate_string(CWE_ID_, node, 'CWE_ID')
+            self.CWE_ID.append(CWE_ID_)
         elif nodeName_ == 'Targeted_Platforms':
             obj_ = PlatformListType.factory()
             obj_.build(child_)
             self.set_Targeted_Platforms(obj_)
-# end class VulnerabilityExploitType
+# end class ExploitType
 
 class BehaviorRelationshipListType(GeneratedsSuper):
     """The BehaviorRelationshipListType captures any relationships between
@@ -6507,7 +6534,7 @@ __all__ = [
     "AssociatedCodeType",
     "BehaviorPurposeType",
     "PlatformListType",
-    "VulnerabilityExploitType",
+    "ExploitType",
     "BehaviorRelationshipListType",
     "BehavioralActionsType",
     "BehaviorListType",
