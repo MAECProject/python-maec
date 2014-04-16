@@ -8,6 +8,7 @@ from StringIO import StringIO
 import bindings.maec_bundle as bundle_binding
 import bindings.maec_package as package_binding
 from cybox import Entity as cyboxEntity
+from cybox import TypedField
 from cybox.utils import Namespace
 from maec.utils import maecMETA, EntityParser
 
@@ -95,8 +96,11 @@ class Entity(object):
         for field in self.__class__._get_vars():
             val = getattr(self, field.attr_name)
 
-            if field.multiple and val:
-                val = [x.to_obj() for x in val]
+            if field.multiple:
+                 if val:
+                     val = [x.to_obj() for x in val]
+                 else:
+                     val = []
             elif isinstance(val, Entity):
                 val = val.to_obj()
 
@@ -123,9 +127,13 @@ class Entity(object):
         for field in self.__class__._get_vars():
             val = getattr(self, field.attr_name)
 
-            if field.multiple and val:
-                val = [x.to_dict() for x in val]
-            if isinstance(val, Entity):
+
+            if field.multiple:
+                 if val:
+                     val = [x.to_dict() for x in val]
+                 else:
+                     val = []
+            elif isinstance(val, Entity):
                 val = val.to_dict()
 
             # Only add non-None objects or non-empty lists
@@ -190,6 +198,10 @@ class Entity(object):
                         val = []
                 else:
                     val = field.type_.from_dict(val)
+
+            else:
+                 if field.multiple and not val:
+                     val = []
             setattr(entity, field.attr_name, val)
 
         return entity
@@ -421,90 +433,6 @@ class EntityList(collections.MutableSequence, Entity):
     def list_from_object(cls, entitylist_obj):
         """Convert from object representation to list representation."""
         return cls.from_obj(entitylist_obj).to_list()
-
-class TypedField(object):
-
-    def __init__(self, name, type_=None, callback_hook=None, key_name=None,
-                 comparable=True, multiple=False):
-        """
-        Create a new field.
-
-        - `name` is the name of the field in the Binding class
-        - `type_` is the type that objects assigned to this field must be.
-          If `None`, no type checking is performed.
-        - `key_name` is only needed if the desired key for the dictionary
-          representation is differen than the lower-case version of `name`
-        - `comparable` (boolean) - whether this field should be considered
-          when checking Entities for equality. Default is True. If false, this
-          field is not considered
-        - `multiple` (boolean) - Whether multiple instances of this field can
-          exist on the Entity.
-        """
-        self.name = name
-        self.type_ = type_
-        self.callback_hook = callback_hook
-        self._key_name = key_name
-        self.comparable = comparable
-        self.multiple = multiple
-
-    def __get__(self, instance, owner):
-        # If we are calling this on a class, we want the actual Field, not its
-        # value
-        if not instance:
-            return self
-
-        return instance._fields.get(self.name, [] if self.multiple else None)
-
-    def __set__(self, instance, value):
-        if ((value is not None) and (self.type_ is not None) and
-                (not self.type_.istypeof(value))):
-            if self.multiple and isinstance(value, list):
-                # TODO: if a list, check if each item in the list is the
-                # correct type.
-                pass
-            elif self.type_._try_cast:
-                value = self.type_(value)
-            else:
-                raise ValueError("%s must be a %s, not a %s" %
-                                    (self.name, self.type_, type(value)))
-        instance._fields[self.name] = value
-
-        if self.callback_hook:
-            self.callback_hook(instance)
-
-    def __str__(self):
-        return self.attr_name
-
-    @property
-    def key_name(self):
-        if self._key_name:
-            return self._key_name
-        else:
-            return self.name.lower()
-
-    @property
-    def attr_name(self):
-        """The name of this field as an attribute name.
-
-        This is identical to the key_name, unless the key name conflicts with
-        a builtin Python keyword, in which case a single underscore is
-        appended.
-
-        This should match the name given to the TypedField class variable (see
-        examples below), but this is not enforced.
-
-        Examples:
-            data = maec.TypedField("Data", String)
-            from_ = maec.TypedField("From", String)
-        """
-
-        attr = self.key_name
-        # TODO: expand list with other Python keywords
-        if attr in ('from', 'class', 'type', 'with', 'for', 'id', 'type',
-                'range'):
-            attr = attr + "_"
-        return attr
-
 
 def parse_xml_instance(filename, check_version = True):
     """Parse a MAEC instance and return the correct Binding and API objects
