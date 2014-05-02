@@ -20,6 +20,9 @@ with open('README.rst') as f:
 extras_require = {
     'docs': [
         'Sphinx==1.2.1',
+        # TODO: remove when updating to Sphinx 1.3, since napoleon will be
+        # included as sphinx.ext.napoleon
+        'sphinxcontrib-napoleon==0.2.4',
     ],
 }
 
