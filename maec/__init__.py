@@ -34,7 +34,7 @@ def get_schemaloc_string(ns_set):
     return " ".join([schemaloc_format.format(x) for x in ns_set
                      if x and x.schema_location])
 
-class Entity(object):
+class Entity(cyboxEntity):
     """Base class for all classes in the MAEC SimpleAPI."""
 
     # By default (unless a particular subclass states otherwise), try to "cast"
