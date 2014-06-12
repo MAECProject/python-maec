@@ -86,6 +86,9 @@ class Behavior(maec.Entity):
     _namespace = maec.bundle._namespace
 
     id_ = maec.TypedField('id')
+    ordinal_position = maec.TypedField('ordinal_position')
+    status = maec.TypedField('status')
+    duration = maec.TypedField('duration')
     purpose = maec.TypedField('Purpose', BehaviorPurpose)
     description = maec.TypedField('Description')
     discovery_method = maec.TypedField('Discovery_Method', MeasureSource)
