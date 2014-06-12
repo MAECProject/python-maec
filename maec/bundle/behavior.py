@@ -37,7 +37,7 @@ class BehavioralAction(maec.Entity):
 
     behavioral_ordering = maec.TypedField('behavioral_ordering')
 
-class BehavioralActions(maec.EntityList):
+class BehavioralActions(maec.Entity):
     _binding = bundle_binding
     _binding_class = bundle_binding.BehavioralActionsType    
     _namespace = maec.bundle._namespace
