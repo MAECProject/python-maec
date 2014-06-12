@@ -4,7 +4,7 @@
 #All rights reserved
 
 #Compatible with MAEC v4.1
-#Last updated 02/18/2014
+#Last updated 06/12/2014
 
 
 import datetime
@@ -811,3 +811,10 @@ class Collections(maec.Entity):
         if collections_obj.get_Candidate_Indicator_Collections() is not None:
             collections_.candidate_indicator_collections = CandidateIndicatorCollectionList.from_obj(collections_obj.get_Candidate_Indicator_Collections())
         return collections_
+
+class BehaviorReference(maec.Entity):
+    _binding = bundle_binding
+    _binding_class = bundle_binding.BehaviorReferenceType
+    _namespace = maec.bundle._namespace
+
+    behavior_idref = maec.TypedField('behavior_idref')
