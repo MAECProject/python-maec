@@ -12,6 +12,7 @@ from cybox.core.action_reference import ActionReference
 from cybox.common.measuresource import MeasureSource
 from cybox.common.platform_specification import PlatformSpecification
 from maec.bundle.malware_action import MalwareAction
+from cybox.objects.code_object import Code
 #from maec.bundle.bundle import ActionCollection
 import datetime
 
@@ -80,6 +81,13 @@ class BehaviorPurpose(maec.Entity):
     description = maec.TypedField('Description')
     vulnerability_exploit = maec.TypedField('Vulnerability_Exploit', Exploit)
 
+class AssociatedCode(maec.EntityList):
+    _binding = bundle_binding
+    _binding_class = bundle_binding.AssociatedCodeType
+    _binding_var = "Code_Snippet"
+    _contained_type = Code    
+    _namespace = maec.bundle._namespace
+
 class Behavior(maec.Entity):
     _binding = bundle_binding
     _binding_class = bundle_binding.BehaviorType  
@@ -93,7 +101,7 @@ class Behavior(maec.Entity):
     description = maec.TypedField('Description')
     discovery_method = maec.TypedField('Discovery_Method', MeasureSource)
     action_composition = maec.TypedField('Action_Composition', BehavioralActions)
-    #associated_code = maec.TypedField('Associated_Code', AssociatedCode) # TODO: implement
+    associated_code = maec.TypedField('Associated_Code', AssociatedCode)
     #relationships = maec.TypedField('Relationships', BehaviorRelationshipList) # TODO: implement
 
     def __init__(self, id = None, description = None):
