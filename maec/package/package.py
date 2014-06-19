@@ -60,7 +60,8 @@ class Package(maec.Entity):
         package_ = Package(None)
         package_.id = package_dict.get('id')
         package_.schema_version = package_dict.get('schema_version')
-        package_.timestamp = datetime.datetime.strptime(package_dict.get('timestamp'), "%Y-%m-%dT%H:%M:%S.%f")
+        if package_dict.get('timestamp'):
+            package_.timestamp = datetime.datetime.strptime(package_dict.get('timestamp'), "%Y-%m-%dT%H:%M:%S.%f")
         package_.malware_subjects = MalwareSubjectList.from_list(package_dict.get('malware_subjects', []))
         package_.grouping_relationships = GroupingRelationshipList.from_list(package_dict.get('grouping_relationships', []))
         return package_

@@ -4,7 +4,7 @@
 #All rights reserved
 
 #Compatible with MAEC v4.1
-#Last updated 06/12/2014
+#Last updated 06/19/2014
 
 
 import datetime
@@ -312,7 +312,8 @@ class Bundle(maec.Entity):
         bundle_.schema_version = bundle_dict.get('schema_version')
         bundle_.defined_subject = bundle_dict.get('defined_subject')
         bundle_.content_type = bundle_dict.get('content_type')
-        bundle_.timestamp = datetime.datetime.strptime(bundle_dict.get('timestamp'), "%Y-%m-%dT%H:%M:%S.%f")
+        if bundle_dict.get('timestamp'):
+            bundle_.timestamp = datetime.datetime.strptime(bundle_dict.get('timestamp'), "%Y-%m-%dT%H:%M:%S.%f")
         bundle_.malware_instance_object_attributes = Object.from_dict(bundle_dict.get('malware_instance_object_attributes'))
         bundle_.av_classifications = AVClassifications.from_list(bundle_dict.get('av_classifications'))
         bundle_.process_tree = ProcessTree.from_dict(bundle_dict.get('process_tree'))
