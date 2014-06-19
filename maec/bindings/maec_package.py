@@ -3486,7 +3486,7 @@ class ActionEquivalenceType(GeneratedsSuper):
         if nodeName_ == 'Action_Reference':
             obj_ = cybox_core.ActionReferenceType.factory()
             obj_.build(child_)
-            self.set_Action_Reference(obj_)
+            self.Action_Reference.append(obj_)
 # end class ActionEquivalenceType
 
 class ActionEquivalenceListType(GeneratedsSuper):
