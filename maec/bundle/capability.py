@@ -422,8 +422,8 @@ class CapabilityList(maec.Entity):
         if not capability_list_dict:
             return None
         capability_list_ = CapabilityList()
-        if capability_list_dict['capability']:
+        if capability_list_dict.get('capability'):
             capability_list_.capability = [Capability.from_dict(x) for x in capability_list_dict['capability']]
-        if capability_list_dict['capability_reference']:
+        if capability_list_dict.get('capability_reference'):
             capability_list_.capability_reference = [CapabilityReference.from_dict(x) for x in capability_list_dict['capability_reference']]
         return capability_list_
