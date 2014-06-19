@@ -4467,6 +4467,96 @@ class MalwareDevelopmentEnvironmentType(GeneratedsSuper):
             self.Debugging_File.append(obj_)
 # end class MalwareDevelopmentEnvironmentType
 
+class MalwareConfigurationParameterType(GeneratedsSuper):
+    """The MalwareConfigurationParameterType captures a single
+    configuration parameter that may be defined for a malware
+    instance, as a name/value pair."""
+    subclass = None
+    superclass = None
+    def __init__(self, Name=None, Value=None):
+        self.Name = Name
+        self.Value = Value
+    def factory(*args_, **kwargs_):
+        if MalwareConfigurationParameterType.subclass:
+            return MalwareConfigurationParameterType.subclass(*args_, **kwargs_)
+        else:
+            return MalwareConfigurationParameterType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Name(self): return self.Name
+    def set_Name(self, Name): self.Name = Name
+    def get_Value(self): return self.Value
+    def set_Value(self, Value): self.Value = Value
+    def hasContent_(self):
+        if (
+            self.Name is not None or
+            self.Value is not None
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='maecPackage:', name_='MalwareConfigurationParameterType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MalwareConfigurationParameterType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='maecPackage:', name_='MalwareConfigurationParameterType'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='maecPackage:', name_='MalwareConfigurationParameterType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.Name is not None:
+            self.Name.export(outfile, level, 'maecPackage:', name_='Name', pretty_print=pretty_print)
+        if self.Value is not None:
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sValue>%s</%sValue>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Value).encode(ExternalEncoding), input_name='Value'), 'maecPackage:', eol_))
+    def exportLiteral(self, outfile, level, name_='MalwareConfigurationParameterType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.Name is not None:
+            outfile.write('Name=model_.cybox_common.ControlledVocabularyStringType(\n')
+            self.Name.exportLiteral(outfile, level, name_='Name')
+            outfile.write('),\n')
+        if self.Value is not None:
+            showIndent(outfile, level)
+            outfile.write('Value=%s,\n' % quote_python(self.Value).encode(ExternalEncoding))
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Name':
+            obj_ = cybox_common.ControlledVocabularyStringType.factory()
+            obj_.build(child_)
+            self.set_Name(obj_)
+        elif nodeName_ == 'Value':
+            Value_ = child_.text
+            Value_ = self.gds_validate_string(Value_, node, 'Value')
+            self.Value = Value_
+# end class MalwareConfigurationParameterType
+
 class MalwareConfigurationDetailsType(GeneratedsSuper):
     """The MalwareConfigurationDetailsType captures details of malware
     configuration parameters and associated metadata."""
