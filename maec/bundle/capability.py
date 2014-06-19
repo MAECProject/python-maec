@@ -269,7 +269,7 @@ class CapabilityProperty(maec.Entity):
 
     @staticmethod
     def from_dict(capability_property_dict):
-        if not capability_property_obj:
+        if not capability_property_dict:
             return None
         capability_property_ = CapabilityProperty()
         capability_property_.name = VocabString.from_dict(capability_property_dict['name'])
