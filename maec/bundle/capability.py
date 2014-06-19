@@ -26,7 +26,7 @@ class CapabilityObjectiveReference(maec.Entity):
 
     def to_dict(self):
         capability_objective_reference_dict = {}
-        if self.objective_idref is not None: capability_objective_reference_dict['capability_idref'] = self.objective_idref
+        if self.objective_idref is not None: capability_objective_reference_dict['objective_idref'] = self.objective_idref
         return capability_objective_reference_dict
 
     @staticmethod
