@@ -173,15 +173,15 @@ class ClusterComposition(maec.Entity):
     def to_obj(self):
         cluster_composition_obj = package_binding.ClusterCompositionType()
         if self.score_type is not None : cluster_composition_obj.set_score_type(self.score_type)
-        if len(edge_node_pairs) > 0:
+        if len(self.edge_node_pairs) > 0:
             for edge_node_pair in self.edge_node_pairs: cluster_composition_obj.add_Edge_Node_Pair(edge_node_pair.to_obj())
         return cluster_composition_obj
 
     def to_dict(self):
         cluster_composition_dict = {}
         if self.score_type is not None : cluster_composition_dict['score_type'] = self.score_type
-        if len(edge_node_pairs) > 0:
-            for edge_node_pair in self.edge_node_pairs: cluster_composition_obj.add_Edge_Node_Pair(edge_node_pair.to_obj())
+        if len(self.edge_node_pairs) > 0:
+            cluster_composition_dict['edge_node_pairs'] = [x.to_dict() for x in self.edge_node_pairs]
         return cluster_composition_dict
 
     @staticmethod
