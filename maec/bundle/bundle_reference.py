@@ -12,7 +12,7 @@ import maec.bindings.maec_bundle as bundle_binding
 class BundleReference(maec.Entity):
     _namespace = maec.bundle._namespace
 
-    def init(self, bundle_idref = None):
+    def __init__(self, bundle_idref = None):
         super(BundleReference, self).__init__()
         self.bundle_idref = bundle_idref
 
