@@ -7,11 +7,14 @@ import itertools
 import maec
 from copy import deepcopy
 from cybox.core import Object
+from cybox.common import HashList
+from cybox.utils import Namespace
 from maec.package.package import Package
 from maec.bundle.bundle import Bundle
 from maec.package.malware_subject import MalwareSubject, MalwareConfigurationDetails,\
                                          FindingsBundleList, MetaAnalysis, Analyses,\
-                                         MinorVariants, MalwareSubjectRelationshipList
+                                         MinorVariants, MalwareSubjectRelationshipList,\
+                                         MalwareSubjectList
 
 def dict_merge(target, *args):
     '''Merge multiple dictionaries into one'''
@@ -53,6 +56,9 @@ def merge_documents(input_list, output_file):
 def merge_packages(package_list, output_file):
     '''Merge a list of input MAEC Packages and write them to an output Package file'''
     malware_subjects = []
+    # Instantiate the ID generator class (for automatic ID generation)
+    NS = Namespace("https://github.com/MAECProject/python-maec", "merged")
+    maec.utils.set_id_namespace(NS)
     # Build the list of Malware Subjects
     for package in package_list:
         for malware_subject in package.malware_subjects:
@@ -60,6 +66,10 @@ def merge_packages(package_list, output_file):
     # Merge the Malware Subjects
     merged_subjects = merge_malware_subjects(malware_subjects)
     # Create a new Package with the merged Malware Subjects
+    merged_package = Package()
+    merged_package.malware_subjects = MalwareSubjectList(merged_subjects)
+    # Write the Package to the output file
+    merged_package.to_xml_file(output_file, {"https://github.com/MAECProject/python-maec":"merged"})
 
 def bin_malware_subjects(malware_subject_list, default_hash_type='md5'):
     '''Bin a list of Malware Subjects by hash
@@ -101,13 +111,17 @@ def merge_entities(entity_list):
     output_dict = dict_merge({}, *dict_list)
     return output_dict
 
-def deduplicate_vocabulary_list(entity_list): # TODO: Move this to the deduplicator module?
+def deduplicate_vocabulary_list(entity_list, value_name = "value"): # TODO: Move this to the deduplicator module?
     '''Deduplicate a simple list of MAEC/CybOX vocabulary entries'''
     temp = []
     output_list = []
     for entity in entity_list:
-        if entity.value and entity.value not in temp:
-            temp.append(entity.value)
+        entity_value = getattr(entity, value_name)
+        entity_lower = str(entity_value).lower()
+        if entity_value and entity_lower not in temp:
+            temp.append(entity_lower)
+            output_list.append(entity)
+        elif not entity_value:
             output_list.append(entity)
     return output_list
 
@@ -134,8 +148,68 @@ def merge_findings_bundles(findings_bundles_list):
 
     return merged_findings_bundle_list
 
+def create_mappings(mapping_dict, original_malware_subject_list, merged_malware_subject):
+    '''Map the IDs of a list of existing Malware Subjects to the new merged Malware Subject'''
+    for malware_subject in original_malware_subject_list:
+        mapping_dict[malware_subject.id] = merged_malware_subject.id
+
+def merge_binned_malware_subjects(merged_malware_subject, binned_list, id_mappings_dict):
+    '''Merge a list of input binned (related) Malware Subjects'''
+    # Merge the Malware_Instance_Object_Attributes
+    mal_inst_obj_list = [x.malware_instance_object_attributes for x in binned_list]
+    merged_inst_obj = Object.from_dict(merge_entities(mal_inst_obj_list))
+    # Give the merged Object a new ID
+    merged_inst_obj.id_ = maec.utils.idgen.create_id('object')
+    # Deduplicate the hash values, if they exist
+    if merged_inst_obj.properties and merged_inst_obj.properties.hashes:
+        hashes = merged_inst_obj.properties.hashes
+        hashes = HashList(deduplicate_vocabulary_list(hashes, value_name = 'simple_hash_value'))
+        hashes = HashList(deduplicate_vocabulary_list(hashes, value_name = 'fuzzy_hash_value'))
+        merged_inst_obj.properties.hashes = hashes
+    # Merge and deduplicate the labels
+    merged_labels = list(itertools.chain(*[x.label for x in binned_list if x.label]))
+    deduplicated_labels = deduplicate_vocabulary_list(merged_labels)
+    # Merge the configuration details
+    config_details_list = [x.configuration_details for x in binned_list if x.configuration_details]
+    merged_config_details = None
+    if config_details_list:
+        merged_config_details = MalwareConfigurationDetails.from_dict(merge_entities(config_details_list))
+    # Merge the minor variants
+    merged_minor_variants = list(itertools.chain(*[x.minor_variants for x in binned_list if x.minor_variants]))
+    # Merge the field data # TODO: Add support. Not implemented in the APIs.
+    # Merge the analyses
+    merged_analyses = list(itertools.chain(*[x.analyses for x in binned_list if x.analyses]))
+    # Merge the findings bundles
+    merged_findings_bundles = merge_findings_bundles([x.findings_bundles for x in binned_list if x.findings_bundles])
+    # Merge the relationships
+    merged_relationships = list(itertools.chain(*[x.relationships for x in binned_list if x.relationships]))
+    # Merge the compatible platforms
+    merged_compatible_platforms = list(itertools.chain(*[x.compatible_platform for x in binned_list if x.compatible_platform]))
+
+    # Build the merged Malware Subject
+    merged_malware_subject.malware_instance_object_attributes = merged_inst_obj
+    if deduplicated_labels: merged_malware_subject.label = deduplicated_labels
+    if merged_config_details: merged_malware_subject.configuration_details = merged_config_details
+    if merged_minor_variants: merged_malware_subject.minor_variants = MinorVariants(merged_minor_variants)
+    if merged_analyses: merged_malware_subject.analyses = Analyses(merged_analyses)
+    if merged_findings_bundles: merged_malware_subject.findings_bundles = merged_findings_bundles
+    if merged_relationships: merged_malware_subject.relationships = MalwareSubjectRelationshipList(merged_relationships)
+    if merged_compatible_platforms: merged_malware_subject.compatible_platform = merged_compatible_platforms
+
+def update_relationships(malware_subject_list, id_mappings):
+    '''Update any existing Malware Subject relationships to account for merged Malware Subjects'''
+    for malware_subject in malware_subject_list:
+        if malware_subject.relationships:
+            relationships = malware_subject.relationships 
+            for relationship in relationships:
+                malware_subject_references = relationship.malware_subject_references
+                for malware_subject_reference in malware_subject_references:
+                    if malware_subject_reference.malware_subject_idref in id_mappings.keys():
+                        malware_subject_reference.malware_subject_idref = id_mappings[malware_subject_reference.malware_subject_idref]
+
 def merge_malware_subjects(malware_subject_list):
     '''Merge a list of input Malware Subjects'''
+    id_mappings = {}
     output_subjects = []
     # Bin the Malware Subjects by hash
     binned_subjects = bin_malware_subjects(malware_subject_list)
@@ -143,38 +217,19 @@ def merge_malware_subjects(malware_subject_list):
     for binned_list in binned_subjects.values():
         # Make sure we're dealing with at least two subjects
         if len(binned_list) > 1:
-            # Merge the Malware_Instance_Object_Attributes # TODO: Determine what to do with the ID?
-            # TODO: Deduplicate hashes?
-            mal_inst_obj_list = [x.malware_instance_object_attributes for x in binned_list]
-            print merge_entities(mal_inst_obj_list)
-            merged_inst_obj = Object.from_dict(merge_entities(mal_inst_obj_list))
-            # Merge and deduplicate the labels
-            merged_labels = list(itertools.chain(*[x.label for x in binned_list if x.label]))
-            deduplicated_labels = deduplicate_vocabulary_list(merged_labels)
-            # Merge the configuration details
-            config_details_list = [x.configuration_details for x in binned_list if x.configuration_details]
-            merged_config_details = None
-            if config_details_list:
-                merged_config_details = MalwareConfigurationDetails.from_dict(merge_entities(config_details_list))
-            # Merge the minor variants
-            merged_minor_variants = list(itertools.chain(*[x.minor_variants for x in binned_list if x.minor_variants]))
-            # Merge the field data # TODO: Add support. Not implemented in the APIs.
-            # Merge the analyses
-            merged_analyses = list(itertools.chain(*[x.analyses for x in binned_list if x.analyses]))
-            # Merge the findings bundles
-            merged_findings_bundles = merge_findings_bundles([x.findings_bundles for x in binned_list if x.findings_bundles])
-            # Merge the relationships # TODO: Determine what to do about the Malware Subject IDs
-            merged_relationships = list(itertools.chain(*[x.relationships for x in binned_list if x.relationships]))
-            # Merge the compatible platforms
-            merged_compatible_platforms = list(itertools.chain(*[x.compatible_platform for x in binned_list if x.compatible_platform]))
-
-            # Build the merged Malware Subject
+            # Instantiate the merged Malware Subject
             merged_malware_subject = MalwareSubject()
-            merged_malware_subject.malware_instance_object_attributes = merged_inst_obj
-            if deduplicated_labels: merged_malware_subject.label = deduplicated_labels
-            if merged_config_details: merged_malware_subject.configuration_details = merged_config_details
-            if merged_minor_variants: merged_malware_subject.minor_variants = MinorVariants(merged_minor_variants)
-            if merged_analyses: merged_malware_subject.analyses = Analyses(merged_analyses)
-            if merged_findings_bundles: merged_malware_subject.findings_bundles = merged_findings_bundles
-            if merged_relationships: merged_malware_subject.relationships = MalwareSubjectRelationshipList(merged_relationships)
-            if merged_compatible_platforms: merged_malware_subject.compatible_platform = merged_compatible_platforms
+            # Add the ID mappings from the old (merged) subject to the new one
+            create_mappings(id_mappings, binned_list, merged_malware_subject)
+            # Perform the merging
+            merge_binned_malware_subjects(merged_malware_subject, binned_list, id_mappings)
+            # Add the merged Malware Subject to the output list
+            output_subjects.append(merged_malware_subject)
+    # Add the Malware Subjects that weren't merged
+    for malware_subject in malware_subject_list:
+        if malware_subject.id not in id_mappings.keys():
+            output_subjects.append(malware_subject)
+    # Update the relationships for the Malware Subjects to account for the merges
+    update_relationships(output_subjects, id_mappings)
+    # Return the list of original and merged Malware Subjects
+    return output_subjects
