@@ -182,7 +182,7 @@ class Bundle(maec.Entity):
         return [x for x in self.get_all_objects(True) if x.id_ and not x.idref]
 
     # finds actions and objects by id
-    def get_object_by_id(self, id):
+    def get_object_by_id(self, id, extra_objects = []):
         for action in self.actions:
             if action.id_ == id:
                 return action
@@ -210,6 +210,11 @@ class Bundle(maec.Entity):
             for obj in collection.object_list:
                 if obj.id_ == id:
                     return obj
+
+        # Test the extra_objects Array
+        for obj in extra_objects:
+            if obj.id_ == id:
+                return obj
 
     #Add a new Named Behavior Collection
     def add_named_behavior_collection(self, collection_name):
@@ -275,7 +280,7 @@ class Bundle(maec.Entity):
         all_objects = all_objects + extra_objects
         for object in all_objects:
             if object.idref and not object.id_:
-                real_object = self.get_object_by_id(object.idref)
+                real_object = self.get_object_by_id(object.idref, extra_objects)
                 object.idref = None
                 object.id_ = real_object.id_
                 object.properties = real_object.properties
