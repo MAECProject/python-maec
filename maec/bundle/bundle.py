@@ -262,6 +262,16 @@ class Bundle(maec.Entity):
             if object.properties:
                 normalize_object_properties(object.properties)
 
+    def dereference_objects(self):
+        """Dereference any Objects in the Bundle by replacing them with the entities they reference"""
+        all_objects = self.get_all_objects(include_actions=True)
+        for object in all_objects:
+            if object.idref and not object.id_:
+                real_object = self.get_object_by_id(object.idref)
+                object.idref = None
+                object.id_ = real_object.id_
+                object.properties = real_object.properties
+
     def to_obj(self):
         bundle_obj = bundle_binding.BundleType(id=self.id)
         #Set the bundle schema version
