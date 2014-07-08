@@ -268,9 +268,11 @@ class Bundle(maec.Entity):
             if object.properties:
                 normalize_object_properties(object.properties)
 
-    def dereference_objects(self):
+    def dereference_objects(self, extra_objects = []):
         """Dereference any Objects in the Bundle by replacing them with the entities they reference"""
         all_objects = self.get_all_objects(include_actions=True)
+        # Add any extra objects that were passed, e.g. from a Malware Subject
+        all_objects = all_objects + extra_objects
         for object in all_objects:
             if object.idref and not object.id_:
                 real_object = self.get_object_by_id(object.idref)
