@@ -4,12 +4,13 @@
 #All rights reserved
 
 #Compatible with MAEC v4.1
-#Last updated 06/19/2014
+#Last updated 07/8/2014
 
 
 import datetime
 
 from cybox.core import Object
+from cybox.utils.normalize import normalize_object_properties
 
 import maec
 import maec.bindings.maec_bundle as bundle_binding
@@ -234,6 +235,33 @@ class Bundle(maec.Entity):
         elif candidate_indicator_collection_name == None:
             self.candidate_indicators.append(candidate_indicator)
     
+    def deduplicate(self):
+        BundleDeduplicator.deduplicate(self)
+
+    def get_action_objects(self, action_name_list):
+        """Get all Objects corresponding to one or more types of Actions, specified via a list of Action names"""
+        action_objects = {}
+        all_actions = self.get_all_actions(bin=True)
+        for action_name in action_name_list:
+            if action_name in all_actions:
+                associated_objects = []
+                associated_object_lists = [[y for y in x.associated_objects if x.associated_objects] for x in all_actions[action_name]]
+                for associated_object_list in associated_object_lists:
+                    associated_objects += associated_object_list
+                action_objects[action_name] = associated_objects
+        return action_objects
+
+    def get_object_history(self):
+        """Build and return the Object history for the Bundle"""
+        return ObjectHistory.build(self)
+
+    def normalize_objects(self):
+        """Normalize all Objects in the Bundle, using the CybOX normalize module"""
+        all_objects = self.get_all_objects(include_actions = True)
+        for object in all_objects:
+            if object.properties:
+                normalize_object_properties(object.properties)
+
     def to_obj(self):
         bundle_obj = bundle_binding.BundleType(id=self.id)
         #Set the bundle schema version
@@ -327,27 +355,7 @@ class Bundle(maec.Entity):
 
     @classmethod
     def compare(cls, bundle_list, match_on = None, case_sensitive = True):
-        return BundleComparator.compare(bundle_list, match_on, case_sensitive);
-
-    def deduplicate(self):
-        BundleDeduplicator.deduplicate(self)
-
-    def get_action_objects(self, action_name_list):
-        """Get all Objects corresponding to one or more types of Actions, specified via a list of Action names"""
-        action_objects = {}
-        all_actions = self.get_all_actions(bin=True)
-        for action_name in action_name_list:
-            if action_name in all_actions:
-                associated_objects = []
-                associated_object_lists = [[y for y in x.associated_objects if x.associated_objects] for x in all_actions[action_name]]
-                for associated_object_list in associated_object_lists:
-                    associated_objects += associated_object_list
-                action_objects[action_name] = associated_objects
-        return action_objects
-
-    def get_object_history(self):
-        """Build and return the Object history for the Bundle"""
-        return ObjectHistory.build(self)
+        return BundleComparator.compare(bundle_list, match_on, case_sensitive)
 
 class ObjectHistory(object):
     @classmethod
