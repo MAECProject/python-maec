@@ -166,6 +166,10 @@ class Bundle(maec.Entity):
                         for related_obj in associated_object.related_objects:
                             all_objects.append(related_obj)
 
+        # Add the Object corresponding to the Malware Instance Object Attributes, if specified
+        if self.malware_instance_object_attributes:
+            all_objects.append(self.malware_instance_object_attributes)
+
         return all_objects
 
     def get_all_multiple_referenced_objects(self):
