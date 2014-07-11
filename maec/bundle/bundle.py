@@ -182,25 +182,26 @@ class Bundle(maec.Entity):
         return [x for x in self.get_all_objects(True) if x.id_ and not x.idref]
 
     # finds actions and objects by id
-    def get_object_by_id(self, id, extra_objects = []):
-        for action in self.actions:
-            if action.id_ == id:
-                return action
-            
-            if action.associated_objects:
-                for associated_obj in action.associated_objects:
-                    if associated_obj.id_ == id:
-                        return associated_obj
-            
-        for collection in self.collections.action_collections:
-            for action in collection.action_list:
+    def get_object_by_id(self, id, extra_objects = [], ignore_actions = False):
+        if not ignore_actions:
+            for action in self.actions:
                 if action.id_ == id:
                     return action
-                
+            
                 if action.associated_objects:
                     for associated_obj in action.associated_objects:
                         if associated_obj.id_ == id:
                             return associated_obj
+            
+            for collection in self.collections.action_collections:
+                for action in collection.action_list:
+                    if action.id_ == id:
+                        return action
+                
+                    if action.associated_objects:
+                        for associated_obj in action.associated_objects:
+                            if associated_obj.id_ == id:
+                                return associated_obj
         
         for obj in self.objects:
             if obj.id_ == id:
@@ -280,7 +281,7 @@ class Bundle(maec.Entity):
         all_objects = all_objects + extra_objects
         for object in all_objects:
             if object.idref and not object.id_:
-                real_object = self.get_object_by_id(object.idref, extra_objects)
+                real_object = self.get_object_by_id(object.idref, extra_objects, ignore_actions = True)
                 object.idref = None
                 object.id_ = real_object.id_
                 object.properties = real_object.properties
