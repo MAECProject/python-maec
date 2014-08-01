@@ -14,7 +14,7 @@ from cybox.common import VocabString
 class GroupingRelationship(maec.Entity):
     _namespace = maec.package._namespace
 
-    def init(self):
+    def __init__(self):
         super(GroupingRelationship, self).__init__()
         self.type = None
         self.malware_family_name = None
