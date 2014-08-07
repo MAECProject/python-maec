@@ -9,7 +9,7 @@ A Python library for parsing, manipulating, and generating MAEC content.
 
 |version badge| |downloads badge|
 
-..TODO: add Travis Badge
+.. TODO: add Travis Badge
 
 .. |version badge| image:: https://pypip.in/v/maec/badge.png
    :target: https://pypi.python.org/pypi/maec/
