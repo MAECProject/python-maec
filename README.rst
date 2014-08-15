@@ -3,7 +3,19 @@ python-maec
 
 A Python library for parsing, manipulating, and generating MAEC content.
 
-For more information about MAEC, see http://maec.mitre.org.
+:Source: https://github.com/MAECProject/python-maec
+:Documentation: http://maec.readthedocs.org
+:Information: http://maec.mitre.org
+
+|version badge| |downloads badge|
+
+.. TODO: add Travis Badge
+
+.. |version badge| image:: https://pypip.in/v/maec/badge.png
+   :target: https://pypi.python.org/pypi/maec/
+.. |downloads badge| image:: https://pypip.in/d/maec/badge.png
+   :target: https://pypi.python.org/pypi/maec/
+
 
 Overview
 --------
