@@ -4,19 +4,191 @@
 #All rights reserved
 
 #Compatible with MAEC v4.1
-#Last updated 02/18/2014
+#Last updated 08/20/2014
 
 from cybox.common import (PlatformSpecification, Personnel, StructuredText,
         ToolInformation)
 from cybox.objects.system_object import System
 
+import cybox.TypedField
 import maec
 import maec.bindings.maec_package as package_binding
 from maec.bundle.bundle_reference import BundleReference
 
+class Source(maec.Entity):
+    _binding = package_binding
+    _binding_class = package_binding.SourceType
+    _namespace = maec.package._namespace
+
+    name = cybox.TypedField("name")
+    method = cybox.TypedField("method")
+    reference = cybox.TypedField("reference")
+    organization = cybox.TypedField("organization")
+    url = cybox.TypedField("url")
+    
+    def __init__(self):
+        super(Source, self).__init__()
+        self.name = None
+        self.method = None
+        self.reference = None
+        self.organization = None
+        self.url = None
+
+class Comment(StructuredText):
+    _binding = package_binding
+    _binding_class = package_binding.CommentType
+    _namespace = maec.package._namespace
+
+    author = cybox.TypedField("author")
+    timestamp = cybox.TypedField("timestamp")
+    observation_name = cybox.TypedField("observation_name")
+
+    def __init__(self):
+        super(Comment, self).__init__()
+        self.author = None
+        self.timestamp = None
+        self.observation_name = None
+
+    def is_plain(self):
+        """Whether this can be represented as a string rather than a dictionary
+        """
+        return (super(Comment, self).is_plain() and 
+                self.author is None and
+                self.timestamp is None and 
+                self.observation_name is None)
+
+class CommentList(maec.EntityList):
+    _contained_type = Comment
+    _binding_class = package_binding.CommentListType
+    _binding_var = "Comment"
+    _namespace = maec.package._namespace
+
+class ToolList(maec.EntityList):
+    _contained_type = ToolInformation
+    _binding_class = package_binding.ToolListType
+    _binding_var = "Tool"
+    _namespace = maec.package._namespace
+
+class DynamicAnalysisMetadata(maec.Entity):
+    _binding = package_binding
+    _binding_class = package_binding.DynamicAnalysisMetadataType
+    _namespace = maec.package._namespace
+
+    command_line = cybox.TypedField("command_line")
+    analysis_duration = cybox.TypedField("analysis_duration")
+    exit_code = cybox.TypedField("exit_code")
+    #raised_exception = cybox.TypedField("raised_exception", MalwareException)
+    
+    def __init__(self):
+        super(DynamicAnalysisMetadata, self).__init__()
+        self.command_line = None
+        self.analysis_duration = None
+        self.exit_code = None
+
+class HypervisorHostSystem(System):
+    _binding = package_binding
+    _binding_class = package_binding.HypervisorHostSystemType
+    _namespace = maec.package._namespace
+
+    vm_hypervisor = cybox.TypedField("vm_hypervisor", PlatformSpecification)
+
+    def __init__(self):
+        super(HypervisorHostSystem, self).__init__()
+        self.vm_hypervisor = None
+        
+class InstalledPrograms(maec.EntityList):
+    _contained_type = PlatformSpecification
+    _binding_class = package_binding.InstalledProgramsType
+    _binding_var = "Program"
+    _namespace = maec.package._namespace
+        
+class AnalysisSystem(System):
+    _binding = package_binding
+    _binding_class = package_binding.AnalysisSystemType
+    _namespace = maec.package._namespace
+
+    installed_programs = cybox.TypedField("installed_programs", InstalledPrograms)
+
+    def __init__(self):
+        super(AnalysisSystem, self).__init__()
+        self.installed_programs = InstalledPrograms()
+
+class AnalysisSystemList(maec.EntityList):
+    _contained_type = AnalysisSystem
+    _binding_class = package_binding.AnalysisSystemListType
+    _binding_var = "Analysis_System"
+    _namespace = maec.package._namespace
+
+class CapturedProtocol(maec.Entity):
+    _binding = package_binding
+    _binding_class = package_binding.CapturedProtocolType
+    _namespace = maec.package._namespace
+
+    layer7_protocol = cybox.TypedField("layer7_protocol")
+    layer4_protocol = cybox.TypedField("layer4_protocol")
+    port_number = cybox.TypedField("port_number")
+    interaction_level = cybox.TypedField("interaction_level")
+
+    def __init__(self):
+        super(CapturedProtocol, self).__init__()
+        self.layer7_protocol = None
+        self.layer4_protocol = None
+        self.port_number = None
+        self.interaction_level = None
+
+class CapturedProtocolList(maec.EntityList):
+    _contained_type = CapturedProtocol
+    _binding_class = package_binding.CapturedProtocolListType
+    _binding_var = "Protocol"
+    _namespace = maec.package._namespace
+
+class NetworkInfrastructure(maec.Entity):
+    _binding = package_binding
+    _binding_class = package_binding.NetworkInfrastructureType
+    _namespace = maec.package._namespace
+
+    captured_protocols = cybox.TypedField("captured_protocols", CapturedProtocolList)
+
+    def __init__(self):
+        super(NetworkInfrastructure, self).__init__()
+        self.captured_protocols = CapturedProtocolList()
+
+class AnalysisEnvironment(maec.Entity):
+    _binding = package_binding
+    _binding_class = package_binding.AnalysisEnvironmentType
+    _namespace = maec.package._namespace
+
+    hypervisor_host_system = cybox.TypedField("hypervisor_host_system", HypervisorHostSystem)
+    analysis_systems = cybox.TypedField("analysis_systems", AnalysisSystemList)
+    network_infrastructure = cybox.TypedField("network_infrastructure", NetworkInfrastructure)
+
+    def __init__(self):
+        super(AnalysisEnvironment, self).__init__()
+        self.hypervisor_host_system = None
+        self.analysis_systems = None
+        self.network_infrastructure = None
 
 class Analysis(maec.Entity):
+    _binding = package_binding
+    _binding_class = package_binding.AnalysisType
     _namespace = maec.package._namespace
+
+    id = cybox.TypedField("id")
+    method = cybox.TypedField("method")
+    type = cybox.TypedField("type")
+    ordinal_position = cybox.TypedField("ordinal_position")
+    start_datetime = cybox.TypedField("start_datetime")
+    complete_datetime = cybox.TypedField("complete_datetime")
+    lastupdate_datetime = cybox.TypedField("lastupdate_datetime")
+    source = cybox.TypedField("source", Source)
+    analysts = cybox.TypedField("analysts", Personnel)
+    summary = cybox.TypedField("summary", StructuredText)
+    comments = cybox.TypedField("comments", CommentList)
+    findings_bundle_reference = cybox.TypedField("findings_bundle_reference", BundleReference, multiple = True)
+    tools = cybox.TypedField("tools", ToolList)
+    dynamic_analysis_metadata = cybox.TypedField("dynamic_analysis_metadata", DynamicAnalysisMetadata)
+    analysis_environment = cybox.TypedField("analysis_environment", AnalysisEnvironment)
+    report = cybox.TypedField("report", StructuredText)
 
     def __init__(self, id = None, method = None, type = None, findings_bundle_reference = []):
         super(Analysis, self).__init__()
@@ -41,475 +213,19 @@ class Analysis(maec.Entity):
         self.report = None
 
     #"Public" methods
+    # set the findings_bundle_reference values; accepts a list of bundle ID values
     def set_findings_bundle(self, bundle_id):
         self.findings_bundle_reference = [BundleReference.from_dict({'bundle_idref' : bundle_id})]
    
+   # add a tool to this Anaysis's ToolList
     def add_tool(self, tool):
         self.tools.append(tool)
 
-    #Return a bindings object
-    def to_obj(self):
-        analysis_obj = package_binding.AnalysisType()
-        if self.id is not None : analysis_obj.set_id(self.id)
-        if self.method is not None: analysis_obj.set_method(self.method)
-        if self.type is not None: analysis_obj.set_type(self.type)
-        if self.ordinal_position is not None : analysis_obj.set_ordinal_position(self.ordinal_position)
-        if self.complete_datetime is not None: analysis_obj.set_complete_datetime(self.complete_datetime)
-        if self.start_datetime is not None : analysis_obj.set_start_datetime(self.start_datetime)
-        if self.lastupdate_datetime is not None : analysis_obj.set_lastupdate_datetime(self.lastupdate_datetime)
-        if self.source is not None : analysis_obj.set_Source(self.source.to_obj())
-        if self.analysts is not None : analysis_obj.set_Analysts(self.analysts.to_obj())
-        if self.summary is not None : analysis_obj.set_Summary(self.summary.to_obj())
-        if self.comments is not None : analysis_obj.set_Comments(self.comments.to_obj())
-        if self.findings_bundle_reference is not None :
-            for findings_bundle_ref in self.findings_bundle_reference:
-                analysis_obj.add_Findings_Bundle_Reference(findings_bundle_ref.to_obj())
-        if self.tools: analysis_obj.set_Tools(self.tools.to_obj())
-        if self.dynamic_analysis_metadata is not None : analysis_obj.set_Dynamic_Analysis_Metadata(self.dynamic_analysis_metadata.to_obj())
-        if self.analysis_environment is not None : analysis_obj.set_Analysis_Environment(self.analysis_environment.to_obj())
-        if self.report is not None : analysis_obj.set_Report(self.report.to_obj())
-        return analysis_obj
-        
-    def to_dict(self):
-        analysis_dict = {}
-        if self.id is not None: analysis_dict['id'] = self.id
-        if self.method is not None: analysis_dict['method'] = self.method
-        if self.type is not None: analysis_dict['type'] = self.type
-        if self.ordinal_position is not None : analysis_dict['ordinal_position'] = self.ordinal_position
-        if self.complete_datetime is not None: analysis_dict['complete_datetime'] = self.complete_datetime
-        if self.start_datetime is not None : analysis_dict['start_datetime'] = self.start_datetime
-        if self.lastupdate_datetime is not None : analysis_dict['lastupdate_datetime'] = self.lastupdate_datetime
-        if self.source is not None : analysis_dict['source'] = self.source.to_dict()
-        if self.analysts is not None : analysis_dict['analysts'] = self.analysts.to_list()
-        if self.summary is not None : analysis_dict['summary'] = self.summary.to_dict()
-        if self.comments is not None : analysis_dict['comments'] = self.comments.to_list()
-        if self.findings_bundle_reference is not None :
-             analysis_dict['findings_bundle_reference'] = [x.to_dict() for x in self.findings_bundle_reference]
-        if self.tools: analysis_dict['tools'] = self.tools.to_list()
-        if self.dynamic_analysis_metadata is not None : analysis_dict['dynamic_analysis_metadata'] = self.dynamic_analysis_metadata.to_dict()
-        if self.analysis_environment is not None : analysis_dict['analysis_environment'] = self.analysis_environment.to_dict()
-        if self.report is not None : analysis_dict['report'] = self.report.to_dict()
-        return analysis_dict
-
-    #Create and return the Analysis from the input dictionary
-    @staticmethod
-    def from_obj(analysis_obj):
-        if not analysis_obj:
-            return None
-        analysis_ = Analysis(None)
-        analysis_.id = analysis_obj.get_id()
-        analysis_.method = analysis_obj.get_method()
-        analysis_.type = analysis_obj.get_type()
-        analysis_.ordinal_position = analysis_obj.get_ordinal_position()
-        analysis_.complete_datetime = analysis_obj.get_complete_datetime()
-        analysis_.start_datetime = analysis_obj.get_start_datetime()
-        analysis_.lastupdate_datetime = analysis_obj.get_lastupdate_datetime()
-        analysis_.source = Source.from_obj(analysis_obj.get_Source())
-        analysis_.analysts = Personnel.from_obj(analysis_obj.get_Analysts())
-        analysis_.summary = StructuredText.from_obj(analysis_obj.get_Summary())
-        analysis_.comments = CommentList.from_obj(analysis_obj.get_Comments())
-        if analysis_obj.get_Findings_Bundle_Reference():
-            analysis_.findings_bundle_reference = [BundleReference.from_obj(x) for x in analysis_obj.get_Findings_Bundle_Reference()] 
-        analysis_.tools = ToolList.from_obj(analysis_obj.get_Tools())
-        analysis_.dynamic_analysis_metadata = DynamicAnalysisMetadata.from_obj(analysis_obj.get_Dynamic_Analysis_Metadata())
-        analysis_.analysis_environment = AnalysisEnvironment.from_obj(analysis_obj.get_Analysis_Environment())
-        analysis_.report = StructuredText.from_obj(analysis_obj.get_Report())
-        return analysis_
-
-    #Create and return the Analysis from the input dictionary
-    @staticmethod
-    def from_dict(analysis_dict):
-        if not analysis_dict:
-            return None
-        analysis_ = Analysis(None)
-        analysis_.id = analysis_dict.get('id')
-        analysis_.method = analysis_dict.get('method')
-        analysis_.type = analysis_dict.get('type')
-        analysis_.ordinal_position = analysis_dict.get('ordinal_position')
-        analysis_.complete_datetime = analysis_dict.get('complete_datetime')
-        analysis_.start_datetime = analysis_dict.get('start_datetime')
-        analysis_.lastupdate_datetime = analysis_dict.get('lastupdate_datetime')
-        analysis_.source = Source.from_dict(analysis_dict.get('source'))
-        analysis_.analysts = Personnel.from_list(analysis_dict.get('analysts'))
-        analysis_.summary = StructuredText.from_dict(analysis_dict.get('summary'))
-        analysis_.comments = CommentList.from_list(analysis_dict.get('comments'))
-        if analysis_dict.get('findings_bundle_reference'):
-            analysis_.findings_bundle_reference = [BundleReference.from_dict(x) for x in analysis_dict.get('findings_bundle_reference')]
-        analysis_.tools = ToolList.from_list(analysis_dict.get('tools', []))
-        analysis_.dynamic_analysis_metadata = DynamicAnalysisMetadata.from_dict(analysis_dict.get('dynamic_analysis_metadata'))
-        analysis_.analysis_environment = AnalysisEnvironment.from_dict(analysis_dict.get('analysis_environment'))
-        analysis_.report = StructuredText.from_dict(analysis_dict.get('report'))
-        return analysis_
-
-class Comment(StructuredText):
-    _namespace = maec.package._namespace
-
-    def __init__(self):
-        super(Comment, self).__init__()
-        self.author = None
-        self.timestamp = None
-        self.observation_name = None
-
-    def is_plain(self):
-        """Whether this can be represented as a string rather than a dictionary
-        """
-        return (super(Comment, self).is_plain() and 
-                self.author is None and
-                self.timestamp is None and 
-                self.observation_name is None)
-
-    def to_obj(self):
-        comment_obj = super(Comment, self).to_obj(package_binding.CommentType())
-        if self.author is not None : comment_obj.set_author(self.author)
-        if self.timestamp is not None : comment_obj.set_timestamp(self.timestamp)
-        if self.observation_name is not None : comment_obj.set_observation_name(self.observation_name)
-        return comment_obj
-
-    def to_dict(self):
-        comment_dict = super(Comment, self).to_dict()
-        if self.author is not None : comment_dict['author'] = self.author
-        if self.timestamp is not None : comment_dict['timestamp'] = self.timestamp
-        if self.observation_name is not None : comment_dict['observation_name'] = self.observation_name
-        return comment_dict
-
-    @staticmethod
-    def from_dict(comment_dict):
-        if not comment_dict:
-            return None
-        comment_ = StructuredText.from_dict(comment_dict, Comment())
-        comment_.author = comment_dict.get('author')
-        comment_.timestamp = comment_dict.get('timestamp')
-        comment_.observation_name = comment_dict.get('observation_name')
-        return comment_
-
-    @staticmethod
-    def from_obj(comment_obj):
-        if not comment_obj:
-            return None
-        comment_ = StructuredText.from_obj(comment_obj, Comment())
-        comment_.author = comment_obj.get_author()
-        comment_.timestamp = comment_obj.get_timestamp()
-        comment_.observation_name = comment_obj.get_observation_name()
-        return comment_
-
-class CommentList(maec.EntityList):
-    _contained_type = Comment
-    _binding_class = package_binding.CommentListType
-    _binding_var = "Comment"
-    _namespace = maec.package._namespace
-
-class DynamicAnalysisMetadata(maec.Entity):
-    _namespace = maec.package._namespace
-
-    def __init__(self):
-        super(DynamicAnalysisMetadata, self).__init__()
-        self.command_line = None
-        self.analysis_duration = None
-        self.exit_code = None
-
-    def to_obj(self):
-        dynamic_analysis_metadata_obj = package_binding.DynamicAnalysisMetadataType()
-        if self.command_line is not None : dynamic_analysis_metadata_obj.set_Command_Line(self.command_line)
-        if self.analysis_duration is not None : dynamic_analysis_metadata_obj.set_Analysis_Duration(self.analysis_duration)
-        if self.exit_code is not None : dynamic_analysis_metadata_obj.set_Exit_Code(self.exit_code)
-        return dynamic_analysis_metadata_obj
-
-    def to_dict(self):
-        dynamic_analysis_metadata_dict = {}
-        if self.command_line is not None : dynamic_analysis_metadata_dict['command_line'] = self.command_line
-        if self.analysis_duration is not None : dynamic_analysis_metadata_dict['analysis_duration'] = self.analysis_duration
-        if self.exit_code is not None : dynamic_analysis_metadata_dict['exit_code'] = self.exit_code
-        return dynamic_analysis_metadata_dict
-
-    @staticmethod
-    def from_dict(dynamic_analysis_metadata_dict):
-        if not dynamic_analysis_metadata_dict:
-            return None
-        dynamic_analysis_metadata_ = DynamicAnalysisMetadata()
-        dynamic_analysis_metadata_.command_line = dynamic_analysis_metadata_dict.get('command_line')
-        dynamic_analysis_metadata_.analysis_duration = dynamic_analysis_metadata_dict.get('analysis_duration')
-        dynamic_analysis_metadata_.exit_code = dynamic_analysis_metadata_dict.get('exit_code')
-        return dynamic_analysis_metadata_
-
-    @staticmethod
-    def from_obj(dynamic_analysis_metadata_obj):
-        if not dynamic_analysis_metadata_obj:
-            return None
-        dynamic_analysis_metadata_ = DynamicAnalysisMetadata()
-        dynamic_analysis_metadata_.command_line = dynamic_analysis_metadata_obj.get_Command_Line()
-        dynamic_analysis_metadata_.analysis_duration = dynamic_analysis_metadata_obj.get_Analysis_Duration()
-        dynamic_analysis_metadata_.exit_code = dynamic_analysis_metadata_obj.get_Exit_Code()
-        return dynamic_analysis_metadata_
-
-class AnalysisEnvironment(maec.Entity):
-    _namespace = maec.package._namespace
-
-    def __init__(self):
-        super(AnalysisEnvironment, self).__init__()
-        self.hypervisor_host_system = None
-        self.analysis_systems = None
-        self.network_infrastructure = None
-
-    def to_obj(self):
-        analysis_environment_obj = package_binding.AnalysisEnvironmentType()
-        if self.hypervisor_host_system is not None : analysis_environment_obj.set_Hypervisor_Host_System(self.hypervisor_host_system.to_obj())
-        if self.analysis_systems is not None : analysis_environment_obj.set_Analysis_Systems(self.analysis_systems.to_obj())
-        if self.network_infrastructure is not None : analysis_environment_obj.set_Network_Infrastructure(self.network_infrastructure.to_obj())
-        return analysis_environment_obj
-
-    def to_dict(self):
-        analysis_environment_dict = {}
-        if self.hypervisor_host_system is not None : analysis_environment_dict['hypervisor_host_system'] = self.hypervisor_host_system.to_dict()
-        if self.analysis_systems is not None : analysis_environment_dict['analysis_systems'] = self.analysis_systems.to_list()
-        if self.network_infrastructure is not None : analysis_environment_dict['network_infrastructure'] = self.network_infrastructure.to_dict()
-        return analysis_environment_obj
-
-    @staticmethod
-    def from_dict(analysis_environment_dict):
-        if not analysis_environment_dict:
-            return None
-        analysis_environment_ = AnalysisEnvironment()
-        analysis_environment_.hypervisor_host_system = HypervisorHostSystem.from_dict(analysis_environment_dict.get('hypervisor_host_system'))
-        analysis_environment_.analysis_systems = AnalysisSystemList.from_list(analysis_environment_dict.get('analysis_systems'))
-        analysis_environment_.network_infrastructure = NetworkInfrastructure.from_dict(analysis_environment_dict.get('network_infrastructure'))
-        return analysis_environment_
-
-    @staticmethod
-    def from_obj(analysis_environment_obj):
-        if not analysis_environment_obj:
-            return None
-        analysis_environment_ = AnalysisEnvironment()
-        analysis_environment_.hypervisor_host_system = HypervisorHostSystem.from_obj(analysis_environment_obj.get_Hypervisor_Host_System())
-        analysis_environment_.analysis_systems = AnalysisSystemList.from_obj(analysis_environment_obj.get_Analysis_Systems())
-        analysis_environment_.network_infrastructure = NetworkInfrastructure.from_obj(analysis_environment_obj.get_Network_Infrastructure())
-        return analysis_environment_
-
-class HypervisorHostSystem(System):
-    _namespace = maec.package._namespace
-
-    def __init__(self):
-        super(HypervisorHostSystem, self).__init__()
-        self.vm_hypervisor = None
-
-    def to_obj(self):
-        hypervisor_host_system_obj = super(HypervisorHostSystem, self).to_obj(package_binding.HypervisorHostSystemType())
-        if self.vm_hypervisor is not None : hypervisor_host_system_obj.set_VM_Hypervisor(self.vm_hypervisor.to_obj())
-        return hypervisor_host_system_obj
-
-    def to_dict(self):
-        hypervisor_host_system_dict = super(HypervisorHostSystem, self).to_dict()
-        if self.vm_hypervisor is not None : hypervisor_host_system_dict['vm_hypervisor'] = self.vm_hypervisor.to_dict()
-        return hypervisor_host_system_dict
-
-    @staticmethod
-    def from_dict(hypervisor_host_system_dict):
-        if not hypervisor_host_system_dict:
-            return None
-        hypervisor_host_system_ = System.from_dict(hypervisor_host_system_dict, HypervisorHostSystem())
-        hypervisor_host_system_.vm_hypervisor = PlatformSpecification.from_dict(hypervisor_host_system_dict.get('vm_hypervisor'))
-        return hypervisor_host_system_
-
-    @staticmethod
-    def from_obj(hypervisor_host_system_obj):
-        if not hypervisor_host_system_obj:
-            return None
-        hypervisor_host_system_ = System.from_obj(hypervisor_host_system_obj, HypervisorHostSystem())
-        hypervisor_host_system_.vm_hypervisor = PlatformSpecification.from_obj(hypervisor_host_system_obj.get_VM_Hypervisor())
-        return hypervisor_host_system_
-
-class AnalysisSystem(System):
-    _namespace = maec.package._namespace
-
-    def __init__(self):
-        super(AnalysisSystem, self).__init__()
-        self.installed_programs = InstalledPrograms()
-
-    def to_obj(self):
-        analysis_system_obj = super(AnalysisSystem, self).to_obj(package_binding.AnalysisSystemType())
-        if len(self.installed_programs) > 0 : analysis_system_obj.set_Installed_Programs(self.installed_programs.to_obj())
-        return analysis_system_obj
-
-    def to_dict(self):
-        analysis_system_dict = super(AnalysisSystem, self).to_dict()
-        if len(self.installed_programs) > 0 : analysis_system_dict['installed_programs'] = self.installed_programs.to_list()
-        return analysis_system_dict
-
-    @staticmethod
-    def from_dict(analysis_system_dict):
-        if not analysis_system_dict:
-            return None
-        analysis_system_ = System.from_dict(AnalysisSystem, AnalysisSystem())
-        analysis_system_.installed_programs = InstalledPrograms.from_list(analysis_system_dict.get('installed_programs'))
-        return analysis_system_
-
-    @staticmethod
-    def from_obj(analysis_system_obj):
-        if not analysis_system_obj:
-            return None
-        analysis_system_ = System.from_obj(AnalysisSystem, AnalysisSystem())
-        if analysis_system_obj.get_Installed_Programs() is not None : 
-            analysis_system_.installed_programs = InstalledPrograms.from_obj(analysis_system_obj.get_Installed_Programs())
-        return analysis_system_
 
 
-class InstalledPrograms(maec.EntityList):
-    _contained_type = PlatformSpecification
-    _binding_class = package_binding.InstalledProgramsType
-    _binding_var = "Program"
-    _namespace = maec.package._namespace
-
-class AnalysisSystemList(maec.EntityList):
-    _contained_type = AnalysisSystem
-    _binding_class = package_binding.AnalysisSystemListType
-    _binding_var = "Analysis_System"
-    _namespace = maec.package._namespace
-
-class NetworkInfrastructure(maec.Entity):
-    _namespace = maec.package._namespace
-
-    def __init__(self):
-        super(NetworkInfrastructure, self).__init__()
-        self.captured_protocols = CapturedProtocolList()
-
-    def to_obj(self):
-        network_infrastructure_obj = package_binding.NetworkInfrastructureType()
-        if len(self.captured_protocols) > 0: network_infrastructure_obj.set_Captured_Protocols(self.captured_protocols.to_obj())
-        return network_infrastructure_obj
-
-    def to_dict(self):
-        network_infrastructure_dict = {}
-        if len(self.captured_protocols) > 0: network_infrastructure_dict['captured_protocols'] = self.captured_protocols.to_list()
-        return network_infrastructure_dict
-
-    @staticmethod
-    def from_dict(network_infrastructure_dict):
-        if not network_infrastructure_dict:
-            return None
-        network_infrastructure_ = NetworkInfrastructure()
-        network_infrastructure_.captured_protocols = CapturedProtocolList.from_list(network_infrastructure_dict.get('captured_protocols'))
-        return network_infrastructure_
-
-    @staticmethod
-    def from_obj(network_infrastructure_obj):
-        if not network_infrastructure_obj:
-            return None
-        network_infrastructure_ = NetworkInfrastructure()
-        if network_infrastructure_obj.get_Captured_Protocols() is not None :
-            network_infrastructure_.captured_protocols = CapturedProtocolList.from_obj(network_infrastructure_obj.get_Captured_Protocols())
-        return network_infrastructure_
-
-class CapturedProtocol(maec.Entity):
-    _namespace = maec.package._namespace
-
-    def __init__(self):
-        super(CapturedProtocol, self).__init__()
-        self.layer7_protocol = None
-        self.layer4_protocol = None
-        self.port_number = None
-        self.interaction_level = None
-
-    def to_obj(self):
-        captured_protocol_obj = package_binding.CapturedProtocolType()
-        if self.layer7_protocol is not None : captured_protocol_obj.set_layer7_protocol(self.layer7_protocol)
-        if self.layer4_protocol is not None : captured_protocol_obj.set_layer4_protocol(self.layer4_protocol)
-        if self.port_number is not None : captured_protocol_obj.set_port_number(self.port_number)
-        if self.interaction_level is not None : captured_protocol_obj.set_interaction_level(self.interaction_level)
-        return captured_protocol_obj
-
-    def to_dict(self):
-        captured_protocol_dict = {}
-        if self.layer7_protocol is not None : captured_protocol_dict['layer7_protocol'] = self.layer7_protocol
-        if self.layer4_protocol is not None : captured_protocol_dict['layer4_protocol'] = self.layer4_protocol
-        if self.port_number is not None : captured_protocol_dict['port_number'] = self.port_number
-        if self.interaction_level is not None : captured_protocol_dict['interaction_level'] = self.interaction_level
-        return captured_protocol_dict
-
-    @staticmethod
-    def from_dict(captured_protocol_dict):
-        if not captured_protocol_dict:
-            return None
-        captured_protocol_ = CapturedProtocol()
-        captured_protocol_.layer7_protocol = captured_protocol_dict.get('layer7_protocol')
-        captured_protocol_.layer4_protocol = captured_protocol_dict.get('layer4_protocol')
-        captured_protocol_.port_number = captured_protocol_dict.get('port_number')
-        captured_protocol_.interaction_level = captured_protocol_dict.get('interaction_level')
-        return captured_protocol_
-
-    @staticmethod
-    def from_obj(captured_protocol_obj):
-        if not captured_protocol_obj:
-            return None
-        captured_protocol_ = CapturedProtocol()
-        captured_protocol_.layer7_protocol = captured_protocol_obj.get_layer7_protocol()
-        captured_protocol_.layer4_protocol = captured_protocol_dict.get_layer4_protocol()
-        captured_protocol_.port_number = captured_protocol_dict.get_port_number()
-        captured_protocol_.interaction_level = captured_protocol_dict.get_interaction_level()
-        return captured_protocol_
-
-class CapturedProtocolList(maec.EntityList):
-    _contained_type = CapturedProtocol
-    _binding_class = package_binding.CapturedProtocolListType
-    _binding_var = "Protocol"
-    _namespace = maec.package._namespace
-
-class ToolList(maec.EntityList):
-    _contained_type = ToolInformation
-    _binding_class = package_binding.ToolListType
-    _binding_var = "Tool"
-    _namespace = maec.package._namespace
     
-class Source(maec.Entity):
-    _namespace = maec.package._namespace
 
-    def __init__(self):
-        super(Source, self).__init__()
-        self.name = None
-        self.method = None
-        self.reference = None
-        self.organization = None
-        self.url = None
 
-    def to_obj(self):
-        source_obj = package_binding.SourceType()
-        if self.name is not None : source_obj.set_Name(self.name)
-        if self.method is not None : source_obj.set_Method(self.method)
-        if self.reference is not None : source_obj.set_Reference(self.reference)
-        if self.organization is not None : source_obj.set_Organization(self.organization)
-        if self.url is not None : source_obj.set_URL(self.url)
-        return source_obj
-
-    def to_dict(self):
-        source_dict = {}
-        if self.name is not None : source_dict['name'] = self.name
-        if self.method is not None : source_dict['method'] = self.method
-        if self.reference is not None : source_dict['reference'] = self.reference
-        if self.organization is not None : source_dict['organization'] = self.organization
-        if self.url is not None : source_dict['url'] = self.url
-        return source_dict
-
-    @staticmethod
-    def from_dict(source_dict):
-        if not source_dict:
-            return None
-        source_ = Source()
-        source_.name = source_dict.get('name')
-        source_.method = source_dict.get('method')
-        source_.reference = source_dict.get('reference')
-        source_.organization = source_dict.get('organization')
-        source_.url = source_dict.get('url')
-        return source_
-
-    @staticmethod
-    def from_obj(source_obj):
-        if not source_obj:
-            return None
-        source_ = Source()
-        source_.name = source_obj.get_Name()
-        source_.method = source_obj.get_Method()
-        source_.reference = source_obj.get_Reference()
-        source_.organization = source_obj.get_Organization()
-        source_.url = source_obj.get_URL()
-        return source_
 
 
 
