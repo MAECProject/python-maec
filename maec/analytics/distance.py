@@ -21,22 +21,12 @@ from maec.analytics.static_features import static_features_dict
 
 class DynamicFeatureVector(object):
     '''Generate a feature vector for a Malware Subject based on its dynamic features'''
-    def __init__(self, malware_subject, deduplicator):
+    def __init__(self, malware_subject, deduplicator, ignored_object_properties, ignored_actions):
         self.deduplicator = deduplicator
         self.dynamic_features = []
         self.unique_dynamic_features = []
-        # List of ignored object attributes
-        self.ignored_object_properties = ['address',
-                                          'hashes/simple_hash_value',
-                                          'id_',
-                                          'type_',
-                                          'pid',
-                                          'size_in_bytes']
-        # List of ignored actions - not useful/difficult to correlate on
-        self.ignored_actions = ['map view of section',
-                                'create section',
-                                'create thread',
-                                'open section']
+        self.ignored_object_properties = ignored_object_properties
+        self.ignored_actions = ignored_actions
         # Extract the features and build the vector
         self.extract_features(malware_subject)
         # Calculate the unique features
@@ -198,6 +188,12 @@ class Distance(object):
        Currently supports only Packages or Malware Subjects.'''
     def __init__(self, maec_entity_list):
         self.maec_entity_list = maec_entity_list
+        # Options dictionary
+        # currently available options:
+        # use_dynamic_features : True/False. Use dynamic features (Actions) in the distance calculation.
+        # use_static_features : True/False. Use static features (File/PE attributes) in the distance calculation.
+        self.options_dict = {'use_dynamic_features' : True,
+                             'use_static_features' : True}
         self.deduplicator = BundleDeduplicator()
         self.feature_vectors = {}
         self.superset_dynamic_vectors = []
@@ -212,7 +208,7 @@ class Distance(object):
         self.distances = {}
         # Dictionary of static features to use in the distance calculation
         # Also, defines how they should be post-processed/compared
-        # NOTE: The default features here are merely a suggestion
+        # NOTE: The default features here are merely a suggestion!
         # Options:
         # datatype = Required. The datatype of the values for the feature.
         #            Possible values: hex, hex list, int, int list, float, float list, string.
@@ -231,6 +227,18 @@ class Distance(object):
                                          'size_in_bytes' : {'datatype' : 'int', 'bin' : True},
                                          'size_of_initialized_data' : {'datatype' : 'hex', 'scale log' : False, 'bin' : True, 'number of bins' : 5},
                                          'size_of_image' : {'datatype' : 'hex', 'bin' : True}}
+        # List of ignored object attributes, for use in dynamic vector creation
+        self.ignored_object_properties = ['address',
+                                          'hashes/simple_hash_value',
+                                          'id_',
+                                          'type_',
+                                          'pid',
+                                          'size_in_bytes']
+        # List of ignored actions (not useful/difficult to correlate on), for use in dynamic vector creation
+        self.ignored_actions = ['map view of section',
+                                'create section',
+                                'create thread',
+                                'open section']
 
     def bin_list(self, numeric_value, numeric_list, n=10):
         '''Bin a numeric value into a bucket, based on a parent list of values.
@@ -362,7 +370,7 @@ class Distance(object):
     def generate_feature_vectors(self, merged_subjects):
         '''Generate a feature vector for the binned Malware Subjects'''
         for malware_subject in merged_subjects:
-            feature_vector_dict = {'dynamic' : DynamicFeatureVector(malware_subject, self.deduplicator),
+            feature_vector_dict = {'dynamic' : DynamicFeatureVector(malware_subject, self.deduplicator, self.ignored_object_properties, self.ignored_actions),
                                    'static' : StaticFeatureVector(malware_subject, self.deduplicator)}
             self.feature_vectors[malware_subject.id] = feature_vector_dict
 
@@ -519,8 +527,41 @@ class Distance(object):
                 hashes_mapping[malware_subject.id] = hashes_dict
         return hashes_mapping
 
-    def calculate(self, options_dict = None):
-        '''Calculate the distances between the input Malware Subject list'''
+    def perform_calculation(self):
+        '''Perform the actual distance calculation.
+           Store the results in the distances dictionary.'''
+        # Determine the different combinations of Malware Subjects
+        combinations = itertools.combinations(self.feature_vectors, r=2)
+        for combination in combinations:
+            if self.options_dict['use_dynamic_features']:
+                dynamic_vectors = (self.feature_vectors[combination[0]]['dynamic_result'],
+                                   self.feature_vectors[combination[1]]['dynamic_result'])
+            if self.options_dict['use_static_features']:
+                static_vectors = (self.feature_vectors[combination[0]]['static_result'],
+                                   self.feature_vectors[combination[1]]['static_result'])
+                # Normalize the static vectors (to make them equal length)
+                self.normalize_vectors(static_vectors[0], static_vectors[1])
+            # Generate the combined vectors if necessary and calculate the distance
+            if self.options_dict['use_dynamic_features'] and self.options_dict['use_static_features']:
+                result_vectors = (numpy.array(list(dynamic_vectors[0]) + self.flatten_vector(static_vectors[0])),
+                                  numpy.array(list(dynamic_vectors[1]) + self.flatten_vector(static_vectors[1])))
+            elif self.options_dict['use_dynamic_features'] and not self.options_dict['use_static_features']:
+                result_vectors = (numpy.array(list(dynamic_vectors[0])),
+                                  numpy.array(list(dynamic_vectors[1])))
+            elif not self.options_dict['use_dynamic_features'] and self.options_dict['use_static_features']:
+                result_vectors = (self.flatten_vector(static_vectors[0]),
+                                  self.flatten_vector(static_vectors[1]))
+            distance = self.euclidean_distance(result_vectors[0], result_vectors[1])
+            # Add the result to the distances dictionary
+            for i in range(0,2):
+                opposite = 1 - i
+                if combination[i] not in self.distances:
+                    self.distances[combination[i]] = {combination[opposite] : distance}
+                else:
+                    self.distances[combination[i]][combination[opposite]] = distance
+
+    def calculate(self):
+        '''Calculate the distances between the input Malware Subjects.'''
         # Pre-process and merge the entities
         self.normalized_subjects = self.preprocess_entities()
         # Generate the feature vectors for the entities
@@ -529,32 +570,14 @@ class Distance(object):
         self.create_superset_vectors()
         # Construct the result vectors
         for feature_vector_dict in self.feature_vectors.values():
-            # Construct the dynamic result vector
-            feature_vector_dict['dynamic_result'] = self.create_dynamic_result_vector(feature_vector_dict['dynamic'])
-            # Construct the static result vector
-            feature_vector_dict['static_result'] = self.create_static_result_vector(feature_vector_dict['static'])
-            
-        # Do the distance calculation
-        # Determine the different combinations of Malware Subjects
-        combinations = itertools.combinations(self.feature_vectors, r=2)
-        for combination in combinations:
-            dynamic_vectors = (self.feature_vectors[combination[0]]['dynamic_result'],
-                               self.feature_vectors[combination[1]]['dynamic_result'])
-            static_vectors = (self.feature_vectors[combination[0]]['static_result'],
-                               self.feature_vectors[combination[1]]['static_result'])
-            # Normalize the static vectors (to make them equal length)
-            self.normalize_vectors(static_vectors[0], static_vectors[1])
-            # Generate the combined vectors
-            combined_vectors = (numpy.array(list(dynamic_vectors[0]) + self.flatten_vector(static_vectors[0])),
-                                numpy.array(list(dynamic_vectors[1]) + self.flatten_vector(static_vectors[1])))
-            distance = self.euclidean_distance(combined_vectors[0], combined_vectors[1])
-            # Add the result to the distances dictionary
-            for i in range(0,2):
-                opposite = 1 - i
-                if combination[i] not in self.distances:
-                    self.distances[combination[i]] = {combination[opposite] : distance}
-                else:
-                    self.distances[combination[i]][combination[opposite]] = distance
+            if self.options_dict['use_dynamic_features']:
+                # Construct the dynamic result vector
+                feature_vector_dict['dynamic_result'] = self.create_dynamic_result_vector(feature_vector_dict['dynamic'])
+            if self.options_dict['use_static_features']:
+                # Construct the static result vector
+                feature_vector_dict['static_result'] = self.create_static_result_vector(feature_vector_dict['static'])
+        # Perform the actual distance calculation
+        self.perform_calculation()
 
     def print_distances(self, default_label = 'md5', delimiter = ','):
         '''Print the distances between the Malware Subjects in delimited matrix format.
