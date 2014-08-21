@@ -372,7 +372,7 @@ class Distance(object):
         for malware_subject in merged_subjects:
             feature_vector_dict = {'dynamic' : DynamicFeatureVector(malware_subject, self.deduplicator, self.ignored_object_properties, self.ignored_actions),
                                    'static' : StaticFeatureVector(malware_subject, self.deduplicator)}
-            self.feature_vectors[malware_subject.id] = feature_vector_dict
+            self.feature_vectors[malware_subject.id_] = feature_vector_dict
 
     def flatten_vector(self, vector_entry_list):
         '''Generate a single, flattened vector from an input list of vectors or values.'''
@@ -524,7 +524,7 @@ class Distance(object):
                         value = hash.fuzzy_hash_value.value
                     if type and value:
                         hashes_dict[str(type).lower()] = str(value).lower()
-                hashes_mapping[malware_subject.id] = hashes_dict
+                hashes_mapping[malware_subject.id_] = hashes_dict
         return hashes_mapping
 
     def perform_calculation(self):
@@ -591,18 +591,18 @@ class Distance(object):
         header_string = '' + delimiter
         for malware_subject in self.normalized_subjects:
             distance_string = ''
-            hashes = hashes_mapping[malware_subject.id]
+            hashes = hashes_mapping[malware_subject.id_]
             if default_label in hashes:
                 distance_string += (hashes[default_label] + delimiter)
                 header_string += (hashes[default_label] + delimiter)
             else:
-                distance_string += (malware_subject.id + delimiter)
-                header_string += (malware_subject.id + delimiter)
+                distance_string += (malware_subject.id_ + delimiter)
+                header_string += (malware_subject.id_ + delimiter)
             for other_malware_subject in self.normalized_subjects:
-                if malware_subject.id == other_malware_subject.id:
+                if malware_subject.id_ == other_malware_subject.id_:
                     distance_string += ('0.0' + delimiter)
                 else:
-                    distance_string += (str(self.distances[malware_subject.id][other_malware_subject.id])
+                    distance_string += (str(self.distances[malware_subject.id_][other_malware_subject.id_])
                                         + delimiter)
             distance_strings.append(distance_string.rstrip(delimiter))
 
