@@ -17,21 +17,20 @@ class Package(maec.Entity):
     _binding_class = package_binding.PackageType
     _namespace = maec.package._namespace   
 
-    id = maec.TypedField('id')
+    id_ = maec.TypedField('id')
     timestamp = maec.TypedField('timestamp')
-    malware_subjects = maec.TypedField('malware_subjects', MalwareSubjectList)
-    grouping_relationships = maec.TypedField('grouping_relationships', GroupingRelationshipList)
+    malware_subjects = maec.TypedField('Malware_Subjects', MalwareSubjectList)
+    grouping_relationships = maec.TypedField('Grouping_Relationships', GroupingRelationshipList)
 
     def __init__(self, id = None, schema_version = "2.1", timestamp = None):
         super(Package, self).__init__()
         if id:
-            self.id = id
+            self.id_ = id
         else:
-            self.id = maec.utils.idgen.create_id(prefix="package")
+            self.id_ = maec.utils.idgen.create_id(prefix="package")
         self.schema_version = schema_version
         self.timestamp = timestamp
         self.malware_subjects = MalwareSubjectList()
-        self.grouping_relationships = GroupingRelationshipList()
 
     #Public methods
     #Add a malware subject to this Package
@@ -40,6 +39,8 @@ class Package(maec.Entity):
     
     #Add a grouping relationship
     def add_grouping_relationship(self, grouping_relationship):
+        if not self.grouping_relationships:
+            self.grouping_relationships = GroupingRelationshipList()
         self.grouping_relationships.append(grouping_relationship)
         
     # Create new Package from the XML document at the specified path
