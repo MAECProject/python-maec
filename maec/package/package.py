@@ -19,6 +19,7 @@ class Package(maec.Entity):
 
     id_ = maec.TypedField('id')
     timestamp = maec.TypedField('timestamp')
+    schema_version = maec.TypedField('schema_version')
     malware_subjects = maec.TypedField('Malware_Subjects', MalwareSubjectList)
     grouping_relationships = maec.TypedField('Grouping_Relationships', GroupingRelationshipList)
 

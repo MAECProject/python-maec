@@ -16,13 +16,12 @@ class ObjectEquivalence(maec.Entity):
     _binding_class = package_binding.ObjectEquivalenceType
     _namespace = maec.package._namespace
 
-    id = cybox.TypedField("id")
-    object_reference = cybox.TypedField("object_reference", ObjectReference, multiple = True)
+    id_ = maec.TypedField("id")
+    object_reference = maec.TypedField("Object_Reference", ObjectReference, multiple = True)
 
     def init(self, id = None):
         super(ObjectEquivalence, self).__init__()
-        self.id = id
-        self.object_reference = []
+        self.id_ = id
 
 class ObjectEquivalenceList(maec.EntityList):
     _contained_type = ObjectEquivalence

@@ -17,81 +17,63 @@ class ClusterEdgeNodePair(maec.Entity):
     _binding_class = package_binding.ClusterEdgeNodePairType
     _namespace = maec.package._namespace
     
-    similarity_index = cybox.TypedField("similarity_index")
-    similarity_distance = cybox.TypedField("similarity_distance")
-    malware_subject_node_a = cybox.TypedField("malware_subject_node_a", MalwareSubjectReference)
-    malware_subject_node_b = cybox.TypedField("malware_subject_node_b", MalwareSubjectReference)
+    similarity_index = maec.TypedField("similarity_index")
+    similarity_distance = maec.TypedField("similarity_distance")
+    malware_subject_node_a = maec.TypedField("Malware_Subject_Node_A", MalwareSubjectReference)
+    malware_subject_node_b = maec.TypedField("Malware_Subject_Node_B", MalwareSubjectReference)
 
     def __init__(self):
         super(ClusterEdgeNodePair, self).__init__()
-        self.similarity_index = None
-        self.similarity_distance = None
-        self.malware_subject_node_a = None
-        self.malware_subject_node_b = None
 
 class ClusterComposition(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.ClusterCompositionType
     _namespace = maec.package._namespace
     
-    score_type = cybox.TypedField("score_type")
-    edge_node_pair = cybox.TypedField("edge_node_pair", ClusterEdgeNodePair, multiple=True)
+    score_type = maec.TypedField("score_type")
+    edge_node_pair = maec.TypedField("Edge_Node_Pair", ClusterEdgeNodePair, multiple=True)
 
     def __init__(self):
         super(ClusterComposition, self).__init__()
-        self.score_type = None
-        self.edge_node_pair = []
 
 class ClusteringAlgorithmParameters(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.ClusteringAlgorithmParametersType
     _namespace = maec.package._namespace
 
-    distance_threashold = cybox.TypedField("distance_threashold")
-    number_of_iterations = cybox.TypedField("number_of_iterations")
+    distance_threashold = maec.TypedField("Distance_Threashold")
+    number_of_iterations = maec.TypedField("Number_of_Iterations")
 
     def __init__(self):
         super(ClusteringAlgorithmParameters, self).__init__()
-        self.distance_threshold = None
-        self.number_of_iterations = None
 
 class ClusteringMetadata(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.ClusteringMetadataType
     _namespace = maec.package._namespace
 
-    algorithm_name = cybox.TypedField("algorithm_name")
-    algorithm_version = cybox.TypedField("algorithm_version")
-    algorithm_parameters = cybox.TypedField("algorithm_parameters", ClusteringAlgorithmParameters)
-    cluster_size = cybox.TypedField("cluster_size")
-    cluster_description = cybox.TypedField("cluster_description")
-    cluster_composition = cybox.TypedField("cluster_composition", ClusterComposition)
+    algorithm_name = maec.TypedField("Algorithm_Name")
+    algorithm_version = maec.TypedField("Algorithm_Version")
+    algorithm_parameters = maec.TypedField("Algorithm_Parameters", ClusteringAlgorithmParameters)
+    cluster_size = maec.TypedField("Cluster_Size")
+    cluster_description = maec.TypedField("Cluster_Description")
+    cluster_composition = maec.TypedField("Cluster_Composition", ClusterComposition)
 
     def __init__(self):
         super(ClusteringMetadata, self).__init__()
-        self.algorithm_name = None
-        self.algorithm_version = None
-        self.algorithm_parameters = None
-        self.cluster_size = None
-        self.cluster_description = None
-        self.cluster_composition = None
 
 class GroupingRelationship(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.GroupingRelationshipType
     _namespace = maec.package._namespace
 
-    type = cybox.TypedField("type")
-    malware_family_name = cybox.TypedField("malware_family_name")
-    malware_toolkit_name = cybox.TypedField("malware_toolkit_name")
-    clustering_metadata = cybox.TypedField("clustering_metadata", ClusteringMetadata)
+    type = maec.TypedField("Type")
+    malware_family_name = maec.TypedField("Malware_Family_Name")
+    malware_toolkit_name = maec.TypedField("Malware_Toolkit_Name")
+    clustering_metadata = maec.TypedField("Clustering_Metadata", ClusteringMetadata)
 
     def __init__(self):
         super(GroupingRelationship, self).__init__()
-        self.type = None
-        self.malware_family_name = None
-        self.malware_toolkit_name = None
-        self.clustering_metadata = None
 
 class GroupingRelationshipList(maec.EntityList):
     _contained_type = GroupingRelationship

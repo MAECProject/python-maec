@@ -13,4 +13,4 @@ maec_package = maec_objects['api']
 # For this example, iterate through the Malware Subjects
 # in the input Package, and print the ID of each
 for malware_subject in maec_package.malware_subjects:
-    print malware_subject.id
+    print malware_subject.id_
