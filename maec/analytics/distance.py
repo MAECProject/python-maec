@@ -579,8 +579,10 @@ class Distance(object):
         # Perform the actual distance calculation
         self.perform_calculation()
 
-    def print_distances(self, default_label = 'md5', delimiter = ','):
-        '''Print the distances between the Malware Subjects in delimited matrix format.
+    def print_distances(self, file_object, default_label = 'md5', delimiter = ','):
+        '''Print the distances between the Malware Subjects in delimited matrix format 
+           to a File-like object.
+
            Try to use the MD5s of the Malware Subjects as the default label.
            Uses commas as the default delimiter, for CSV-like output.'''
         hashes_mapping = self.populate_hashes_mapping(self.normalized_subjects)
@@ -605,8 +607,9 @@ class Distance(object):
             distance_strings.append(distance_string.rstrip(delimiter))
 
         # Print the header and distance strings
-        print header_string.rstrip(delimiter)
+        file_object.write(header_string.rstrip(delimiter) + "\n")
         for distance_string in distance_strings:
-            print distance_string
+            file_object.write(distance_string + "\n")
+        file_object.flush()
 
 
