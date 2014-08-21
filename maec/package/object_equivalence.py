@@ -6,8 +6,8 @@
 #Compatible with MAEC v4.1
 #Last updated 08/20/2014
 
+import cybox
 import maec
-import cybox.TypedField
 import maec.bindings.maec_package as package_binding
 from maec.bundle.object_reference import ObjectReference    
 
