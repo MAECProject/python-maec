@@ -6,11 +6,11 @@
 #Compatible with MAEC v4.1
 #Last updated 08/20/2014
 
+import cybox
 from cybox.common import (PlatformSpecification, Personnel, StructuredText,
         ToolInformation)
 from cybox.objects.system_object import System
 
-import cybox.TypedField
 import maec
 import maec.bindings.maec_package as package_binding
 from maec.bundle.bundle_reference import BundleReference
