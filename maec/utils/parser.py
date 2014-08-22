@@ -108,10 +108,10 @@ class EntityParser(object):
         binding_obj = self.parse_xml_to_obj(xml_file, check_version)
         if self.is_package:
             from maec.package.package import Package # resolve circular dependencies
-            api_obj = Package().from_obj(binding_obj)
+            api_obj = Package.from_obj(binding_obj)
         elif self.is_bundle:
             from maec.bundle.bundle import Bundle # resolve circular dependencies
-            api_obj = Bundle().from_obj(binding_obj)
+            api_obj = Bundle.from_obj(binding_obj)
         self._apply_input_namespaces(tree, api_obj)
 
         return api_obj
