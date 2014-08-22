@@ -151,7 +151,7 @@ def merge_findings_bundles(findings_bundles_list):
 def create_mappings(mapping_dict, original_malware_subject_list, merged_malware_subject):
     '''Map the IDs of a list of existing Malware Subjects to the new merged Malware Subject'''
     for malware_subject in original_malware_subject_list:
-        mapping_dict[malware_subject.id] = merged_malware_subject.id
+        mapping_dict[malware_subject.id_] = merged_malware_subject.id_
 
 def merge_binned_malware_subjects(merged_malware_subject, binned_list, id_mappings_dict):
     '''Merge a list of input binned (related) Malware Subjects'''
@@ -227,7 +227,7 @@ def merge_malware_subjects(malware_subject_list):
             output_subjects.append(merged_malware_subject)
     # Add the Malware Subjects that weren't merged
     for malware_subject in malware_subject_list:
-        if malware_subject.id not in id_mappings.keys():
+        if malware_subject.id_ not in id_mappings.keys():
             output_subjects.append(malware_subject)
     # Update the relationships for the Malware Subjects to account for the merges
     update_relationships(output_subjects, id_mappings)
