@@ -1149,7 +1149,7 @@ class AnalysisType(GeneratedsSuper):
         self.method = _cast(None, method)
         self.ordinal_position = _cast(int, ordinal_position)
         self.lastupdate_datetime = _cast(None, lastupdate_datetime)
-        self.type_ = _cast(None, type_)
+        self.type = _cast(None, type)
         self.id = _cast(None, id)
         self.Source = Source
         self.Analysts = Analysts
@@ -1250,9 +1250,9 @@ class AnalysisType(GeneratedsSuper):
         if self.lastupdate_datetime is not None and 'lastupdate_datetime' not in already_processed:
             already_processed.add('lastupdate_datetime')
             outfile.write(' lastupdate_datetime="%s"' % self.lastupdate_datetime)
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
-            outfile.write(' type=%s' % (quote_attrib(self.type_), ))
+        if self.type is not None and 'type' not in already_processed:
+            already_processed.add('type')
+            outfile.write(' type=%s' % (quote_attrib(self.type), ))
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
             outfile.write(' id=%s' % (quote_attrib(self.id), ))
@@ -1306,10 +1306,10 @@ class AnalysisType(GeneratedsSuper):
             already_processed.add('lastupdate_datetime')
             showIndent(outfile, level)
             outfile.write('lastupdate_datetime = "%s",\n' % (self.lastupdate_datetime,))
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
+        if self.type is not None and 'type' not in already_processed:
+            already_processed.add('type')
             showIndent(outfile, level)
-            outfile.write('type_ = %s,\n' % (self.type_,))
+            outfile.write('type = %s,\n' % (self.type,))
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
             showIndent(outfile, level)
@@ -1395,7 +1395,7 @@ class AnalysisType(GeneratedsSuper):
         value = find_attr_value_('type', node)
         if value is not None and 'type' not in already_processed:
             already_processed.add('type')
-            self.type_ = value
+            self.type = value
         value = find_attr_value_('id', node)
         if value is not None and 'id' not in already_processed:
             already_processed.add('id')
