@@ -156,7 +156,7 @@ class Analysis(maec.Entity):
 
     id_ = maec.TypedField("id")
     method = maec.TypedField("method")
-    type = maec.TypedField("type")
+    type_ = maec.TypedField("type")
     ordinal_position = maec.TypedField("ordinal_position")
     start_datetime = maec.TypedField("start_datetime")
     complete_datetime = maec.TypedField("complete_datetime")
@@ -180,8 +180,6 @@ class Analysis(maec.Entity):
         self.method = method
         self.type = type
         self.findings_bundle_reference = findings_bundle_reference
-        self.tools = ToolList()
-
 
     #"Public" methods
     # set the findings_bundle_reference values; accepts a list of bundle ID values
@@ -190,6 +188,8 @@ class Analysis(maec.Entity):
    
    # add a tool to this Anaysis's ToolList
     def add_tool(self, tool):
+        if not self.tools:
+            self.tools = ToolList()
         self.tools.append(tool)
 
 
