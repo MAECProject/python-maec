@@ -4,7 +4,7 @@
 #All rights reserved
 
 #Compatible with MAEC v4.1
-#Last updated 07/8/2014
+#Last updated 08/21/2014
 
 
 import datetime
@@ -282,9 +282,10 @@ class Bundle(maec.Entity):
         for object in all_objects:
             if object.idref and not object.id_:
                 real_object = self.get_object_by_id(object.idref, extra_objects, ignore_actions = True)
-                object.idref = None
-                object.id_ = real_object.id_
-                object.properties = real_object.properties
+                if real_object:
+                    object.idref = None
+                    object.id_ = real_object.id_
+                    object.properties = real_object.properties
 
     def to_obj(self):
         bundle_obj = bundle_binding.BundleType(id=self.id)
