@@ -178,7 +178,7 @@ class Analysis(maec.Entity):
         else:
             self.id_ = maec.utils.idgen.create_id(prefix="analysis")
         self.method = method
-        self.type = type
+        self.type_ = type
         self.findings_bundle_reference = findings_bundle_reference
 
     #"Public" methods
