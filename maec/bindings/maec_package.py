@@ -1143,7 +1143,7 @@ class AnalysisType(GeneratedsSuper):
     the analysis was last updated."""
     subclass = None
     superclass = None
-    def __init__(self, start_datetime=None, complete_datetime=None, method=None, ordinal_position=None, lastupdate_datetime=None, type_=None, id=None, Source=None, Analysts=None, Summary=None, Comments=None, Findings_Bundle_Reference=None, Tools=None, Dynamic_Analysis_Metadata=None, Analysis_Environment=None, Report=None):
+    def __init__(self, start_datetime=None, complete_datetime=None, method=None, ordinal_position=None, lastupdate_datetime=None, type=None, id=None, Source=None, Analysts=None, Summary=None, Comments=None, Findings_Bundle_Reference=None, Tools=None, Dynamic_Analysis_Metadata=None, Analysis_Environment=None, Report=None):
         self.start_datetime = _cast(None, start_datetime)
         self.complete_datetime = _cast(None, complete_datetime)
         self.method = _cast(None, method)
@@ -1199,8 +1199,8 @@ class AnalysisType(GeneratedsSuper):
     def set_ordinal_position(self, ordinal_position): self.ordinal_position = ordinal_position
     def get_lastupdate_datetime(self): return self.lastupdate_datetime
     def set_lastupdate_datetime(self, lastupdate_datetime): self.lastupdate_datetime = lastupdate_datetime
-    def get_type(self): return self.type_
-    def set_type(self, type_): self.type_ = type_
+    def get_type(self): return self.type
+    def set_type(self, type): self.type = type
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
     def hasContent_(self):
