@@ -67,7 +67,7 @@ class GroupingRelationship(maec.Entity):
     _binding_class = package_binding.GroupingRelationshipType
     _namespace = maec.package._namespace
 
-    type = maec.TypedField("Type")
+    type_ = maec.TypedField("Type", VocabString)
     malware_family_name = maec.TypedField("Malware_Family_Name")
     malware_toolkit_name = maec.TypedField("Malware_Toolkit_Name")
     clustering_metadata = maec.TypedField("Clustering_Metadata", ClusteringMetadata)
