@@ -13,7 +13,7 @@ class ComparisonResult(object):
             bundle_list = self.bundle_list
         
         for b in self.bundle_list:
-            unique_objs[b.id] = []
+            unique_objs[b.id_] = []
         
         for obj_hash in self.lookup_table:
             sources = BundleComparator.get_sources(self.lookup_table, obj_hash)
@@ -87,10 +87,10 @@ class BundleComparator(object):
         
         for bundle in bundle_list:
             for action in bundle.get_all_actions():
-                cls.process_action(action, lookup_table, bundle.id)
+                cls.process_action(action, lookup_table, bundle.id_)
                     
             for obj in bundle.get_all_objects():
-                cls.process_object(obj, lookup_table, bundle.id)
+                cls.process_object(obj, lookup_table, bundle.id_)
 
         return ComparisonResult(bundle_list, lookup_table)
         
