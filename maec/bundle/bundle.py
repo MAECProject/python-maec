@@ -21,6 +21,7 @@ from maec.bundle.candidate_indicator import CandidateIndicator, CandidateIndicat
 from maec.bundle.action_reference_list import ActionReferenceList
 from maec.bundle.process_tree import ProcessTree
 from maec.bundle.capability import CapabilityList
+from maec.bundle.object_history import ObjectHistory
 from maec.utils.comparator import BundleComparator
 from maec.utils.deduplicator import BundleDeduplicator
 
