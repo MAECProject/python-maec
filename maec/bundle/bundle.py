@@ -444,6 +444,8 @@ class Bundle(maec.Entity):
                 object_collection = self.collections.object_collections.get_named_collection(object_collection_name)
                 object_collection.add_object(object)
         elif object_collection_name == None:
+            if not self.objects:
+                self.objects = ObjectList()
             self.objects.append(object)
 
     def get_all_objects(self, include_actions = False):
