@@ -1,174 +1,125 @@
-#MAEC Bundle Class
+# MAEC Process Tree classes
 
-#Copyright (c) 2014, The MITRE Corporation
-#All rights reserved
+# Copyright (c) 2014, The MITRE Corporation
+# All rights reserved
 
-#Compatible with MAEC v4.1
-#Last updated 02/18/2014
+# Compatible with MAEC v4.1
+# Last updated 08/27/2014
 
+import cybox
 from cybox.objects.process_object import Process
+from cybox.core import ActionReference
 
 import maec
 import maec.bindings.maec_bundle as bundle_binding
 from maec.bundle.action_reference_list import ActionReferenceList
-
-
-class ProcessTree(maec.Entity):
-    _namespace = maec.bundle._namespace
-
-    def __init__(self, root_process = None):
-        super(ProcessTree, self).__init__()
-        self.root_process = root_process
-
-    def set_root_process(self, root_process):
-        self.root_process = root_process
-
-    def to_obj(self):
-        process_tree_obj = bundle_binding.ProcessTreeType()
-        if self.root_process is not None:
-            process_tree_obj.set_Root_Process(self.root_process.to_obj())
-        return process_tree_obj
-
-    def to_dict(self):
-        process_tree_dict = {}
-        if self.root_process is not None:
-            process_tree_dict['root_process'] = self.root_process.to_dict()
-        return process_tree_dict
-
-    @staticmethod
-    def from_dict(process_tree_dict):
-        if not process_tree_dict:
-            return None
-        process_tree_ = ProcessTree()
-        process_tree_.root_process = ProcessTreeNode.from_dict(process_tree_dict.get('root_process'))
-        return process_tree_
-
-    @staticmethod
-    def from_obj(process_tree_obj):
-        if not process_tree_obj:
-            return None
-        process_tree_ = ProcessTree()
-        process_tree_.root_process = ProcessTreeNode.from_obj(process_tree_obj.get_Root_Process())
-        return process_tree_
-
 
 class ProcessTreeNode(Process):
     _binding = bundle_binding
     _binding_class = bundle_binding.ProcessTreeNodeType
     _XSI_NS = "maecBundle"
     _XSI_TYPE = "ProcessTreeNodeType"
-
     superclass = Process
+
+    id_ = cybox.TypedField("id")
+    parent_action_idref = cybox.TypedField("parent_action_idref")
+    ordinal_position = cybox.TypedField("ordinal_position")
+    initiated_actions = cybox.TypedField("Initiated_Actions", ActionReferenceList)
+    spawned_process = cybox.TypedField("Spawned_Process", multiple = True)
+    injected_process = cybox.TypedField("Injected_Process", multiple = True)
 
     def __init__(self, id = None, parent_action_idref = None):
         super(ProcessTreeNode, self).__init__()
-        self.id = maec.utils.idgen.create_id(prefix="process_tree")
+        if id:
+            self.id_ = id
+        else:
+            self.id_ = maec.utils.idgen.create_id(prefix="process_tree")
         self.parent_action_idref = parent_action_idref
-        self.ordinal_position = None
-        self.initiated_actions = ActionReferenceList()
-        self.spawned_processes = []
-        self.injected_processes = []
 
     def add_spawned_process(self, process_node, process_id = None):
+        """Add a spawned process to the Process Tree node, either directly or to a
+           particular process embedded in the node based on its ID."""
         if not process_id:
+            if not self.spawned_processes:
+                self.spawned_processes = []
             self.spawned_processes.append(process_node)
         elif process_id:
             if str(self.pid) == process_id:
+                if not self.spawned_processes:
+                    self.spawned_processes = []
                 self.spawned_processes.append(process_node)
             else:
                 embedded_process = self.find_embedded_process(process_id)
                 if embedded_process:
+                    if not embedded_process.spawned_processes:
+                        embedded_process.spawned_processes = []
                     embedded_process.spawned_processes.append(process_node)
 
     def add_injected_process(self, process_node, process_id = None):
+        """Add an injected process to the Process Tree node, either directly or to a
+           particular process embedded in the node based on its ID."""
         if not process_id:
+            if not self.injected_processes:
+                self.injected_processes = []
             self.injected_processes.append(process_node)
         elif process_id:
             if str(self.pid) == process_id:
+                if not self.injected_processes:
+                    self.injected_processes = []
                 self.injected_processes.append(process_node)
             else:
                 embedded_process = self.find_embedded_process(process_id)
                 if embedded_process:
+                    if not embedded_process.injected_processes:
+                        embedded_process.injected_processes = []
                     embedded_process.injected_processes.append(process_node)
 
     def add_initiated_action(self, action_id):
+        """Add an initiated Action to the Process Tree node, based on its ID."""
+        if not self.initiated_actions:
+            self.initiated_actions = ActionReferenceList()
         self.initiated_actions.append(action_id)
 
     def find_embedded_process(self, process_id):
+        """Find a Process embedded somewhere in the Process Tree node tree, based on its ID."""
         embedded_process = None
-        for spawned_process in self.spawned_processes:
-            if str(spawned_process.pid) == str(process_id):
-                embedded_process = spawned_process
-            else:
-                embedded_process = spawned_process.find_embedded_process(process_id)
-        for injected_process in self.injected_processes:
-            if str(injected_process.pid) == str(process_id):
-                embedded_process = injected_process
-            else:
-                embedded_process = injected_process.find_embedded_process(process_id)
+        if self.spawned_processes:
+            for spawned_process in self.spawned_processes:
+                if str(spawned_process.pid) == str(process_id):
+                    embedded_process = spawned_process
+                else:
+                    embedded_process = spawned_process.find_embedded_process(process_id)
+        if self.injected_processes:
+            for injected_process in self.injected_processes:
+                if str(injected_process.pid) == str(process_id):
+                    embedded_process = injected_process
+                else:
+                    embedded_process = injected_process.find_embedded_process(process_id)
         return embedded_process
 
     def set_id(self, id):
-        self.id = id
+        """Set the ID of the Process Tree node."""
+        self.id_ = id
 
     def set_parent_action(self, parent_action_id):
+        """Set the ID of the parent action of the Process Tree node."""
         self.parent_action_idref = parent_action_id
 
-    def to_obj(self):
-        process_tree_node_obj = super(ProcessTreeNode, self).to_obj()
-        if self.id is not None : process_tree_node_obj.set_id(self.id)
-        if self.parent_action_idref is not None : process_tree_node_obj.set_parent_action_idref(self.parent_action_idref)
-        if self.ordinal_position is not None : process_tree_node_obj.set_ordinal_position(self.ordinal_position)
-        if self.initiated_actions: process_tree_node_obj.set_Initiated_Actions(self.initiated_actions.to_obj())
-        if self.spawned_processes: 
-            for spawned_process in self.spawned_processes:
-                process_tree_node_obj.add_Spawned_Process(spawned_process.to_obj())
-        if self.injected_processes: 
-            for injected_process in self.injected_processes:
-                process_tree_node_obj.add_Injected_Process(injected_process.to_obj())
-        return process_tree_node_obj
+class ProcessTree(maec.Entity):
+    _binding = bundle_binding
+    _binding_class = bundle_binding.ProcessTreeType    
+    _namespace = maec.bundle._namespace
 
-    def to_dict(self):
-        process_tree_node_dict = super(ProcessTreeNode, self).to_dict()
-        if self.id is not None : process_tree_node_dict['id'] = self.id
-        if self.parent_action_idref is not None : process_tree_node_dict['parent_action_idref'] = self.parent_action_idref
-        if self.ordinal_position is not None : process_tree_node_dict['ordinal_position'] = self.ordinal_position
-        if self.initiated_actions: process_tree_node_dict['initiated_actions'] = self.initiated_actions.to_list()
-        if self.spawned_processes:
-            spawned_process_list = []
-            for spawned_process in self.spawned_processes:
-                spawned_process_list.append(spawned_process.to_dict())
-            process_tree_node_dict['spawned_processes'] = spawned_process_list
-        if self.injected_processes > 0: 
-            injected_process_list = []
-            for injected_process in self.injected_processes:
-                injected_process_list.append(injected_process.to_dict())
-            process_tree_node_dict['injected_processes'] = injected_process_list
-        return process_tree_node_dict
+    root_process = maec.TypedField("Root_Process", ProcessTreeNode)
 
-    @classmethod
-    def from_dict(cls, process_tree_node_dict):
-        if not process_tree_node_dict:
-            return None
-        process_tree_node_ = super(ProcessTreeNode, cls).from_dict(process_tree_node_dict)
-        process_tree_node_.id = process_tree_node_dict.get('id')
-        process_tree_node_.parent_action_idref = process_tree_node_dict.get('parent_action_idref')
-        process_tree_node_.ordinal_position = process_tree_node_dict.get('ordinal_position')
-        process_tree_node_.initiated_actions = ActionReferenceList.from_list(process_tree_node_dict.get('initiated_actions', []))
-        process_tree_node_.spawned_processes = [ProcessTreeNode.from_dict(x) for x in process_tree_node_dict.get('spawned_processes', [])]
-        process_tree_node_.injected_processes = [ProcessTreeNode.from_dict(x) for x in process_tree_node_dict.get('injected_processes', [])]
-        return process_tree_node_
+    def __init__(self, root_process = None):
+        super(ProcessTree, self).__init__()
+        self.root_process = root_process
 
-    @classmethod
-    def from_obj(cls, process_tree_node_obj):
-        if not process_tree_node_obj:
-            return None
-        process_tree_node_ = super(ProcessTreeNode, cls).from_obj(process_tree_node_obj)
-        process_tree_node_.id = process_tree_node_obj.get_id()
-        process_tree_node_.parent_action_idref = process_tree_node_obj.get_parent_action_idref()
-        process_tree_node_.ordinal_position = process_tree_node_obj.get_ordinal_position()
-        if process_tree_node_obj.get_Initiated_Actions() is not None:
-            process_tree_node_.initiated_actions = ActionReferenceList.from_obj(process_tree_node_obj.get_Initiated_Actions())
-        process_tree_node_.spawned_processes = [ProcessTreeNode.from_obj(x) for x in process_tree_node_obj.get_Spawned_Process()]
-        process_tree_node_.injected_processes = [ProcessTreeNode.from_obj(x) for x in process_tree_node_obj.get_Injected_Process()]
-        return process_tree_node_
+    def set_root_process(self, root_process):
+        """Set the Root Process node of the Process Tree entity."""
+        self.root_process = root_process
+
+# Allow recursive definition of ProcessTreeNodes
+ProcessTreeNode.spawned_process.type_ = ProcessTreeNode
+ProcessTreeNode.injected_process.type_ = ProcessTreeNode
