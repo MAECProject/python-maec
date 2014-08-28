@@ -1,3 +1,11 @@
+# MAEC AV Classification classes
+
+# Copyright (c) 2014, The MITRE Corporation
+# All rights reserved
+
+# Compatible with MAEC v4.1
+# Last updated 08/28/2014
+
 import maec
 import maec.bindings.maec_bundle as bundle_binding
 from cybox.common import ToolInformation
@@ -9,7 +17,7 @@ class AVClassification(ToolInformation):
         super(AVClassification, self).__init__(tool_name, tool_vendor)
         self.engine_version = None
         self.definition_version = None
-        self.classification_name = None
+        self.classification_name = classification
 
     def to_obj(self):
         av_classification_obj = super(AVClassification, self).to_obj(bundle_binding.AVClassificationType())
