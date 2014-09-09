@@ -3,7 +3,7 @@
 API Documentation
 =================
 
-The *python-maec* APIs are the recommended tools for reading, writing, and manipulating STIX XML documents.
+The *python-maec* APIs are the recommended tools for reading, writing, and manipulating MAEC XML documents.
 
 .. note::
 
@@ -11,7 +11,7 @@ The *python-maec* APIs are the recommended tools for reading, writing, and manip
 
 **STIX** -- Modules located in the base `maec`_ package
 
-.. _stix: https://github.com/MAECProject/python-maec/tree/master/maec
+.. _maec: https://github.com/MAECProject/python-maec/tree/master/maec
 
 .. toctree::
 	:titlesonly:
@@ -20,7 +20,7 @@ The *python-maec* APIs are the recommended tools for reading, writing, and manip
 	
 **MAEC Bundle** -- Modules located in the `maec.bundle`_ package
 
-.. _stix.campaign: https://github.com/STIXProject/python-maec/tree/master/stix/campaign
+.. _maec.bundle: https://github.com/MAECProject/python-maec/tree/master/bundle/bundle
 
 .. toctree::
 	:titlesonly:
