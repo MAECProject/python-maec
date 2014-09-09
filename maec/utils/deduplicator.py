@@ -1,5 +1,8 @@
 # MAEC Bundle Deduplicator Module
-# Last updated: 12/3/2013
+# Copyright (c) 2014, The MITRE Corporation
+# All rights reserved
+
+# See LICENSE.txt for complete terms
 import collections
 import cybox
 import sets
@@ -117,7 +120,7 @@ class BundleDeduplicator(object):
 
     @classmethod
     def map_objects(cls, all_objects):
-    """Map the non-unique Objects to their unique (first observed) counterparts."""
+        """Map the non-unique Objects to their unique (first observed) counterparts."""
         # Do the object mapping
         for obj in all_objects:
             matching_object_id = cls.find_matching_object(obj)
@@ -126,7 +129,7 @@ class BundleDeduplicator(object):
 
     @classmethod
     def get_typedfield_values(cls, val, name, values, ignoreCase = False):
-    """Returns the value contained in a TypedField or its nested members, if applicable."""
+        """Returns the value contained in a TypedField or its nested members, if applicable."""
         # If it's a BaseProperty instance, then we're done. Return it.
         if isinstance(val, BaseProperty):
             if ignoreCase:
@@ -145,7 +148,7 @@ class BundleDeduplicator(object):
 
     @classmethod
     def get_object_values(cls, obj, ignoreCase = False):
-    """Get the values specified for an Object's properties as a set."""
+        """Get the values specified for an Object's properties as a set."""
         values = set()
         for typed_field in obj.properties._get_vars():
             # Make sure the typed field is comparable
@@ -158,7 +161,7 @@ class BundleDeduplicator(object):
     
     @classmethod
     def find_matching_object(cls, obj):
-    """Find a matching object, if it exists."""
+        """Find a matching object, if it exists."""
         if obj and obj.properties:
             object_values = cls.get_object_values(obj)
             xsi_type = obj.properties._XSI_TYPE 
