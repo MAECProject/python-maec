@@ -9,6 +9,7 @@ from cybox.common.properties import BaseProperty
 class BundleDeduplicator(object):
     @classmethod
     def deduplicate(cls, bundle):
+        """Deduplicate the input Bundle."""
         # Dictionary of all unique objects
         # Key = object type (xsi:type)
         # Value = dictionary of unique objects for that type
@@ -32,10 +33,11 @@ class BundleDeduplicator(object):
             # cases where you may have Objects pointing to each other
             cls.cleanup(bundle)
 
-    # Cleanup and remove and Objects that may be referencing the re-used Objects
-    # Otherwise, this can create Object->Object->Object etc. references which don't make sense
+
     @classmethod
     def cleanup(cls, bundle):
+        """Cleanup and remove and Objects that may be referencing the re-used Objects.
+           Otherwise, this can create Object->Object->Object etc. references which don't make sense."""
         # Cleanup the root-level Objects
         if bundle.objects:
             # List of Objects to remove
@@ -56,10 +58,9 @@ class BundleDeduplicator(object):
                 for obj in objs:
                     collection.object_list.remove(obj)
 
-    # Replace all of the duplicate Objects with references to
-    # the unique object placed in the "Re-used Objects" Collection
     @classmethod
     def handle_duplicate_objects(cls, bundle, all_objects):
+        """Replace all of the duplicate Objects with references to the unique object placed in the "Re-used Objects" Collection."""
         for duplicate_object_id, unique_object_id in cls.object_ids_mapping.items():
             for object in all_objects:
                 if object.id_ == duplicate_object_id or object.idref == duplicate_object_id:
@@ -71,10 +72,10 @@ class BundleDeduplicator(object):
                     object.related_objects = None
                     object.domain_specific_object_properties = None
 
-    # Add a new Object collection to the Bundle for storing the unique Objects
-    # Add the Objects to said collection
     @classmethod
     def handle_unique_objects(cls, bundle, all_objects):
+        """Add a new Object collection to the Bundle for storing the unique Objects.
+           Add the Objects to the collection. """
         # First, find the ID of the last Object Collection (if applicable)
         counter = 1
         if bundle.collections and bundle.collections.object_collections:
@@ -89,9 +90,9 @@ class BundleDeduplicator(object):
         # Add the unique Objects to the collection
         cls.add_unique_objects(bundle, all_objects)
 
-    # Add the unique Objects to the collection and perform the properties replacement
     @classmethod
     def add_unique_objects(cls, bundle, all_objects):
+        """Add the unique Objects to the collection and perform the properties replacement."""
         added_ids = []
         for unique_object_id in cls.object_ids_mapping.values():
             if unique_object_id not in added_ids:
@@ -114,18 +115,18 @@ class BundleDeduplicator(object):
                         break
                 added_ids.append(unique_object_id)
 
-    # Map the non-unique Objects to their unique (first observed) counterparts
     @classmethod
     def map_objects(cls, all_objects):
+    """Map the non-unique Objects to their unique (first observed) counterparts."""
         # Do the object mapping
         for obj in all_objects:
             matching_object_id = cls.find_matching_object(obj)
             if matching_object_id:
                 cls.object_ids_mapping[obj.id_] = matching_object_id
 
-    # Returns the value contained in a TypedField or its nested members, if applicable
     @classmethod
     def get_typedfield_values(cls, val, name, values, ignoreCase = False):
+    """Returns the value contained in a TypedField or its nested members, if applicable."""
         # If it's a BaseProperty instance, then we're done. Return it.
         if isinstance(val, BaseProperty):
             if ignoreCase:
@@ -142,9 +143,9 @@ class BundleDeduplicator(object):
             for item_property in val._get_vars():
                 cls.get_typedfield_values(getattr(val, str(item_property)), name + "/" + str(item_property), values, ignoreCase) 
 
-    # Get the values specified for an object's properties as a set
     @classmethod
     def get_object_values(cls, obj, ignoreCase = False):
+    """Get the values specified for an Object's properties as a set."""
         values = set()
         for typed_field in obj.properties._get_vars():
             # Make sure the typed field is comparable
@@ -154,9 +155,10 @@ class BundleDeduplicator(object):
                     cls.get_typedfield_values(val, str(typed_field), values, ignoreCase)
         return values
 
-    # Find a matching object, if it exists
+    
     @classmethod
     def find_matching_object(cls, obj):
+    """Find a matching object, if it exists."""
         if obj and obj.properties:
             object_values = cls.get_object_values(obj)
             xsi_type = obj.properties._XSI_TYPE 
