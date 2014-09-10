@@ -43,6 +43,7 @@ Contents
    installation
    overview
    examples
+   api_vs_bindings/index
    contributing
    
 API Reference
