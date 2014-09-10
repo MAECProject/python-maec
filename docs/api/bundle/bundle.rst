@@ -9,10 +9,6 @@ Classes
 .. autoclass:: Bundle
 	:show-inheritance:
 	:members:
-
-.. autoclass:: BundleList
-	:show-inheritance:
-	:members:
   
 .. autoclass:: ActionList
 	:show-inheritance:
