@@ -2,9 +2,9 @@
 # See LICENSE.txt for complete terms.
 
 import uuid
-from cybox.utils import Namespace
+import cybox.utils
 
-EXAMPLE_NAMESPACE = Namespace("http://example.com", "example")
+EXAMPLE_NAMESPACE = cybox.utils.Namespace("http://example.com", "example")
 
 class InvalidMethodError(ValueError):
     def __init__(self, method):
@@ -31,7 +31,7 @@ class IDGenerator(object):
 
     @namespace.setter
     def namespace(self, value):
-        if not isinstance(value, Namespace):
+        if not isinstance(value, cybox.utils.Namespace):
             raise ValueError("Must be a Namespace object")
         self._namespace = value
         self.reset()
@@ -81,13 +81,26 @@ def _get_generator():
     return __generator
 
 
-def set_id_namespace(namespace):
-    """ Set the namespace for the module-level ID Generator"""
+def set_id_namespace(namespace, set_cybox = True):
+    """ Set the namespace for the module-level ID Generator.
+        The second parameter defines whether or not to set the
+        namespace in python-cybox, with a default value of True."""
     _get_generator().namespace = namespace
+    
+    # Set the corresponding CybOX method
+    if set_cybox:
+        cybox.utils.set_id_namespace(namespace)
 
-def set_id_method(method):
-    """ Set the method for the module-level ID Generator"""
+def set_id_method(method, set_cybox = True):
+    """ Set the method for the module-level ID Generator.
+        The second parameter defines whether or not to set the
+        id method in python-cybox, with a default value of True."""
     _get_generator().method = method
+    
+    # Set the corresponding CybOX method
+    if set_cybox:
+        cybox.utils.set_id_method(method)
+    
 
 def get_id_namespace():
     """Return the namespace associated with generated ids"""
