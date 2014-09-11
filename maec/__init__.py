@@ -8,6 +8,7 @@ from StringIO import StringIO
 import bindings.maec_bundle as bundle_binding
 import bindings.maec_package as package_binding
 from cybox import Entity as cyboxEntity
+from cybox import EntityList as cyboxEntityList
 from cybox import TypedField
 from cybox.utils import Namespace
 from maec.utils import maecMETA, EntityParser
@@ -104,6 +105,42 @@ class Entity(cyboxEntity):
                 for item in v:
                     if isinstance(item, Entity) or isinstance(item, cyboxEntity):
                         yield item
+
+    @classmethod
+    def from_dict(cls, cls_dict=None):
+        if cls_dict is None:
+            return None
+
+        entity = cls()
+
+        # Shortcut if an actual dict is not provided:
+        if not isinstance(cls_dict, dict):
+            value = cls_dict
+            # Call the class's constructor
+            try:
+                return cls(value)
+            except TypeError:
+                raise TypeError("Could not instantiate a %s from a %s: %s" %
+                                (cls, type(value), value))
+
+        for field in cls._get_vars():
+            val = cls_dict.get(field.key_name)
+            if field.type_:
+                if issubclass(field.type_, EntityList) or issubclass(field.type_, cyboxEntityList):
+                    val = field.type_.from_list(val)
+                elif field.multiple:
+                    if val is not None:
+                        val = [field.type_.from_dict(x) for x in val]
+                    else:
+                        val = []
+                else:
+                    val = field.type_.from_dict(val)
+            else:
+                if field.multiple and not val:
+                    val = []
+            setattr(entity, field.attr_name, val)
+
+        return entity
 
 class EntityList(collections.MutableSequence, Entity):
     _contained_type = object
