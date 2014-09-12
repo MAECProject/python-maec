@@ -14,6 +14,10 @@ Classes
 	:show-inheritance:
 	:members:
   
+.. autoclass:: BehaviorList
+	:show-inheritance:
+	:members:
+  
 .. autoclass:: ObjectList
 	:show-inheritance:
 	:members:
