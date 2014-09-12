@@ -5135,11 +5135,17 @@ def usage():
     print USAGE_TEXT
     sys.exit(1)
 
+def get_root_tag(node):
+    tag = Tag_pattern_.match(node.tag).groups()[-1]
+    rootClass = GDSClassesMapping.get(tag)
+    if rootClass is None:
+        rootClass = globals().get(tag)
+    return tag, rootClass
+
 def parse(inFileName):
     doc = parsexml_(inFileName)
     rootNode = doc.getroot()
-    rootTag = 'MAEC_Package'
-    rootClass = PackageType
+    rootTag, rootClass = get_root_tag(rootNode)
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -5153,8 +5159,7 @@ def parse(inFileName):
 def parseEtree(inFileName):
     doc = parsexml_(inFileName)
     rootNode = doc.getroot()
-    rootTag = 'MAEC_Package'
-    rootClass = PackageType
+    rootTag, rootClass = get_root_tag(rootNode)
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -5170,8 +5175,7 @@ def parseString(inString):
     from StringIO import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
-    rootTag = 'MAEC_Package'
-    rootClass = PackageType
+    rootTag, rootClass = get_root_tag(rootNode)
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -5184,8 +5188,7 @@ def parseString(inString):
 def parseLiteral(inFileName):
     doc = parsexml_(inFileName)
     rootNode = doc.getroot()
-    rootTag = 'MAEC_Package'
-    rootClass = PackageType
+    rootTag, rootClass = get_root_tag(rootNode)
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -5245,3 +5248,40 @@ __all__ = [
     "ObjectEquivalenceType",
     "ObjectEquivalenceListType"
     ]
+
+GDSClassesMapping = {
+    "AnalysisEnvironmentType": AnalysisEnvironmentType,
+    "SourceType": SourceType,
+    "CommentListType": CommentListType,
+    "AnalysisSystemListType": AnalysisSystemListType,
+    "ToolListType": ToolListType,
+    "CommentType": CommentType,
+    "AnalysisSystemType": AnalysisSystemType,
+    "HypervisorHostSystemType": HypervisorHostSystemType,
+    "DynamicAnalysisMetadataType": DynamicAnalysisMetadataType,
+    "AnalysisType": AnalysisType,
+    "AnalysisListType": AnalysisListType,
+    "InstalledProgramsType": InstalledProgramsType,
+    "MAEC_Package": PackageType,
+    "MalwareSubjectType": MalwareSubjectType,
+    "MetaAnalysisType": MetaAnalysisType,
+    "MalwareSubjectRelationshipType": MalwareSubjectRelationshipType,
+    "MalwareSubjectRelationshipListType": MalwareSubjectRelationshipListType,
+    "MalwareSubjectReferenceType": MalwareSubjectReferenceType,
+    "MalwareSubjectListType": MalwareSubjectListType,
+    "MinorVariantListType": MinorVariantListType,
+    "FindingsBundleListType": FindingsBundleListType,
+    "GroupingRelationshipType": GroupingRelationshipType,
+    "GroupingRelationshipListType": GroupingRelationshipListType,
+    "ClusteringMetadataType": ClusteringMetadataType,
+    "ClusterEdgeNodePairType": ClusterEdgeNodePairType,
+    "ClusterCompositionType": ClusterCompositionType,
+    "ClusteringAlgorithmParametersType": ClusteringAlgorithmParametersType,
+    "NetworkInfrastructureType": NetworkInfrastructureType,
+    "ActionEquivalenceType": ActionEquivalenceType,
+    "ActionEquivalenceListType": ActionEquivalenceListType,
+    "CapturedProtocolListType": CapturedProtocolListType,
+    "CapturedProtocolType": CapturedProtocolType,
+    "ObjectEquivalenceType": ObjectEquivalenceType,
+    "ObjectEquivalenceListType": ObjectEquivalenceListType
+}

@@ -6442,11 +6442,17 @@ def usage():
     print USAGE_TEXT
     sys.exit(1)
 
+def get_root_tag(node):
+    tag = Tag_pattern_.match(node.tag).groups()[-1]
+    rootClass = GDSClassesMapping.get(tag)
+    if rootClass is None:
+        rootClass = globals().get(tag)
+    return tag, rootClass
+
 def parse(inFileName):
     doc = parsexml_(inFileName)
     rootNode = doc.getroot()
-    rootTag = 'MAEC_Bundle'
-    rootClass = BundleType
+    rootTag, rootClass = get_root_tag(rootNode)
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -6460,8 +6466,7 @@ def parse(inFileName):
 def parseEtree(inFileName):
     doc = parsexml_(inFileName)
     rootNode = doc.getroot()
-    rootTag = 'MAEC_Bundle'
-    rootClass = BundleType
+    rootTag, rootClass = get_root_tag(rootNode)
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -6477,8 +6482,7 @@ def parseString(inString):
     from StringIO import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
-    rootTag = 'MAEC_Bundle'
-    rootClass = BundleType
+    rootTag, rootClass = get_root_tag(rootNode)
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -6491,8 +6495,7 @@ def parseString(inString):
 def parseLiteral(inFileName):
     doc = parsexml_(inFileName)
     rootNode = doc.getroot()
-    rootTag = 'MAEC_Bundle'
-    rootClass = BundleType
+    rootTag, rootClass = get_root_tag(rootNode)
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -6563,3 +6566,51 @@ __all__ = [
     "ObjectCollectionListType",
     "AVClassificationType"
     ]
+
+GDSClassesMapping = {
+    "MalwareActionType": MalwareActionType,
+    "MAEC_Bundle": BundleType,
+    "BehaviorType": BehaviorType,
+    "BehaviorCollectionType": BehaviorCollectionType,
+    "ActionCollectionType": ActionCollectionType,
+    "APICallType": APICallType,
+    "ActionImplementationType": ActionImplementationType,
+    "CVEVulnerabilityType": CVEVulnerabilityType,
+    "ObjectCollectionType": ObjectCollectionType,
+    "BaseCollectionType": BaseCollectionType,
+    "BehaviorRelationshipType": BehaviorRelationshipType,
+    "AVClassificationsType": AVClassificationsType,
+    "ParameterType": ParameterType,
+    "ParameterListType": ParameterListType,
+    "AssociatedCodeType": AssociatedCodeType,
+    "BehaviorPurposeType": BehaviorPurposeType,
+    "PlatformListType": PlatformListType,
+    "ExploitType": ExploitType,
+    "BehaviorRelationshipListType": BehaviorRelationshipListType,
+    "BehavioralActionsType": BehavioralActionsType,
+    "BehaviorListType": BehaviorListType,
+    "ActionListType": ActionListType,
+    "ObjectListType": ObjectListType,
+    "BehaviorReferenceType": BehaviorReferenceType,
+    "ObjectReferenceType": ObjectReferenceType,
+    "BehavioralActionType": BehavioralActionType,
+    "BehavioralActionReferenceType": BehavioralActionReferenceType,
+    "BehavioralActionEquivalenceReferenceType": BehavioralActionEquivalenceReferenceType,
+    "BehaviorReferenceListType": BehaviorReferenceListType,
+    "ActionReferenceListType": ActionReferenceListType,
+    "ObjectReferenceListType": ObjectReferenceListType,
+    "CandidateIndicatorType": CandidateIndicatorType,
+    "CandidateIndicatorListType": CandidateIndicatorListType,
+    "MalwareEntityType": MalwareEntityType,
+    "CollectionsType": CollectionsType,
+    "BundleReferenceType": BundleReferenceType,
+    "ProcessTreeType": ProcessTreeType,
+    "ProcessTreeNodeType": ProcessTreeNodeType,
+    "CandidateIndicatorCompositionType": CandidateIndicatorCompositionType,
+    "CandidateIndicatorCollectionType": CandidateIndicatorCollectionType,
+    "CandidateIndicatorCollectionListType": CandidateIndicatorCollectionListType,
+    "BehaviorCollectionListType": BehaviorCollectionListType,
+    "ActionCollectionListType": ActionCollectionListType,
+    "ObjectCollectionListType": ObjectCollectionListType,
+    "AVClassificationType": AVClassificationType
+}

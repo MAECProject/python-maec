@@ -730,11 +730,17 @@ def usage():
     print USAGE_TEXT
     sys.exit(1)
 
+def get_root_tag(node):
+    tag = Tag_pattern_.match(node.tag).groups()[-1]
+    rootClass = GDSClassesMapping.get(tag)
+    if rootClass is None:
+        rootClass = globals().get(tag)
+    return tag, rootClass
+
 def parse(inFileName):
     doc = parsexml_(inFileName)
     rootNode = doc.getroot()
-    rootTag = 'MAEC_Container'
-    rootClass = ContainerType
+    rootTag, rootClass = get_root_tag(rootNode)
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -748,8 +754,7 @@ def parse(inFileName):
 def parseEtree(inFileName):
     doc = parsexml_(inFileName)
     rootNode = doc.getroot()
-    rootTag = 'MAEC_Container'
-    rootClass = ContainerType
+    rootTag, rootClass = get_root_tag(rootNode)
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -765,8 +770,7 @@ def parseString(inString):
     from StringIO import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
-    rootTag = 'MAEC_Container'
-    rootClass = ContainerType
+    rootTag, rootClass = get_root_tag(rootNode)
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -779,8 +783,7 @@ def parseString(inString):
 def parseLiteral(inFileName):
     doc = parsexml_(inFileName)
     rootNode = doc.getroot()
-    rootTag = 'MAEC_Container'
-    rootClass = ContainerType
+    rootTag, rootClass = get_root_tag(rootNode)
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -808,3 +811,8 @@ __all__ = [
     "ContainerType",
     "PackageListType"
     ]
+
+GDSClassesMapping = {
+    "ContainerType": ContainerType,
+    "PackageListType": PackageListType              
+}
