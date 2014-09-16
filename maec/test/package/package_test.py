@@ -48,10 +48,10 @@ class TestPackage(EntityTestCase, unittest.TestCase):
         self.assertNotEqual(o.id_, None)
 
     def test_round_trip(self):
-        o = Package.from_dict(TestPackage._full_dict)
-        o = round_trip(o)
+        o = Package()
+        o2 = round_trip(o)
 
-        self.assertEqual(TestPackage._full_dict, o.to_dict())
+        self.assertEqual(o.to_dict(), o2.to_dict())
 
 if __name__ == "__main__":
     unittest.main()

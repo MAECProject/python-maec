@@ -3,10 +3,8 @@
 
 import unittest
 
-from cybox.test import EntityTestCase, round_trip, round_trip_dict
-from cybox.utils import CacheMiss, set_id_method
+from cybox.test import EntityTestCase, round_trip
 from maec.bundle.bundle import Behavior
-
 
 class TestBehavior(EntityTestCase, unittest.TestCase):
     klass = Behavior
