@@ -338,7 +338,7 @@ class Bundle(maec.Entity):
     candidate_indicators = maec.TypedField("Candidate_Indicators", CandidateIndicatorList)
     collections = maec.TypedField("Collections", Collections)
 
-    def __init__(self, id = None, defined_subject = "False", schema_version = "4.1", content_type = None, malware_instance_object = None):
+    def __init__(self, id = None, defined_subject = False, schema_version = "4.1", content_type = None, malware_instance_object = None):
         super(Bundle, self).__init__()
         if id:
             self.id_ = id
