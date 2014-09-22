@@ -40,39 +40,39 @@ class ProcessTreeNode(Process):
         """Add a spawned process to the Process Tree node, either directly or to a
            particular process embedded in the node based on its ID."""
         if not process_id:
-            if not self.spawned_processes:
-                self.spawned_processes = []
-            self.spawned_processes.append(process_node)
+            if not self.spawned_process:
+                self.spawned_process = []
+            self.spawned_process.append(process_node)
         elif process_id:
             if str(self.pid) == process_id:
-                if not self.spawned_processes:
-                    self.spawned_processes = []
-                self.spawned_processes.append(process_node)
+                if not self.spawned_process:
+                    self.spawned_process = []
+                self.spawned_process.append(process_node)
             else:
                 embedded_process = self.find_embedded_process(process_id)
                 if embedded_process:
-                    if not embedded_process.spawned_processes:
-                        embedded_process.spawned_processes = []
-                    embedded_process.spawned_processes.append(process_node)
+                    if not embedded_process.spawned_process:
+                        embedded_process.spawned_process = []
+                    embedded_process.spawned_process.append(process_node)
 
     def add_injected_process(self, process_node, process_id = None):
         """Add an injected process to the Process Tree node, either directly or to a
            particular process embedded in the node based on its ID."""
         if not process_id:
-            if not self.injected_processes:
-                self.injected_processes = []
-            self.injected_processes.append(process_node)
+            if not self.injected_process:
+                self.injected_process = []
+            self.injected_process.append(process_node)
         elif process_id:
             if str(self.pid) == process_id:
-                if not self.injected_processes:
-                    self.injected_processes = []
-                self.injected_processes.append(process_node)
+                if not self.injected_process:
+                    self.injected_process = []
+                self.injected_process.append(process_node)
             else:
                 embedded_process = self.find_embedded_process(process_id)
                 if embedded_process:
-                    if not embedded_process.injected_processes:
-                        embedded_process.injected_processes = []
-                    embedded_process.injected_processes.append(process_node)
+                    if not embedded_process.injected_process:
+                        embedded_process.injected_process = []
+                    embedded_process.injected_process.append(process_node)
 
     def add_initiated_action(self, action_id):
         """Add an initiated Action to the Process Tree node, based on its ID."""
@@ -83,14 +83,14 @@ class ProcessTreeNode(Process):
     def find_embedded_process(self, process_id):
         """Find a Process embedded somewhere in the Process Tree node tree, based on its ID."""
         embedded_process = None
-        if self.spawned_processes:
-            for spawned_process in self.spawned_processes:
+        if self.spawned_process:
+            for spawned_process in self.spawned_process:
                 if str(spawned_process.pid) == str(process_id):
                     embedded_process = spawned_process
                 else:
                     embedded_process = spawned_process.find_embedded_process(process_id)
-        if self.injected_processes:
-            for injected_process in self.injected_processes:
+        if self.injected_process:
+            for injected_process in self.injected_process:
                 if str(injected_process.pid) == str(process_id):
                     embedded_process = injected_process
                 else:
