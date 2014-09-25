@@ -4,21 +4,25 @@
 import unittest
 
 from cybox.test import EntityTestCase, round_trip
-from maec.bundle.bundle import Bundle
+from maec.bundle.av_classification import AVClassification
 
-class TestBundle(EntityTestCase, unittest.TestCase):
-    klass = Bundle
+class TestAVClassification(EntityTestCase, unittest.TestCase):
+    klass = AVClassification
 
     _full_dict = {
-        'defined_subject':False
+        'classification_name':'Some!Trojan',
+        'vendor':'McAfee'
     }
 
     def test_id_autoset(self):
-        o = Bundle()
+        o = AVClassification()
+        o.classification_name = 'Some!Trojan';
+        o.vendor = 'McAfee'
         self.assertNotEqual(o.id_, None)
 
     def test_round_trip(self):
-        o = Bundle()
+        o = AVClassification('Some!Trojan')
+        o.vendor = 'McAfee'
         o2 = round_trip(o, True)
 
         self.assertEqual(o.to_dict(), o2.to_dict())
