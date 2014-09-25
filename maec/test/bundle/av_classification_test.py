@@ -14,12 +14,6 @@ class TestAVClassification(EntityTestCase, unittest.TestCase):
         'vendor':'McAfee'
     }
 
-    def test_id_autoset(self):
-        o = AVClassification()
-        o.classification_name = 'Some!Trojan';
-        o.vendor = 'McAfee'
-        self.assertNotEqual(o.id_, None)
-
     def test_round_trip(self):
         o = AVClassification('Some!Trojan')
         o.vendor = 'McAfee'
