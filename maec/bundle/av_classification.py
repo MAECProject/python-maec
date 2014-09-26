@@ -4,13 +4,13 @@
 # All rights reserved
 
 # Compatible with MAEC v4.1
-# Last updated 09/22/2014
+# Last updated 09/26/2014
 
 import maec
 import maec.bindings.maec_bundle as bundle_binding
 from cybox.common import ToolInformation
 
-class AVClassification(ToolInformation):
+class AVClassification(ToolInformation, maec.Entity):
     _namespace = maec.bundle._namespace
     _binding = bundle_binding
     _binding_class = bundle_binding.AVClassificationType
