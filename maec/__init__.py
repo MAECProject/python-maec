@@ -48,7 +48,7 @@ class Entity(cyboxEntity):
         out_file  = open(filename, 'w')
         if custom_header:
             for line in custom_header:
-                out_file.write[custom_header]
+                out_file.write[line]
         else:
             out_file.write("<?xml version='1.0' encoding='UTF-8'?>\n")
         self.to_obj().export(out_file.write, 0, namespacedef_ = self._get_namespace_def(namespace_dict))
