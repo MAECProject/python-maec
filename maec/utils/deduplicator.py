@@ -21,6 +21,10 @@ class BundleDeduplicator(object):
         cls.objects_dict = {}
         # Dictionary of non-unique -> unique Object ID mappings
         cls.object_ids_mapping = {}
+        # Dictionary of Objects with IDs
+        cls.id_objects = {}
+        # Dictionary of Objects with IDrefs
+        cls.idref_objects = {}
         # Get all Objects in the Bundle
         all_objects = bundle.get_all_objects(include_actions=True)
         # Perform the Object mapping
@@ -65,15 +69,18 @@ class BundleDeduplicator(object):
     def handle_duplicate_objects(cls, bundle, all_objects):
         """Replace all of the duplicate Objects with references to the unique object placed in the "Re-used Objects" Collection."""
         for duplicate_object_id, unique_object_id in cls.object_ids_mapping.items():
-            for object in all_objects:
-                if object.id_ == duplicate_object_id or object.idref == duplicate_object_id:
-                    # Modify the existing Object to serve as a reference to
-                    # the unique Object in the collection
+            # Modify the existing Object to serve as a reference to
+            # the unique Object in the collection
+            if cls.id_objects[duplicate_object_id]:
+                object = cls.id_objects[duplicate_object_id]
+                object.idref = unique_object_id
+                object.id_ = None
+                object.properties = None
+                object.related_objects = None
+                object.domain_specific_object_properties = None
+            elif cls.idref_objects[duplicate_object_id]:
+                for object in cls.idref_objects[duplicate_object_id]:
                     object.idref = unique_object_id
-                    object.id_ = None
-                    object.properties = None
-                    object.related_objects = None
-                    object.domain_specific_object_properties = None
 
     @classmethod
     def handle_unique_objects(cls, bundle, all_objects):
@@ -123,6 +130,14 @@ class BundleDeduplicator(object):
         """Map the non-unique Objects to their unique (first observed) counterparts."""
         # Do the object mapping
         for obj in all_objects:
+            # Add the Object to its respective dictionary
+            if obj.id_:
+                cls.id_objects[obj.id_] = obj
+            elif obj.idref and obj.idref not in cls.idref_objects:
+                cls.idref_objects[obj.idref] = [obj]
+            elif obj.idref and obj.idref in cls.idref_objects:
+                cls.idref_objects[obj.idref].append(obj)
+            # Find a matching ID for the Object
             matching_object_id = cls.find_matching_object(obj)
             if matching_object_id:
                 cls.object_ids_mapping[obj.id_] = matching_object_id
