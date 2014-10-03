@@ -164,9 +164,9 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level):
+def showIndent(write, level):
     for idx in range(level):
-        outfile.write('    ')
+        write('    ')
 
 def quote_xml(inStr):
     if not inStr:
@@ -271,42 +271,42 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace):
+    def export(self, write, level, name, namespace):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip(): 
-                outfile.write(self.value)
+                write(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(write, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace,name)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(write, level, namespace,name)
+    def exportSimple(self, write, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' % (self.name, self.value, self.name))
+            write('<%s>%s</%s>' % (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' % (self.name, self.value, self.name))
+            write('<%s>%d</%s>' % (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' % (self.name, self.value, self.name))
+            write('<%s>%f</%s>' % (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' % (self.name, self.value, self.name))
-    def exportLiteral(self, outfile, level, name):
+            write('<%s>%g</%s>' % (self.name, self.value, self.name))
+    def exportLiteral(self, write, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n' % \
+            showIndent(write, level)
+            write('model_.MixedContainer(%d, %d, "%s", "%s"),\n' % \
                 (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n' % \
+            showIndent(write, level)
+            write('model_.MixedContainer(%d, %d, "%s", "%s"),\n' % \
                 (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(write, level)
+            write('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(write, level + 1)
+            showIndent(write, level)
+            write(')\n')
 
 
 class MemberSpec_(object):
@@ -457,46 +457,46 @@ class malwareMetaData(GeneratedsSuper):
     def set_version(self, version): self.version = version
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
-    def export(self, outfile, level, namespace_='', name_='malwareMetaData', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='malwareMetaData', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='malwareMetaData')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='malwareMetaData')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='malwareMetaData'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='malwareMetaData'):
         if self.version is not None and 'version' not in already_processed:
             already_processed.append('version')
-            outfile.write(' version="%s"' % self.gds_format_float(self.version, input_name='version'))
+            write(' version="%s"' % self.gds_format_float(self.version, input_name='version'))
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            outfile.write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='malwareMetaData', fromsubclass_=False):
+            write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
+    def exportChildren(self, write, level, namespace_='', name_='malwareMetaData', fromsubclass_=False):
         if self.company is not None:
-            showIndent(outfile, level)
-            outfile.write('<%scompany>%s</%scompany>\n' % (namespace_, self.gds_format_string(quote_xml(self.company).encode(ExternalEncoding), input_name='company'), namespace_))
+            showIndent(write, level)
+            write('<%scompany>%s</%scompany>\n' % (namespace_, self.gds_format_string(quote_xml(self.company).encode(ExternalEncoding), input_name='company'), namespace_))
         if self.author is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sauthor>%s</%sauthor>\n' % (namespace_, self.gds_format_string(quote_xml(self.author).encode(ExternalEncoding), input_name='author'), namespace_))
+            showIndent(write, level)
+            write('<%sauthor>%s</%sauthor>\n' % (namespace_, self.gds_format_string(quote_xml(self.author).encode(ExternalEncoding), input_name='author'), namespace_))
         if self.comment is not None:
-            showIndent(outfile, level)
-            outfile.write('<%scomment>%s</%scomment>\n' % (namespace_, self.gds_format_string(quote_xml(self.comment).encode(ExternalEncoding), input_name='comment'), namespace_))
+            showIndent(write, level)
+            write('<%scomment>%s</%scomment>\n' % (namespace_, self.gds_format_string(quote_xml(self.comment).encode(ExternalEncoding), input_name='comment'), namespace_))
         if self.timestamp is not None:
-            showIndent(outfile, level)
-            outfile.write('<%stimestamp>%s</%stimestamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.timestamp).encode(ExternalEncoding), input_name='timestamp'), namespace_))
+            showIndent(write, level)
+            write('<%stimestamp>%s</%stimestamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.timestamp).encode(ExternalEncoding), input_name='timestamp'), namespace_))
         if self.objects is not None:
-            self.objects.export(outfile, level, namespace_, name_='objects')
+            self.objects.export(write, level, namespace_, name_='objects')
         if self.objectProperties is not None:
-            self.objectProperties.export(outfile, level, namespace_, name_='objectProperties')
+            self.objectProperties.export(write, level, namespace_, name_='objectProperties')
         if self.relationships is not None:
-            self.relationships.export(outfile, level, namespace_, name_='relationships')
+            self.relationships.export(write, level, namespace_, name_='relationships')
         if self.fieldData is not None:
-            self.fieldData.export(outfile, level, namespace_, name_='fieldData')
+            self.fieldData.export(write, level, namespace_, name_='fieldData')
     def hasContent_(self):
         if (
             self.company is not None or
@@ -511,57 +511,57 @@ class malwareMetaData(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='malwareMetaData'):
+    def exportLiteral(self, write, level, name_='malwareMetaData'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.version is not None and 'version' not in already_processed:
             already_processed.append('version')
-            showIndent(outfile, level)
-            outfile.write('version = %f,\n' % (self.version,))
+            showIndent(write, level)
+            write('version = %f,\n' % (self.version,))
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            showIndent(outfile, level)
-            outfile.write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('id = "%s",\n' % (self.id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.company is not None:
-            showIndent(outfile, level)
-            outfile.write('company=%s,\n' % quote_python(self.company).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('company=%s,\n' % quote_python(self.company).encode(ExternalEncoding))
         if self.author is not None:
-            showIndent(outfile, level)
-            outfile.write('author=%s,\n' % quote_python(self.author).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('author=%s,\n' % quote_python(self.author).encode(ExternalEncoding))
         if self.comment is not None:
-            showIndent(outfile, level)
-            outfile.write('comment=%s,\n' % quote_python(self.comment).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('comment=%s,\n' % quote_python(self.comment).encode(ExternalEncoding))
         if self.timestamp is not None:
-            showIndent(outfile, level)
-            outfile.write('timestamp=%s,\n' % quote_python(self.timestamp).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('timestamp=%s,\n' % quote_python(self.timestamp).encode(ExternalEncoding))
         if self.objects is not None:
-            showIndent(outfile, level)
-            outfile.write('objects=model_.objects(\n')
-            self.objects.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('objects=model_.objects(\n')
+            self.objects.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
         if self.objectProperties is not None:
-            showIndent(outfile, level)
-            outfile.write('objectProperties=model_.objectProperties(\n')
-            self.objectProperties.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('objectProperties=model_.objectProperties(\n')
+            self.objectProperties.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
         if self.relationships is not None:
-            showIndent(outfile, level)
-            outfile.write('relationships=model_.relationships(\n')
-            self.relationships.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('relationships=model_.relationships(\n')
+            self.relationships.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
         if self.fieldData is not None:
-            showIndent(outfile, level)
-            outfile.write('fieldData=model_.fieldData(\n')
-            self.fieldData.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('fieldData=model_.fieldData(\n')
+            self.fieldData.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -721,43 +721,43 @@ class objects(GeneratedsSuper):
     def set_taggant(self, taggant): self.taggant = taggant
     def add_taggant(self, value): self.taggant.append(value)
     def insert_taggant(self, index, value): self.taggant[index] = value
-    def export(self, outfile, level, namespace_='', name_='objects', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='objects', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='objects')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='objects')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='objects'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='objects'):
         pass
-    def exportChildren(self, outfile, level, namespace_='', name_='objects', fromsubclass_=False):
+    def exportChildren(self, write, level, namespace_='', name_='objects', fromsubclass_=False):
         for file_ in self.file:
-            file_.export(outfile, level, namespace_, name_='file')
+            file_.export(write, level, namespace_, name_='file')
         for uri_ in self.uri:
-            uri_.export(outfile, level, namespace_, name_='uri')
+            uri_.export(write, level, namespace_, name_='uri')
         for domain_ in self.domain:
-            domain_.export(outfile, level, namespace_, name_='domain')
+            domain_.export(write, level, namespace_, name_='domain')
         for registry_ in self.registry:
-            registry_.export(outfile, level, namespace_, name_='registry')
+            registry_.export(write, level, namespace_, name_='registry')
         for ip_ in self.ip:
-            ip_.export(outfile, level, namespace_, name_='ip')
+            ip_.export(write, level, namespace_, name_='ip')
         for asn_ in self.asn:
-            asn_.export(outfile, level, namespace_, name_='asn')
+            asn_.export(write, level, namespace_, name_='asn')
         for entity_ in self.entity:
-            entity_.export(outfile, level, namespace_, name_='entity')
+            entity_.export(write, level, namespace_, name_='entity')
         for classification_ in self.classification:
-            classification_.export(outfile, level, namespace_, name_='classification')
+            classification_.export(write, level, namespace_, name_='classification')
         for softwarePackage_ in self.softwarePackage:
-            softwarePackage_.export(outfile, level, namespace_, name_='softwarePackage')
+            softwarePackage_.export(write, level, namespace_, name_='softwarePackage')
         for digitalSignature_ in self.digitalSignature:
-            digitalSignature_.export(outfile, level, namespace_, name_='digitalSignature')
+            digitalSignature_.export(write, level, namespace_, name_='digitalSignature')
         for taggant_ in self.taggant:
-            taggant_.export(outfile, level, namespace_, name_='taggant')
+            taggant_.export(write, level, namespace_, name_='taggant')
     def hasContent_(self):
         if (
             self.file or
@@ -775,146 +775,146 @@ class objects(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='objects'):
+    def exportLiteral(self, write, level, name_='objects'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('file=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('file=[\n')
         level += 1
         for file_ in self.file:
-            showIndent(outfile, level)
-            outfile.write('model_.fileObject(\n')
-            file_.exportLiteral(outfile, level, name_='fileObject')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.fileObject(\n')
+            file_.exportLiteral(write, level, name_='fileObject')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('uri=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('uri=[\n')
         level += 1
         for uri_ in self.uri:
-            showIndent(outfile, level)
-            outfile.write('model_.uriObject(\n')
-            uri_.exportLiteral(outfile, level, name_='uriObject')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.uriObject(\n')
+            uri_.exportLiteral(write, level, name_='uriObject')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('domain=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('domain=[\n')
         level += 1
         for domain_ in self.domain:
-            showIndent(outfile, level)
-            outfile.write('model_.domainObject(\n')
-            domain_.exportLiteral(outfile, level, name_='domainObject')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.domainObject(\n')
+            domain_.exportLiteral(write, level, name_='domainObject')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('registry=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('registry=[\n')
         level += 1
         for registry_ in self.registry:
-            showIndent(outfile, level)
-            outfile.write('model_.registryObject(\n')
-            registry_.exportLiteral(outfile, level, name_='registryObject')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.registryObject(\n')
+            registry_.exportLiteral(write, level, name_='registryObject')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('ip=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('ip=[\n')
         level += 1
         for ip_ in self.ip:
-            showIndent(outfile, level)
-            outfile.write('model_.IPObject(\n')
-            ip_.exportLiteral(outfile, level, name_='IPObject')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.IPObject(\n')
+            ip_.exportLiteral(write, level, name_='IPObject')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('asn=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('asn=[\n')
         level += 1
         for asn_ in self.asn:
-            showIndent(outfile, level)
-            outfile.write('model_.ASNObject(\n')
-            asn_.exportLiteral(outfile, level, name_='ASNObject')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.ASNObject(\n')
+            asn_.exportLiteral(write, level, name_='ASNObject')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('entity=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('entity=[\n')
         level += 1
         for entity_ in self.entity:
-            showIndent(outfile, level)
-            outfile.write('model_.entityObject(\n')
-            entity_.exportLiteral(outfile, level, name_='entityObject')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.entityObject(\n')
+            entity_.exportLiteral(write, level, name_='entityObject')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('classification=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('classification=[\n')
         level += 1
         for classification_ in self.classification:
-            showIndent(outfile, level)
-            outfile.write('model_.classificationObject(\n')
-            classification_.exportLiteral(outfile, level, name_='classificationObject')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.classificationObject(\n')
+            classification_.exportLiteral(write, level, name_='classificationObject')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('softwarePackage=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('softwarePackage=[\n')
         level += 1
         for softwarePackage_ in self.softwarePackage:
-            showIndent(outfile, level)
-            outfile.write('model_.softwarePackageObject(\n')
-            softwarePackage_.exportLiteral(outfile, level, name_='softwarePackageObject')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.softwarePackageObject(\n')
+            softwarePackage_.exportLiteral(write, level, name_='softwarePackageObject')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('digitalSignature=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('digitalSignature=[\n')
         level += 1
         for digitalSignature_ in self.digitalSignature:
-            showIndent(outfile, level)
-            outfile.write('model_.digitalSignatureObject(\n')
-            digitalSignature_.exportLiteral(outfile, level, name_='digitalSignatureObject')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.digitalSignatureObject(\n')
+            digitalSignature_.exportLiteral(write, level, name_='digitalSignatureObject')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('taggant=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('taggant=[\n')
         level += 1
         for taggant_ in self.taggant:
-            showIndent(outfile, level)
-            outfile.write('model_.taggantObject(\n')
-            taggant_.exportLiteral(outfile, level, name_='taggantObject')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.taggantObject(\n')
+            taggant_.exportLiteral(write, level, name_='taggantObject')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -990,23 +990,23 @@ class objectProperties(GeneratedsSuper):
     def set_objectProperty(self, objectProperty): self.objectProperty = objectProperty
     def add_objectProperty(self, value): self.objectProperty.append(value)
     def insert_objectProperty(self, index, value): self.objectProperty[index] = value
-    def export(self, outfile, level, namespace_='', name_='objectProperties', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='objectProperties', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='objectProperties')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='objectProperties')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='objectProperties'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='objectProperties'):
         pass
-    def exportChildren(self, outfile, level, namespace_='', name_='objectProperties', fromsubclass_=False):
+    def exportChildren(self, write, level, namespace_='', name_='objectProperties', fromsubclass_=False):
         for objectProperty_ in self.objectProperty:
-            objectProperty_.export(outfile, level, namespace_, name_='objectProperty')
+            objectProperty_.export(write, level, namespace_, name_='objectProperty')
     def hasContent_(self):
         if (
             self.objectProperty
@@ -1014,26 +1014,26 @@ class objectProperties(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='objectProperties'):
+    def exportLiteral(self, write, level, name_='objectProperties'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('objectProperty=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('objectProperty=[\n')
         level += 1
         for objectProperty_ in self.objectProperty:
-            showIndent(outfile, level)
-            outfile.write('model_.objectProperty(\n')
-            objectProperty_.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.objectProperty(\n')
+            objectProperty_.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -1068,23 +1068,23 @@ class relationships(GeneratedsSuper):
     def set_relationship(self, relationship): self.relationship = relationship
     def add_relationship(self, value): self.relationship.append(value)
     def insert_relationship(self, index, value): self.relationship[index] = value
-    def export(self, outfile, level, namespace_='', name_='relationships', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='relationships', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='relationships')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='relationships')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='relationships'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='relationships'):
         pass
-    def exportChildren(self, outfile, level, namespace_='', name_='relationships', fromsubclass_=False):
+    def exportChildren(self, write, level, namespace_='', name_='relationships', fromsubclass_=False):
         for relationship_ in self.relationship:
-            relationship_.export(outfile, level, namespace_, name_='relationship')
+            relationship_.export(write, level, namespace_, name_='relationship')
     def hasContent_(self):
         if (
             self.relationship
@@ -1092,26 +1092,26 @@ class relationships(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='relationships'):
+    def exportLiteral(self, write, level, name_='relationships'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('relationship=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('relationship=[\n')
         level += 1
         for relationship_ in self.relationship:
-            showIndent(outfile, level)
-            outfile.write('model_.relationship(\n')
-            relationship_.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.relationship(\n')
+            relationship_.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -1146,23 +1146,23 @@ class fieldData(GeneratedsSuper):
     def set_fieldDataEntry(self, fieldDataEntry): self.fieldDataEntry = fieldDataEntry
     def add_fieldDataEntry(self, value): self.fieldDataEntry.append(value)
     def insert_fieldDataEntry(self, index, value): self.fieldDataEntry[index] = value
-    def export(self, outfile, level, namespace_='', name_='fieldData', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='fieldData', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='fieldData')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='fieldData')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='fieldData'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='fieldData'):
         pass
-    def exportChildren(self, outfile, level, namespace_='', name_='fieldData', fromsubclass_=False):
+    def exportChildren(self, write, level, namespace_='', name_='fieldData', fromsubclass_=False):
         for fieldDataEntry_ in self.fieldDataEntry:
-            fieldDataEntry_.export(outfile, level, namespace_, name_='fieldDataEntry')
+            fieldDataEntry_.export(write, level, namespace_, name_='fieldDataEntry')
     def hasContent_(self):
         if (
             self.fieldDataEntry
@@ -1170,26 +1170,26 @@ class fieldData(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='fieldData'):
+    def exportLiteral(self, write, level, name_='fieldData'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('fieldDataEntry=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('fieldDataEntry=[\n')
         level += 1
         for fieldDataEntry_ in self.fieldDataEntry:
-            showIndent(outfile, level)
-            outfile.write('model_.fieldDataEntry(\n')
-            fieldDataEntry_.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.fieldDataEntry(\n')
+            fieldDataEntry_.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -1354,105 +1354,105 @@ class fileObject(GeneratedsSuper):
     def set_taggant(self, taggant): self.taggant = taggant
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
-    def export(self, outfile, level, namespace_='', name_='fileObject', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='fileObject', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='fileObject')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='fileObject')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='fileObject'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='fileObject'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='fileObject', fromsubclass_=False):
+            write(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, write, level, namespace_='', name_='fileObject', fromsubclass_=False):
         if self.md5 is not None:
-            self.md5.export(outfile, level, namespace_, name_='md5', )
+            self.md5.export(write, level, namespace_, name_='md5', )
         if self.sha1 is not None:
-            self.sha1.export(outfile, level, namespace_, name_='sha1')
+            self.sha1.export(write, level, namespace_, name_='sha1')
         if self.sha256 is not None:
-            self.sha256.export(outfile, level, namespace_, name_='sha256')
+            self.sha256.export(write, level, namespace_, name_='sha256')
         if self.sha512 is not None:
-            self.sha512.export(outfile, level, namespace_, name_='sha512')
+            self.sha512.export(write, level, namespace_, name_='sha512')
         if self.size is not None:
-            showIndent(outfile, level)
-            outfile.write('<%ssize>%s</%ssize>\n' % (namespace_, self.gds_format_integer(self.size, input_name='size'), namespace_))
+            showIndent(write, level)
+            write('<%ssize>%s</%ssize>\n' % (namespace_, self.gds_format_integer(self.size, input_name='size'), namespace_))
         if self.crc32 is not None:
-            showIndent(outfile, level)
-            outfile.write('<%scrc32>%s</%scrc32>\n' % (namespace_, self.gds_format_string(quote_xml(self.crc32).encode(ExternalEncoding), input_name='crc32'), namespace_))
+            showIndent(write, level)
+            write('<%scrc32>%s</%scrc32>\n' % (namespace_, self.gds_format_string(quote_xml(self.crc32).encode(ExternalEncoding), input_name='crc32'), namespace_))
         for fileType_ in self.fileType:
-            showIndent(outfile, level)
-            outfile.write('<%sfileType>%s</%sfileType>\n' % (namespace_, self.gds_format_string(quote_xml(fileType_).encode(ExternalEncoding), input_name='fileType'), namespace_))
+            showIndent(write, level)
+            write('<%sfileType>%s</%sfileType>\n' % (namespace_, self.gds_format_string(quote_xml(fileType_).encode(ExternalEncoding), input_name='fileType'), namespace_))
         for extraHash_ in self.extraHash:
-            extraHash_.export(outfile, level, namespace_, name_='extraHash')
+            extraHash_.export(write, level, namespace_, name_='extraHash')
         for filename_ in self.filename:
-            showIndent(outfile, level)
-            outfile.write('<%sfilename>%s</%sfilename>\n' % (namespace_, self.gds_format_string(quote_xml(filename_).encode(ExternalEncoding), input_name='filename'), namespace_))
+            showIndent(write, level)
+            write('<%sfilename>%s</%sfilename>\n' % (namespace_, self.gds_format_string(quote_xml(filename_).encode(ExternalEncoding), input_name='filename'), namespace_))
         for normalizedNativePath_ in self.normalizedNativePath:
-            showIndent(outfile, level)
-            outfile.write('<%snormalizedNativePath>%s</%snormalizedNativePath>\n' % (namespace_, self.gds_format_string(quote_xml(normalizedNativePath_).encode(ExternalEncoding), input_name='normalizedNativePath'), namespace_))
+            showIndent(write, level)
+            write('<%snormalizedNativePath>%s</%snormalizedNativePath>\n' % (namespace_, self.gds_format_string(quote_xml(normalizedNativePath_).encode(ExternalEncoding), input_name='normalizedNativePath'), namespace_))
         for filenameWithinInstaller_ in self.filenameWithinInstaller:
-            showIndent(outfile, level)
-            outfile.write('<%sfilenameWithinInstaller>%s</%sfilenameWithinInstaller>\n' % (namespace_, self.gds_format_string(quote_xml(filenameWithinInstaller_).encode(ExternalEncoding), input_name='filenameWithinInstaller'), namespace_))
+            showIndent(write, level)
+            write('<%sfilenameWithinInstaller>%s</%sfilenameWithinInstaller>\n' % (namespace_, self.gds_format_string(quote_xml(filenameWithinInstaller_).encode(ExternalEncoding), input_name='filenameWithinInstaller'), namespace_))
         for folderWithinInstaller_ in self.folderWithinInstaller:
-            showIndent(outfile, level)
-            outfile.write('<%sfolderWithinInstaller>%s</%sfolderWithinInstaller>\n' % (namespace_, self.gds_format_string(quote_xml(folderWithinInstaller_).encode(ExternalEncoding), input_name='folderWithinInstaller'), namespace_))
+            showIndent(write, level)
+            write('<%sfolderWithinInstaller>%s</%sfolderWithinInstaller>\n' % (namespace_, self.gds_format_string(quote_xml(folderWithinInstaller_).encode(ExternalEncoding), input_name='folderWithinInstaller'), namespace_))
         if self.vendor is not None:
-            showIndent(outfile, level)
-            outfile.write('<%svendor>%s</%svendor>\n' % (namespace_, self.gds_format_string(quote_xml(self.vendor).encode(ExternalEncoding), input_name='vendor'), namespace_))
+            showIndent(write, level)
+            write('<%svendor>%s</%svendor>\n' % (namespace_, self.gds_format_string(quote_xml(self.vendor).encode(ExternalEncoding), input_name='vendor'), namespace_))
         for internalName_ in self.internalName:
-            showIndent(outfile, level)
-            outfile.write('<%sinternalName>%s</%sinternalName>\n' % (namespace_, self.gds_format_string(quote_xml(internalName_).encode(ExternalEncoding), input_name='internalName'), namespace_))
+            showIndent(write, level)
+            write('<%sinternalName>%s</%sinternalName>\n' % (namespace_, self.gds_format_string(quote_xml(internalName_).encode(ExternalEncoding), input_name='internalName'), namespace_))
         for language_ in self.language:
-            showIndent(outfile, level)
-            outfile.write('<%slanguage>%s</%slanguage>\n' % (namespace_, self.gds_format_string(quote_xml(language_).encode(ExternalEncoding), input_name='language'), namespace_))
+            showIndent(write, level)
+            write('<%slanguage>%s</%slanguage>\n' % (namespace_, self.gds_format_string(quote_xml(language_).encode(ExternalEncoding), input_name='language'), namespace_))
         if self.productName is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sproductName>%s</%sproductName>\n' % (namespace_, self.gds_format_string(quote_xml(self.productName).encode(ExternalEncoding), input_name='productName'), namespace_))
+            showIndent(write, level)
+            write('<%sproductName>%s</%sproductName>\n' % (namespace_, self.gds_format_string(quote_xml(self.productName).encode(ExternalEncoding), input_name='productName'), namespace_))
         if self.fileVersion is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sfileVersion>%s</%sfileVersion>\n' % (namespace_, self.gds_format_string(quote_xml(self.fileVersion).encode(ExternalEncoding), input_name='fileVersion'), namespace_))
+            showIndent(write, level)
+            write('<%sfileVersion>%s</%sfileVersion>\n' % (namespace_, self.gds_format_string(quote_xml(self.fileVersion).encode(ExternalEncoding), input_name='fileVersion'), namespace_))
         if self.productVersion is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sproductVersion>%s</%sproductVersion>\n' % (namespace_, self.gds_format_string(quote_xml(self.productVersion).encode(ExternalEncoding), input_name='productVersion'), namespace_))
+            showIndent(write, level)
+            write('<%sproductVersion>%s</%sproductVersion>\n' % (namespace_, self.gds_format_string(quote_xml(self.productVersion).encode(ExternalEncoding), input_name='productVersion'), namespace_))
         if self.developmentEnvironment is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sdevelopmentEnvironment>%s</%sdevelopmentEnvironment>\n' % (namespace_, self.gds_format_string(quote_xml(self.developmentEnvironment).encode(ExternalEncoding), input_name='developmentEnvironment'), namespace_))
+            showIndent(write, level)
+            write('<%sdevelopmentEnvironment>%s</%sdevelopmentEnvironment>\n' % (namespace_, self.gds_format_string(quote_xml(self.developmentEnvironment).encode(ExternalEncoding), input_name='developmentEnvironment'), namespace_))
         if self.checksum is not None:
-            self.checksum.export(outfile, level, namespace_, name_='checksum')
+            self.checksum.export(write, level, namespace_, name_='checksum')
         if self.architecture is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sarchitecture>%s</%sarchitecture>\n' % (namespace_, self.gds_format_string(quote_xml(self.architecture).encode(ExternalEncoding), input_name='architecture'), namespace_))
+            showIndent(write, level)
+            write('<%sarchitecture>%s</%sarchitecture>\n' % (namespace_, self.gds_format_string(quote_xml(self.architecture).encode(ExternalEncoding), input_name='architecture'), namespace_))
         if self.buildTimeDateStamp is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sbuildTimeDateStamp>%s</%sbuildTimeDateStamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.buildTimeDateStamp).encode(ExternalEncoding), input_name='buildTimeDateStamp'), namespace_))
+            showIndent(write, level)
+            write('<%sbuildTimeDateStamp>%s</%sbuildTimeDateStamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.buildTimeDateStamp).encode(ExternalEncoding), input_name='buildTimeDateStamp'), namespace_))
         if self.compilerVersion is not None:
-            showIndent(outfile, level)
-            outfile.write('<%scompilerVersion>%s</%scompilerVersion>\n' % (namespace_, self.gds_format_string(quote_xml(self.compilerVersion).encode(ExternalEncoding), input_name='compilerVersion'), namespace_))
+            showIndent(write, level)
+            write('<%scompilerVersion>%s</%scompilerVersion>\n' % (namespace_, self.gds_format_string(quote_xml(self.compilerVersion).encode(ExternalEncoding), input_name='compilerVersion'), namespace_))
         if self.linkerVersion is not None:
-            showIndent(outfile, level)
-            outfile.write('<%slinkerVersion>%s</%slinkerVersion>\n' % (namespace_, self.gds_format_float(self.linkerVersion, input_name='linkerVersion'), namespace_))
+            showIndent(write, level)
+            write('<%slinkerVersion>%s</%slinkerVersion>\n' % (namespace_, self.gds_format_float(self.linkerVersion, input_name='linkerVersion'), namespace_))
         if self.minOSVersionCPE is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sminOSVersionCPE>%s</%sminOSVersionCPE>\n' % (namespace_, self.gds_format_string(quote_xml(self.minOSVersionCPE).encode(ExternalEncoding), input_name='minOSVersionCPE'), namespace_))
+            showIndent(write, level)
+            write('<%sminOSVersionCPE>%s</%sminOSVersionCPE>\n' % (namespace_, self.gds_format_string(quote_xml(self.minOSVersionCPE).encode(ExternalEncoding), input_name='minOSVersionCPE'), namespace_))
         if self.numberOfSections is not None:
-            showIndent(outfile, level)
-            outfile.write('<%snumberOfSections>%s</%snumberOfSections>\n' % (namespace_, self.gds_format_integer(self.numberOfSections, input_name='numberOfSections'), namespace_))
+            showIndent(write, level)
+            write('<%snumberOfSections>%s</%snumberOfSections>\n' % (namespace_, self.gds_format_integer(self.numberOfSections, input_name='numberOfSections'), namespace_))
         if self.MIMEType is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sMIMEType>%s</%sMIMEType>\n' % (namespace_, self.gds_format_string(quote_xml(self.MIMEType).encode(ExternalEncoding), input_name='MIMEType'), namespace_))
+            showIndent(write, level)
+            write('<%sMIMEType>%s</%sMIMEType>\n' % (namespace_, self.gds_format_string(quote_xml(self.MIMEType).encode(ExternalEncoding), input_name='MIMEType'), namespace_))
         if self.requiredPrivilege is not None:
-            showIndent(outfile, level)
-            outfile.write('<%srequiredPrivilege>%s</%srequiredPrivilege>\n' % (namespace_, self.gds_format_string(quote_xml(self.requiredPrivilege).encode(ExternalEncoding), input_name='requiredPrivilege'), namespace_))
+            showIndent(write, level)
+            write('<%srequiredPrivilege>%s</%srequiredPrivilege>\n' % (namespace_, self.gds_format_string(quote_xml(self.requiredPrivilege).encode(ExternalEncoding), input_name='requiredPrivilege'), namespace_))
         if self.digitalSignature is not None:
-            self.digitalSignature.export(outfile, level, namespace_, name_='digitalSignature')
+            self.digitalSignature.export(write, level, namespace_, name_='digitalSignature')
         if self.taggant is not None:
-            self.taggant.export(outfile, level, namespace_, name_='taggant')
+            self.taggant.export(write, level, namespace_, name_='taggant')
     def hasContent_(self):
         if (
             self.md5 is not None or
@@ -1489,179 +1489,179 @@ class fileObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='fileObject'):
+    def exportLiteral(self, write, level, name_='fileObject'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('id = %s,\n' % (self.id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.md5 is not None:
-            showIndent(outfile, level)
-            outfile.write('md5=model_.xs_hexBinary(\n')
-            self.md5.exportLiteral(outfile, level, name_='md5')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('md5=model_.xs_hexBinary(\n')
+            self.md5.exportLiteral(write, level, name_='md5')
+            showIndent(write, level)
+            write('),\n')
         if self.sha1 is not None:
-            showIndent(outfile, level)
-            outfile.write('sha1=model_.xs_hexBinary(\n')
-            self.sha1.exportLiteral(outfile, level, name_='sha1')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('sha1=model_.xs_hexBinary(\n')
+            self.sha1.exportLiteral(write, level, name_='sha1')
+            showIndent(write, level)
+            write('),\n')
         if self.sha256 is not None:
-            showIndent(outfile, level)
-            outfile.write('sha256=model_.xs_hexBinary(\n')
-            self.sha256.exportLiteral(outfile, level, name_='sha256')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('sha256=model_.xs_hexBinary(\n')
+            self.sha256.exportLiteral(write, level, name_='sha256')
+            showIndent(write, level)
+            write('),\n')
         if self.sha512 is not None:
-            showIndent(outfile, level)
-            outfile.write('sha512=model_.xs_hexBinary(\n')
-            self.sha512.exportLiteral(outfile, level, name_='sha512')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('sha512=model_.xs_hexBinary(\n')
+            self.sha512.exportLiteral(write, level, name_='sha512')
+            showIndent(write, level)
+            write('),\n')
         if self.size is not None:
-            showIndent(outfile, level)
-            outfile.write('size=%d,\n' % self.size)
+            showIndent(write, level)
+            write('size=%d,\n' % self.size)
         if self.crc32 is not None:
-            showIndent(outfile, level)
-            outfile.write('crc32=%s,\n' % quote_python(self.crc32).encode(ExternalEncoding))
-        showIndent(outfile, level)
-        outfile.write('fileType=[\n')
+            showIndent(write, level)
+            write('crc32=%s,\n' % quote_python(self.crc32).encode(ExternalEncoding))
+        showIndent(write, level)
+        write('fileType=[\n')
         level += 1
         for fileType_ in self.fileType:
-            showIndent(outfile, level)
-            outfile.write('%s,\n' % quote_python(fileType_).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('%s,\n' % quote_python(fileType_).encode(ExternalEncoding))
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('extraHash=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('extraHash=[\n')
         level += 1
         for extraHash_ in self.extraHash:
-            showIndent(outfile, level)
-            outfile.write('model_.extraHash(\n')
-            extraHash_.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.extraHash(\n')
+            extraHash_.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('filename=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('filename=[\n')
         level += 1
         for filename_ in self.filename:
-            showIndent(outfile, level)
-            outfile.write('%s,\n' % quote_python(filename_).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('%s,\n' % quote_python(filename_).encode(ExternalEncoding))
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('normalizedNativePath=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('normalizedNativePath=[\n')
         level += 1
         for normalizedNativePath_ in self.normalizedNativePath:
-            showIndent(outfile, level)
-            outfile.write('%s,\n' % quote_python(normalizedNativePath_).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('%s,\n' % quote_python(normalizedNativePath_).encode(ExternalEncoding))
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('filenameWithinInstaller=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('filenameWithinInstaller=[\n')
         level += 1
         for filenameWithinInstaller_ in self.filenameWithinInstaller:
-            showIndent(outfile, level)
-            outfile.write('%s,\n' % quote_python(filenameWithinInstaller_).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('%s,\n' % quote_python(filenameWithinInstaller_).encode(ExternalEncoding))
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('folderWithinInstaller=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('folderWithinInstaller=[\n')
         level += 1
         for folderWithinInstaller_ in self.folderWithinInstaller:
-            showIndent(outfile, level)
-            outfile.write('%s,\n' % quote_python(folderWithinInstaller_).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('%s,\n' % quote_python(folderWithinInstaller_).encode(ExternalEncoding))
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
         if self.vendor is not None:
-            showIndent(outfile, level)
-            outfile.write('vendor=%s,\n' % quote_python(self.vendor).encode(ExternalEncoding))
-        showIndent(outfile, level)
-        outfile.write('internalName=[\n')
+            showIndent(write, level)
+            write('vendor=%s,\n' % quote_python(self.vendor).encode(ExternalEncoding))
+        showIndent(write, level)
+        write('internalName=[\n')
         level += 1
         for internalName_ in self.internalName:
-            showIndent(outfile, level)
-            outfile.write('%s,\n' % quote_python(internalName_).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('%s,\n' % quote_python(internalName_).encode(ExternalEncoding))
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('language=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('language=[\n')
         level += 1
         for language_ in self.language:
-            showIndent(outfile, level)
-            outfile.write('%s,\n' % quote_python(language_).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('%s,\n' % quote_python(language_).encode(ExternalEncoding))
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
         if self.productName is not None:
-            showIndent(outfile, level)
-            outfile.write('productName=%s,\n' % quote_python(self.productName).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('productName=%s,\n' % quote_python(self.productName).encode(ExternalEncoding))
         if self.fileVersion is not None:
-            showIndent(outfile, level)
-            outfile.write('fileVersion=%s,\n' % quote_python(self.fileVersion).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('fileVersion=%s,\n' % quote_python(self.fileVersion).encode(ExternalEncoding))
         if self.productVersion is not None:
-            showIndent(outfile, level)
-            outfile.write('productVersion=%s,\n' % quote_python(self.productVersion).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('productVersion=%s,\n' % quote_python(self.productVersion).encode(ExternalEncoding))
         if self.developmentEnvironment is not None:
-            showIndent(outfile, level)
-            outfile.write('developmentEnvironment=%s,\n' % quote_python(self.developmentEnvironment).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('developmentEnvironment=%s,\n' % quote_python(self.developmentEnvironment).encode(ExternalEncoding))
         if self.checksum is not None:
-            showIndent(outfile, level)
-            outfile.write('checksum=model_.xs_hexBinary(\n')
-            self.checksum.exportLiteral(outfile, level, name_='checksum')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('checksum=model_.xs_hexBinary(\n')
+            self.checksum.exportLiteral(write, level, name_='checksum')
+            showIndent(write, level)
+            write('),\n')
         if self.architecture is not None:
-            showIndent(outfile, level)
-            outfile.write('architecture=%s,\n' % quote_python(self.architecture).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('architecture=%s,\n' % quote_python(self.architecture).encode(ExternalEncoding))
         if self.buildTimeDateStamp is not None:
-            showIndent(outfile, level)
-            outfile.write('buildTimeDateStamp=%s,\n' % quote_python(self.buildTimeDateStamp).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('buildTimeDateStamp=%s,\n' % quote_python(self.buildTimeDateStamp).encode(ExternalEncoding))
         if self.compilerVersion is not None:
-            showIndent(outfile, level)
-            outfile.write('compilerVersion=%s,\n' % quote_python(self.compilerVersion).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('compilerVersion=%s,\n' % quote_python(self.compilerVersion).encode(ExternalEncoding))
         if self.linkerVersion is not None:
-            showIndent(outfile, level)
-            outfile.write('linkerVersion=%f,\n' % self.linkerVersion)
+            showIndent(write, level)
+            write('linkerVersion=%f,\n' % self.linkerVersion)
         if self.minOSVersionCPE is not None:
-            showIndent(outfile, level)
-            outfile.write('minOSVersionCPE=%s,\n' % quote_python(self.minOSVersionCPE).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('minOSVersionCPE=%s,\n' % quote_python(self.minOSVersionCPE).encode(ExternalEncoding))
         if self.numberOfSections is not None:
-            showIndent(outfile, level)
-            outfile.write('numberOfSections=%d,\n' % self.numberOfSections)
+            showIndent(write, level)
+            write('numberOfSections=%d,\n' % self.numberOfSections)
         if self.MIMEType is not None:
-            showIndent(outfile, level)
-            outfile.write('MIMEType=%s,\n' % quote_python(self.MIMEType).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('MIMEType=%s,\n' % quote_python(self.MIMEType).encode(ExternalEncoding))
         if self.requiredPrivilege is not None:
-            showIndent(outfile, level)
-            outfile.write('requiredPrivilege=%s,\n' % quote_python(self.requiredPrivilege).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('requiredPrivilege=%s,\n' % quote_python(self.requiredPrivilege).encode(ExternalEncoding))
         if self.digitalSignature is not None:
-            showIndent(outfile, level)
-            outfile.write('digitalSignature=model_.digitalSignatureObject(\n')
-            self.digitalSignature.exportLiteral(outfile, level, name_='digitalSignature')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('digitalSignature=model_.digitalSignatureObject(\n')
+            self.digitalSignature.exportLiteral(write, level, name_='digitalSignature')
+            showIndent(write, level)
+            write('),\n')
         if self.taggant is not None:
-            showIndent(outfile, level)
-            outfile.write('taggant=model_.taggantObject(\n')
-            self.taggant.exportLiteral(outfile, level, name_='taggant')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('taggant=model_.taggantObject(\n')
+            self.taggant.exportLiteral(write, level, name_='taggant')
+            showIndent(write, level)
+            write('),\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -1827,23 +1827,23 @@ class extraHash(GeneratedsSuper):
     def set_type(self, type_): self.type_ = type_
     def get_valueOf_(self): return self.valueOf_
     def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def export(self, outfile, level, namespace_='', name_='extraHash', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='extraHash', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='extraHash')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='extraHash')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>')
+            write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(write, level + 1, namespace_, name_)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='extraHash'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='extraHash'):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.append('type_')
-            outfile.write(' type=%s' % (self.gds_format_string(quote_attrib(self.type_).encode(ExternalEncoding), input_name='type'), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='extraHash', fromsubclass_=False):
+            write(' type=%s' % (self.gds_format_string(quote_attrib(self.type_).encode(ExternalEncoding), input_name='type'), ))
+    def exportChildren(self, write, level, namespace_='', name_='extraHash', fromsubclass_=False):
         pass
     def hasContent_(self):
         if (
@@ -1852,19 +1852,19 @@ class extraHash(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='extraHash'):
+    def exportLiteral(self, write, level, name_='extraHash'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+        showIndent(write, level)
+        write('valueOf_ = """%s""",\n' % (self.valueOf_,))
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.append('type_')
-            showIndent(outfile, level)
-            outfile.write('type_ = "%s",\n' % (self.type_,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('type_ = "%s",\n' % (self.type_,))
+    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
@@ -1907,29 +1907,29 @@ class registryObject(GeneratedsSuper):
     def set_valueName(self, valueName): self.valueName = valueName
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
-    def export(self, outfile, level, namespace_='', name_='registryObject', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='registryObject', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='registryObject')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='registryObject')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='registryObject'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='registryObject'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            outfile.write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='registryObject', fromsubclass_=False):
+            write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
+    def exportChildren(self, write, level, namespace_='', name_='registryObject', fromsubclass_=False):
         if self.key is not None:
-            showIndent(outfile, level)
-            outfile.write('<%skey>%s</%skey>\n' % (namespace_, self.gds_format_string(quote_xml(self.key).encode(ExternalEncoding), input_name='key'), namespace_))
+            showIndent(write, level)
+            write('<%skey>%s</%skey>\n' % (namespace_, self.gds_format_string(quote_xml(self.key).encode(ExternalEncoding), input_name='key'), namespace_))
         if self.valueName is not None:
-            showIndent(outfile, level)
-            outfile.write('<%svalueName>%s</%svalueName>\n' % (namespace_, self.gds_format_string(quote_xml(self.valueName).encode(ExternalEncoding), input_name='valueName'), namespace_))
+            showIndent(write, level)
+            write('<%svalueName>%s</%svalueName>\n' % (namespace_, self.gds_format_string(quote_xml(self.valueName).encode(ExternalEncoding), input_name='valueName'), namespace_))
     def hasContent_(self):
         if (
             self.key is not None or
@@ -1938,23 +1938,23 @@ class registryObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='registryObject'):
+    def exportLiteral(self, write, level, name_='registryObject'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            showIndent(outfile, level)
-            outfile.write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('id = "%s",\n' % (self.id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.key is not None:
-            showIndent(outfile, level)
-            outfile.write('key=%s,\n' % quote_python(self.key).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('key=%s,\n' % quote_python(self.key).encode(ExternalEncoding))
         if self.valueName is not None:
-            showIndent(outfile, level)
-            outfile.write('valueName=%s,\n' % quote_python(self.valueName).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('valueName=%s,\n' % quote_python(self.valueName).encode(ExternalEncoding))
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -1998,26 +1998,26 @@ class entityObject(GeneratedsSuper):
     def set_name(self, name): self.name = name
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
-    def export(self, outfile, level, namespace_='', name_='entityObject', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='entityObject', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='entityObject')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='entityObject')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='entityObject'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='entityObject'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            outfile.write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='entityObject', fromsubclass_=False):
+            write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
+    def exportChildren(self, write, level, namespace_='', name_='entityObject', fromsubclass_=False):
         if self.name is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sname>%s</%sname>\n' % (namespace_, self.gds_format_string(quote_xml(self.name).encode(ExternalEncoding), input_name='name'), namespace_))
+            showIndent(write, level)
+            write('<%sname>%s</%sname>\n' % (namespace_, self.gds_format_string(quote_xml(self.name).encode(ExternalEncoding), input_name='name'), namespace_))
     def hasContent_(self):
         if (
             self.name is not None
@@ -2025,20 +2025,20 @@ class entityObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='entityObject'):
+    def exportLiteral(self, write, level, name_='entityObject'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            showIndent(outfile, level)
-            outfile.write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('id = "%s",\n' % (self.id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.name is not None:
-            showIndent(outfile, level)
-            outfile.write('name=%s,\n' % quote_python(self.name).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('name=%s,\n' % quote_python(self.name).encode(ExternalEncoding))
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -2103,44 +2103,44 @@ class uriObject(GeneratedsSuper):
     def set_ipProtocol(self, ipProtocol): self.ipProtocol = ipProtocol
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
-    def export(self, outfile, level, namespace_='', name_='uriObject', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='uriObject', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='uriObject')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='uriObject')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='uriObject'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='uriObject'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='uriObject', fromsubclass_=False):
+            write(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, write, level, namespace_='', name_='uriObject', fromsubclass_=False):
         if self.uriString is not None:
-            showIndent(outfile, level)
-            outfile.write('<%suriString>%s</%suriString>\n' % (namespace_, self.gds_format_string(quote_xml(self.uriString).encode(ExternalEncoding), input_name='uriString'), namespace_))
+            showIndent(write, level)
+            write('<%suriString>%s</%suriString>\n' % (namespace_, self.gds_format_string(quote_xml(self.uriString).encode(ExternalEncoding), input_name='uriString'), namespace_))
         if self.protocol is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sprotocol>%s</%sprotocol>\n' % (namespace_, self.gds_format_string(quote_xml(self.protocol).encode(ExternalEncoding), input_name='protocol'), namespace_))
+            showIndent(write, level)
+            write('<%sprotocol>%s</%sprotocol>\n' % (namespace_, self.gds_format_string(quote_xml(self.protocol).encode(ExternalEncoding), input_name='protocol'), namespace_))
         if self.hostname is not None:
-            showIndent(outfile, level)
-            outfile.write('<%shostname>%s</%shostname>\n' % (namespace_, self.gds_format_string(quote_xml(self.hostname).encode(ExternalEncoding), input_name='hostname'), namespace_))
+            showIndent(write, level)
+            write('<%shostname>%s</%shostname>\n' % (namespace_, self.gds_format_string(quote_xml(self.hostname).encode(ExternalEncoding), input_name='hostname'), namespace_))
         if self.domain is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sdomain>%s</%sdomain>\n' % (namespace_, self.gds_format_string(quote_xml(self.domain).encode(ExternalEncoding), input_name='domain'), namespace_))
+            showIndent(write, level)
+            write('<%sdomain>%s</%sdomain>\n' % (namespace_, self.gds_format_string(quote_xml(self.domain).encode(ExternalEncoding), input_name='domain'), namespace_))
         if self.port is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sport>%s</%sport>\n' % (namespace_, self.gds_format_integer(self.port, input_name='port'), namespace_))
+            showIndent(write, level)
+            write('<%sport>%s</%sport>\n' % (namespace_, self.gds_format_integer(self.port, input_name='port'), namespace_))
         if self.path is not None:
-            showIndent(outfile, level)
-            outfile.write('<%spath>%s</%spath>\n' % (namespace_, self.gds_format_string(quote_xml(self.path).encode(ExternalEncoding), input_name='path'), namespace_))
+            showIndent(write, level)
+            write('<%spath>%s</%spath>\n' % (namespace_, self.gds_format_string(quote_xml(self.path).encode(ExternalEncoding), input_name='path'), namespace_))
         if self.ipProtocol is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sipProtocol>%s</%sipProtocol>\n' % (namespace_, self.gds_format_string(quote_xml(self.ipProtocol).encode(ExternalEncoding), input_name='ipProtocol'), namespace_))
+            showIndent(write, level)
+            write('<%sipProtocol>%s</%sipProtocol>\n' % (namespace_, self.gds_format_string(quote_xml(self.ipProtocol).encode(ExternalEncoding), input_name='ipProtocol'), namespace_))
     def hasContent_(self):
         if (
             self.uriString is not None or
@@ -2154,38 +2154,38 @@ class uriObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='uriObject'):
+    def exportLiteral(self, write, level, name_='uriObject'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            showIndent(outfile, level)
-            outfile.write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('id = "%s",\n' % (self.id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.uriString is not None:
-            showIndent(outfile, level)
-            outfile.write('uriString=%s,\n' % quote_python(self.uriString).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('uriString=%s,\n' % quote_python(self.uriString).encode(ExternalEncoding))
         if self.protocol is not None:
-            showIndent(outfile, level)
-            outfile.write('protocol=%s,\n' % quote_python(self.protocol).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('protocol=%s,\n' % quote_python(self.protocol).encode(ExternalEncoding))
         if self.hostname is not None:
-            showIndent(outfile, level)
-            outfile.write('hostname=%s,\n' % quote_python(self.hostname).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('hostname=%s,\n' % quote_python(self.hostname).encode(ExternalEncoding))
         if self.domain is not None:
-            showIndent(outfile, level)
-            outfile.write('domain=%s,\n' % quote_python(self.domain).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('domain=%s,\n' % quote_python(self.domain).encode(ExternalEncoding))
         if self.port is not None:
-            showIndent(outfile, level)
-            outfile.write('port=%d,\n' % self.port)
+            showIndent(write, level)
+            write('port=%d,\n' % self.port)
         if self.path is not None:
-            showIndent(outfile, level)
-            outfile.write('path=%s,\n' % quote_python(self.path).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('path=%s,\n' % quote_python(self.path).encode(ExternalEncoding))
         if self.ipProtocol is not None:
-            showIndent(outfile, level)
-            outfile.write('ipProtocol=%s,\n' % quote_python(self.ipProtocol).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('ipProtocol=%s,\n' % quote_python(self.ipProtocol).encode(ExternalEncoding))
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -2262,27 +2262,27 @@ class IPObject(GeneratedsSuper):
     def validate_IPRange(self, value):
         # Validate type IPRange, a restriction on xs:string.
         pass
-    def export(self, outfile, level, namespace_='', name_='IPObject', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='IPObject', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPObject')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='IPObject')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='IPObject'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='IPObject'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='IPObject', fromsubclass_=False):
+            write(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, write, level, namespace_='', name_='IPObject', fromsubclass_=False):
         if self.startAddress is not None:
-            self.startAddress.export(outfile, level, namespace_, name_='startAddress', )
+            self.startAddress.export(write, level, namespace_, name_='startAddress', )
         if self.endAddress is not None:
-            self.endAddress.export(outfile, level, namespace_, name_='endAddress', )
+            self.endAddress.export(write, level, namespace_, name_='endAddress', )
     def hasContent_(self):
         if (
             self.startAddress is not None or
@@ -2291,29 +2291,29 @@ class IPObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='IPObject'):
+    def exportLiteral(self, write, level, name_='IPObject'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            showIndent(outfile, level)
-            outfile.write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('id = "%s",\n' % (self.id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.startAddress is not None:
-            showIndent(outfile, level)
-            outfile.write('startAddress=model_.IPAddress(\n')
-            self.startAddress.exportLiteral(outfile, level, name_='startAddress')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('startAddress=model_.IPAddress(\n')
+            self.startAddress.exportLiteral(write, level, name_='startAddress')
+            showIndent(write, level)
+            write('),\n')
         if self.endAddress is not None:
-            showIndent(outfile, level)
-            outfile.write('endAddress=model_.IPAddress(\n')
-            self.endAddress.exportLiteral(outfile, level, name_='endAddress')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('endAddress=model_.IPAddress(\n')
+            self.endAddress.exportLiteral(write, level, name_='endAddress')
+            showIndent(write, level)
+            write('),\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -2358,23 +2358,23 @@ class IPAddress(GeneratedsSuper):
         pass
     def get_valueOf_(self): return self.valueOf_
     def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def export(self, outfile, level, namespace_='', name_='IPAddress', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='IPAddress', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPAddress')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='IPAddress')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>')
+            write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(write, level + 1, namespace_, name_)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='IPAddress'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='IPAddress'):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.append('type_')
-            outfile.write(' type=%s' % (quote_attrib(self.type_), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='IPAddress', fromsubclass_=False):
+            write(' type=%s' % (quote_attrib(self.type_), ))
+    def exportChildren(self, write, level, namespace_='', name_='IPAddress', fromsubclass_=False):
         pass
     def hasContent_(self):
         if (
@@ -2383,19 +2383,19 @@ class IPAddress(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='IPAddress'):
+    def exportLiteral(self, write, level, name_='IPAddress'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+        showIndent(write, level)
+        write('valueOf_ = """%s""",\n' % (self.valueOf_,))
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.append('type_')
-            showIndent(outfile, level)
-            outfile.write('type_ = "%s",\n' % (self.type_,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('type_ = "%s",\n' % (self.type_,))
+    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
@@ -2433,26 +2433,26 @@ class domainObject(GeneratedsSuper):
     def set_domain(self, domain): self.domain = domain
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
-    def export(self, outfile, level, namespace_='', name_='domainObject', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='domainObject', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='domainObject')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='domainObject')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='domainObject'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='domainObject'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            outfile.write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='domainObject', fromsubclass_=False):
+            write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
+    def exportChildren(self, write, level, namespace_='', name_='domainObject', fromsubclass_=False):
         if self.domain is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sdomain>%s</%sdomain>\n' % (namespace_, self.gds_format_string(quote_xml(self.domain).encode(ExternalEncoding), input_name='domain'), namespace_))
+            showIndent(write, level)
+            write('<%sdomain>%s</%sdomain>\n' % (namespace_, self.gds_format_string(quote_xml(self.domain).encode(ExternalEncoding), input_name='domain'), namespace_))
     def hasContent_(self):
         if (
             self.domain is not None
@@ -2460,20 +2460,20 @@ class domainObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='domainObject'):
+    def exportLiteral(self, write, level, name_='domainObject'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            showIndent(outfile, level)
-            outfile.write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('id = "%s",\n' % (self.id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.domain is not None:
-            showIndent(outfile, level)
-            outfile.write('domain=%s,\n' % quote_python(self.domain).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('domain=%s,\n' % quote_python(self.domain).encode(ExternalEncoding))
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -2514,26 +2514,26 @@ class ASNObject(GeneratedsSuper):
     def set_as_number(self, as_number): self.as_number = as_number
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
-    def export(self, outfile, level, namespace_='', name_='ASNObject', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='ASNObject', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ASNObject')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='ASNObject')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='ASNObject'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='ASNObject'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            outfile.write(' id="%s"' % self.gds_format_integer(self.id, input_name='id'))
-    def exportChildren(self, outfile, level, namespace_='', name_='ASNObject', fromsubclass_=False):
+            write(' id="%s"' % self.gds_format_integer(self.id, input_name='id'))
+    def exportChildren(self, write, level, namespace_='', name_='ASNObject', fromsubclass_=False):
         if self.as_number is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sas-number>%s</%sas-number>\n' % (namespace_, self.gds_format_integer(self.as_number, input_name='as-number'), namespace_))
+            showIndent(write, level)
+            write('<%sas-number>%s</%sas-number>\n' % (namespace_, self.gds_format_integer(self.as_number, input_name='as-number'), namespace_))
     def hasContent_(self):
         if (
             self.as_number is not None
@@ -2541,20 +2541,20 @@ class ASNObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='ASNObject'):
+    def exportLiteral(self, write, level, name_='ASNObject'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            showIndent(outfile, level)
-            outfile.write('id = %d,\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('id = %d,\n' % (self.id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.as_number is not None:
-            showIndent(outfile, level)
-            outfile.write('as_number=%d,\n' % self.as_number)
+            showIndent(write, level)
+            write('as_number=%d,\n' % self.as_number)
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -2621,37 +2621,37 @@ class classificationObject(GeneratedsSuper):
         pass
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
-    def export(self, outfile, level, namespace_='', name_='classificationObject', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='classificationObject', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='classificationObject')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='classificationObject')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='classificationObject'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='classificationObject'):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.append('type_')
-            outfile.write(' type=%s' % (quote_attrib(self.type_), ))
+            write(' type=%s' % (quote_attrib(self.type_), ))
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            outfile.write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='classificationObject', fromsubclass_=False):
+            write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
+    def exportChildren(self, write, level, namespace_='', name_='classificationObject', fromsubclass_=False):
         if self.classificationName is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sclassificationName>%s</%sclassificationName>\n' % ('mmdef:', self.gds_format_string(quote_xml(self.classificationName).encode(ExternalEncoding), input_name='classificationName'), 'mmdef:'))
+            showIndent(write, level)
+            write('<%sclassificationName>%s</%sclassificationName>\n' % ('mmdef:', self.gds_format_string(quote_xml(self.classificationName).encode(ExternalEncoding), input_name='classificationName'), 'mmdef:'))
         if self.companyName is not None:
-            showIndent(outfile, level)
-            outfile.write('<%scompanyName>%s</%scompanyName>\n' % ('mmdef:', self.gds_format_string(quote_xml(self.companyName).encode(ExternalEncoding), input_name='companyName'), 'mmdef:'))
+            showIndent(write, level)
+            write('<%scompanyName>%s</%scompanyName>\n' % ('mmdef:', self.gds_format_string(quote_xml(self.companyName).encode(ExternalEncoding), input_name='companyName'), 'mmdef:'))
         if self.category is not None:
-            showIndent(outfile, level)
-            outfile.write('<%scategory>%s</%scategory>\n' % ('mmdef:', self.gds_format_string(quote_xml(self.category).encode(ExternalEncoding), input_name='category'), 'mmdef:'))
+            showIndent(write, level)
+            write('<%scategory>%s</%scategory>\n' % ('mmdef:', self.gds_format_string(quote_xml(self.category).encode(ExternalEncoding), input_name='category'), 'mmdef:'))
         if self.classificationDetails is not None:
-            self.classificationDetails.export(outfile, level, namespace_, name_='classificationDetails')
+            self.classificationDetails.export(write, level, namespace_, name_='classificationDetails')
     def hasContent_(self):
         if (
             self.classificationName is not None or
@@ -2662,36 +2662,36 @@ class classificationObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='classificationObject'):
+    def exportLiteral(self, write, level, name_='classificationObject'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.append('type_')
-            showIndent(outfile, level)
-            outfile.write('type_ = "%s",\n' % (self.type_,))
+            showIndent(write, level)
+            write('type_ = "%s",\n' % (self.type_,))
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            showIndent(outfile, level)
-            outfile.write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('id = "%s",\n' % (self.id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.classificationName is not None:
-            showIndent(outfile, level)
-            outfile.write('classificationName=%s,\n' % quote_python(self.classificationName).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('classificationName=%s,\n' % quote_python(self.classificationName).encode(ExternalEncoding))
         if self.companyName is not None:
-            showIndent(outfile, level)
-            outfile.write('companyName=%s,\n' % quote_python(self.companyName).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('companyName=%s,\n' % quote_python(self.companyName).encode(ExternalEncoding))
         if self.category is not None:
-            showIndent(outfile, level)
-            outfile.write('category=%s,\n' % quote_python(self.category).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('category=%s,\n' % quote_python(self.category).encode(ExternalEncoding))
         if self.classificationDetails is not None:
-            showIndent(outfile, level)
-            outfile.write('classificationDetails=model_.classificationDetails(\n')
-            self.classificationDetails.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('classificationDetails=model_.classificationDetails(\n')
+            self.classificationDetails.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -2754,36 +2754,36 @@ class classificationDetails(GeneratedsSuper):
     def set_product(self, product): self.product = product
     def get_productVersion(self): return self.productVersion
     def set_productVersion(self, productVersion): self.productVersion = productVersion
-    def export(self, outfile, level, namespace_='', name_='classificationDetails', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='classificationDetails', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='classificationDetails')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='classificationDetails')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='classificationDetails'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='classificationDetails'):
         pass
-    def exportChildren(self, outfile, level, namespace_='', name_='classificationDetails', fromsubclass_=False):
+    def exportChildren(self, write, level, namespace_='', name_='classificationDetails', fromsubclass_=False):
         if self.definitionVersion is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sdefinitionVersion>%s</%sdefinitionVersion>\n' % (namespace_, self.gds_format_string(quote_xml(self.definitionVersion).encode(ExternalEncoding), input_name='definitionVersion'), namespace_))
+            showIndent(write, level)
+            write('<%sdefinitionVersion>%s</%sdefinitionVersion>\n' % (namespace_, self.gds_format_string(quote_xml(self.definitionVersion).encode(ExternalEncoding), input_name='definitionVersion'), namespace_))
         if self.detectionAddedTimeStamp is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sdetectionAddedTimeStamp>%s</%sdetectionAddedTimeStamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.detectionAddedTimeStamp).encode(ExternalEncoding), input_name='detectionAddedTimeStamp'), namespace_))
+            showIndent(write, level)
+            write('<%sdetectionAddedTimeStamp>%s</%sdetectionAddedTimeStamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.detectionAddedTimeStamp).encode(ExternalEncoding), input_name='detectionAddedTimeStamp'), namespace_))
         if self.detectionShippedTimeStamp is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sdetectionShippedTimeStamp>%s</%sdetectionShippedTimeStamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.detectionShippedTimeStamp).encode(ExternalEncoding), input_name='detectionShippedTimeStamp'), namespace_))
+            showIndent(write, level)
+            write('<%sdetectionShippedTimeStamp>%s</%sdetectionShippedTimeStamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.detectionShippedTimeStamp).encode(ExternalEncoding), input_name='detectionShippedTimeStamp'), namespace_))
         if self.product is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sproduct>%s</%sproduct>\n' % (namespace_, self.gds_format_string(quote_xml(self.product).encode(ExternalEncoding), input_name='product'), namespace_))
+            showIndent(write, level)
+            write('<%sproduct>%s</%sproduct>\n' % (namespace_, self.gds_format_string(quote_xml(self.product).encode(ExternalEncoding), input_name='product'), namespace_))
         if self.productVersion is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sproductVersion>%s</%sproductVersion>\n' % (namespace_, self.gds_format_string(quote_xml(self.productVersion).encode(ExternalEncoding), input_name='productVersion'), namespace_))
+            showIndent(write, level)
+            write('<%sproductVersion>%s</%sproductVersion>\n' % (namespace_, self.gds_format_string(quote_xml(self.productVersion).encode(ExternalEncoding), input_name='productVersion'), namespace_))
     def hasContent_(self):
         if (
             self.definitionVersion is not None or
@@ -2795,29 +2795,29 @@ class classificationDetails(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='classificationDetails'):
+    def exportLiteral(self, write, level, name_='classificationDetails'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
+    def exportLiteralChildren(self, write, level, name_):
         if self.definitionVersion is not None:
-            showIndent(outfile, level)
-            outfile.write('definitionVersion=%s,\n' % quote_python(self.definitionVersion).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('definitionVersion=%s,\n' % quote_python(self.definitionVersion).encode(ExternalEncoding))
         if self.detectionAddedTimeStamp is not None:
-            showIndent(outfile, level)
-            outfile.write('detectionAddedTimeStamp=%s,\n' % quote_python(self.detectionAddedTimeStamp).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('detectionAddedTimeStamp=%s,\n' % quote_python(self.detectionAddedTimeStamp).encode(ExternalEncoding))
         if self.detectionShippedTimeStamp is not None:
-            showIndent(outfile, level)
-            outfile.write('detectionShippedTimeStamp=%s,\n' % quote_python(self.detectionShippedTimeStamp).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('detectionShippedTimeStamp=%s,\n' % quote_python(self.detectionShippedTimeStamp).encode(ExternalEncoding))
         if self.product is not None:
-            showIndent(outfile, level)
-            outfile.write('product=%s,\n' % quote_python(self.product).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('product=%s,\n' % quote_python(self.product).encode(ExternalEncoding))
         if self.productVersion is not None:
-            showIndent(outfile, level)
-            outfile.write('productVersion=%s,\n' % quote_python(self.productVersion).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('productVersion=%s,\n' % quote_python(self.productVersion).encode(ExternalEncoding))
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -2948,45 +2948,45 @@ class fieldDataEntry(GeneratedsSuper):
     def set_importance(self, importance): self.importance = importance
     def get_location(self): return self.location
     def set_location(self, location): self.location = location
-    def export(self, outfile, level, namespace_='', name_='fieldDataEntry', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='fieldDataEntry', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='fieldDataEntry')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='fieldDataEntry')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='fieldDataEntry'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='fieldDataEntry'):
         pass
-    def exportChildren(self, outfile, level, namespace_='', name_='fieldDataEntry', fromsubclass_=False):
+    def exportChildren(self, write, level, namespace_='', name_='fieldDataEntry', fromsubclass_=False):
         if self.references is not None:
-            self.references.export(outfile, level, namespace_, name_='references', )
+            self.references.export(write, level, namespace_, name_='references', )
         if self.startDate is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sstartDate>%s</%sstartDate>\n' % (namespace_, self.gds_format_string(quote_xml(self.startDate).encode(ExternalEncoding), input_name='startDate'), namespace_))
+            showIndent(write, level)
+            write('<%sstartDate>%s</%sstartDate>\n' % (namespace_, self.gds_format_string(quote_xml(self.startDate).encode(ExternalEncoding), input_name='startDate'), namespace_))
         if self.endDate is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sendDate>%s</%sendDate>\n' % (namespace_, self.gds_format_string(quote_xml(self.endDate).encode(ExternalEncoding), input_name='endDate'), namespace_))
+            showIndent(write, level)
+            write('<%sendDate>%s</%sendDate>\n' % (namespace_, self.gds_format_string(quote_xml(self.endDate).encode(ExternalEncoding), input_name='endDate'), namespace_))
         if self.firstSeenDate is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sfirstSeenDate>%s</%sfirstSeenDate>\n' % (namespace_, self.gds_format_string(quote_xml(self.firstSeenDate).encode(ExternalEncoding), input_name='firstSeenDate'), namespace_))
+            showIndent(write, level)
+            write('<%sfirstSeenDate>%s</%sfirstSeenDate>\n' % (namespace_, self.gds_format_string(quote_xml(self.firstSeenDate).encode(ExternalEncoding), input_name='firstSeenDate'), namespace_))
         if self.origin is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sorigin>%s</%sorigin>\n' % (namespace_, self.gds_format_string(quote_xml(self.origin).encode(ExternalEncoding), input_name='origin'), namespace_))
+            showIndent(write, level)
+            write('<%sorigin>%s</%sorigin>\n' % (namespace_, self.gds_format_string(quote_xml(self.origin).encode(ExternalEncoding), input_name='origin'), namespace_))
         if self.commonality is not None:
-            showIndent(outfile, level)
-            outfile.write('<%scommonality>%s</%scommonality>\n' % (namespace_, self.gds_format_integer(self.commonality, input_name='commonality'), namespace_))
+            showIndent(write, level)
+            write('<%scommonality>%s</%scommonality>\n' % (namespace_, self.gds_format_integer(self.commonality, input_name='commonality'), namespace_))
         for volume_ in self.volume:
-            volume_.export(outfile, level, namespace_, name_='volume')
+            volume_.export(write, level, namespace_, name_='volume')
         if self.importance is not None:
-            showIndent(outfile, level)
-            outfile.write('<%simportance>%s</%simportance>\n' % (namespace_, self.gds_format_integer(self.importance, input_name='importance'), namespace_))
+            showIndent(write, level)
+            write('<%simportance>%s</%simportance>\n' % (namespace_, self.gds_format_integer(self.importance, input_name='importance'), namespace_))
         if self.location is not None:
-            self.location.export(outfile, level, namespace_, name_='location')
+            self.location.export(write, level, namespace_, name_='location')
     def hasContent_(self):
         if (
             self.references is not None or
@@ -3002,56 +3002,56 @@ class fieldDataEntry(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='fieldDataEntry'):
+    def exportLiteral(self, write, level, name_='fieldDataEntry'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
+    def exportLiteralChildren(self, write, level, name_):
         if self.references is not None:
-            showIndent(outfile, level)
-            outfile.write('references=model_.references(\n')
-            self.references.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('references=model_.references(\n')
+            self.references.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
         if self.startDate is not None:
-            showIndent(outfile, level)
-            outfile.write('startDate=%s,\n' % quote_python(self.startDate).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('startDate=%s,\n' % quote_python(self.startDate).encode(ExternalEncoding))
         if self.endDate is not None:
-            showIndent(outfile, level)
-            outfile.write('endDate=%s,\n' % quote_python(self.endDate).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('endDate=%s,\n' % quote_python(self.endDate).encode(ExternalEncoding))
         if self.firstSeenDate is not None:
-            showIndent(outfile, level)
-            outfile.write('firstSeenDate=%s,\n' % quote_python(self.firstSeenDate).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('firstSeenDate=%s,\n' % quote_python(self.firstSeenDate).encode(ExternalEncoding))
         if self.origin is not None:
-            showIndent(outfile, level)
-            outfile.write('origin=%s,\n' % quote_python(self.origin).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('origin=%s,\n' % quote_python(self.origin).encode(ExternalEncoding))
         if self.commonality is not None:
-            showIndent(outfile, level)
-            outfile.write('commonality=%d,\n' % self.commonality)
-        showIndent(outfile, level)
-        outfile.write('volume=[\n')
+            showIndent(write, level)
+            write('commonality=%d,\n' % self.commonality)
+        showIndent(write, level)
+        write('volume=[\n')
         level += 1
         for volume_ in self.volume:
-            showIndent(outfile, level)
-            outfile.write('model_.volume(\n')
-            volume_.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.volume(\n')
+            volume_.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
         if self.importance is not None:
-            showIndent(outfile, level)
-            outfile.write('importance=%d,\n' % self.importance)
+            showIndent(write, level)
+            write('importance=%d,\n' % self.importance)
         if self.location is not None:
-            showIndent(outfile, level)
-            outfile.write('location=model_.location(\n')
-            self.location.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('location=model_.location(\n')
+            self.location.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -3129,23 +3129,23 @@ class references(GeneratedsSuper):
     def set_ref(self, ref): self.ref = ref
     def add_ref(self, value): self.ref.append(value)
     def insert_ref(self, index, value): self.ref[index] = value
-    def export(self, outfile, level, namespace_='', name_='references', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='references', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='references')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='references')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='references'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='references'):
         pass
-    def exportChildren(self, outfile, level, namespace_='', name_='references', fromsubclass_=False):
+    def exportChildren(self, write, level, namespace_='', name_='references', fromsubclass_=False):
         for ref_ in self.ref:
-            ref_.export(outfile, level, namespace_, name_='ref')
+            ref_.export(write, level, namespace_, name_='ref')
     def hasContent_(self):
         if (
             self.ref
@@ -3153,26 +3153,26 @@ class references(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='references'):
+    def exportLiteral(self, write, level, name_='references'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('ref=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('ref=[\n')
         level += 1
         for ref_ in self.ref:
-            showIndent(outfile, level)
-            outfile.write('model_.reference(\n')
-            ref_.exportLiteral(outfile, level, name_='reference')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.reference(\n')
+            ref_.exportLiteral(write, level, name_='reference')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -3208,23 +3208,23 @@ class volume(GeneratedsSuper):
         pass
     def get_valueOf_(self): return self.valueOf_
     def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def export(self, outfile, level, namespace_='', name_='volume', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='volume', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='volume')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='volume')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>')
+            write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(write, level + 1, namespace_, name_)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='volume'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='volume'):
         if self.units is not None and 'units' not in already_processed:
             already_processed.append('units')
-            outfile.write(' units=%s' % (quote_attrib(self.units), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='volume', fromsubclass_=False):
+            write(' units=%s' % (quote_attrib(self.units), ))
+    def exportChildren(self, write, level, namespace_='', name_='volume', fromsubclass_=False):
         pass
     def hasContent_(self):
         if (
@@ -3233,19 +3233,19 @@ class volume(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='volume'):
+    def exportLiteral(self, write, level, name_='volume'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+        showIndent(write, level)
+        write('valueOf_ = """%s""",\n' % (self.valueOf_,))
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.units is not None and 'units' not in already_processed:
             already_processed.append('units')
-            showIndent(outfile, level)
-            outfile.write('units = "%s",\n' % (self.units,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('units = "%s",\n' % (self.units,))
+    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
@@ -3284,23 +3284,23 @@ class location(GeneratedsSuper):
         pass
     def get_valueOf_(self): return self.valueOf_
     def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def export(self, outfile, level, namespace_='', name_='location', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='location', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='location')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='location')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>')
+            write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(write, level + 1, namespace_, name_)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='location'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='location'):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.append('type_')
-            outfile.write(' type=%s' % (quote_attrib(self.type_), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='location', fromsubclass_=False):
+            write(' type=%s' % (quote_attrib(self.type_), ))
+    def exportChildren(self, write, level, namespace_='', name_='location', fromsubclass_=False):
         pass
     def hasContent_(self):
         if (
@@ -3309,19 +3309,19 @@ class location(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='location'):
+    def exportLiteral(self, write, level, name_='location'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+        showIndent(write, level)
+        write('valueOf_ = """%s""",\n' % (self.valueOf_,))
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.append('type_')
-            showIndent(outfile, level)
-            outfile.write('type_ = "%s",\n' % (self.type_,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('type_ = "%s",\n' % (self.type_,))
+    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
@@ -3355,21 +3355,21 @@ class reference(GeneratedsSuper):
     factory = staticmethod(factory)
     def get_valueOf_(self): return self.valueOf_
     def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def export(self, outfile, level, namespace_='', name_='reference', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='reference', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='reference')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='reference')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>')
+            write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(write, level + 1, namespace_, name_)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='reference'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='reference'):
         pass
-    def exportChildren(self, outfile, level, namespace_='', name_='reference', fromsubclass_=False):
+    def exportChildren(self, write, level, namespace_='', name_='reference', fromsubclass_=False):
         pass
     def hasContent_(self):
         if (
@@ -3378,16 +3378,16 @@ class reference(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='reference'):
+    def exportLiteral(self, write, level, name_='reference'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+        showIndent(write, level)
+        write('valueOf_ = """%s""",\n' % (self.valueOf_,))
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
+    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
@@ -3422,23 +3422,23 @@ class property(GeneratedsSuper):
         pass
     def get_valueOf_(self): return self.valueOf_
     def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def export(self, outfile, level, namespace_='', name_='property', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='property', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='property')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='property')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>')
+            write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(write, level + 1, namespace_, name_)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='property'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='property'):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.append('type_')
-            outfile.write(' type=%s' % (quote_attrib(self.type_), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='property', fromsubclass_=False):
+            write(' type=%s' % (quote_attrib(self.type_), ))
+    def exportChildren(self, write, level, namespace_='', name_='property', fromsubclass_=False):
         pass
     def hasContent_(self):
         if (
@@ -3447,19 +3447,19 @@ class property(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='property'):
+    def exportLiteral(self, write, level, name_='property'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+        showIndent(write, level)
+        write('valueOf_ = """%s""",\n' % (self.valueOf_,))
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.append('type_')
-            showIndent(outfile, level)
-            outfile.write('type_ = "%s",\n' % (self.type_,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('type_ = "%s",\n' % (self.type_,))
+    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
@@ -3514,30 +3514,30 @@ class objectProperty(GeneratedsSuper):
     def insert_property(self, index, value): self.property[index] = value
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
-    def export(self, outfile, level, namespace_='', name_='objectProperty', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='objectProperty', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='objectProperty')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='objectProperty')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='objectProperty'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='objectProperty'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='objectProperty', fromsubclass_=False):
+            write(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, write, level, namespace_='', name_='objectProperty', fromsubclass_=False):
         if self.references is not None:
-            self.references.export(outfile, level, namespace_, name_='references', )
+            self.references.export(write, level, namespace_, name_='references', )
         if self.timestamp is not None:
-            showIndent(outfile, level)
-            outfile.write('<%stimestamp>%s</%stimestamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.timestamp).encode(ExternalEncoding), input_name='timestamp'), namespace_))
+            showIndent(write, level)
+            write('<%stimestamp>%s</%stimestamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.timestamp).encode(ExternalEncoding), input_name='timestamp'), namespace_))
         for property_ in self.property:
-            property_.export(outfile, level, namespace_, name_='property')
+            property_.export(write, level, namespace_, name_='property')
     def hasContent_(self):
         if (
             self.references is not None or
@@ -3547,38 +3547,38 @@ class objectProperty(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='objectProperty'):
+    def exportLiteral(self, write, level, name_='objectProperty'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('id = %s,\n' % (self.id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.references is not None:
-            showIndent(outfile, level)
-            outfile.write('references=model_.references(\n')
-            self.references.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('references=model_.references(\n')
+            self.references.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
         if self.timestamp is not None:
-            showIndent(outfile, level)
-            outfile.write('timestamp=%s,\n' % quote_python(self.timestamp).encode(ExternalEncoding))
-        showIndent(outfile, level)
-        outfile.write('property=[\n')
+            showIndent(write, level)
+            write('timestamp=%s,\n' % quote_python(self.timestamp).encode(ExternalEncoding))
+        showIndent(write, level)
+        write('property=[\n')
         level += 1
         for property_ in self.property:
-            showIndent(outfile, level)
-            outfile.write('model_.property(\n')
-            property_.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.property(\n')
+            property_.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -3647,33 +3647,33 @@ class relationship(GeneratedsSuper):
         pass
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
-    def export(self, outfile, level, namespace_='', name_='relationship', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='relationship', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='relationship')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='relationship')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='relationship'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='relationship'):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.append('type_')
-            outfile.write(' type=%s' % (quote_attrib(self.type_), ))
+            write(' type=%s' % (quote_attrib(self.type_), ))
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='relationship', fromsubclass_=False):
+            write(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, write, level, namespace_='', name_='relationship', fromsubclass_=False):
         if self.source is not None:
-            self.source.export(outfile, level, namespace_, name_='source', )
+            self.source.export(write, level, namespace_, name_='source', )
         if self.target is not None:
-            self.target.export(outfile, level, namespace_, name_='target', )
+            self.target.export(write, level, namespace_, name_='target', )
         if self.timestamp is not None:
-            showIndent(outfile, level)
-            outfile.write('<%stimestamp>%s</%stimestamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.timestamp).encode(ExternalEncoding), input_name='timestamp'), namespace_))
+            showIndent(write, level)
+            write('<%stimestamp>%s</%stimestamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.timestamp).encode(ExternalEncoding), input_name='timestamp'), namespace_))
     def hasContent_(self):
         if (
             self.source is not None or
@@ -3683,36 +3683,36 @@ class relationship(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='relationship'):
+    def exportLiteral(self, write, level, name_='relationship'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.append('type_')
-            showIndent(outfile, level)
-            outfile.write('type_ = "%s",\n' % (self.type_,))
+            showIndent(write, level)
+            write('type_ = "%s",\n' % (self.type_,))
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('id = %s,\n' % (self.id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.source is not None:
-            showIndent(outfile, level)
-            outfile.write('source=model_.source(\n')
-            self.source.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('source=model_.source(\n')
+            self.source.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
         if self.target is not None:
-            showIndent(outfile, level)
-            outfile.write('target=model_.target(\n')
-            self.target.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('target=model_.target(\n')
+            self.target.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
         if self.timestamp is not None:
-            showIndent(outfile, level)
-            outfile.write('timestamp=%s,\n' % quote_python(self.timestamp).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('timestamp=%s,\n' % quote_python(self.timestamp).encode(ExternalEncoding))
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -3763,23 +3763,23 @@ class source(GeneratedsSuper):
     def set_ref(self, ref): self.ref = ref
     def add_ref(self, value): self.ref.append(value)
     def insert_ref(self, index, value): self.ref[index] = value
-    def export(self, outfile, level, namespace_='', name_='source', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='source', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='source')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='source')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='source'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='source'):
         pass
-    def exportChildren(self, outfile, level, namespace_='', name_='source', fromsubclass_=False):
+    def exportChildren(self, write, level, namespace_='', name_='source', fromsubclass_=False):
         for ref_ in self.ref:
-            ref_.export(outfile, level, namespace_, name_='ref')
+            ref_.export(write, level, namespace_, name_='ref')
     def hasContent_(self):
         if (
             self.ref
@@ -3787,26 +3787,26 @@ class source(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='source'):
+    def exportLiteral(self, write, level, name_='source'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('ref=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('ref=[\n')
         level += 1
         for ref_ in self.ref:
-            showIndent(outfile, level)
-            outfile.write('model_.reference(\n')
-            ref_.exportLiteral(outfile, level, name_='reference')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.reference(\n')
+            ref_.exportLiteral(write, level, name_='reference')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -3841,23 +3841,23 @@ class target(GeneratedsSuper):
     def set_ref(self, ref): self.ref = ref
     def add_ref(self, value): self.ref.append(value)
     def insert_ref(self, index, value): self.ref[index] = value
-    def export(self, outfile, level, namespace_='', name_='target', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='target', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='target')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='target')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='target'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='target'):
         pass
-    def exportChildren(self, outfile, level, namespace_='', name_='target', fromsubclass_=False):
+    def exportChildren(self, write, level, namespace_='', name_='target', fromsubclass_=False):
         for ref_ in self.ref:
-            ref_.export(outfile, level, namespace_, name_='ref')
+            ref_.export(write, level, namespace_, name_='ref')
     def hasContent_(self):
         if (
             self.ref
@@ -3865,26 +3865,26 @@ class target(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='target'):
+    def exportLiteral(self, write, level, name_='target'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('ref=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('ref=[\n')
         level += 1
         for ref_ in self.ref:
-            showIndent(outfile, level)
-            outfile.write('model_.reference(\n')
-            ref_.exportLiteral(outfile, level, name_='reference')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('model_.reference(\n')
+            ref_.exportLiteral(write, level, name_='reference')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -3940,46 +3940,46 @@ class softwarePackageObject(GeneratedsSuper):
     def set_CPEname(self, CPEname): self.CPEname = CPEname
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
-    def export(self, outfile, level, namespace_='', name_='softwarePackageObject', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='softwarePackageObject', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='softwarePackageObject')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='softwarePackageObject')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='softwarePackageObject'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='softwarePackageObject'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            outfile.write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='softwarePackageObject', fromsubclass_=False):
+            write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
+    def exportChildren(self, write, level, namespace_='', name_='softwarePackageObject', fromsubclass_=False):
         if self.vendor is not None:
-            showIndent(outfile, level)
-            outfile.write('<%svendor>%s</%svendor>\n' % (namespace_, self.gds_format_string(quote_xml(self.vendor).encode(ExternalEncoding), input_name='vendor'), namespace_))
+            showIndent(write, level)
+            write('<%svendor>%s</%svendor>\n' % (namespace_, self.gds_format_string(quote_xml(self.vendor).encode(ExternalEncoding), input_name='vendor'), namespace_))
         if self.productgroup is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sproductgroup>%s</%sproductgroup>\n' % (namespace_, self.gds_format_string(quote_xml(self.productgroup).encode(ExternalEncoding), input_name='productgroup'), namespace_))
+            showIndent(write, level)
+            write('<%sproductgroup>%s</%sproductgroup>\n' % (namespace_, self.gds_format_string(quote_xml(self.productgroup).encode(ExternalEncoding), input_name='productgroup'), namespace_))
         if self.product is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sproduct>%s</%sproduct>\n' % (namespace_, self.gds_format_string(quote_xml(self.product).encode(ExternalEncoding), input_name='product'), namespace_))
+            showIndent(write, level)
+            write('<%sproduct>%s</%sproduct>\n' % (namespace_, self.gds_format_string(quote_xml(self.product).encode(ExternalEncoding), input_name='product'), namespace_))
         if self.version is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sversion>%s</%sversion>\n' % (namespace_, self.gds_format_string(quote_xml(self.version).encode(ExternalEncoding), input_name='version'), namespace_))
+            showIndent(write, level)
+            write('<%sversion>%s</%sversion>\n' % (namespace_, self.gds_format_string(quote_xml(self.version).encode(ExternalEncoding), input_name='version'), namespace_))
         if self.update is not None:
-            showIndent(outfile, level)
-            outfile.write('<%supdate>%s</%supdate>\n' % (namespace_, self.gds_format_string(quote_xml(self.update).encode(ExternalEncoding), input_name='update'), namespace_))
+            showIndent(write, level)
+            write('<%supdate>%s</%supdate>\n' % (namespace_, self.gds_format_string(quote_xml(self.update).encode(ExternalEncoding), input_name='update'), namespace_))
         if self.edition is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sedition>%s</%sedition>\n' % (namespace_, self.gds_format_string(quote_xml(self.edition).encode(ExternalEncoding), input_name='edition'), namespace_))
+            showIndent(write, level)
+            write('<%sedition>%s</%sedition>\n' % (namespace_, self.gds_format_string(quote_xml(self.edition).encode(ExternalEncoding), input_name='edition'), namespace_))
         if self.language is not None:
-            showIndent(outfile, level)
-            outfile.write('<%slanguage>%s</%slanguage>\n' % (namespace_, self.gds_format_string(quote_xml(self.language).encode(ExternalEncoding), input_name='language'), namespace_))
+            showIndent(write, level)
+            write('<%slanguage>%s</%slanguage>\n' % (namespace_, self.gds_format_string(quote_xml(self.language).encode(ExternalEncoding), input_name='language'), namespace_))
         if self.CPEname is not None:
-            self.CPEname.export(outfile, level, namespace_, name_='CPEname')
+            self.CPEname.export(write, level, namespace_, name_='CPEname')
     def hasContent_(self):
         if (
             self.vendor is not None or
@@ -3994,44 +3994,44 @@ class softwarePackageObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='softwarePackageObject'):
+    def exportLiteral(self, write, level, name_='softwarePackageObject'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            showIndent(outfile, level)
-            outfile.write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('id = "%s",\n' % (self.id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.vendor is not None:
-            showIndent(outfile, level)
-            outfile.write('vendor=%s,\n' % quote_python(self.vendor).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('vendor=%s,\n' % quote_python(self.vendor).encode(ExternalEncoding))
         if self.productgroup is not None:
-            showIndent(outfile, level)
-            outfile.write('productgroup=%s,\n' % quote_python(self.productgroup).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('productgroup=%s,\n' % quote_python(self.productgroup).encode(ExternalEncoding))
         if self.product is not None:
-            showIndent(outfile, level)
-            outfile.write('product=%s,\n' % quote_python(self.product).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('product=%s,\n' % quote_python(self.product).encode(ExternalEncoding))
         if self.version is not None:
-            showIndent(outfile, level)
-            outfile.write('version=%s,\n' % quote_python(self.version).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('version=%s,\n' % quote_python(self.version).encode(ExternalEncoding))
         if self.update is not None:
-            showIndent(outfile, level)
-            outfile.write('update=%s,\n' % quote_python(self.update).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('update=%s,\n' % quote_python(self.update).encode(ExternalEncoding))
         if self.edition is not None:
-            showIndent(outfile, level)
-            outfile.write('edition=%s,\n' % quote_python(self.edition).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('edition=%s,\n' % quote_python(self.edition).encode(ExternalEncoding))
         if self.language is not None:
-            showIndent(outfile, level)
-            outfile.write('language=%s,\n' % quote_python(self.language).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('language=%s,\n' % quote_python(self.language).encode(ExternalEncoding))
         if self.CPEname is not None:
-            showIndent(outfile, level)
-            outfile.write('CPEname=model_.CPEname(\n')
-            self.CPEname.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('CPEname=model_.CPEname(\n')
+            self.CPEname.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -4100,23 +4100,23 @@ class CPEname(GeneratedsSuper):
     def set_cpeVersion(self, cpeVersion): self.cpeVersion = cpeVersion
     def get_valueOf_(self): return self.valueOf_
     def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def export(self, outfile, level, namespace_='', name_='CPEname', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='CPEname', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CPEname')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='CPEname')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>')
+            write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(write, level + 1, namespace_, name_)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='CPEname'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='CPEname'):
         if self.cpeVersion is not None and 'cpeVersion' not in already_processed:
             already_processed.append('cpeVersion')
-            outfile.write(' cpeVersion=%s' % (self.gds_format_string(quote_attrib(self.cpeVersion).encode(ExternalEncoding), input_name='cpeVersion'), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='CPEname', fromsubclass_=False):
+            write(' cpeVersion=%s' % (self.gds_format_string(quote_attrib(self.cpeVersion).encode(ExternalEncoding), input_name='cpeVersion'), ))
+    def exportChildren(self, write, level, namespace_='', name_='CPEname', fromsubclass_=False):
         pass
     def hasContent_(self):
         if (
@@ -4125,19 +4125,19 @@ class CPEname(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='CPEname'):
+    def exportLiteral(self, write, level, name_='CPEname'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+        showIndent(write, level)
+        write('valueOf_ = """%s""",\n' % (self.valueOf_,))
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.cpeVersion is not None and 'cpeVersion' not in already_processed:
             already_processed.append('cpeVersion')
-            showIndent(outfile, level)
-            outfile.write('cpeVersion = "%s",\n' % (self.cpeVersion,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('cpeVersion = "%s",\n' % (self.cpeVersion,))
+    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
@@ -4189,40 +4189,40 @@ class digitalSignatureObject(GeneratedsSuper):
     def set_type(self, type_): self.type_ = type_
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
-    def export(self, outfile, level, namespace_='', name_='digitalSignatureObject', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='digitalSignatureObject', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='digitalSignatureObject')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='digitalSignatureObject')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='digitalSignatureObject'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='digitalSignatureObject'):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.append('type_')
-            outfile.write(' type=%s' % (self.gds_format_string(quote_attrib(self.type_).encode(ExternalEncoding), input_name='type'), ))
+            write(' type=%s' % (self.gds_format_string(quote_attrib(self.type_).encode(ExternalEncoding), input_name='type'), ))
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            outfile.write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='digitalSignatureObject', fromsubclass_=False):
+            write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
+    def exportChildren(self, write, level, namespace_='', name_='digitalSignatureObject', fromsubclass_=False):
         if self.certificateIssuer is not None:
-            showIndent(outfile, level)
-            outfile.write('<%scertificateIssuer>%s</%scertificateIssuer>\n' % (namespace_, self.gds_format_string(quote_xml(self.certificateIssuer).encode(ExternalEncoding), input_name='certificateIssuer'), namespace_))
+            showIndent(write, level)
+            write('<%scertificateIssuer>%s</%scertificateIssuer>\n' % (namespace_, self.gds_format_string(quote_xml(self.certificateIssuer).encode(ExternalEncoding), input_name='certificateIssuer'), namespace_))
         if self.certificateSubject is not None:
-            showIndent(outfile, level)
-            outfile.write('<%scertificateSubject>%s</%scertificateSubject>\n' % (namespace_, self.gds_format_string(quote_xml(self.certificateSubject).encode(ExternalEncoding), input_name='certificateSubject'), namespace_))
+            showIndent(write, level)
+            write('<%scertificateSubject>%s</%scertificateSubject>\n' % (namespace_, self.gds_format_string(quote_xml(self.certificateSubject).encode(ExternalEncoding), input_name='certificateSubject'), namespace_))
         if self.certificateValidity is not None:
-            showIndent(outfile, level)
-            outfile.write('<%scertificateValidity>%s</%scertificateValidity>\n' % (namespace_, self.gds_format_boolean(self.gds_str_lower(str(self.certificateValidity)), input_name='certificateValidity'), namespace_))
+            showIndent(write, level)
+            write('<%scertificateValidity>%s</%scertificateValidity>\n' % (namespace_, self.gds_format_boolean(self.gds_str_lower(str(self.certificateValidity)), input_name='certificateValidity'), namespace_))
         if self.certificateRevocationTimestamp is not None:
-            showIndent(outfile, level)
-            outfile.write('<%scertificateRevocationTimestamp>%s</%scertificateRevocationTimestamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.certificateRevocationTimestamp).encode(ExternalEncoding), input_name='certificateRevocationTimestamp'), namespace_))
+            showIndent(write, level)
+            write('<%scertificateRevocationTimestamp>%s</%scertificateRevocationTimestamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.certificateRevocationTimestamp).encode(ExternalEncoding), input_name='certificateRevocationTimestamp'), namespace_))
         if self.signingTimestamp is not None:
-            self.signingTimestamp.export(outfile, level, namespace_, name_='signingTimestamp')
+            self.signingTimestamp.export(write, level, namespace_, name_='signingTimestamp')
     def hasContent_(self):
         if (
             self.certificateIssuer is not None or
@@ -4234,39 +4234,39 @@ class digitalSignatureObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='digitalSignatureObject'):
+    def exportLiteral(self, write, level, name_='digitalSignatureObject'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.append('type_')
-            showIndent(outfile, level)
-            outfile.write('type_ = "%s",\n' % (self.type_,))
+            showIndent(write, level)
+            write('type_ = "%s",\n' % (self.type_,))
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            showIndent(outfile, level)
-            outfile.write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('id = "%s",\n' % (self.id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.certificateIssuer is not None:
-            showIndent(outfile, level)
-            outfile.write('certificateIssuer=%s,\n' % quote_python(self.certificateIssuer).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('certificateIssuer=%s,\n' % quote_python(self.certificateIssuer).encode(ExternalEncoding))
         if self.certificateSubject is not None:
-            showIndent(outfile, level)
-            outfile.write('certificateSubject=%s,\n' % quote_python(self.certificateSubject).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('certificateSubject=%s,\n' % quote_python(self.certificateSubject).encode(ExternalEncoding))
         if self.certificateValidity is not None:
-            showIndent(outfile, level)
-            outfile.write('certificateValidity=%s,\n' % self.certificateValidity)
+            showIndent(write, level)
+            write('certificateValidity=%s,\n' % self.certificateValidity)
         if self.certificateRevocationTimestamp is not None:
-            showIndent(outfile, level)
-            outfile.write('certificateRevocationTimestamp=%s,\n' % quote_python(self.certificateRevocationTimestamp).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('certificateRevocationTimestamp=%s,\n' % quote_python(self.certificateRevocationTimestamp).encode(ExternalEncoding))
         if self.signingTimestamp is not None:
-            showIndent(outfile, level)
-            outfile.write('signingTimestamp=model_.signingTimestamp(\n')
-            self.signingTimestamp.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('signingTimestamp=model_.signingTimestamp(\n')
+            self.signingTimestamp.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -4327,23 +4327,23 @@ class signingTimestamp(GeneratedsSuper):
     def set_valid(self, valid): self.valid = valid
     def get_valueOf_(self): return self.valueOf_
     def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def export(self, outfile, level, namespace_='', name_='signingTimestamp', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='signingTimestamp', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='signingTimestamp')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='signingTimestamp')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>')
+            write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(write, level + 1, namespace_, name_)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='signingTimestamp'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='signingTimestamp'):
         if self.valid is not None and 'valid' not in already_processed:
             already_processed.append('valid')
-            outfile.write(' valid="%s"' % self.gds_format_boolean(self.gds_str_lower(str(self.valid)), input_name='valid'))
-    def exportChildren(self, outfile, level, namespace_='', name_='signingTimestamp', fromsubclass_=False):
+            write(' valid="%s"' % self.gds_format_boolean(self.gds_str_lower(str(self.valid)), input_name='valid'))
+    def exportChildren(self, write, level, namespace_='', name_='signingTimestamp', fromsubclass_=False):
         pass
     def hasContent_(self):
         if (
@@ -4352,19 +4352,19 @@ class signingTimestamp(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='signingTimestamp'):
+    def exportLiteral(self, write, level, name_='signingTimestamp'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+        showIndent(write, level)
+        write('valueOf_ = """%s""",\n' % (self.valueOf_,))
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.valid is not None and 'valid' not in already_processed:
             already_processed.append('valid')
-            showIndent(outfile, level)
-            outfile.write('valid = %s,\n' % (self.valid,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('valid = %s,\n' % (self.valid,))
+    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
@@ -4414,31 +4414,31 @@ class taggantObject(GeneratedsSuper):
     def set_signingTimestamp(self, signingTimestamp): self.signingTimestamp = signingTimestamp
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
-    def export(self, outfile, level, namespace_='', name_='taggantObject', namespacedef_=''):
-        showIndent(outfile, level)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+    def export(self, write, level, namespace_='', name_='taggantObject', namespacedef_=''):
+        showIndent(write, level)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = []
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='taggantObject')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='taggantObject')
         if self.hasContent_():
-            outfile.write('>\n')
-            self.exportChildren(outfile, level + 1, namespace_, name_)
-            showIndent(outfile, level)
-            outfile.write('</%s%s>\n' % (namespace_, name_))
+            write('>\n')
+            self.exportChildren(write, level + 1, namespace_, name_)
+            showIndent(write, level)
+            write('</%s%s>\n' % (namespace_, name_))
         else:
-            outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='taggantObject'):
+            write('/>\n')
+    def exportAttributes(self, write, level, already_processed, namespace_='', name_='taggantObject'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            outfile.write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='taggantObject', fromsubclass_=False):
+            write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
+    def exportChildren(self, write, level, namespace_='', name_='taggantObject', fromsubclass_=False):
         if self.vendorID is not None:
-            showIndent(outfile, level)
-            outfile.write('<%svendorID>%s</%svendorID>\n' % (namespace_, self.gds_format_string(quote_xml(self.vendorID).encode(ExternalEncoding), input_name='vendorID'), namespace_))
+            showIndent(write, level)
+            write('<%svendorID>%s</%svendorID>\n' % (namespace_, self.gds_format_string(quote_xml(self.vendorID).encode(ExternalEncoding), input_name='vendorID'), namespace_))
         if self.taggantValidity is not None:
-            showIndent(outfile, level)
-            outfile.write('<%staggantValidity>%s</%staggantValidity>\n' % (namespace_, self.gds_format_boolean(self.gds_str_lower(str(self.taggantValidity)), input_name='taggantValidity'), namespace_))
+            showIndent(write, level)
+            write('<%staggantValidity>%s</%staggantValidity>\n' % (namespace_, self.gds_format_boolean(self.gds_str_lower(str(self.taggantValidity)), input_name='taggantValidity'), namespace_))
         if self.signingTimestamp is not None:
-            self.signingTimestamp.export(outfile, level, namespace_, name_='signingTimestamp')
+            self.signingTimestamp.export(write, level, namespace_, name_='signingTimestamp')
     def hasContent_(self):
         if (
             self.vendorID is not None or
@@ -4448,29 +4448,29 @@ class taggantObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='taggantObject'):
+    def exportLiteral(self, write, level, name_='taggantObject'):
         level += 1
-        self.exportLiteralAttributes(outfile, level, [], name_)
+        self.exportLiteralAttributes(write, level, [], name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            showIndent(outfile, level)
-            outfile.write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('id = "%s",\n' % (self.id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.vendorID is not None:
-            showIndent(outfile, level)
-            outfile.write('vendorID=%s,\n' % quote_python(self.vendorID).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('vendorID=%s,\n' % quote_python(self.vendorID).encode(ExternalEncoding))
         if self.taggantValidity is not None:
-            showIndent(outfile, level)
-            outfile.write('taggantValidity=%s,\n' % self.taggantValidity)
+            showIndent(write, level)
+            write('taggantValidity=%s,\n' % self.taggantValidity)
         if self.signingTimestamp is not None:
-            showIndent(outfile, level)
-            outfile.write('signingTimestamp=model_.signingTimestamp(\n')
-            self.signingTimestamp.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            showIndent(write, level)
+            write('signingTimestamp=model_.signingTimestamp(\n')
+            self.signingTimestamp.exportLiteral(write, level)
+            showIndent(write, level)
+            write('),\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:

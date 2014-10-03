@@ -299,10 +299,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(write, level, pretty_print=True):
     if pretty_print:
         for idx in range(level):
-            outfile.write('    ')
+            write('    ')
 
 def quote_xml(inStr):
     if not inStr:
@@ -409,32 +409,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, write, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                write(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(write, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(write, level, namespace, name, pretty_print)
+    def exportSimple(self, write, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            write('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            write('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            write('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            write('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            write('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -469,22 +469,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, write, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(write, level)
+            write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(write, level)
+            write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(write, level)
+            write('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(write, level + 1)
+            showIndent(write, level)
+            write(')\n')
 
 
 class MemberSpec_(object):
@@ -587,100 +587,100 @@ class BehaviorType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='BehaviorType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='BehaviorType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BehaviorType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='BehaviorType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='BehaviorType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='BehaviorType'):
         if self.status is not None and 'status' not in already_processed:
             already_processed.add('status')
-            outfile.write(' status=%s' % (quote_attrib(self.status), ))
+            write(' status=%s' % (quote_attrib(self.status), ))
         if self.duration is not None and 'duration' not in already_processed:
             already_processed.add('duration')
-            outfile.write(' duration=%s' % (self.gds_format_string(quote_attrib(self.duration).encode(ExternalEncoding), input_name='duration'), ))
+            write(' duration=%s' % (self.gds_format_string(quote_attrib(self.duration).encode(ExternalEncoding), input_name='duration'), ))
         if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
             already_processed.add('ordinal_position')
-            outfile.write(' ordinal_position="%s"' % self.gds_format_integer(self.ordinal_position, input_name='ordinal_position'))
+            write(' ordinal_position="%s"' % self.gds_format_integer(self.ordinal_position, input_name='ordinal_position'))
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='BehaviorType', fromsubclass_=False, pretty_print=True):
+            write(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehaviorType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Purpose is not None:
-            self.Purpose.export(outfile, level, 'maecBundle:', name_='Purpose', pretty_print=pretty_print)
+            self.Purpose.export(write, level, 'maecBundle:', name_='Purpose', pretty_print=pretty_print)
         if self.Description is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+            showIndent(write, level, pretty_print)
+            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
         if self.Discovery_Method is not None:
-            self.Discovery_Method.export(outfile, level, 'maecBundle:', name_='Discovery_Method', pretty_print=pretty_print)
+            self.Discovery_Method.export(write, level, 'maecBundle:', name_='Discovery_Method', pretty_print=pretty_print)
         if self.Action_Composition is not None:
-            self.Action_Composition.export(outfile, level, 'maecBundle:', name_='Action_Composition', pretty_print=pretty_print)
+            self.Action_Composition.export(write, level, 'maecBundle:', name_='Action_Composition', pretty_print=pretty_print)
         if self.Associated_Code is not None:
-            self.Associated_Code.export(outfile, level, 'maecBundle:', name_='Associated_Code', pretty_print=pretty_print)
+            self.Associated_Code.export(write, level, 'maecBundle:', name_='Associated_Code', pretty_print=pretty_print)
         if self.Relationships is not None:
-            self.Relationships.export(outfile, level, 'maecBundle:', name_='Relationships', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='BehaviorType'):
+            self.Relationships.export(write, level, 'maecBundle:', name_='Relationships', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='BehaviorType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.status is not None and 'status' not in already_processed:
             already_processed.add('status')
-            showIndent(outfile, level)
-            outfile.write('status = %s,\n' % (self.status,))
+            showIndent(write, level)
+            write('status = %s,\n' % (self.status,))
         if self.duration is not None and 'duration' not in already_processed:
             already_processed.add('duration')
-            showIndent(outfile, level)
-            outfile.write('duration = "%s",\n' % (self.duration,))
+            showIndent(write, level)
+            write('duration = "%s",\n' % (self.duration,))
         if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
             already_processed.add('ordinal_position')
-            showIndent(outfile, level)
-            outfile.write('ordinal_position = %d,\n' % (self.ordinal_position,))
+            showIndent(write, level)
+            write('ordinal_position = %d,\n' % (self.ordinal_position,))
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('id = %s,\n' % (self.id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.Purpose is not None:
-            outfile.write('Purpose=model_.BehaviorPurposeType(\n')
-            self.Purpose.exportLiteral(outfile, level, name_='Purpose')
-            outfile.write('),\n')
+            write('Purpose=model_.BehaviorPurposeType(\n')
+            self.Purpose.exportLiteral(write, level, name_='Purpose')
+            write('),\n')
         if self.Description is not None:
-            showIndent(outfile, level)
-            outfile.write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
         if self.Discovery_Method is not None:
-            outfile.write('Discovery_Method=model_.cybox_common.MeasureSourceType(\n')
-            self.Discovery_Method.exportLiteral(outfile, level, name_='Discovery_Method')
-            outfile.write('),\n')
+            write('Discovery_Method=model_.cybox_common.MeasureSourceType(\n')
+            self.Discovery_Method.exportLiteral(write, level, name_='Discovery_Method')
+            write('),\n')
         if self.Action_Composition is not None:
-            outfile.write('Action_Composition=model_.BehavioralActionsType(\n')
-            self.Action_Composition.exportLiteral(outfile, level, name_='Action_Composition')
-            outfile.write('),\n')
+            write('Action_Composition=model_.BehavioralActionsType(\n')
+            self.Action_Composition.exportLiteral(write, level, name_='Action_Composition')
+            write('),\n')
         if self.Associated_Code is not None:
-            outfile.write('Associated_Code=model_.AssociatedCodeType(\n')
-            self.Associated_Code.exportLiteral(outfile, level, name_='Associated_Code')
-            outfile.write('),\n')
+            write('Associated_Code=model_.AssociatedCodeType(\n')
+            self.Associated_Code.exportLiteral(write, level, name_='Associated_Code')
+            write('),\n')
         if self.Relationships is not None:
-            outfile.write('Relationships=model_.BehaviorRelationshipListType(\n')
-            self.Relationships.exportLiteral(outfile, level, name_='Relationships')
-            outfile.write('),\n')
+            write('Relationships=model_.BehaviorRelationshipListType(\n')
+            self.Relationships.exportLiteral(write, level, name_='Relationships')
+            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -820,125 +820,125 @@ class BundleType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='MAEC_Bundle', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='MAEC_Bundle', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MAEC_Bundle')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='MAEC_Bundle')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='MAEC_Bundle'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='MAEC_Bundle'):
         if self.defined_subject is not None and 'defined_subject' not in already_processed:
             already_processed.add('defined_subject')
-            outfile.write(' defined_subject="%s"' % self.gds_format_boolean(self.defined_subject, input_name='defined_subject'))
+            write(' defined_subject="%s"' % self.gds_format_boolean(self.defined_subject, input_name='defined_subject'))
         if self.content_type is not None and 'content_type' not in already_processed:
             already_processed.add('content_type')
-            outfile.write(' content_type=%s' % (quote_attrib(self.content_type), ))
+            write(' content_type=%s' % (quote_attrib(self.content_type), ))
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
+            write(' id=%s' % (quote_attrib(self.id), ))
         if self.schema_version is not None and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
-            outfile.write(' schema_version=%s' % (self.gds_format_string(quote_attrib(self.schema_version).encode(ExternalEncoding), input_name='schema_version'), ))
+            write(' schema_version=%s' % (self.gds_format_string(quote_attrib(self.schema_version).encode(ExternalEncoding), input_name='schema_version'), ))
         if self.timestamp is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
-            outfile.write(' timestamp="%s"' % self.gds_format_datetime(self.timestamp, input_name='timestamp'))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='MAEC_Bundle', fromsubclass_=False, pretty_print=True):
+            write(' timestamp="%s"' % self.gds_format_datetime(self.timestamp, input_name='timestamp'))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='MAEC_Bundle', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Malware_Instance_Object_Attributes is not None:
-            self.Malware_Instance_Object_Attributes.export(outfile, level, 'maecBundle:', name_='Malware_Instance_Object_Attributes', pretty_print=pretty_print)
+            self.Malware_Instance_Object_Attributes.export(write, level, 'maecBundle:', name_='Malware_Instance_Object_Attributes', pretty_print=pretty_print)
         if self.AV_Classifications is not None:
-            self.AV_Classifications.export(outfile, level, 'maecBundle:', name_='AV_Classifications', pretty_print=pretty_print)
+            self.AV_Classifications.export(write, level, 'maecBundle:', name_='AV_Classifications', pretty_print=pretty_print)
         if self.Process_Tree is not None:
-            self.Process_Tree.export(outfile, level, 'maecBundle:', name_='Process_Tree', pretty_print=pretty_print)
+            self.Process_Tree.export(write, level, 'maecBundle:', name_='Process_Tree', pretty_print=pretty_print)
         if self.Capabilities is not None:
-            self.Capabilities.export(outfile, level, 'maecBundle:', name_='Capabilities', pretty_print=pretty_print)
+            self.Capabilities.export(write, level, 'maecBundle:', name_='Capabilities', pretty_print=pretty_print)
         if self.Behaviors is not None:
-            self.Behaviors.export(outfile, level, 'maecBundle:', name_='Behaviors', pretty_print=pretty_print)
+            self.Behaviors.export(write, level, 'maecBundle:', name_='Behaviors', pretty_print=pretty_print)
         if self.Actions is not None:
-            self.Actions.export(outfile, level, 'maecBundle:', name_='Actions', pretty_print=pretty_print)
+            self.Actions.export(write, level, 'maecBundle:', name_='Actions', pretty_print=pretty_print)
         if self.Objects is not None:
-            self.Objects.export(outfile, level, 'maecBundle:', name_='Objects', pretty_print=pretty_print)
+            self.Objects.export(write, level, 'maecBundle:', name_='Objects', pretty_print=pretty_print)
         if self.Candidate_Indicators is not None:
-            self.Candidate_Indicators.export(outfile, level, 'maecBundle:', name_='Candidate_Indicators', pretty_print=pretty_print)
+            self.Candidate_Indicators.export(write, level, 'maecBundle:', name_='Candidate_Indicators', pretty_print=pretty_print)
         if self.Collections is not None:
-            self.Collections.export(outfile, level, 'maecBundle:', name_='Collections', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='MAEC_Bundle'):
+            self.Collections.export(write, level, 'maecBundle:', name_='Collections', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='MAEC_Bundle'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.defined_subject is not None and 'defined_subject' not in already_processed:
             already_processed.add('defined_subject')
-            showIndent(outfile, level)
-            outfile.write('defined_subject = %s,\n' % (self.defined_subject,))
+            showIndent(write, level)
+            write('defined_subject = %s,\n' % (self.defined_subject,))
         if self.content_type is not None and 'content_type' not in already_processed:
             already_processed.add('content_type')
-            showIndent(outfile, level)
-            outfile.write('content_type = %s,\n' % (self.content_type,))
+            showIndent(write, level)
+            write('content_type = %s,\n' % (self.content_type,))
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
+            showIndent(write, level)
+            write('id = %s,\n' % (self.id,))
         if self.schema_version is not None and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
-            showIndent(outfile, level)
-            outfile.write('schema_version = "%s",\n' % (self.schema_version,))
+            showIndent(write, level)
+            write('schema_version = "%s",\n' % (self.schema_version,))
         if self.timestamp is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
-            showIndent(outfile, level)
-            outfile.write('timestamp = "%s",\n' % (self.timestamp,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('timestamp = "%s",\n' % (self.timestamp,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.Malware_Instance_Object_Attributes is not None:
-            outfile.write('Malware_Instance_Object_Attributes=model_.cybox_core.ObjectType(\n')
-            self.Malware_Instance_Object_Attributes.exportLiteral(outfile, level, name_='Malware_Instance_Object_Attributes')
-            outfile.write('),\n')
+            write('Malware_Instance_Object_Attributes=model_.cybox_core.ObjectType(\n')
+            self.Malware_Instance_Object_Attributes.exportLiteral(write, level, name_='Malware_Instance_Object_Attributes')
+            write('),\n')
         if self.AV_Classifications is not None:
-            outfile.write('AV_Classifications=model_.AVClassificationsType(\n')
-            self.AV_Classifications.exportLiteral(outfile, level, name_='AV_Classifications')
-            outfile.write('),\n')
+            write('AV_Classifications=model_.AVClassificationsType(\n')
+            self.AV_Classifications.exportLiteral(write, level, name_='AV_Classifications')
+            write('),\n')
         if self.Process_Tree is not None:
-            outfile.write('Process_Tree=model_.ProcessTreeType(\n')
-            self.Process_Tree.exportLiteral(outfile, level, name_='Process_Tree')
-            outfile.write('),\n')
+            write('Process_Tree=model_.ProcessTreeType(\n')
+            self.Process_Tree.exportLiteral(write, level, name_='Process_Tree')
+            write('),\n')
         if self.Capabilities is not None:
-            outfile.write('Capabilities=model_.CapabilityListType(\n')
-            self.Capabilities.exportLiteral(outfile, level, name_='Capabilities')
-            outfile.write('),\n')
+            write('Capabilities=model_.CapabilityListType(\n')
+            self.Capabilities.exportLiteral(write, level, name_='Capabilities')
+            write('),\n')
         if self.Behaviors is not None:
-            outfile.write('Behaviors=model_.BehaviorListType(\n')
-            self.Behaviors.exportLiteral(outfile, level, name_='Behaviors')
-            outfile.write('),\n')
+            write('Behaviors=model_.BehaviorListType(\n')
+            self.Behaviors.exportLiteral(write, level, name_='Behaviors')
+            write('),\n')
         if self.Actions is not None:
-            outfile.write('Actions=model_.ActionListType(\n')
-            self.Actions.exportLiteral(outfile, level, name_='Actions')
-            outfile.write('),\n')
+            write('Actions=model_.ActionListType(\n')
+            self.Actions.exportLiteral(write, level, name_='Actions')
+            write('),\n')
         if self.Objects is not None:
-            outfile.write('Objects=model_.ObjectListType(\n')
-            self.Objects.exportLiteral(outfile, level, name_='Objects')
-            outfile.write('),\n')
+            write('Objects=model_.ObjectListType(\n')
+            self.Objects.exportLiteral(write, level, name_='Objects')
+            write('),\n')
         if self.Candidate_Indicators is not None:
-            outfile.write('Candidate_Indicators=model_.CandidateIndicatorListType(\n')
-            self.Candidate_Indicators.exportLiteral(outfile, level, name_='Candidate_Indicators')
-            outfile.write('),\n')
+            write('Candidate_Indicators=model_.CandidateIndicatorListType(\n')
+            self.Candidate_Indicators.exportLiteral(write, level, name_='Candidate_Indicators')
+            write('),\n')
         if self.Collections is not None:
-            outfile.write('Collections=model_.CollectionsType(\n')
-            self.Collections.exportLiteral(outfile, level, name_='Collections')
-            outfile.write('),\n')
+            write('Collections=model_.CollectionsType(\n')
+            self.Collections.exportLiteral(write, level, name_='Collections')
+            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1053,68 +1053,68 @@ class APICallType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='APICallType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='APICallType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='APICallType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='APICallType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='APICallType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='APICallType'):
         if self.normalized_function_name is not None and 'normalized_function_name' not in already_processed:
             already_processed.add('normalized_function_name')
-            outfile.write(' normalized_function_name=%s' % (self.gds_format_string(quote_attrib(self.normalized_function_name).encode(ExternalEncoding), input_name='normalized_function_name'), ))
+            write(' normalized_function_name=%s' % (self.gds_format_string(quote_attrib(self.normalized_function_name).encode(ExternalEncoding), input_name='normalized_function_name'), ))
         if self.function_name is not None and 'function_name' not in already_processed:
             already_processed.add('function_name')
-            outfile.write(' function_name=%s' % (self.gds_format_string(quote_attrib(self.function_name).encode(ExternalEncoding), input_name='function_name'), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='APICallType', fromsubclass_=False, pretty_print=True):
+            write(' function_name=%s' % (self.gds_format_string(quote_attrib(self.function_name).encode(ExternalEncoding), input_name='function_name'), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='APICallType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Address is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sAddress>%s</%sAddress>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Address).encode(ExternalEncoding), input_name='Address'), 'maecBundle:', eol_))
+            showIndent(write, level, pretty_print)
+            write('<%sAddress>%s</%sAddress>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Address).encode(ExternalEncoding), input_name='Address'), 'maecBundle:', eol_))
         if self.Return_Value is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sReturn_Value>%s</%sReturn_Value>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Return_Value).encode(ExternalEncoding), input_name='Return_Value'), 'maecBundle:', eol_))
+            showIndent(write, level, pretty_print)
+            write('<%sReturn_Value>%s</%sReturn_Value>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Return_Value).encode(ExternalEncoding), input_name='Return_Value'), 'maecBundle:', eol_))
         if self.Parameters is not None:
-            self.Parameters.export(outfile, level, 'maecBundle:', name_='Parameters', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='APICallType'):
+            self.Parameters.export(write, level, 'maecBundle:', name_='Parameters', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='APICallType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.normalized_function_name is not None and 'normalized_function_name' not in already_processed:
             already_processed.add('normalized_function_name')
-            showIndent(outfile, level)
-            outfile.write('normalized_function_name = "%s",\n' % (self.normalized_function_name,))
+            showIndent(write, level)
+            write('normalized_function_name = "%s",\n' % (self.normalized_function_name,))
         if self.function_name is not None and 'function_name' not in already_processed:
             already_processed.add('function_name')
-            showIndent(outfile, level)
-            outfile.write('function_name = "%s",\n' % (self.function_name,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('function_name = "%s",\n' % (self.function_name,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.Address is not None:
-            showIndent(outfile, level)
-            outfile.write('Address=%s,\n' % quote_python(self.Address).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('Address=%s,\n' % quote_python(self.Address).encode(ExternalEncoding))
         if self.Return_Value is not None:
-            showIndent(outfile, level)
-            outfile.write('Return_Value=%s,\n' % quote_python(self.Return_Value).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('Return_Value=%s,\n' % quote_python(self.Return_Value).encode(ExternalEncoding))
         if self.Parameters is not None:
-            outfile.write('Parameters=model_.ParameterListType(\n')
-            self.Parameters.exportLiteral(outfile, level, name_='Parameters')
-            outfile.write('),\n')
+            write('Parameters=model_.ParameterListType(\n')
+            self.Parameters.exportLiteral(write, level, name_='Parameters')
+            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1192,75 +1192,75 @@ class ActionImplementationType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='ActionImplementationType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='ActionImplementationType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ActionImplementationType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='ActionImplementationType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='ActionImplementationType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='ActionImplementationType'):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.add('type_')
-            outfile.write(' type=%s' % (quote_attrib(self.type_), ))
+            write(' type=%s' % (quote_attrib(self.type_), ))
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ActionImplementationType', fromsubclass_=False, pretty_print=True):
+            write(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='ActionImplementationType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Compatible_Platforms is not None:
-            self.Compatible_Platforms.export(outfile, level, 'maecBundle:', name_='Compatible_Platforms', pretty_print=pretty_print)
+            self.Compatible_Platforms.export(write, level, 'maecBundle:', name_='Compatible_Platforms', pretty_print=pretty_print)
         if self.API_Call is not None:
-            self.API_Call.export(outfile, level, 'maecBundle:', name_='API_Call', pretty_print=pretty_print)
+            self.API_Call.export(write, level, 'maecBundle:', name_='API_Call', pretty_print=pretty_print)
         for Code_ in self.Code:
-            Code_.export(outfile, level, 'maecBundle:', name_='Code', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ActionImplementationType'):
+            Code_.export(write, level, 'maecBundle:', name_='Code', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='ActionImplementationType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.add('type_')
-            showIndent(outfile, level)
-            outfile.write('type_ = %s,\n' % (self.type_,))
+            showIndent(write, level)
+            write('type_ = %s,\n' % (self.type_,))
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('id = %s,\n' % (self.id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.Compatible_Platforms is not None:
-            outfile.write('Compatible_Platforms=model_.PlatformListType(\n')
-            self.Compatible_Platforms.exportLiteral(outfile, level, name_='Compatible_Platforms')
-            outfile.write('),\n')
+            write('Compatible_Platforms=model_.PlatformListType(\n')
+            self.Compatible_Platforms.exportLiteral(write, level, name_='Compatible_Platforms')
+            write('),\n')
         if self.API_Call is not None:
-            outfile.write('API_Call=model_.APICallType(\n')
-            self.API_Call.exportLiteral(outfile, level, name_='API_Call')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Code=[\n')
+            write('API_Call=model_.APICallType(\n')
+            self.API_Call.exportLiteral(write, level, name_='API_Call')
+            write('),\n')
+        showIndent(write, level)
+        write('Code=[\n')
         level += 1
         for Code_ in self.Code:
-            outfile.write('model_.code_object.CodeObjectType(\n')
-            Code_.exportLiteral(outfile, level, name_='code_object.CodeObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.code_object.CodeObjectType(\n')
+            Code_.exportLiteral(write, level, name_='code_object.CodeObjectType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1320,49 +1320,49 @@ class CVEVulnerabilityType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='CVEVulnerabilityType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='CVEVulnerabilityType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CVEVulnerabilityType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='CVEVulnerabilityType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CVEVulnerabilityType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='CVEVulnerabilityType'):
         if self.cve_id is not None and 'cve_id' not in already_processed:
             already_processed.add('cve_id')
-            outfile.write(' cve_id=%s' % (self.gds_format_string(quote_attrib(self.cve_id).encode(ExternalEncoding), input_name='cve_id'), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CVEVulnerabilityType', fromsubclass_=False, pretty_print=True):
+            write(' cve_id=%s' % (self.gds_format_string(quote_attrib(self.cve_id).encode(ExternalEncoding), input_name='cve_id'), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='CVEVulnerabilityType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Description is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
-    def exportLiteral(self, outfile, level, name_='CVEVulnerabilityType'):
+            showIndent(write, level, pretty_print)
+            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+    def exportLiteral(self, write, level, name_='CVEVulnerabilityType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.cve_id is not None and 'cve_id' not in already_processed:
             already_processed.add('cve_id')
-            showIndent(outfile, level)
-            outfile.write('cve_id = "%s",\n' % (self.cve_id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('cve_id = "%s",\n' % (self.cve_id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.Description is not None:
-            showIndent(outfile, level)
-            outfile.write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1417,65 +1417,65 @@ class BaseCollectionType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='BaseCollectionType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='BaseCollectionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BaseCollectionType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='BaseCollectionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='BaseCollectionType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='BaseCollectionType'):
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
-            outfile.write(' name=%s' % (self.gds_format_string(quote_attrib(self.name).encode(ExternalEncoding), input_name='name'), ))
+            write(' name=%s' % (self.gds_format_string(quote_attrib(self.name).encode(ExternalEncoding), input_name='name'), ))
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
-            outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
-            outfile.write(' xsi:type="%s"' % self.extensiontype_)
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='BaseCollectionType', fromsubclass_=False, pretty_print=True):
+            write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+            write(' xsi:type="%s"' % self.extensiontype_)
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='BaseCollectionType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Affinity_Type is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sAffinity_Type>%s</%sAffinity_Type>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Affinity_Type).encode(ExternalEncoding), input_name='Affinity_Type'), 'maecBundle:', eol_))
+            showIndent(write, level, pretty_print)
+            write('<%sAffinity_Type>%s</%sAffinity_Type>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Affinity_Type).encode(ExternalEncoding), input_name='Affinity_Type'), 'maecBundle:', eol_))
         if self.Affinity_Degree is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sAffinity_Degree>%s</%sAffinity_Degree>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Affinity_Degree).encode(ExternalEncoding), input_name='Affinity_Degree'), 'maecBundle:', eol_))
+            showIndent(write, level, pretty_print)
+            write('<%sAffinity_Degree>%s</%sAffinity_Degree>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Affinity_Degree).encode(ExternalEncoding), input_name='Affinity_Degree'), 'maecBundle:', eol_))
         if self.Description is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
-    def exportLiteral(self, outfile, level, name_='BaseCollectionType'):
+            showIndent(write, level, pretty_print)
+            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+    def exportLiteral(self, write, level, name_='BaseCollectionType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
-            showIndent(outfile, level)
-            outfile.write('name = "%s",\n' % (self.name,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('name = "%s",\n' % (self.name,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.Affinity_Type is not None:
-            showIndent(outfile, level)
-            outfile.write('Affinity_Type=%s,\n' % quote_python(self.Affinity_Type).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('Affinity_Type=%s,\n' % quote_python(self.Affinity_Type).encode(ExternalEncoding))
         if self.Affinity_Degree is not None:
-            showIndent(outfile, level)
-            outfile.write('Affinity_Degree=%s,\n' % quote_python(self.Affinity_Degree).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('Affinity_Degree=%s,\n' % quote_python(self.Affinity_Degree).encode(ExternalEncoding))
         if self.Description is not None:
-            showIndent(outfile, level)
-            outfile.write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1538,56 +1538,56 @@ class BehaviorRelationshipType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='BehaviorRelationshipType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='BehaviorRelationshipType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BehaviorRelationshipType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='BehaviorRelationshipType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='BehaviorRelationshipType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='BehaviorRelationshipType'):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.add('type_')
-            outfile.write(' type=%s' % (quote_attrib(self.type_), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='BehaviorRelationshipType', fromsubclass_=False, pretty_print=True):
+            write(' type=%s' % (quote_attrib(self.type_), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehaviorRelationshipType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Behavior_Reference_ in self.Behavior_Reference:
-            Behavior_Reference_.export(outfile, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='BehaviorRelationshipType'):
+            Behavior_Reference_.export(write, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='BehaviorRelationshipType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.add('type_')
-            showIndent(outfile, level)
-            outfile.write('type_ = %s,\n' % (self.type_,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Behavior_Reference=[\n')
+            showIndent(write, level)
+            write('type_ = %s,\n' % (self.type_,))
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Behavior_Reference=[\n')
         level += 1
         for Behavior_Reference_ in self.Behavior_Reference:
-            outfile.write('model_.BehaviorReferenceType(\n')
-            Behavior_Reference_.exportLiteral(outfile, level, name_='BehaviorReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.BehaviorReferenceType(\n')
+            Behavior_Reference_.exportLiteral(write, level, name_='BehaviorReferenceType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1633,51 +1633,51 @@ class AVClassificationsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='AVClassificationsType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='AVClassificationsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='AVClassificationsType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='AVClassificationsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='AVClassificationsType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='AVClassificationsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='AVClassificationsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='AVClassificationsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for AV_Classification_ in self.AV_Classification:
-            AV_Classification_.export(outfile, level, 'maecBundle:', name_='AV_Classification', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='AVClassificationsType'):
+            AV_Classification_.export(write, level, 'maecBundle:', name_='AV_Classification', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='AVClassificationsType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('AV_Classification=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('AV_Classification=[\n')
         level += 1
         for AV_Classification_ in self.AV_Classification:
-            outfile.write('model_.AVClassificationType(\n')
-            AV_Classification_.exportLiteral(outfile, level, name_='AVClassificationType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.AVClassificationType(\n')
+            AV_Classification_.exportLiteral(write, level, name_='AVClassificationType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1725,53 +1725,53 @@ class ParameterType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='ParameterType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='ParameterType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ParameterType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='ParameterType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='ParameterType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='ParameterType'):
         if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
             already_processed.add('ordinal_position')
-            outfile.write(' ordinal_position="%s"' % self.gds_format_integer(self.ordinal_position, input_name='ordinal_position'))
+            write(' ordinal_position="%s"' % self.gds_format_integer(self.ordinal_position, input_name='ordinal_position'))
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
-            outfile.write(' name=%s' % (self.gds_format_string(quote_attrib(self.name).encode(ExternalEncoding), input_name='name'), ))
+            write(' name=%s' % (self.gds_format_string(quote_attrib(self.name).encode(ExternalEncoding), input_name='name'), ))
         if self.value is not None and 'value' not in already_processed:
             already_processed.add('value')
-            outfile.write(' value=%s' % (self.gds_format_string(quote_attrib(self.value).encode(ExternalEncoding), input_name='value'), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ParameterType', fromsubclass_=False, pretty_print=True):
+            write(' value=%s' % (self.gds_format_string(quote_attrib(self.value).encode(ExternalEncoding), input_name='value'), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='ParameterType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='ParameterType'):
+    def exportLiteral(self, write, level, name_='ParameterType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
             already_processed.add('ordinal_position')
-            showIndent(outfile, level)
-            outfile.write('ordinal_position = %d,\n' % (self.ordinal_position,))
+            showIndent(write, level)
+            write('ordinal_position = %d,\n' % (self.ordinal_position,))
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
-            showIndent(outfile, level)
-            outfile.write('name = "%s",\n' % (self.name,))
+            showIndent(write, level)
+            write('name = "%s",\n' % (self.name,))
         if self.value is not None and 'value' not in already_processed:
             already_processed.add('value')
-            showIndent(outfile, level)
-            outfile.write('value = "%s",\n' % (self.value,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('value = "%s",\n' % (self.value,))
+    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -1827,51 +1827,51 @@ class ParameterListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='ParameterListType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='ParameterListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ParameterListType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='ParameterListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='ParameterListType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='ParameterListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ParameterListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='ParameterListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Parameter_ in self.Parameter:
-            Parameter_.export(outfile, level, 'maecBundle:', name_='Parameter', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ParameterListType'):
+            Parameter_.export(write, level, 'maecBundle:', name_='Parameter', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='ParameterListType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Parameter=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Parameter=[\n')
         level += 1
         for Parameter_ in self.Parameter:
-            outfile.write('model_.ParameterType(\n')
-            Parameter_.exportLiteral(outfile, level, name_='ParameterType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.ParameterType(\n')
+            Parameter_.exportLiteral(write, level, name_='ParameterType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1914,51 +1914,51 @@ class AssociatedCodeType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='AssociatedCodeType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='AssociatedCodeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='AssociatedCodeType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='AssociatedCodeType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='AssociatedCodeType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='AssociatedCodeType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='AssociatedCodeType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='AssociatedCodeType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Code_Snippet_ in self.Code_Snippet:
-            Code_Snippet_.export(outfile, level, 'maecBundle:', name_='Code_Snippet', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='AssociatedCodeType'):
+            Code_Snippet_.export(write, level, 'maecBundle:', name_='Code_Snippet', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='AssociatedCodeType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Code_Snippet=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Code_Snippet=[\n')
         level += 1
         for Code_Snippet_ in self.Code_Snippet:
-            outfile.write('model_.code_object.CodeObjectType(\n')
-            Code_Snippet_.exportLiteral(outfile, level, name_='code_object.CodeObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.code_object.CodeObjectType(\n')
+            Code_Snippet_.exportLiteral(write, level, name_='code_object.CodeObjectType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2000,50 +2000,50 @@ class BehaviorPurposeType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='BehaviorPurposeType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='BehaviorPurposeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BehaviorPurposeType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='BehaviorPurposeType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='BehaviorPurposeType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='BehaviorPurposeType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='BehaviorPurposeType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehaviorPurposeType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Description is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+            showIndent(write, level, pretty_print)
+            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
         if self.Vulnerability_Exploit is not None:
-            self.Vulnerability_Exploit.export(outfile, level, 'maecBundle:', name_='Vulnerability_Exploit', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='BehaviorPurposeType'):
+            self.Vulnerability_Exploit.export(write, level, 'maecBundle:', name_='Vulnerability_Exploit', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='BehaviorPurposeType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
+    def exportLiteralChildren(self, write, level, name_):
         if self.Description is not None:
-            showIndent(outfile, level)
-            outfile.write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
         if self.Vulnerability_Exploit is not None:
-            outfile.write('Vulnerability_Exploit=model_.ExploitType(\n')
-            self.Vulnerability_Exploit.exportLiteral(outfile, level, name_='Vulnerability_Exploit')
-            outfile.write('),\n')
+            write('Vulnerability_Exploit=model_.ExploitType(\n')
+            self.Vulnerability_Exploit.exportLiteral(write, level, name_='Vulnerability_Exploit')
+            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2090,51 +2090,51 @@ class PlatformListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='PlatformListType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='PlatformListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PlatformListType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='PlatformListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='PlatformListType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='PlatformListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='PlatformListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='PlatformListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Platform_ in self.Platform:
-            Platform_.export(outfile, level, 'maecBundle:', name_='Platform', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PlatformListType'):
+            Platform_.export(write, level, 'maecBundle:', name_='Platform', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='PlatformListType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Platform=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Platform=[\n')
         level += 1
         for Platform_ in self.Platform:
-            outfile.write('model_.cybox_common.PlatformSpecificationType(\n')
-            Platform_.exportLiteral(outfile, level, name_='cybox_common.PlatformSpecificationType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.cybox_common.PlatformSpecificationType(\n')
+            Platform_.exportLiteral(write, level, name_='cybox_common.PlatformSpecificationType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2196,67 +2196,67 @@ class ExploitType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='ExploitType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='ExploitType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ExploitType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='ExploitType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='ExploitType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='ExploitType'):
         if self.known_vulnerability is not None and 'known_vulnerability' not in already_processed:
             already_processed.add('known_vulnerability')
-            outfile.write(' known_vulnerability="%s"' % self.gds_format_boolean(self.known_vulnerability, input_name='known_vulnerability'))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ExploitType', fromsubclass_=False, pretty_print=True):
+            write(' known_vulnerability="%s"' % self.gds_format_boolean(self.known_vulnerability, input_name='known_vulnerability'))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='ExploitType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.CVE is not None:
-            self.CVE.export(outfile, level, 'maecBundle:', name_='CVE', pretty_print=pretty_print)
+            self.CVE.export(write, level, 'maecBundle:', name_='CVE', pretty_print=pretty_print)
         for CWE_ID_ in self.CWE_ID:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sCWE_ID>%s</%sCWE_ID>%s' % ('maecBundle:', self.gds_format_string(quote_xml(CWE_ID_).encode(ExternalEncoding), input_name='CWE_ID'), 'maecBundle:', eol_))
+            showIndent(write, level, pretty_print)
+            write('<%sCWE_ID>%s</%sCWE_ID>%s' % ('maecBundle:', self.gds_format_string(quote_xml(CWE_ID_).encode(ExternalEncoding), input_name='CWE_ID'), 'maecBundle:', eol_))
         if self.Targeted_Platforms is not None:
-            self.Targeted_Platforms.export(outfile, level, 'maecBundle:', name_='Targeted_Platforms', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ExploitType'):
+            self.Targeted_Platforms.export(write, level, 'maecBundle:', name_='Targeted_Platforms', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='ExploitType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.known_vulnerability is not None and 'known_vulnerability' not in already_processed:
             already_processed.add('known_vulnerability')
-            showIndent(outfile, level)
-            outfile.write('known_vulnerability = %s,\n' % (self.known_vulnerability,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('known_vulnerability = %s,\n' % (self.known_vulnerability,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.CVE is not None:
-            outfile.write('CVE=model_.CVEVulnerabilityType(\n')
-            self.CVE.exportLiteral(outfile, level, name_='CVE')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('CWE_ID=[\n')
+            write('CVE=model_.CVEVulnerabilityType(\n')
+            self.CVE.exportLiteral(write, level, name_='CVE')
+            write('),\n')
+        showIndent(write, level)
+        write('CWE_ID=[\n')
         level += 1
         for CWE_ID_ in self.CWE_ID:
-            showIndent(outfile, level)
-            outfile.write('%s,\n' % quote_python(CWE_ID_).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('%s,\n' % quote_python(CWE_ID_).encode(ExternalEncoding))
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
         if self.Targeted_Platforms is not None:
-            outfile.write('Targeted_Platforms=model_.PlatformListType(\n')
-            self.Targeted_Platforms.exportLiteral(outfile, level, name_='Targeted_Platforms')
-            outfile.write('),\n')
+            write('Targeted_Platforms=model_.PlatformListType(\n')
+            self.Targeted_Platforms.exportLiteral(write, level, name_='Targeted_Platforms')
+            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2315,51 +2315,51 @@ class BehaviorRelationshipListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='BehaviorRelationshipListType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='BehaviorRelationshipListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BehaviorRelationshipListType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='BehaviorRelationshipListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='BehaviorRelationshipListType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='BehaviorRelationshipListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='BehaviorRelationshipListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehaviorRelationshipListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Relationship_ in self.Relationship:
-            Relationship_.export(outfile, level, 'maecBundle:', name_='Relationship', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='BehaviorRelationshipListType'):
+            Relationship_.export(write, level, 'maecBundle:', name_='Relationship', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='BehaviorRelationshipListType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Relationship=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Relationship=[\n')
         level += 1
         for Relationship_ in self.Relationship:
-            outfile.write('model_.BehaviorRelationshipType(\n')
-            Relationship_.exportLiteral(outfile, level, name_='BehaviorRelationshipType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.BehaviorRelationshipType(\n')
+            Relationship_.exportLiteral(write, level, name_='BehaviorRelationshipType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2429,90 +2429,90 @@ class BehavioralActionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='BehavioralActionsType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='BehavioralActionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BehavioralActionsType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='BehavioralActionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='BehavioralActionsType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='BehavioralActionsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='BehavioralActionsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehavioralActionsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Action_Collection_ in self.Action_Collection:
-            Action_Collection_.export(outfile, level, 'maecBundle:', name_='Action_Collection', pretty_print=pretty_print)
+            Action_Collection_.export(write, level, 'maecBundle:', name_='Action_Collection', pretty_print=pretty_print)
         for Action_ in self.Action:
-            Action_.export(outfile, level, 'maecBundle:', name_='Action', pretty_print=pretty_print)
+            Action_.export(write, level, 'maecBundle:', name_='Action', pretty_print=pretty_print)
         for Action_Reference_ in self.Action_Reference:
-            Action_Reference_.export(outfile, level, 'maecBundle:', name_='Action_Reference', pretty_print=pretty_print)
+            Action_Reference_.export(write, level, 'maecBundle:', name_='Action_Reference', pretty_print=pretty_print)
         for Action_Equivalence_Reference_ in self.Action_Equivalence_Reference:
-            Action_Equivalence_Reference_.export(outfile, level, 'maecBundle:', name_='Action_Equivalence_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='BehavioralActionsType'):
+            Action_Equivalence_Reference_.export(write, level, 'maecBundle:', name_='Action_Equivalence_Reference', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='BehavioralActionsType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Action_Collection=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Action_Collection=[\n')
         level += 1
         for Action_Collection_ in self.Action_Collection:
-            outfile.write('model_.ActionCollectionType(\n')
-            Action_Collection_.exportLiteral(outfile, level, name_='ActionCollectionType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.ActionCollectionType(\n')
+            Action_Collection_.exportLiteral(write, level, name_='ActionCollectionType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('Action=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('Action=[\n')
         level += 1
         for Action_ in self.Action:
-            outfile.write('model_.BehavioralActionType(\n')
-            Action_.exportLiteral(outfile, level, name_='BehavioralActionType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.BehavioralActionType(\n')
+            Action_.exportLiteral(write, level, name_='BehavioralActionType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('Action_Reference=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('Action_Reference=[\n')
         level += 1
         for Action_Reference_ in self.Action_Reference:
-            outfile.write('model_.BehavioralActionReferenceType(\n')
-            Action_Reference_.exportLiteral(outfile, level, name_='BehavioralActionReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.BehavioralActionReferenceType(\n')
+            Action_Reference_.exportLiteral(write, level, name_='BehavioralActionReferenceType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('Action_Equivalence_Reference=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('Action_Equivalence_Reference=[\n')
         level += 1
         for Action_Equivalence_Reference_ in self.Action_Equivalence_Reference:
-            outfile.write('model_.BehavioralActionEquivalenceReferenceType(\n')
-            Action_Equivalence_Reference_.exportLiteral(outfile, level, name_='BehavioralActionEquivalenceReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.BehavioralActionEquivalenceReferenceType(\n')
+            Action_Equivalence_Reference_.exportLiteral(write, level, name_='BehavioralActionEquivalenceReferenceType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2566,51 +2566,51 @@ class BehaviorListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='BehaviorListType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='BehaviorListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BehaviorListType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='BehaviorListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='BehaviorListType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='BehaviorListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='BehaviorListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehaviorListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Behavior_ in self.Behavior:
-            Behavior_.export(outfile, level, 'maecBundle:', name_='Behavior', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='BehaviorListType'):
+            Behavior_.export(write, level, 'maecBundle:', name_='Behavior', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='BehaviorListType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Behavior=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Behavior=[\n')
         level += 1
         for Behavior_ in self.Behavior:
-            outfile.write('model_.BehaviorType(\n')
-            Behavior_.exportLiteral(outfile, level, name_='BehaviorType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.BehaviorType(\n')
+            Behavior_.exportLiteral(write, level, name_='BehaviorType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2652,51 +2652,51 @@ class ActionListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='ActionListType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='ActionListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ActionListType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='ActionListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='ActionListType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='ActionListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ActionListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='ActionListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Action_ in self.Action:
-            Action_.export(outfile, level, 'maecBundle:', name_='Action', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ActionListType'):
+            Action_.export(write, level, 'maecBundle:', name_='Action', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='ActionListType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Action=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Action=[\n')
         level += 1
         for Action_ in self.Action:
-            outfile.write('model_.MalwareActionType(\n')
-            Action_.exportLiteral(outfile, level, name_='MalwareActionType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.MalwareActionType(\n')
+            Action_.exportLiteral(write, level, name_='MalwareActionType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2738,51 +2738,51 @@ class ObjectListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='ObjectListType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='ObjectListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ObjectListType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='ObjectListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='ObjectListType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='ObjectListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ObjectListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='ObjectListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Object_ in self.Object:
-            Object_.export(outfile, level, 'maecBundle:', name_='Object', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ObjectListType'):
+            Object_.export(write, level, 'maecBundle:', name_='Object', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='ObjectListType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Object=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Object=[\n')
         level += 1
         for Object_ in self.Object:
-            outfile.write('model_.cybox_core.ObjectType(\n')
-            Object_.exportLiteral(outfile, level, name_='cybox_core.ObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.cybox_core.ObjectType(\n')
+            Object_.exportLiteral(write, level, name_='cybox_core.ObjectType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2823,39 +2823,39 @@ class BehaviorReferenceType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='BehaviorReferenceType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='BehaviorReferenceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BehaviorReferenceType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='BehaviorReferenceType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='BehaviorReferenceType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='BehaviorReferenceType'):
         if self.behavior_idref is not None and 'behavior_idref' not in already_processed:
             already_processed.add('behavior_idref')
-            outfile.write(' behavior_idref=%s' % (quote_attrib(self.behavior_idref), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='BehaviorReferenceType', fromsubclass_=False, pretty_print=True):
+            write(' behavior_idref=%s' % (quote_attrib(self.behavior_idref), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehaviorReferenceType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='BehaviorReferenceType'):
+    def exportLiteral(self, write, level, name_='BehaviorReferenceType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.behavior_idref is not None and 'behavior_idref' not in already_processed:
             already_processed.add('behavior_idref')
-            showIndent(outfile, level)
-            outfile.write('behavior_idref = %s,\n' % (self.behavior_idref,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('behavior_idref = %s,\n' % (self.behavior_idref,))
+    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -2897,39 +2897,39 @@ class ObjectReferenceType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='ObjectReferenceType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='ObjectReferenceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ObjectReferenceType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='ObjectReferenceType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='ObjectReferenceType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='ObjectReferenceType'):
         if self.object_idref is not None and 'object_idref' not in already_processed:
             already_processed.add('object_idref')
-            outfile.write(' object_idref=%s' % (quote_attrib(self.object_idref), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ObjectReferenceType', fromsubclass_=False, pretty_print=True):
+            write(' object_idref=%s' % (quote_attrib(self.object_idref), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='ObjectReferenceType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='ObjectReferenceType'):
+    def exportLiteral(self, write, level, name_='ObjectReferenceType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.object_idref is not None and 'object_idref' not in already_processed:
             already_processed.add('object_idref')
-            showIndent(outfile, level)
-            outfile.write('object_idref = %s,\n' % (self.object_idref,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('object_idref = %s,\n' % (self.object_idref,))
+    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -2982,46 +2982,46 @@ class BehavioralActionEquivalenceReferenceType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='BehavioralActionEquivalenceReferenceType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='BehavioralActionEquivalenceReferenceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BehavioralActionEquivalenceReferenceType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='BehavioralActionEquivalenceReferenceType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='BehavioralActionEquivalenceReferenceType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='BehavioralActionEquivalenceReferenceType'):
         if self.action_equivalence_idref is not None and 'action_equivalence_idref' not in already_processed:
             already_processed.add('action_equivalence_idref')
-            outfile.write(' action_equivalence_idref=%s' % (quote_attrib(self.action_equivalence_idref), ))
+            write(' action_equivalence_idref=%s' % (quote_attrib(self.action_equivalence_idref), ))
         if self.behavioral_ordering is not None and 'behavioral_ordering' not in already_processed:
             already_processed.add('behavioral_ordering')
-            outfile.write(' behavioral_ordering="%s"' % self.gds_format_integer(self.behavioral_ordering, input_name='behavioral_ordering'))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='BehavioralActionEquivalenceReferenceType', fromsubclass_=False, pretty_print=True):
+            write(' behavioral_ordering="%s"' % self.gds_format_integer(self.behavioral_ordering, input_name='behavioral_ordering'))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehavioralActionEquivalenceReferenceType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='BehavioralActionEquivalenceReferenceType'):
+    def exportLiteral(self, write, level, name_='BehavioralActionEquivalenceReferenceType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.action_equivalence_idref is not None and 'action_equivalence_idref' not in already_processed:
             already_processed.add('action_equivalence_idref')
-            showIndent(outfile, level)
-            outfile.write('action_equivalence_idref = %s,\n' % (self.action_equivalence_idref,))
+            showIndent(write, level)
+            write('action_equivalence_idref = %s,\n' % (self.action_equivalence_idref,))
         if self.behavioral_ordering is not None and 'behavioral_ordering' not in already_processed:
             already_processed.add('behavioral_ordering')
-            showIndent(outfile, level)
-            outfile.write('behavioral_ordering = %d,\n' % (self.behavioral_ordering,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('behavioral_ordering = %d,\n' % (self.behavioral_ordering,))
+    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -3074,51 +3074,51 @@ class BehaviorReferenceListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='BehaviorReferenceListType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='BehaviorReferenceListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BehaviorReferenceListType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='BehaviorReferenceListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='BehaviorReferenceListType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='BehaviorReferenceListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='BehaviorReferenceListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehaviorReferenceListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Behavior_Reference_ in self.Behavior_Reference:
-            Behavior_Reference_.export(outfile, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='BehaviorReferenceListType'):
+            Behavior_Reference_.export(write, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='BehaviorReferenceListType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Behavior_Reference=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Behavior_Reference=[\n')
         level += 1
         for Behavior_Reference_ in self.Behavior_Reference:
-            outfile.write('model_.BehaviorReferenceType(\n')
-            Behavior_Reference_.exportLiteral(outfile, level, name_='BehaviorReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.BehaviorReferenceType(\n')
+            Behavior_Reference_.exportLiteral(write, level, name_='BehaviorReferenceType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3160,51 +3160,51 @@ class ActionReferenceListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='ActionReferenceListType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='ActionReferenceListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ActionReferenceListType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='ActionReferenceListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='ActionReferenceListType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='ActionReferenceListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ActionReferenceListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='ActionReferenceListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Action_Reference_ in self.Action_Reference:
-            Action_Reference_.export(outfile, level, 'maecBundle:', name_='Action_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ActionReferenceListType'):
+            Action_Reference_.export(write, level, 'maecBundle:', name_='Action_Reference', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='ActionReferenceListType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Action_Reference=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Action_Reference=[\n')
         level += 1
         for Action_Reference_ in self.Action_Reference:
-            outfile.write('model_.cybox_core.ActionReferenceType(\n')
-            Action_Reference_.exportLiteral(outfile, level, name_='cybox_core.ActionReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.cybox_core.ActionReferenceType(\n')
+            Action_Reference_.exportLiteral(write, level, name_='cybox_core.ActionReferenceType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3247,51 +3247,51 @@ class ObjectReferenceListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='ObjectReferenceListType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='ObjectReferenceListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ObjectReferenceListType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='ObjectReferenceListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='ObjectReferenceListType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='ObjectReferenceListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ObjectReferenceListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='ObjectReferenceListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Object_Reference_ in self.Object_Reference:
-            Object_Reference_.export(outfile, level, 'maecBundle:', name_='Object_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ObjectReferenceListType'):
+            Object_Reference_.export(write, level, 'maecBundle:', name_='Object_Reference', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='ObjectReferenceListType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Object_Reference=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Object_Reference=[\n')
         level += 1
         for Object_Reference_ in self.Object_Reference:
-            outfile.write('model_.ObjectReferenceType(\n')
-            Object_Reference_.exportLiteral(outfile, level, name_='ObjectReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.ObjectReferenceType(\n')
+            Object_Reference_.exportLiteral(write, level, name_='ObjectReferenceType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3370,100 +3370,100 @@ class CandidateIndicatorType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='CandidateIndicatorType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='CandidateIndicatorType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CandidateIndicatorType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='CandidateIndicatorType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CandidateIndicatorType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='CandidateIndicatorType'):
         if self.version is not None and 'version' not in already_processed:
             already_processed.add('version')
-            outfile.write(' version=%s' % (self.gds_format_string(quote_attrib(self.version).encode(ExternalEncoding), input_name='version'), ))
+            write(' version=%s' % (self.gds_format_string(quote_attrib(self.version).encode(ExternalEncoding), input_name='version'), ))
         if self.creation_datetime is not None and 'creation_datetime' not in already_processed:
             already_processed.add('creation_datetime')
-            outfile.write(' creation_datetime="%s"' % self.gds_format_datetime(self.creation_datetime, input_name='creation_datetime'))
+            write(' creation_datetime="%s"' % self.gds_format_datetime(self.creation_datetime, input_name='creation_datetime'))
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
+            write(' id=%s' % (quote_attrib(self.id), ))
         if self.lastupdate_datetime is not None and 'lastupdate_datetime' not in already_processed:
             already_processed.add('lastupdate_datetime')
-            outfile.write(' lastupdate_datetime="%s"' % self.gds_format_datetime(self.lastupdate_datetime, input_name='lastupdate_datetime'))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CandidateIndicatorType', fromsubclass_=False, pretty_print=True):
+            write(' lastupdate_datetime="%s"' % self.gds_format_datetime(self.lastupdate_datetime, input_name='lastupdate_datetime'))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='CandidateIndicatorType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Importance is not None:
-            self.Importance.export(outfile, level, 'maecBundle:', name_='Importance', pretty_print=pretty_print)
+            self.Importance.export(write, level, 'maecBundle:', name_='Importance', pretty_print=pretty_print)
         if self.Numeric_Importance is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sNumeric_Importance>%s</%sNumeric_Importance>%s' % ('maecBundle:', self.gds_format_integer(self.Numeric_Importance, input_name='Numeric_Importance'), 'maecBundle:', eol_))
+            showIndent(write, level, pretty_print)
+            write('<%sNumeric_Importance>%s</%sNumeric_Importance>%s' % ('maecBundle:', self.gds_format_integer(self.Numeric_Importance, input_name='Numeric_Importance'), 'maecBundle:', eol_))
         if self.Author is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sAuthor>%s</%sAuthor>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Author).encode(ExternalEncoding), input_name='Author'), 'maecBundle:', eol_))
+            showIndent(write, level, pretty_print)
+            write('<%sAuthor>%s</%sAuthor>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Author).encode(ExternalEncoding), input_name='Author'), 'maecBundle:', eol_))
         if self.Description is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+            showIndent(write, level, pretty_print)
+            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
         if self.Malware_Entity is not None:
-            self.Malware_Entity.export(outfile, level, 'maecBundle:', name_='Malware_Entity', pretty_print=pretty_print)
+            self.Malware_Entity.export(write, level, 'maecBundle:', name_='Malware_Entity', pretty_print=pretty_print)
         if self.Composition is not None:
-            self.Composition.export(outfile, level, 'maecBundle:', name_='Composition', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='CandidateIndicatorType'):
+            self.Composition.export(write, level, 'maecBundle:', name_='Composition', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='CandidateIndicatorType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.version is not None and 'version' not in already_processed:
             already_processed.add('version')
-            showIndent(outfile, level)
-            outfile.write('version = "%s",\n' % (self.version,))
+            showIndent(write, level)
+            write('version = "%s",\n' % (self.version,))
         if self.creation_datetime is not None and 'creation_datetime' not in already_processed:
             already_processed.add('creation_datetime')
-            showIndent(outfile, level)
-            outfile.write('creation_datetime = "%s",\n' % (self.creation_datetime,))
+            showIndent(write, level)
+            write('creation_datetime = "%s",\n' % (self.creation_datetime,))
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
+            showIndent(write, level)
+            write('id = %s,\n' % (self.id,))
         if self.lastupdate_datetime is not None and 'lastupdate_datetime' not in already_processed:
             already_processed.add('lastupdate_datetime')
-            showIndent(outfile, level)
-            outfile.write('lastupdate_datetime = "%s",\n' % (self.lastupdate_datetime,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('lastupdate_datetime = "%s",\n' % (self.lastupdate_datetime,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.Importance is not None:
-            outfile.write('Importance=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Importance.exportLiteral(outfile, level, name_='Importance')
-            outfile.write('),\n')
+            write('Importance=model_.cybox_common.ControlledVocabularyStringType(\n')
+            self.Importance.exportLiteral(write, level, name_='Importance')
+            write('),\n')
         if self.Numeric_Importance is not None:
-            showIndent(outfile, level)
-            outfile.write('Numeric_Importance=%d,\n' % self.Numeric_Importance)
+            showIndent(write, level)
+            write('Numeric_Importance=%d,\n' % self.Numeric_Importance)
         if self.Author is not None:
-            showIndent(outfile, level)
-            outfile.write('Author=%s,\n' % quote_python(self.Author).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('Author=%s,\n' % quote_python(self.Author).encode(ExternalEncoding))
         if self.Description is not None:
-            showIndent(outfile, level)
-            outfile.write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
         if self.Malware_Entity is not None:
-            outfile.write('Malware_Entity=model_.MalwareEntityType(\n')
-            self.Malware_Entity.exportLiteral(outfile, level, name_='Malware_Entity')
-            outfile.write('),\n')
+            write('Malware_Entity=model_.MalwareEntityType(\n')
+            self.Malware_Entity.exportLiteral(write, level, name_='Malware_Entity')
+            write('),\n')
         if self.Composition is not None:
-            outfile.write('Composition=model_.CandidateIndicatorCompositionType(\n')
-            self.Composition.exportLiteral(outfile, level, name_='Composition')
-            outfile.write('),\n')
+            write('Composition=model_.CandidateIndicatorCompositionType(\n')
+            self.Composition.exportLiteral(write, level, name_='Composition')
+            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3553,51 +3553,51 @@ class CandidateIndicatorListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='CandidateIndicatorListType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='CandidateIndicatorListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CandidateIndicatorListType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='CandidateIndicatorListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CandidateIndicatorListType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='CandidateIndicatorListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CandidateIndicatorListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='CandidateIndicatorListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Candidate_Indicator_ in self.Candidate_Indicator:
-            Candidate_Indicator_.export(outfile, level, 'maecBundle:', name_='Candidate_Indicator', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='CandidateIndicatorListType'):
+            Candidate_Indicator_.export(write, level, 'maecBundle:', name_='Candidate_Indicator', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='CandidateIndicatorListType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Candidate_Indicator=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Candidate_Indicator=[\n')
         level += 1
         for Candidate_Indicator_ in self.Candidate_Indicator:
-            outfile.write('model_.CandidateIndicatorType(\n')
-            Candidate_Indicator_.exportLiteral(outfile, level, name_='CandidateIndicatorType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.CandidateIndicatorType(\n')
+            Candidate_Indicator_.exportLiteral(write, level, name_='CandidateIndicatorType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3645,56 +3645,56 @@ class MalwareEntityType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='MalwareEntityType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='MalwareEntityType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MalwareEntityType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='MalwareEntityType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='MalwareEntityType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='MalwareEntityType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='MalwareEntityType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='MalwareEntityType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Type is not None:
-            self.Type.export(outfile, level, 'maecBundle:', name_='Type', pretty_print=pretty_print)
+            self.Type.export(write, level, 'maecBundle:', name_='Type', pretty_print=pretty_print)
         if self.Name is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sName>%s</%sName>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Name).encode(ExternalEncoding), input_name='Name'), 'maecBundle:', eol_))
+            showIndent(write, level, pretty_print)
+            write('<%sName>%s</%sName>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Name).encode(ExternalEncoding), input_name='Name'), 'maecBundle:', eol_))
         if self.Description is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
-    def exportLiteral(self, outfile, level, name_='MalwareEntityType'):
+            showIndent(write, level, pretty_print)
+            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+    def exportLiteral(self, write, level, name_='MalwareEntityType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
+    def exportLiteralChildren(self, write, level, name_):
         if self.Type is not None:
-            outfile.write('Type=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
+            write('Type=model_.cybox_common.ControlledVocabularyStringType(\n')
+            self.Type.exportLiteral(write, level, name_='Type')
+            write('),\n')
         if self.Name is not None:
-            showIndent(outfile, level)
-            outfile.write('Name=%s,\n' % quote_python(self.Name).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('Name=%s,\n' % quote_python(self.Name).encode(ExternalEncoding))
         if self.Description is not None:
-            showIndent(outfile, level)
-            outfile.write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3752,62 +3752,62 @@ class CollectionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='CollectionsType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='CollectionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CollectionsType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='CollectionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CollectionsType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='CollectionsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CollectionsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='CollectionsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Behavior_Collections is not None:
-            self.Behavior_Collections.export(outfile, level, 'maecBundle:', name_='Behavior_Collections', pretty_print=pretty_print)
+            self.Behavior_Collections.export(write, level, 'maecBundle:', name_='Behavior_Collections', pretty_print=pretty_print)
         if self.Action_Collections is not None:
-            self.Action_Collections.export(outfile, level, 'maecBundle:', name_='Action_Collections', pretty_print=pretty_print)
+            self.Action_Collections.export(write, level, 'maecBundle:', name_='Action_Collections', pretty_print=pretty_print)
         if self.Object_Collections is not None:
-            self.Object_Collections.export(outfile, level, 'maecBundle:', name_='Object_Collections', pretty_print=pretty_print)
+            self.Object_Collections.export(write, level, 'maecBundle:', name_='Object_Collections', pretty_print=pretty_print)
         if self.Candidate_Indicator_Collections is not None:
-            self.Candidate_Indicator_Collections.export(outfile, level, 'maecBundle:', name_='Candidate_Indicator_Collections', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='CollectionsType'):
+            self.Candidate_Indicator_Collections.export(write, level, 'maecBundle:', name_='Candidate_Indicator_Collections', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='CollectionsType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
+    def exportLiteralChildren(self, write, level, name_):
         if self.Behavior_Collections is not None:
-            outfile.write('Behavior_Collections=model_.BehaviorCollectionListType(\n')
-            self.Behavior_Collections.exportLiteral(outfile, level, name_='Behavior_Collections')
-            outfile.write('),\n')
+            write('Behavior_Collections=model_.BehaviorCollectionListType(\n')
+            self.Behavior_Collections.exportLiteral(write, level, name_='Behavior_Collections')
+            write('),\n')
         if self.Action_Collections is not None:
-            outfile.write('Action_Collections=model_.ActionCollectionListType(\n')
-            self.Action_Collections.exportLiteral(outfile, level, name_='Action_Collections')
-            outfile.write('),\n')
+            write('Action_Collections=model_.ActionCollectionListType(\n')
+            self.Action_Collections.exportLiteral(write, level, name_='Action_Collections')
+            write('),\n')
         if self.Object_Collections is not None:
-            outfile.write('Object_Collections=model_.ObjectCollectionListType(\n')
-            self.Object_Collections.exportLiteral(outfile, level, name_='Object_Collections')
-            outfile.write('),\n')
+            write('Object_Collections=model_.ObjectCollectionListType(\n')
+            self.Object_Collections.exportLiteral(write, level, name_='Object_Collections')
+            write('),\n')
         if self.Candidate_Indicator_Collections is not None:
-            outfile.write('Candidate_Indicator_Collections=model_.CandidateIndicatorCollectionListType(\n')
-            self.Candidate_Indicator_Collections.exportLiteral(outfile, level, name_='Candidate_Indicator_Collections')
-            outfile.write('),\n')
+            write('Candidate_Indicator_Collections=model_.CandidateIndicatorCollectionListType(\n')
+            self.Candidate_Indicator_Collections.exportLiteral(write, level, name_='Candidate_Indicator_Collections')
+            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3859,39 +3859,39 @@ class BundleReferenceType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='BundleReferenceType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='BundleReferenceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BundleReferenceType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='BundleReferenceType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='BundleReferenceType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='BundleReferenceType'):
         if self.bundle_idref is not None and 'bundle_idref' not in already_processed:
             already_processed.add('bundle_idref')
-            outfile.write(' bundle_idref=%s' % (quote_attrib(self.bundle_idref), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='BundleReferenceType', fromsubclass_=False, pretty_print=True):
+            write(' bundle_idref=%s' % (quote_attrib(self.bundle_idref), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='BundleReferenceType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='BundleReferenceType'):
+    def exportLiteral(self, write, level, name_='BundleReferenceType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.bundle_idref is not None and 'bundle_idref' not in already_processed:
             already_processed.add('bundle_idref')
-            showIndent(outfile, level)
-            outfile.write('bundle_idref = %s,\n' % (self.bundle_idref,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('bundle_idref = %s,\n' % (self.bundle_idref,))
+    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -3931,44 +3931,44 @@ class ProcessTreeType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='ProcessTreeType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='ProcessTreeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ProcessTreeType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='ProcessTreeType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='ProcessTreeType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='ProcessTreeType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ProcessTreeType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='ProcessTreeType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Root_Process is not None:
-            self.Root_Process.export(outfile, level, 'maecBundle:', name_='Root_Process', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ProcessTreeType'):
+            self.Root_Process.export(write, level, 'maecBundle:', name_='Root_Process', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='ProcessTreeType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
+    def exportLiteralChildren(self, write, level, name_):
         if self.Root_Process is not None:
-            outfile.write('Root_Process=model_.ProcessTreeNodeType(\n')
-            self.Root_Process.exportLiteral(outfile, level, name_='Root_Process')
-            outfile.write('),\n')
+            write('Root_Process=model_.ProcessTreeNodeType(\n')
+            self.Root_Process.exportLiteral(write, level, name_='Root_Process')
+            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4044,95 +4044,95 @@ class CandidateIndicatorCompositionType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='CandidateIndicatorCompositionType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='CandidateIndicatorCompositionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CandidateIndicatorCompositionType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='CandidateIndicatorCompositionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CandidateIndicatorCompositionType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='CandidateIndicatorCompositionType'):
         if self.operator is not None and 'operator' not in already_processed:
             already_processed.add('operator')
-            outfile.write(' operator=%s' % (quote_attrib(self.operator), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CandidateIndicatorCompositionType', fromsubclass_=False, pretty_print=True):
+            write(' operator=%s' % (quote_attrib(self.operator), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='CandidateIndicatorCompositionType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Behavior_Reference_ in self.Behavior_Reference:
-            Behavior_Reference_.export(outfile, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
+            Behavior_Reference_.export(write, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
         for Action_Reference_ in self.Action_Reference:
-            Action_Reference_.export(outfile, level, 'maecBundle:', name_='Action_Reference', pretty_print=pretty_print)
+            Action_Reference_.export(write, level, 'maecBundle:', name_='Action_Reference', pretty_print=pretty_print)
         for Object_Reference_ in self.Object_Reference:
-            Object_Reference_.export(outfile, level, 'maecBundle:', name_='Object_Reference', pretty_print=pretty_print)
+            Object_Reference_.export(write, level, 'maecBundle:', name_='Object_Reference', pretty_print=pretty_print)
         for Sub_Composition_ in self.Sub_Composition:
-            Sub_Composition_.export(outfile, level, 'maecBundle:', name_='Sub_Composition', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='CandidateIndicatorCompositionType'):
+            Sub_Composition_.export(write, level, 'maecBundle:', name_='Sub_Composition', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='CandidateIndicatorCompositionType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.operator is not None and 'operator' not in already_processed:
             already_processed.add('operator')
-            showIndent(outfile, level)
-            outfile.write('operator = %s,\n' % (self.operator,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Behavior_Reference=[\n')
+            showIndent(write, level)
+            write('operator = %s,\n' % (self.operator,))
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Behavior_Reference=[\n')
         level += 1
         for Behavior_Reference_ in self.Behavior_Reference:
-            outfile.write('model_.BehaviorReferenceType(\n')
-            Behavior_Reference_.exportLiteral(outfile, level, name_='BehaviorReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.BehaviorReferenceType(\n')
+            Behavior_Reference_.exportLiteral(write, level, name_='BehaviorReferenceType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('Action_Reference=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('Action_Reference=[\n')
         level += 1
         for Action_Reference_ in self.Action_Reference:
-            outfile.write('model_.cybox_core.ActionReferenceType(\n')
-            Action_Reference_.exportLiteral(outfile, level, name_='cybox_core.ActionReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.cybox_core.ActionReferenceType(\n')
+            Action_Reference_.exportLiteral(write, level, name_='cybox_core.ActionReferenceType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('Object_Reference=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('Object_Reference=[\n')
         level += 1
         for Object_Reference_ in self.Object_Reference:
-            outfile.write('model_.ObjectReferenceType(\n')
-            Object_Reference_.exportLiteral(outfile, level, name_='ObjectReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.ObjectReferenceType(\n')
+            Object_Reference_.exportLiteral(write, level, name_='ObjectReferenceType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('Sub_Composition=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('Sub_Composition=[\n')
         level += 1
         for Sub_Composition_ in self.Sub_Composition:
-            outfile.write('model_.CandidateIndicatorCompositionType(\n')
-            Sub_Composition_.exportLiteral(outfile, level, name_='CandidateIndicatorCompositionType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.CandidateIndicatorCompositionType(\n')
+            Sub_Composition_.exportLiteral(write, level, name_='CandidateIndicatorCompositionType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4193,53 +4193,53 @@ class CandidateIndicatorCollectionType(BaseCollectionType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='CandidateIndicatorCollectionType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='CandidateIndicatorCollectionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CandidateIndicatorCollectionType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='CandidateIndicatorCollectionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CandidateIndicatorCollectionType'):
-        super(CandidateIndicatorCollectionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='CandidateIndicatorCollectionType')
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='CandidateIndicatorCollectionType'):
+        super(CandidateIndicatorCollectionType, self).exportAttributes(write, level, already_processed, namespace_, name_='CandidateIndicatorCollectionType')
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CandidateIndicatorCollectionType', fromsubclass_=False, pretty_print=True):
-        super(CandidateIndicatorCollectionType, self).exportChildren(outfile, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
+            write(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='CandidateIndicatorCollectionType', fromsubclass_=False, pretty_print=True):
+        super(CandidateIndicatorCollectionType, self).exportChildren(write, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Candidate_Indicator_List is not None:
-            self.Candidate_Indicator_List.export(outfile, level, 'maecBundle:', name_='Candidate_Indicator_List', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='CandidateIndicatorCollectionType'):
+            self.Candidate_Indicator_List.export(write, level, 'maecBundle:', name_='Candidate_Indicator_List', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='CandidateIndicatorCollectionType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
-        super(CandidateIndicatorCollectionType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(CandidateIndicatorCollectionType, self).exportLiteralChildren(outfile, level, name_)
+            showIndent(write, level)
+            write('id = %s,\n' % (self.id,))
+        super(CandidateIndicatorCollectionType, self).exportLiteralAttributes(write, level, already_processed, name_)
+    def exportLiteralChildren(self, write, level, name_):
+        super(CandidateIndicatorCollectionType, self).exportLiteralChildren(write, level, name_)
         if self.Candidate_Indicator_List is not None:
-            outfile.write('Candidate_Indicator_List=model_.CandidateIndicatorListType(\n')
-            self.Candidate_Indicator_List.exportLiteral(outfile, level, name_='Candidate_Indicator_List')
-            outfile.write('),\n')
+            write('Candidate_Indicator_List=model_.CandidateIndicatorListType(\n')
+            self.Candidate_Indicator_List.exportLiteral(write, level, name_='Candidate_Indicator_List')
+            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4287,51 +4287,51 @@ class CandidateIndicatorCollectionListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='CandidateIndicatorCollectionListType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='CandidateIndicatorCollectionListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CandidateIndicatorCollectionListType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='CandidateIndicatorCollectionListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CandidateIndicatorCollectionListType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='CandidateIndicatorCollectionListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CandidateIndicatorCollectionListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='CandidateIndicatorCollectionListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Candidate_Indicator_Collection_ in self.Candidate_Indicator_Collection:
-            Candidate_Indicator_Collection_.export(outfile, level, 'maecBundle:', name_='Candidate_Indicator_Collection', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='CandidateIndicatorCollectionListType'):
+            Candidate_Indicator_Collection_.export(write, level, 'maecBundle:', name_='Candidate_Indicator_Collection', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='CandidateIndicatorCollectionListType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Candidate_Indicator_Collection=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Candidate_Indicator_Collection=[\n')
         level += 1
         for Candidate_Indicator_Collection_ in self.Candidate_Indicator_Collection:
-            outfile.write('model_.CandidateIndicatorCollectionType(\n')
-            Candidate_Indicator_Collection_.exportLiteral(outfile, level, name_='CandidateIndicatorCollectionType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.CandidateIndicatorCollectionType(\n')
+            Candidate_Indicator_Collection_.exportLiteral(write, level, name_='CandidateIndicatorCollectionType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4374,51 +4374,51 @@ class BehaviorCollectionListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='BehaviorCollectionListType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='BehaviorCollectionListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BehaviorCollectionListType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='BehaviorCollectionListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='BehaviorCollectionListType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='BehaviorCollectionListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='BehaviorCollectionListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehaviorCollectionListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Behavior_Collection_ in self.Behavior_Collection:
-            Behavior_Collection_.export(outfile, level, 'maecBundle:', name_='Behavior_Collection', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='BehaviorCollectionListType'):
+            Behavior_Collection_.export(write, level, 'maecBundle:', name_='Behavior_Collection', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='BehaviorCollectionListType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Behavior_Collection=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Behavior_Collection=[\n')
         level += 1
         for Behavior_Collection_ in self.Behavior_Collection:
-            outfile.write('model_.BehaviorCollectionType(\n')
-            Behavior_Collection_.exportLiteral(outfile, level, name_='BehaviorCollectionType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.BehaviorCollectionType(\n')
+            Behavior_Collection_.exportLiteral(write, level, name_='BehaviorCollectionType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4460,51 +4460,51 @@ class ActionCollectionListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='ActionCollectionListType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='ActionCollectionListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ActionCollectionListType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='ActionCollectionListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='ActionCollectionListType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='ActionCollectionListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ActionCollectionListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='ActionCollectionListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Action_Collection_ in self.Action_Collection:
-            Action_Collection_.export(outfile, level, 'maecBundle:', name_='Action_Collection', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ActionCollectionListType'):
+            Action_Collection_.export(write, level, 'maecBundle:', name_='Action_Collection', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='ActionCollectionListType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Action_Collection=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Action_Collection=[\n')
         level += 1
         for Action_Collection_ in self.Action_Collection:
-            outfile.write('model_.ActionCollectionType(\n')
-            Action_Collection_.exportLiteral(outfile, level, name_='ActionCollectionType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.ActionCollectionType(\n')
+            Action_Collection_.exportLiteral(write, level, name_='ActionCollectionType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4546,51 +4546,51 @@ class ObjectCollectionListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='ObjectCollectionListType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='ObjectCollectionListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ObjectCollectionListType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='ObjectCollectionListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='ObjectCollectionListType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='ObjectCollectionListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ObjectCollectionListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='ObjectCollectionListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Object_Collection_ in self.Object_Collection:
-            Object_Collection_.export(outfile, level, 'maecBundle:', name_='Object_Collection', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ObjectCollectionListType'):
+            Object_Collection_.export(write, level, 'maecBundle:', name_='Object_Collection', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='ObjectCollectionListType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Object_Collection=[\n')
+    def exportLiteralChildren(self, write, level, name_):
+        showIndent(write, level)
+        write('Object_Collection=[\n')
         level += 1
         for Object_Collection_ in self.Object_Collection:
-            outfile.write('model_.ObjectCollectionType(\n')
-            Object_Collection_.exportLiteral(outfile, level, name_='ObjectCollectionType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.ObjectCollectionType(\n')
+            Object_Collection_.exportLiteral(write, level, name_='ObjectCollectionType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4639,58 +4639,58 @@ class AVClassificationType(cybox_common.ToolInformationType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='AVClassificationType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='AVClassificationType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='AVClassificationType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='AVClassificationType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='AVClassificationType'):
-        super(AVClassificationType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='AVClassificationType')
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='AVClassificationType', fromsubclass_=False, pretty_print=True):
-        super(AVClassificationType, self).exportChildren(outfile, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='AVClassificationType'):
+        super(AVClassificationType, self).exportAttributes(write, level, already_processed, namespace_, name_='AVClassificationType')
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='AVClassificationType', fromsubclass_=False, pretty_print=True):
+        super(AVClassificationType, self).exportChildren(write, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Engine_Version is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sEngine_Version>%s</%sEngine_Version>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Engine_Version).encode(ExternalEncoding), input_name='Engine_Version'), 'maecBundle:', eol_))
+            showIndent(write, level, pretty_print)
+            write('<%sEngine_Version>%s</%sEngine_Version>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Engine_Version).encode(ExternalEncoding), input_name='Engine_Version'), 'maecBundle:', eol_))
         if self.Definition_Version is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDefinition_Version>%s</%sDefinition_Version>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Definition_Version).encode(ExternalEncoding), input_name='Definition_Version'), 'maecBundle:', eol_))
+            showIndent(write, level, pretty_print)
+            write('<%sDefinition_Version>%s</%sDefinition_Version>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Definition_Version).encode(ExternalEncoding), input_name='Definition_Version'), 'maecBundle:', eol_))
         if self.Classification_Name is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sClassification_Name>%s</%sClassification_Name>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Classification_Name).encode(ExternalEncoding), input_name='Classification_Name'), 'maecBundle:', eol_))
-    def exportLiteral(self, outfile, level, name_='AVClassificationType'):
+            showIndent(write, level, pretty_print)
+            write('<%sClassification_Name>%s</%sClassification_Name>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Classification_Name).encode(ExternalEncoding), input_name='Classification_Name'), 'maecBundle:', eol_))
+    def exportLiteral(self, write, level, name_='AVClassificationType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(AVClassificationType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(AVClassificationType, self).exportLiteralChildren(outfile, level, name_)
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
+        super(AVClassificationType, self).exportLiteralAttributes(write, level, already_processed, name_)
+    def exportLiteralChildren(self, write, level, name_):
+        super(AVClassificationType, self).exportLiteralChildren(write, level, name_)
         if self.Engine_Version is not None:
-            showIndent(outfile, level)
-            outfile.write('Engine_Version=%s,\n' % quote_python(self.Engine_Version).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('Engine_Version=%s,\n' % quote_python(self.Engine_Version).encode(ExternalEncoding))
         if self.Definition_Version is not None:
-            showIndent(outfile, level)
-            outfile.write('Definition_Version=%s,\n' % quote_python(self.Definition_Version).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('Definition_Version=%s,\n' % quote_python(self.Definition_Version).encode(ExternalEncoding))
         if self.Classification_Name is not None:
-            showIndent(outfile, level)
-            outfile.write('Classification_Name=%s,\n' % quote_python(self.Classification_Name).encode(ExternalEncoding))
+            showIndent(write, level)
+            write('Classification_Name=%s,\n' % quote_python(self.Classification_Name).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4771,89 +4771,89 @@ class ProcessTreeNodeType(process_object.ProcessObjectType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='ProcessTreeNodeType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='ProcessTreeNodeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ProcessTreeNodeType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='ProcessTreeNodeType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='ProcessTreeNodeType'):
-        super(ProcessTreeNodeType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ProcessTreeNodeType')
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='ProcessTreeNodeType'):
+        super(ProcessTreeNodeType, self).exportAttributes(write, level, already_processed, namespace_, name_='ProcessTreeNodeType')
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
+            write(' id=%s' % (quote_attrib(self.id), ))
         if self.parent_action_idref is not None and 'parent_action_idref' not in already_processed:
             already_processed.add('parent_action_idref')
-            outfile.write(' parent_action_idref=%s' % (quote_attrib(self.parent_action_idref), ))
+            write(' parent_action_idref=%s' % (quote_attrib(self.parent_action_idref), ))
         if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
             already_processed.add('ordinal_position')
-            outfile.write(' ordinal_position=%s' % (quote_attrib(self.ordinal_position), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ProcessTreeNodeType', fromsubclass_=False, pretty_print=True):
-        super(ProcessTreeNodeType, self).exportChildren(outfile, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
+            write(' ordinal_position=%s' % (quote_attrib(self.ordinal_position), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='ProcessTreeNodeType', fromsubclass_=False, pretty_print=True):
+        super(ProcessTreeNodeType, self).exportChildren(write, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Initiated_Actions is not None:
-            self.Initiated_Actions.export(outfile, level, 'maecBundle:', name_='Initiated_Actions', pretty_print=pretty_print)
+            self.Initiated_Actions.export(write, level, 'maecBundle:', name_='Initiated_Actions', pretty_print=pretty_print)
         for Spawned_Process_ in self.Spawned_Process:
-            Spawned_Process_.export(outfile, level, 'maecBundle:', name_='Spawned_Process', pretty_print=pretty_print)
+            Spawned_Process_.export(write, level, 'maecBundle:', name_='Spawned_Process', pretty_print=pretty_print)
         for Injected_Process_ in self.Injected_Process:
-            Injected_Process_.export(outfile, level, 'maecBundle:', name_='Injected_Process', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ProcessTreeNodeType'):
+            Injected_Process_.export(write, level, 'maecBundle:', name_='Injected_Process', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='ProcessTreeNodeType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
+            showIndent(write, level)
+            write('id = %s,\n' % (self.id,))
         if self.parent_action_idref is not None and 'parent_action_idref' not in already_processed:
             already_processed.add('parent_action_idref')
-            showIndent(outfile, level)
-            outfile.write('parent_action_idref = %s,\n' % (self.parent_action_idref,))
-        super(ProcessTreeNodeType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ProcessTreeNodeType, self).exportLiteralChildren(outfile, level, name_)
+            showIndent(write, level)
+            write('parent_action_idref = %s,\n' % (self.parent_action_idref,))
+        super(ProcessTreeNodeType, self).exportLiteralAttributes(write, level, already_processed, name_)
+    def exportLiteralChildren(self, write, level, name_):
+        super(ProcessTreeNodeType, self).exportLiteralChildren(write, level, name_)
         if self.Initiated_Actions is not None:
-            outfile.write('Initiated_Actions=model_.ActionReferenceListType(\n')
-            self.Initiated_Actions.exportLiteral(outfile, level, name_='Initiated_Actions')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Spawned_Process=[\n')
+            write('Initiated_Actions=model_.ActionReferenceListType(\n')
+            self.Initiated_Actions.exportLiteral(write, level, name_='Initiated_Actions')
+            write('),\n')
+        showIndent(write, level)
+        write('Spawned_Process=[\n')
         level += 1
         for Spawned_Process_ in self.Spawned_Process:
-            outfile.write('model_.ProcessTreeNodeType(\n')
-            Spawned_Process_.exportLiteral(outfile, level, name_='ProcessTreeNodeType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.ProcessTreeNodeType(\n')
+            Spawned_Process_.exportLiteral(write, level, name_='ProcessTreeNodeType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('Injected_Process=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('Injected_Process=[\n')
         level += 1
         for Injected_Process_ in self.Injected_Process:
-            outfile.write('model_.ProcessTreeNodeType(\n')
-            Injected_Process_.exportLiteral(outfile, level, name_='ProcessTreeNodeType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.ProcessTreeNodeType(\n')
+            Injected_Process_.exportLiteral(write, level, name_='ProcessTreeNodeType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4918,43 +4918,43 @@ class BehavioralActionReferenceType(cybox_core.ActionReferenceType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='BehavioralActionReferenceType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='BehavioralActionReferenceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BehavioralActionReferenceType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='BehavioralActionReferenceType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='BehavioralActionReferenceType'):
-        super(BehavioralActionReferenceType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='BehavioralActionReferenceType')
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='BehavioralActionReferenceType'):
+        super(BehavioralActionReferenceType, self).exportAttributes(write, level, already_processed, namespace_, name_='BehavioralActionReferenceType')
         if self.behavioral_ordering is not None and 'behavioral_ordering' not in already_processed:
             already_processed.add('behavioral_ordering')
-            outfile.write(' behavioral_ordering="%s"' % self.gds_format_integer(self.behavioral_ordering, input_name='behavioral_ordering'))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='BehavioralActionReferenceType', fromsubclass_=False, pretty_print=True):
-        super(BehavioralActionReferenceType, self).exportChildren(outfile, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
+            write(' behavioral_ordering="%s"' % self.gds_format_integer(self.behavioral_ordering, input_name='behavioral_ordering'))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehavioralActionReferenceType', fromsubclass_=False, pretty_print=True):
+        super(BehavioralActionReferenceType, self).exportChildren(write, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='BehavioralActionReferenceType'):
+    def exportLiteral(self, write, level, name_='BehavioralActionReferenceType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.behavioral_ordering is not None and 'behavioral_ordering' not in already_processed:
             already_processed.add('behavioral_ordering')
-            showIndent(outfile, level)
-            outfile.write('behavioral_ordering = %d,\n' % (self.behavioral_ordering,))
-        super(BehavioralActionReferenceType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(BehavioralActionReferenceType, self).exportLiteralChildren(outfile, level, name_)
+            showIndent(write, level)
+            write('behavioral_ordering = %d,\n' % (self.behavioral_ordering,))
+        super(BehavioralActionReferenceType, self).exportLiteralAttributes(write, level, already_processed, name_)
+    def exportLiteralChildren(self, write, level, name_):
+        super(BehavioralActionReferenceType, self).exportLiteralChildren(write, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -5009,53 +5009,53 @@ class ObjectCollectionType(BaseCollectionType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='ObjectCollectionType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='ObjectCollectionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ObjectCollectionType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='ObjectCollectionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='ObjectCollectionType'):
-        super(ObjectCollectionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ObjectCollectionType')
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='ObjectCollectionType'):
+        super(ObjectCollectionType, self).exportAttributes(write, level, already_processed, namespace_, name_='ObjectCollectionType')
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ObjectCollectionType', fromsubclass_=False, pretty_print=True):
-        super(ObjectCollectionType, self).exportChildren(outfile, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
+            write(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='ObjectCollectionType', fromsubclass_=False, pretty_print=True):
+        super(ObjectCollectionType, self).exportChildren(write, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Object_List is not None:
-            self.Object_List.export(outfile, level, 'maecBundle:', name_='Object_List', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ObjectCollectionType'):
+            self.Object_List.export(write, level, 'maecBundle:', name_='Object_List', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='ObjectCollectionType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
-        super(ObjectCollectionType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ObjectCollectionType, self).exportLiteralChildren(outfile, level, name_)
+            showIndent(write, level)
+            write('id = %s,\n' % (self.id,))
+        super(ObjectCollectionType, self).exportLiteralAttributes(write, level, already_processed, name_)
+    def exportLiteralChildren(self, write, level, name_):
+        super(ObjectCollectionType, self).exportLiteralChildren(write, level, name_)
         if self.Object_List is not None:
-            outfile.write('Object_List=model_.ObjectListType(\n')
-            self.Object_List.exportLiteral(outfile, level, name_='Object_List')
-            outfile.write('),\n')
+            write('Object_List=model_.ObjectListType(\n')
+            self.Object_List.exportLiteral(write, level, name_='Object_List')
+            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5108,53 +5108,53 @@ class ActionCollectionType(BaseCollectionType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='ActionCollectionType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='ActionCollectionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ActionCollectionType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='ActionCollectionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='ActionCollectionType'):
-        super(ActionCollectionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ActionCollectionType')
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='ActionCollectionType'):
+        super(ActionCollectionType, self).exportAttributes(write, level, already_processed, namespace_, name_='ActionCollectionType')
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='ActionCollectionType', fromsubclass_=False, pretty_print=True):
-        super(ActionCollectionType, self).exportChildren(outfile, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
+            write(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='ActionCollectionType', fromsubclass_=False, pretty_print=True):
+        super(ActionCollectionType, self).exportChildren(write, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Action_List is not None:
-            self.Action_List.export(outfile, level, 'maecBundle:', name_='Action_List', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ActionCollectionType'):
+            self.Action_List.export(write, level, 'maecBundle:', name_='Action_List', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='ActionCollectionType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
-        super(ActionCollectionType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ActionCollectionType, self).exportLiteralChildren(outfile, level, name_)
+            showIndent(write, level)
+            write('id = %s,\n' % (self.id,))
+        super(ActionCollectionType, self).exportLiteralAttributes(write, level, already_processed, name_)
+    def exportLiteralChildren(self, write, level, name_):
+        super(ActionCollectionType, self).exportLiteralChildren(write, level, name_)
         if self.Action_List is not None:
-            outfile.write('Action_List=model_.ActionListType(\n')
-            self.Action_List.exportLiteral(outfile, level, name_='Action_List')
-            outfile.write('),\n')
+            write('Action_List=model_.ActionListType(\n')
+            self.Action_List.exportLiteral(write, level, name_='Action_List')
+            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5208,57 +5208,57 @@ class BehaviorCollectionType(BaseCollectionType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='BehaviorCollectionType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='BehaviorCollectionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BehaviorCollectionType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='BehaviorCollectionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='BehaviorCollectionType'):
-        super(BehaviorCollectionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='BehaviorCollectionType')
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='BehaviorCollectionType'):
+        super(BehaviorCollectionType, self).exportAttributes(write, level, already_processed, namespace_, name_='BehaviorCollectionType')
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='BehaviorCollectionType', fromsubclass_=False, pretty_print=True):
-        super(BehaviorCollectionType, self).exportChildren(outfile, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
+            write(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehaviorCollectionType', fromsubclass_=False, pretty_print=True):
+        super(BehaviorCollectionType, self).exportChildren(write, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Purpose is not None:
-            outfile.write('<%sPurpose>%s</%sPurpose>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Purpose).encode(ExternalEncoding), input_name='Purpose'), 'maecBundle:', eol_))
+            write('<%sPurpose>%s</%sPurpose>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Purpose).encode(ExternalEncoding), input_name='Purpose'), 'maecBundle:', eol_))
         if self.Behavior_List is not None:
-            self.Behavior_List.export(outfile, level, 'maecBundle:', name_='Behavior_List', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='BehaviorCollectionType'):
+            self.Behavior_List.export(write, level, 'maecBundle:', name_='Behavior_List', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='BehaviorCollectionType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
-        super(BehaviorCollectionType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(BehaviorCollectionType, self).exportLiteralChildren(outfile, level, name_)
+            showIndent(write, level)
+            write('id = %s,\n' % (self.id,))
+        super(BehaviorCollectionType, self).exportLiteralAttributes(write, level, already_processed, name_)
+    def exportLiteralChildren(self, write, level, name_):
+        super(BehaviorCollectionType, self).exportLiteralChildren(write, level, name_)
         if self.Purpose is not None:
-            outfile.write('Purpose=%s,\n' % quote_python(self.Purpose).encode(ExternalEncoding))
+            write('Purpose=%s,\n' % quote_python(self.Purpose).encode(ExternalEncoding))
         if self.Behavior_List is not None:
-            outfile.write('Behavior_List=model_.BehaviorListType(\n')
-            self.Behavior_List.exportLiteral(outfile, level, name_='Behavior_List')
-            outfile.write('),\n')
+            write('Behavior_List=model_.BehaviorListType(\n')
+            self.Behavior_List.exportLiteral(write, level, name_='Behavior_List')
+            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5320,50 +5320,50 @@ class MalwareActionType(cybox_core.ActionType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='MalwareActionType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='MalwareActionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MalwareActionType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='MalwareActionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='MalwareActionType'):
-        super(MalwareActionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='MalwareActionType')
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='MalwareActionType'):
+        super(MalwareActionType, self).exportAttributes(write, level, already_processed, namespace_, name_='MalwareActionType')
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
-            outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
-            outfile.write(' xsi:type="%s"' % self.extensiontype_)
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='MalwareActionType', fromsubclass_=False, pretty_print=True):
-        super(MalwareActionType, self).exportChildren(outfile, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
+            write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+            write(' xsi:type="%s"' % self.extensiontype_)
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='MalwareActionType', fromsubclass_=False, pretty_print=True):
+        super(MalwareActionType, self).exportChildren(write, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Implementation is not None:
-            self.Implementation.export(outfile, level, 'maecBundle:', name_='Implementation', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='MalwareActionType'):
+            self.Implementation.export(write, level, 'maecBundle:', name_='Implementation', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='MalwareActionType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(MalwareActionType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(MalwareActionType, self).exportLiteralChildren(outfile, level, name_)
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
+        super(MalwareActionType, self).exportLiteralAttributes(write, level, already_processed, name_)
+    def exportLiteralChildren(self, write, level, name_):
+        super(MalwareActionType, self).exportLiteralChildren(write, level, name_)
         if self.Implementation is not None:
-            outfile.write('Implementation=model_.ActionImplementationType(\n')
-            self.Implementation.exportLiteral(outfile, level, name_='Implementation')
-            outfile.write('),\n')
+            write('Implementation=model_.ActionImplementationType(\n')
+            self.Implementation.exportLiteral(write, level, name_='Implementation')
+            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5411,43 +5411,43 @@ class BehavioralActionType(MalwareActionType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='BehavioralActionType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='BehavioralActionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BehavioralActionType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='BehavioralActionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='BehavioralActionType'):
-        super(BehavioralActionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='BehavioralActionType')
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='BehavioralActionType'):
+        super(BehavioralActionType, self).exportAttributes(write, level, already_processed, namespace_, name_='BehavioralActionType')
         if self.behavioral_ordering is not None and 'behavioral_ordering' not in already_processed:
             already_processed.add('behavioral_ordering')
-            outfile.write(' behavioral_ordering="%s"' % self.gds_format_integer(self.behavioral_ordering, input_name='behavioral_ordering'))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='BehavioralActionType', fromsubclass_=False, pretty_print=True):
-        super(BehavioralActionType, self).exportChildren(outfile, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='BehavioralActionType'):
+            write(' behavioral_ordering="%s"' % self.gds_format_integer(self.behavioral_ordering, input_name='behavioral_ordering'))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehavioralActionType', fromsubclass_=False, pretty_print=True):
+        super(BehavioralActionType, self).exportChildren(write, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='BehavioralActionType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.behavioral_ordering is not None and 'behavioral_ordering' not in already_processed:
             already_processed.add('behavioral_ordering')
-            showIndent(outfile, level)
-            outfile.write('behavioral_ordering = %d,\n' % (self.behavioral_ordering,))
-        super(BehavioralActionType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(BehavioralActionType, self).exportLiteralChildren(outfile, level, name_)
+            showIndent(write, level)
+            write('behavioral_ordering = %d,\n' % (self.behavioral_ordering,))
+        super(BehavioralActionType, self).exportLiteralAttributes(write, level, already_processed, name_)
+    def exportLiteralChildren(self, write, level, name_):
+        super(BehavioralActionType, self).exportLiteralChildren(write, level, name_)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5548,121 +5548,121 @@ class CapabilityType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='CapabilityType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='CapabilityType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CapabilityType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='CapabilityType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CapabilityType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='CapabilityType'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
+            write(' id=%s' % (quote_attrib(self.id), ))
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
-            outfile.write(' name=%s' % (quote_attrib(self.name), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CapabilityType', fromsubclass_=False, pretty_print=True):
+            write(' name=%s' % (quote_attrib(self.name), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='CapabilityType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Description is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+            showIndent(write, level, pretty_print)
+            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
         for Property_ in self.Property:
-            Property_.export(outfile, level, 'maecBundle:', name_='Property', pretty_print=pretty_print)
+            Property_.export(write, level, 'maecBundle:', name_='Property', pretty_print=pretty_print)
         for Strategic_Objective_ in self.Strategic_Objective:
-            Strategic_Objective_.export(outfile, level, 'maecBundle:', name_='Strategic_Objective', pretty_print=pretty_print)
+            Strategic_Objective_.export(write, level, 'maecBundle:', name_='Strategic_Objective', pretty_print=pretty_print)
         for Tactical_Objective_ in self.Tactical_Objective:
-            Tactical_Objective_.export(outfile, level, 'maecBundle:', name_='Tactical_Objective', pretty_print=pretty_print)
+            Tactical_Objective_.export(write, level, 'maecBundle:', name_='Tactical_Objective', pretty_print=pretty_print)
         for Behavior_Reference_ in self.Behavior_Reference:
-            Behavior_Reference_.export(outfile, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
+            Behavior_Reference_.export(write, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
         for Relationship_ in self.Relationship:
-            Relationship_.export(outfile, level, 'maecBundle:', name_='Relationship', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='CapabilityType'):
+            Relationship_.export(write, level, 'maecBundle:', name_='Relationship', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='CapabilityType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
+            showIndent(write, level)
+            write('id = %s,\n' % (self.id,))
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
-            showIndent(outfile, level)
-            outfile.write('name = %s,\n' % (self.name,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('name = %s,\n' % (self.name,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.Description is not None:
-            showIndent(outfile, level)
-            outfile.write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
-        showIndent(outfile, level)
-        outfile.write('Property=[\n')
+            showIndent(write, level)
+            write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
+        showIndent(write, level)
+        write('Property=[\n')
         level += 1
         for Property_ in self.Property:
-            outfile.write('model_.CapabilityPropertyType(\n')
-            Property_.exportLiteral(outfile, level, name_='CapabilityPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.CapabilityPropertyType(\n')
+            Property_.exportLiteral(write, level, name_='CapabilityPropertyType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('Strategic_Objective=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('Strategic_Objective=[\n')
         level += 1
         for Strategic_Objective_ in self.Strategic_Objective:
-            outfile.write('model_.CapabilityObjectiveType(\n')
-            Strategic_Objective_.exportLiteral(outfile, level, name_='CapabilityObjectiveType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.CapabilityObjectiveType(\n')
+            Strategic_Objective_.exportLiteral(write, level, name_='CapabilityObjectiveType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('Tactical_Objective=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('Tactical_Objective=[\n')
         level += 1
         for Tactical_Objective_ in self.Tactical_Objective:
-            outfile.write('model_.CapabilityObjectiveType(\n')
-            Tactical_Objective_.exportLiteral(outfile, level, name_='CapabilityObjectiveType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.CapabilityObjectiveType(\n')
+            Tactical_Objective_.exportLiteral(write, level, name_='CapabilityObjectiveType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('Behavior_Reference=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('Behavior_Reference=[\n')
         level += 1
         for Behavior_Reference_ in self.Behavior_Reference:
-            outfile.write('model_.BehaviorReferenceType(\n')
-            Behavior_Reference_.exportLiteral(outfile, level, name_='BehaviorReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.BehaviorReferenceType(\n')
+            Behavior_Reference_.exportLiteral(write, level, name_='BehaviorReferenceType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('Relationship=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('Relationship=[\n')
         level += 1
         for Relationship_ in self.Relationship:
-            outfile.write('model_.CapabilityRelationshipType(\n')
-            Relationship_.exportLiteral(outfile, level, name_='CapabilityRelationshipType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.CapabilityRelationshipType(\n')
+            Relationship_.exportLiteral(write, level, name_='CapabilityRelationshipType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5740,57 +5740,57 @@ class CapabilityListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='CapabilityListType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='CapabilityListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CapabilityListType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='CapabilityListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CapabilityListType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='CapabilityListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CapabilityListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='CapabilityListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Capability_ in self.Capability:
-            Capability_.export(outfile, level, 'maecBundle:', name_='Capability', pretty_print=pretty_print)
+            Capability_.export(write, level, 'maecBundle:', name_='Capability', pretty_print=pretty_print)
         for Capability_Reference_ in self.Capability_Reference:
-            Capability_Reference_.export(outfile, level, 'maecBundle:', name_='Capability_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='CapabilityListType'):
+            Capability_Reference_.export(write, level, 'maecBundle:', name_='Capability_Reference', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='CapabilityListType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
+    def exportLiteralChildren(self, write, level, name_):
         if self.Capability is not None:
-            outfile.write('Capability=model_.CapabilityType(\n')
-            self.Capability.exportLiteral(outfile, level, name_='Capability')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Capability_Reference=[\n')
+            write('Capability=model_.CapabilityType(\n')
+            self.Capability.exportLiteral(write, level, name_='Capability')
+            write('),\n')
+        showIndent(write, level)
+        write('Capability_Reference=[\n')
         level += 1
         for Capability_Reference_ in self.Capability_Reference:
-            outfile.write('model_.CapabilityReferenceType(\n')
-            Capability_Reference_.exportLiteral(outfile, level, name_='CapabilityReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.CapabilityReferenceType(\n')
+            Capability_Reference_.exportLiteral(write, level, name_='CapabilityReferenceType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5835,39 +5835,39 @@ class CapabilityReferenceType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='CapabilityReferenceType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='CapabilityReferenceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CapabilityReferenceType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='CapabilityReferenceType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CapabilityReferenceType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='CapabilityReferenceType'):
         if self.capability_idref is not None and 'capability_idref' not in already_processed:
             already_processed.add('capability_idref')
-            outfile.write(' capability_idref=%s' % (quote_attrib(self.capability_idref), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CapabilityReferenceType', fromsubclass_=False, pretty_print=True):
+            write(' capability_idref=%s' % (quote_attrib(self.capability_idref), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='CapabilityReferenceType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='CapabilityReferenceType'):
+    def exportLiteral(self, write, level, name_='CapabilityReferenceType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.capability_idref is not None and 'capability_idref' not in already_processed:
             already_processed.add('capability_idref')
-            showIndent(outfile, level)
-            outfile.write('capability_idref = %s,\n' % (self.capability_idref,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('capability_idref = %s,\n' % (self.capability_idref,))
+    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -5942,94 +5942,94 @@ class CapabilityObjectiveType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='CapabilityObjectiveType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='CapabilityObjectiveType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CapabilityObjectiveType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='CapabilityObjectiveType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CapabilityObjectiveType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='CapabilityObjectiveType'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CapabilityObjectiveType', fromsubclass_=False, pretty_print=True):
+            write(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='CapabilityObjectiveType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Name is not None:
-            self.Name.export(outfile, level, 'maecBundle:', name_='Name', pretty_print=pretty_print)
+            self.Name.export(write, level, 'maecBundle:', name_='Name', pretty_print=pretty_print)
         if self.Description is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+            showIndent(write, level, pretty_print)
+            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
         for Property_ in self.Property:
-            Property_.export(outfile, level, 'maecBundle:', name_='Property', pretty_print=pretty_print)
+            Property_.export(write, level, 'maecBundle:', name_='Property', pretty_print=pretty_print)
         for Behavior_Reference_ in self.Behavior_Reference:
-            Behavior_Reference_.export(outfile, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
+            Behavior_Reference_.export(write, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
         for Relationship_ in self.Relationship:
-            Relationship_.export(outfile, level, 'maecBundle:', name_='Relationship', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='CapabilityObjectiveType'):
+            Relationship_.export(write, level, 'maecBundle:', name_='Relationship', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='CapabilityObjectiveType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('id = %s,\n' % (self.id,))
+    def exportLiteralChildren(self, write, level, name_):
         if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
+            write('Name=model_.cybox_common.ControlledVocabularyStringType(\n')
+            self.Name.exportLiteral(write, level, name_='Name')
+            write('),\n')
         if self.Description is not None:
-            showIndent(outfile, level)
-            outfile.write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
-        showIndent(outfile, level)
-        outfile.write('Property=[\n')
+            showIndent(write, level)
+            write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
+        showIndent(write, level)
+        write('Property=[\n')
         level += 1
         for Property_ in self.Property:
-            outfile.write('model_.CapabilityPropertyType(\n')
-            Property_.exportLiteral(outfile, level, name_='CapabilityPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.CapabilityPropertyType(\n')
+            Property_.exportLiteral(write, level, name_='CapabilityPropertyType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('Behavior_Reference=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('Behavior_Reference=[\n')
         level += 1
         for Behavior_Reference_ in self.Behavior_Reference:
-            outfile.write('model_.BehaviorReferenceType(\n')
-            Behavior_Reference_.exportLiteral(outfile, level, name_='BehaviorReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.BehaviorReferenceType(\n')
+            Behavior_Reference_.exportLiteral(write, level, name_='BehaviorReferenceType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('Relationship=[\n')
+        showIndent(write, level)
+        write('],\n')
+        showIndent(write, level)
+        write('Relationship=[\n')
         level += 1
         for Relationship_ in self.Relationship:
-            outfile.write('model_.CapabilityObjectiveRelationshipType(\n')
-            Relationship_.exportLiteral(outfile, level, name_='CapabilityObjectiveRelationshipType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.CapabilityObjectiveRelationshipType(\n')
+            Relationship_.exportLiteral(write, level, name_='CapabilityObjectiveRelationshipType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6095,57 +6095,57 @@ class CapabilityRelationshipType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='CapabilityRelationshipType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='CapabilityRelationshipType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CapabilityRelationshipType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='CapabilityRelationshipType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CapabilityRelationshipType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='CapabilityRelationshipType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CapabilityRelationshipType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='CapabilityRelationshipType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Relationship_Type is not None:
-            self.Relationship_Type.export(outfile, level, 'maecBundle:', name_='Relationship_Type', pretty_print=pretty_print)
+            self.Relationship_Type.export(write, level, 'maecBundle:', name_='Relationship_Type', pretty_print=pretty_print)
         for Capability_Reference_ in self.Capability_Reference:
-            Capability_Reference_.export(outfile, level, 'maecBundle:', name_='Capability_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='CapabilityRelationshipType'):
+            Capability_Reference_.export(write, level, 'maecBundle:', name_='Capability_Reference', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='CapabilityRelationshipType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
+    def exportLiteralChildren(self, write, level, name_):
         if self.Relationship_Type is not None:
-            outfile.write('Relationship_Type=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Relationship_Type.exportLiteral(outfile, level, name_='Relationship_Type')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Capability_Reference=[\n')
+            write('Relationship_Type=model_.cybox_common.ControlledVocabularyStringType(\n')
+            self.Relationship_Type.exportLiteral(write, level, name_='Relationship_Type')
+            write('),\n')
+        showIndent(write, level)
+        write('Capability_Reference=[\n')
         level += 1
         for Capability_Reference_ in self.Capability_Reference:
-            outfile.write('model_.CapabilityType(\n')
-            Capability_Reference_.exportLiteral(outfile, level, name_='CapabilityType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.CapabilityType(\n')
+            Capability_Reference_.exportLiteral(write, level, name_='CapabilityType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6197,57 +6197,57 @@ class CapabilityObjectiveRelationshipType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='CapabilityObjectiveRelationshipType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='CapabilityObjectiveRelationshipType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CapabilityObjectiveRelationshipType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='CapabilityObjectiveRelationshipType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CapabilityObjectiveRelationshipType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='CapabilityObjectiveRelationshipType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CapabilityObjectiveRelationshipType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='CapabilityObjectiveRelationshipType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Relationship_Type is not None:
-            self.Relationship_Type.export(outfile, level, 'maecBundle:', name_='Relationship_Type', pretty_print=pretty_print)
+            self.Relationship_Type.export(write, level, 'maecBundle:', name_='Relationship_Type', pretty_print=pretty_print)
         for Objective_Reference_ in self.Objective_Reference:
-            Objective_Reference_.export(outfile, level, 'maecBundle:', name_='Objective_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='CapabilityObjectiveRelationshipType'):
+            Objective_Reference_.export(write, level, 'maecBundle:', name_='Objective_Reference', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='CapabilityObjectiveRelationshipType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
+    def exportLiteralChildren(self, write, level, name_):
         if self.Relationship_Type is not None:
-            outfile.write('Relationship_Type=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Relationship_Type.exportLiteral(outfile, level, name_='Relationship_Type')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Objective_Reference=[\n')
+            write('Relationship_Type=model_.cybox_common.ControlledVocabularyStringType(\n')
+            self.Relationship_Type.exportLiteral(write, level, name_='Relationship_Type')
+            write('),\n')
+        showIndent(write, level)
+        write('Objective_Reference=[\n')
         level += 1
         for Objective_Reference_ in self.Objective_Reference:
-            outfile.write('model_.CapabilityObjectiveReferenceType(\n')
-            Objective_Reference_.exportLiteral(outfile, level, name_='CapabilityObjectiveReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            write('model_.CapabilityObjectiveReferenceType(\n')
+            Objective_Reference_.exportLiteral(write, level, name_='CapabilityObjectiveReferenceType')
+            showIndent(write, level)
+            write('),\n')
         level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        showIndent(write, level)
+        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6293,39 +6293,39 @@ class CapabilityObjectiveReferenceType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='CapabilityObjectiveReferenceType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='CapabilityObjectiveReferenceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CapabilityObjectiveReferenceType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='CapabilityObjectiveReferenceType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CapabilityObjectiveReferenceType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='CapabilityObjectiveReferenceType'):
         if self.objective_idref is not None and 'objective_idref' not in already_processed:
             already_processed.add('objective_idref')
-            outfile.write(' objective_idref=%s' % (quote_attrib(self.objective_idref), ))
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CapabilityObjectiveReferenceType', fromsubclass_=False, pretty_print=True):
+            write(' objective_idref=%s' % (quote_attrib(self.objective_idref), ))
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='CapabilityObjectiveReferenceType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='CapabilityObjectiveReferenceType'):
+    def exportLiteral(self, write, level, name_='CapabilityObjectiveReferenceType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         if self.objective_idref is not None and 'objective_idref' not in already_processed:
             already_processed.add('objective_idref')
-            showIndent(outfile, level)
-            outfile.write('objective_idref = %s,\n' % (self.objective_idref,))
-    def exportLiteralChildren(self, outfile, level, name_):
+            showIndent(write, level)
+            write('objective_idref = %s,\n' % (self.objective_idref,))
+    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -6371,50 +6371,50 @@ class CapabilityPropertyType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='maecBundle:', name_='CapabilityPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, write, level, namespace_='maecBundle:', name_='CapabilityPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(write, level, pretty_print)
+        write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CapabilityPropertyType')
+        self.exportAttributes(write, level, already_processed, namespace_, name_='CapabilityPropertyType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            write('>%s' % (eol_, ))
+            self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(write, level, pretty_print)
+            write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='maecBundle:', name_='CapabilityPropertyType'):
+            write('/>%s' % (eol_, ))
+    def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='CapabilityPropertyType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='maecBundle:', name_='CapabilityPropertyType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, write, level, namespace_='maecBundle:', name_='CapabilityPropertyType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Name is not None:
-            self.Name.export(outfile, level, 'maecBundle:', name_='Name', pretty_print=pretty_print)
+            self.Name.export(write, level, 'maecBundle:', name_='Name', pretty_print=pretty_print)
         if self.Value is not None:
-            self.Value.export(outfile, level, 'maecBundle:', name_='Value', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='CapabilityPropertyType'):
+            self.Value.export(write, level, 'maecBundle:', name_='Value', pretty_print=pretty_print)
+    def exportLiteral(self, write, level, name_='CapabilityPropertyType'):
         level += 1
         already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        self.exportLiteralAttributes(write, level, already_processed, name_)
         if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+            self.exportLiteralChildren(write, level, name_)
+    def exportLiteralAttributes(self, write, level, already_processed, name_):
         pass
-    def exportLiteralChildren(self, outfile, level, name_):
+    def exportLiteralChildren(self, write, level, name_):
         if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
+            write('Name=model_.cybox_common.ControlledVocabularyStringType(\n')
+            self.Name.exportLiteral(write, level, name_='Name')
+            write('),\n')
         if self.Value is not None:
-            outfile.write('Value=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Value.exportLiteral(outfile, level, name_='Value')
-            outfile.write('),\n')
+            write('Value=model_.cybox_common.StringObjectPropertyType(\n')
+            self.Value.exportLiteral(write, level, name_='Value')
+            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)

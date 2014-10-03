@@ -147,7 +147,7 @@ class BehaviorCollectionList(maec.EntityList):
     def __init__(self):
         super(BehaviorCollectionList, self).__init__()
 
-    def to_obj(self):
+    def to_obj(self, return_obj = None, ns_info = None):
         behavior_collection_list_obj = bundle_binding.BehaviorCollectionListType()
         for behavior_collection in self:
             if len(behavior_collection.behavior_list) > 0:
@@ -178,7 +178,7 @@ class ActionCollectionList(maec.EntityList):
     def __init__(self):
         super(ActionCollectionList, self).__init__()
 
-    def to_obj(self):
+    def to_obj(self, return_obj = None, ns_info = None):
         action_collection_list_obj = bundle_binding.ActionCollectionListType()
         for action_collection in self:
             if len(action_collection.action_list) > 0:
@@ -209,7 +209,7 @@ class ObjectCollectionList(maec.EntityList):
     def __init__(self):
         super(ObjectCollectionList, self).__init__()
 
-    def to_obj(self):
+    def to_obj(self, return_obj = None, ns_info = None):
         object_collection_list_obj = bundle_binding.ObjectCollectionListType()
         for object_collection in self:
             if len(object_collection.object_list) > 0:
@@ -240,7 +240,7 @@ class CandidateIndicatorCollectionList(maec.EntityList):
     def __init__(self):
         super(CandidateIndicatorCollectionList, self).__init__()
 
-    def to_obj(self):
+    def to_obj(self, return_obj = None, ns_info = None):
         candidate_indicator_collection_list_obj = bundle_binding.CandidateIndicatorCollectionListType()
         for candidate_indicator_collection in self:
             if len(candidate_indicator_collection.candidate_indicator_list) > 0:
@@ -338,7 +338,7 @@ class Bundle(maec.Entity):
     candidate_indicators = maec.TypedField("Candidate_Indicators", CandidateIndicatorList)
     collections = maec.TypedField("Collections", Collections)
 
-    def __init__(self, id = None, defined_subject = "False", schema_version = "4.1", content_type = None, malware_instance_object = None):
+    def __init__(self, id = None, defined_subject = False, schema_version = "4.1", content_type = None, malware_instance_object = None):
         super(Bundle, self).__init__()
         if id:
             self.id_ = id

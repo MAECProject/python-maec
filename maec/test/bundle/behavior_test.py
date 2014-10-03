@@ -27,7 +27,7 @@ class TestBehavior(EntityTestCase, unittest.TestCase):
         },
         'action_composition': {
             'action':[{ 'behavioral_ordering': 1 }],
-            'action_reference':[{ 'behavioral_ordering': 1 }],
+            'action_reference':[{ 'action_id': 'some_id' }],
             'action_equivalence_reference':[{ 'behavioral_ordering': 1 }]
         }
     }

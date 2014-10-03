@@ -4,14 +4,16 @@
 # All rights reserved
 
 # Compatible with MAEC v4.1
-# Last updated 08/28/2014
+# Last updated 09/26/2014
 
 import maec
 import maec.bindings.maec_bundle as bundle_binding
 from cybox.common import ToolInformation
 
-class AVClassification(ToolInformation):
+class AVClassification(ToolInformation, maec.Entity):
     _namespace = maec.bundle._namespace
+    _binding = bundle_binding
+    _binding_class = bundle_binding.AVClassificationType
 
     def __init__(self, classification = None, tool_name = None, tool_vendor = None):
         super(AVClassification, self).__init__(tool_name, tool_vendor)
@@ -19,12 +21,18 @@ class AVClassification(ToolInformation):
         self.definition_version = None
         self.classification_name = classification
 
-    def to_obj(self):
-        av_classification_obj = super(AVClassification, self).to_obj(bundle_binding.AVClassificationType())
-        if self.engine_version is not None : av_classification_obj.set_Engine_Version(self.engine_version)
-        if self.definition_version is not None : av_classification_obj.set_Definition_Version(self.definition_version)
-        if self.classification_name is not None : av_classification_obj.set_Classification_Name(self.classification_name)
-        return av_classification_obj
+    def to_obj(self, return_obj = None, ns_info = None):
+        if not return_obj:
+            return_obj = self._binding_class()
+
+        super(AVClassification, self).to_obj(return_obj=return_obj, ns_info=ns_info)
+        if self.engine_version is not None : 
+            return_obj.Engine_Version = self.engine_version
+        if self.definition_version is not None : 
+            return_obj.Definition_Version = self.definition_version
+        if self.classification_name is not None : 
+            return_obj.Classification_Name = self.classification_name
+        return return_obj
 
     def to_dict(self):
         av_classification_dict = super(AVClassification, self).to_dict()
@@ -48,9 +56,9 @@ class AVClassification(ToolInformation):
         if not av_classification_obj:
             return None
         av_classification_ = ToolInformation.from_obj(av_classification_obj, AVClassification())
-        av_classification_.engine_version = av_classification_obj.get_Engine_Version()
-        av_classification_.definition_version = av_classification_obj.get_Definition_Version()
-        av_classification_.classification_name = av_classification_obj.get_Classification_Name()
+        av_classification_.engine_version = av_classification_obj.Engine_Version
+        av_classification_.definition_version = av_classification_obj.Definition_Version
+        av_classification_.classification_name = av_classification_obj.Classification_Name
         return av_classification_
 
 class AVClassifications(maec.EntityList):
