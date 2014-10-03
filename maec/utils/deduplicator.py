@@ -85,7 +85,7 @@ class BundleDeduplicator(object):
             for object_collection in bundle.collections.object_collections:
                 counter += 1
         # Find the namespace used in the Bundle IDs
-        bundle_namespace = bundle.id.split('-')[1]
+        bundle_namespace = bundle.id_.split('-')[1]
         # Build the collection ID
         collection_id = "maec-" + bundle_namespace + "-objc-" + str(counter)
         # Add the named Object collection
