@@ -71,14 +71,14 @@ class BundleDeduplicator(object):
         for duplicate_object_id, unique_object_id in cls.object_ids_mapping.items():
             # Modify the existing Object to serve as a reference to
             # the unique Object in the collection
-            if cls.id_objects[duplicate_object_id]:
+            if duplicate_object_id and duplicate_object_id in cls.id_objects:
                 object = cls.id_objects[duplicate_object_id]
                 object.idref = unique_object_id
                 object.id_ = None
                 object.properties = None
                 object.related_objects = None
                 object.domain_specific_object_properties = None
-            elif cls.idref_objects[duplicate_object_id]:
+            elif duplicate_object_id and duplicate_object_id in cls.idref_objects:
                 for object in cls.idref_objects[duplicate_object_id]:
                     object.idref = unique_object_id
 
