@@ -30,7 +30,7 @@ There are currently two levels of APIs for dealing with MAEC content:
 
 - A low-level API is provided by auto-generated XML Schema - Python class
   bindings. These bindings were generated using `generateDS
-  <http://www.rexx.com/~dkuhlman/generateDS.html>`_. With these, any CybOX
+  <http://www.rexx.com/~dkuhlman/generateDS.html>`_. With these, any MAEC
   content can be parsed from or written to XML, but requires a bit more
   knowledge of the actual MAEC schemas. These "binding classes" are all located
   in the ``maec.bindings`` package.
