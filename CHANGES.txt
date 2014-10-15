@@ -1,0 +1,7 @@
+Version 4.1.0.8
+2014-10-15
+- Performance enhancements in to_xml() serialization (ref: python-stix #163)
+- Greatly expanded documentation (http://maec.readthedocs.org/en/latest/)
+- Added unit tests
+- [#53] Added script options class
+- Various bug fixes
