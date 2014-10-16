@@ -32,6 +32,8 @@ class Package(maec.Entity):
         self.schema_version = schema_version
         self.timestamp = timestamp
         self.malware_subjects = MalwareSubjectList()
+        self.__input_namespaces__ = {}
+        self.__input_schemalocations__ = {}
 
     #Public methods
     #Add a malware subject to this Package
