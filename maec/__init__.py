@@ -97,6 +97,12 @@ class Entity(cyboxEntity):
                     nsset.update(x._get_namespaces())
         del self.touched
 
+        # Add any additional namespaces that may be included in the entity
+        entity_dict = self.__dict__
+        input_ns = entity_dict.get("__input_namespaces__", {})
+        for namespace, alias in input_ns.items():
+            namespaces.append(Namespace(namespace, alias))
+
         return nsset
 
     def _get_children(self):
