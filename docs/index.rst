@@ -7,7 +7,7 @@ python-maec |release| Documentation
 ====================================
 
 The python-maec library provides an API for developing and consuming Malware
-Attribute Enumeration and Characterizaiton (MAEC) content. Developers can 
+Attribute Enumeration and Characterization (MAEC) content. Developers can 
 leverage the API to create applications that create, consume, translate, or 
 otherwise work with MAEC content.
 
@@ -25,8 +25,8 @@ MAEC Version python-maec Version
 3.0          3.0.0b1 (`PyPI`__) (`GitHub`__)
 ============ ===================
 
-__ https://pypi.python.org/pypi/maec/4.1.0.7
-__ https://github.com/MAECProject/python-maec/tree/v4.1.0.7
+__ https://pypi.python.org/pypi/maec/4.1.0.8
+__ https://github.com/MAECProject/python-maec/tree/v4.1.0.8
 __ https://pypi.python.org/pypi/maec/4.0.1.0
 __ https://github.com/MAECProject/python-maec/tree/v4.0.1.0
 __ https://pypi.python.org/pypi/maec/3.0.0b1
