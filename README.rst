@@ -43,7 +43,7 @@ There are currently two levels of APIs for dealing with MAEC content:
   Importing from JSON is also supported.
 
 Compatibility
-----------
+-------------
 The python-maec library is tested and written against python ``2.7.x``. Compatibility with other python versions is neither guaranteed nor implied.
 
 Versioning
