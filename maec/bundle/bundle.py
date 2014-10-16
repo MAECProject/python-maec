@@ -349,6 +349,8 @@ class Bundle(maec.Entity):
         self.content_type = content_type
         self.timestamp = None
         self.malware_instance_object_attributes = malware_instance_object
+        self.__input_namespaces__ = {}
+        self.__input_schemalocations__ = {}
 
     def set_malware_instance_object_atttributes(self, malware_instance_object):
         """Set the top-level Malware Instance Object Attributes entity in the Bundle."""
