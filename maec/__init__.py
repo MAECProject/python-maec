@@ -105,18 +105,6 @@ class Entity(cyboxEntity):
 
         return nsset
 
-    def _get_children(self):
-        #TODO: eventually everything should be in _fields, not the top level
-        # of vars()
-        for k, v in vars(self).items() + self._fields.items():
-            if isinstance(v, Entity) or isinstance(v, cyboxEntity):
-                yield v
-            elif isinstance(v, list):
-                for item in v:
-                    if isinstance(item, Entity) or isinstance(item, cyboxEntity):
-                        yield item
-
-
 def parse_xml_instance(filename, check_version = True):
     """Parse a MAEC instance and return the correct Binding and API objects
        Returns a dictionary of MAEC Package or Bundle Binding/API Objects"""
