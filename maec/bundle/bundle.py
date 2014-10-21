@@ -507,7 +507,7 @@ class Bundle(maec.Entity):
                         for associated_obj in action.associated_objects:
                             if associated_obj.id_ == id:
                                 return associated_obj
-            if self.collections:
+            if self.collections and self.collections.action_collections:
                 for collection in self.collections.action_collections:
                     for action in collection.action_list:
                         if action.id_ == id:
@@ -522,7 +522,7 @@ class Bundle(maec.Entity):
                 if obj.id_ == id:
                     return obj
 
-        if self.collections:   
+        if self.collections and self.collections.object_collections:   
             for collection in self.collections.object_collections:
                 for obj in collection.object_list:
                     if obj.id_ == id:
