@@ -10,7 +10,7 @@ import bindings.maec_package as package_binding
 from cybox import Entity as cyboxEntity
 from cybox import EntityList
 from cybox import TypedField
-from cybox.utils import Namespace
+from cybox.utils import Namespace, META
 from maec.utils import maecMETA, EntityParser
 
 def get_xmlns_string(ns_set):
@@ -101,7 +101,10 @@ class Entity(cyboxEntity):
         entity_dict = self.__dict__
         input_ns = entity_dict.get("__input_namespaces__", {})
         for namespace, alias in input_ns.items():
-            namespaces.append(Namespace(namespace, alias))
+            maec_ns = maecMETA.lookup_namespace(namespace)
+            cybox_ns = META.lookup_namespace(namespace)
+            if not maec_ns and not cybox_ns:
+                nsset.add(Namespace(namespace, alias))
 
         return nsset
 
