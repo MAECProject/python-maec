@@ -1,10 +1,10 @@
-#MAEC Bundle Class
+# MAEC Bundle Class
 
-#Copyright (c) 2014, The MITRE Corporation
-#All rights reserved
+# Copyright (c) 2014, The MITRE Corporation
+# All rights reserved
 
-#Compatible with MAEC v4.1
-#Last updated 08/25/2014
+# Compatible with MAEC v4.1
+# Last updated 10/21/2014
 
 
 import datetime
@@ -457,15 +457,17 @@ class Bundle(maec.Entity):
         if self.objects:
             for obj in self.objects:
                 all_objects.append(obj)
-                for related_obj in obj.related_objects:
-                    all_objects.append(related_obj)
+                if obj.related_objects:
+                    for related_obj in obj.related_objects:
+                        all_objects.append(related_obj)
             
         if self.collections and self.collections.object_collections:
             for collection in self.collections.object_collections:
                 for obj in collection.object_list:
                     all_objects.append(obj)
-                    for related_obj in obj.related_objects:
-                        all_objects.append(related_obj)
+                    if obj.related_objects:
+                        for related_obj in obj.related_objects:
+                            all_objects.append(related_obj)
 
         # Include Objects in Actions, if include_actions flag is specified
         if include_actions:
@@ -474,8 +476,9 @@ class Bundle(maec.Entity):
                 if associated_objects:
                     for associated_object in associated_objects:
                         all_objects.append(associated_object)
-                        for related_obj in associated_object.related_objects:
-                            all_objects.append(related_obj)
+                        if associated_object.related_objects:
+                            for related_obj in associated_object.related_objects:
+                                all_objects.append(related_obj)
 
         # Add the Object corresponding to the Malware Instance Object Attributes, if specified
         if self.malware_instance_object_attributes:
