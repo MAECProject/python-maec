@@ -11,10 +11,10 @@ from cybox.common import HashList
 from cybox.utils import Namespace
 from maec.package.package import Package
 from maec.bundle.bundle import Bundle
-from maec.package.malware_subject import MalwareSubject, MalwareConfigurationDetails,\
-                                         FindingsBundleList, MetaAnalysis, Analyses,\
-                                         MinorVariants, MalwareSubjectRelationshipList,\
-                                         MalwareSubjectList
+from maec.package.malware_subject import (MalwareSubject, MalwareConfigurationDetails,
+                                          FindingsBundleList, MetaAnalysis, Analyses,
+                                          MinorVariants, MalwareSubjectRelationshipList,
+                                          MalwareSubjectList)
 
 def dict_merge(target, *args):
     '''Merge multiple dictionaries into one'''
@@ -133,9 +133,9 @@ def merge_findings_bundles(findings_bundles_list):
     if meta_analysis_list:
         merged_meta_analysis = MetaAnalysis.from_dict(merge_entities(meta_analysis_list))
     # Merge the list of bundles
-    merged_bundles = list(itertools.chain(*[x.bundles for x in findings_bundles_list if x.bundles]))
+    merged_bundles = list(itertools.chain(*[x.bundle for x in findings_bundles_list if x.bundle]))
     # Merge the list of external bundle references
-    merged_bundle_external_references = list(itertools.chain(*[x.bundle_external_references for x in findings_bundles_list if x.bundle_external_references]))
+    merged_bundle_external_references = list(itertools.chain(*[x.bundle_external_reference for x in findings_bundles_list if x.bundle_external_reference]))
 
     # Construct the merged Findings Bundle List entity
     merged_findings_bundle_list = FindingsBundleList()
