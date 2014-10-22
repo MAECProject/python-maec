@@ -81,21 +81,14 @@ def bin_malware_subjects(malware_subject_list, default_hash_type='md5'):
         if mal_inst_obj:
             obj_properties = mal_inst_obj.properties
             if obj_properties and obj_properties.hashes:
-                hashes_list = obj_properties.hashes.to_list()
-                for hash_dict in hashes_list:
-                    if 'type' in hash_dict and 'simple_hash_value' in hash_dict:
+                for hash in obj_properties.hashes:
+                    if hash.type_ and hash.simple_hash_value:
                         hash_type = ''
                         hash_value = ''
                         # Get the hash type
-                        if isinstance(hash_dict['type'], str):
-                            hash_type = str(hash_dict['type']).lower()
-                        elif isinstance(hash_dict['type'], dict):
-                            hash_type = str(hash_dict['type']['value']).lower()
+                        hash_type = str(hash.type_).lower()
                         # Get the hash value
-                        if isinstance(hash_dict['simple_hash_value'], str):
-                            hash_value = str(hash_dict['simple_hash_value']).lower()
-                        elif isinstance(hash_dict['simple_hash_value'], dict):
-                            hash_value = str(hash_dict['simple_hash_value']['value']).lower()
+                        hash_value = str(hash.simple_hash_value).lower()
                             
                         # Check the hash type and bin accordingly
                         if hash_type == default_hash_type:
