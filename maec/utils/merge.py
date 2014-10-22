@@ -51,9 +51,11 @@ def merge_documents(input_list, output_file):
             print 'Error: unsupported document type. Currently only MAEC Packages are supported'
 
     # Merge the MAEC packages
-    merge_packages(parsed_documents, output_file)
+    merged_package = merge_packages(parsed_documents)
+    # Write the merged package to the output file
+    merged_package.to_xml_file(output_file, {"https://github.com/MAECProject/python-maec":"merged"})
 
-def merge_packages(package_list, output_file):
+def merge_packages(package_list):
     '''Merge a list of input MAEC Packages and write them to an output Package file'''
     malware_subjects = []
     # Instantiate the ID generator class (for automatic ID generation)
@@ -65,11 +67,18 @@ def merge_packages(package_list, output_file):
             malware_subjects.append(malware_subject)
     # Merge the Malware Subjects
     merged_subjects = merge_malware_subjects(malware_subjects)
+    # Merge the input namespace/schemaLocation dictionaries
+    merged_namespaces = {}
+    merged_schemalocations = {}
+    for package in package_list:
+        merged_namespaces.update(package.__input_namespaces__)
+        merged_schemalocations.update(package.__input_schemalocations__)
     # Create a new Package with the merged Malware Subjects
     merged_package = Package()
     merged_package.malware_subjects = MalwareSubjectList(merged_subjects)
-    # Write the Package to the output file
-    merged_package.to_xml_file(output_file, {"https://github.com/MAECProject/python-maec":"merged"})
+    merged_package.__input_namespaces__ = merged_namespaces
+    merged_package.__input_schemalocations__ = merged_schemalocations
+    return merged_package
 
 def bin_malware_subjects(malware_subject_list, default_hash_type='md5'):
     '''Bin a list of Malware Subjects by hash
@@ -178,6 +187,8 @@ def merge_binned_malware_subjects(merged_malware_subject, binned_list, id_mappin
     merged_relationships = list(itertools.chain(*[x.relationships for x in binned_list if x.relationships]))
     # Merge the compatible platforms
     merged_compatible_platforms = list(itertools.chain(*[x.compatible_platform for x in binned_list if x.compatible_platform]))
+
+
 
     # Build the merged Malware Subject
     merged_malware_subject.malware_instance_object_attributes = merged_inst_obj
