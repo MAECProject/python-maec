@@ -142,9 +142,9 @@ def merge_findings_bundles(findings_bundles_list):
     if merged_meta_analysis:
         merged_findings_bundle_list.meta_analysis = merged_meta_analysis
     if merged_bundles:
-        merged_findings_bundle_list.bundles = merged_bundles
+        merged_findings_bundle_list.bundle = merged_bundles
     if merged_bundle_external_references:
-        merged_findings_bundle_list.bundle_external_references = merged_bundle_external_references
+        merged_findings_bundle_list.bundle_external_reference = merged_bundle_external_references
 
     return merged_findings_bundle_list
 
