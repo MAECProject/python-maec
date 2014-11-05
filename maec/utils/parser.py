@@ -73,7 +73,7 @@ class EntityParser(object):
         xml_file -- A filename/path or a file-like object reprenting a MAEC instance document
         check_version -- Inspect the version before parsing.
         """
-        parser = etree.ETCompatXMLParser(huge_tree=True)
+        parser = etree.ETCompatXMLParser(huge_tree=True, resolve_entities=False)
         tree = etree.parse(xml_file, parser=parser)
 
         # Check the root and determine the type of document we're dealing with
@@ -101,7 +101,7 @@ class EntityParser(object):
         xml_file -- A filename/path or a file-like object reprenting a MAEC instance (i.e. Package or Bundle) document
         check_version -- Inspect the version before parsing.
         """
-        parser = etree.ETCompatXMLParser(huge_tree=True)
+        parser = etree.ETCompatXMLParser(huge_tree=True, resolve_entities=False)
         tree = etree.parse(xml_file, parser=parser)
 
         api_obj = None
