@@ -38,7 +38,7 @@ def get_schemaloc_string(ns_set):
 class Entity(cyboxEntity):
     """Base class for all classes in the MAEC SimpleAPI."""
 
-    def to_xml_file(self, filename, namespace_dict=None, custom_header=None):
+    def to_xml_file(self, filename, namespace_dict=None, custom_header=None, options_used=None):
         """Export an object to an XML file. Only supports Package or Bundle objects at the moment."""
         # Update the namespace dictionary with namespaces found upon import
         if namespace_dict and hasattr(self, '__input_namespaces__'):
@@ -51,6 +51,15 @@ class Entity(cyboxEntity):
                 out_file.write[line]
         else:
             out_file.write("<?xml version='1.0' encoding='UTF-8'?>\n")
+            
+        if options_used:
+            import pprint
+            out_file.write("<!--\n")
+            options_output = pprint.pformat(options_used)
+            options_output = options_output.replace("-->", "\\-\\->")
+            out_file.write(options_output)
+            out_file.write("\n-->\n")
+            
         self.to_obj().export(out_file.write, 0, namespacedef_ = self._get_namespace_def(namespace_dict))
         out_file.close()
 
