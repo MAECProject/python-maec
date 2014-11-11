@@ -53,12 +53,12 @@ class Entity(cyboxEntity):
             out_file.write("<?xml version='1.0' encoding='UTF-8'?>\n")
             
         if options_used:
-            import pprint
             out_file.write("<!--\n")
-            options_output = pprint.pformat(options_used)
-            options_output = options_output.replace("-->", "\\-\\->")
-            out_file.write(options_output)
-            out_file.write("\n-->\n")
+            for key, value in options_used.iteritems():
+                sanitized_key = str(key).replace("-->", "\\-\\->")
+                sanitized_value = str(value).replace("-->", "\\-\\->")
+                out_file.write(sanitized_key + ": " + sanitized_value + "\n")
+            out_file.write("-->\n")
             
         self.to_obj().export(out_file.write, 0, namespacedef_ = self._get_namespace_def(namespace_dict))
         out_file.close()
