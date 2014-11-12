@@ -5,7 +5,6 @@
 # See LICENSE.txt for complete terms
 import collections
 import cybox
-import sets
 import copy
 from cybox.common.properties import BaseProperty
 
