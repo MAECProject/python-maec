@@ -1,10 +1,10 @@
-#MAEC Object History Classes
+# MAEC Object History Classes
 
-#Copyright (c) 2014, The MITRE Corporation
-#All rights reserved
+# Copyright (c) 2014, The MITRE Corporation
+# All rights reserved
 
-#Compatible with MAEC v4.1
-#Last updated 08/25/2014
+# Compatible with MAEC v4.1
+# Last updated 11/12/2014
 
 class ObjectHistory(object):
     @classmethod
@@ -30,3 +30,22 @@ class ObjectHistoryEntry(object):
     def get_action_names(self):
         """Return a list of the Actions that operated on the Object, via their names"""
         return [x.name.value for x in self.actions if x.name]
+
+    def get_action_context(self):
+        """Return a list of the Actions that operated on the Object, via their names,
+           along with the Association_Type used in the Action.
+        """
+        context_list = []
+        for action in self.actions:
+            if action.name:
+                action_name = action.name.value
+            else:
+                action_name = None
+            for associated_object in action.associated_objects:
+                if associated_object.association_type:
+                    association_type = associated_object.association_type.value
+                else:
+                    association_type = None
+                if associated_object.id_ == self.object.id_ or associated_object.idref == self.object.id_:
+                    context_list.append((action_name, association_type))
+        return context_list
