@@ -6,11 +6,15 @@ A Python library for parsing, manipulating, and generating MAEC content.
 :Source: https://github.com/MAECProject/python-maec
 :Documentation: http://maec.readthedocs.org
 :Information: http://maec.mitre.org
+:Download: https://pypi.python.org/pypi/maec/
 
-|version badge| |downloads badge|
+|landscape.io badge| |version badge| |downloads badge|
 
 .. TODO: add Travis Badge
 
+.. |landscape.io badge| image:: https://landscape.io/github/MAECProject/python-maec/master/landscape.png
+   :target: https://landscape.io/github/MAECProject/python-maec/master
+   :alt: Code Health
 .. |version badge| image:: https://pypip.in/v/maec/badge.png
    :target: https://pypi.python.org/pypi/maec/
 .. |downloads badge| image:: https://pypip.in/d/maec/badge.png
