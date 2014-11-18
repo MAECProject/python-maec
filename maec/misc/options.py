@@ -20,3 +20,10 @@ class ScriptOptions(object):
         self.deduplicate_bundles = False
         self.dereference_bundles = False
         self.normalize_bundles = False
+        
+    def to_dict(self):
+        return {
+            "deduplicate_bundles": self.deduplicate_bundles,
+            "dereference_bundles": self.dereference_bundles,
+            "normalize_bundles": self.normalize_bundles
+        }
