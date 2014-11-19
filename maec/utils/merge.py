@@ -55,11 +55,14 @@ def merge_documents(input_list, output_file):
     # Write the merged package to the output file
     merged_package.to_xml_file(output_file, {"https://github.com/MAECProject/python-maec":"merged"})
 
-def merge_packages(package_list):
+def merge_packages(package_list, namespace = None):
     '''Merge a list of input MAEC Packages and return a merged Package instance.'''
     malware_subjects = []
     # Instantiate the ID generator class (for automatic ID generation)
-    NS = Namespace("https://github.com/MAECProject/python-maec", "merged")
+    if not namespace:
+        NS = Namespace("https://github.com/MAECProject/python-maec", "merged")
+    else:
+        NS = namespace
     maec.utils.set_id_namespace(NS)
     # Build the list of Malware Subjects
     for package in package_list:
