@@ -147,11 +147,13 @@ class BehaviorCollectionList(maec.EntityList):
     def __init__(self):
         super(BehaviorCollectionList, self).__init__()
 
-    def to_obj(self, return_obj = None, ns_info = None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         behavior_collection_list_obj = bundle_binding.BehaviorCollectionListType()
         for behavior_collection in self:
             if len(behavior_collection.behavior_list) > 0:
-                behavior_collection_list_obj.add_Behavior_Collection(behavior_collection.to_obj())
+                behavior_collection_list_obj.add_Behavior_Collection(behavior_collection.to_obj(ns_info=ns_info))
         if behavior_collection_list_obj.hasContent_():
             return behavior_collection_list_obj
 
@@ -178,11 +180,13 @@ class ActionCollectionList(maec.EntityList):
     def __init__(self):
         super(ActionCollectionList, self).__init__()
 
-    def to_obj(self, return_obj = None, ns_info = None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         action_collection_list_obj = bundle_binding.ActionCollectionListType()
         for action_collection in self:
             if len(action_collection.action_list) > 0:
-                action_collection_list_obj.add_Action_Collection(action_collection.to_obj())
+                action_collection_list_obj.add_Action_Collection(action_collection.to_obj(ns_info=ns_info))
         if action_collection_list_obj.hasContent_():
             return action_collection_list_obj
 
@@ -209,11 +213,13 @@ class ObjectCollectionList(maec.EntityList):
     def __init__(self):
         super(ObjectCollectionList, self).__init__()
 
-    def to_obj(self, return_obj = None, ns_info = None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         object_collection_list_obj = bundle_binding.ObjectCollectionListType()
         for object_collection in self:
             if len(object_collection.object_list) > 0:
-                object_collection_list_obj.add_Object_Collection(object_collection.to_obj())
+                object_collection_list_obj.add_Object_Collection(object_collection.to_obj(ns_info=ns_info))
         if object_collection_list_obj.hasContent_():
             return object_collection_list_obj
 
@@ -240,11 +246,13 @@ class CandidateIndicatorCollectionList(maec.EntityList):
     def __init__(self):
         super(CandidateIndicatorCollectionList, self).__init__()
 
-    def to_obj(self, return_obj = None, ns_info = None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         candidate_indicator_collection_list_obj = bundle_binding.CandidateIndicatorCollectionListType()
         for candidate_indicator_collection in self:
             if len(candidate_indicator_collection.candidate_indicator_list) > 0:
-                candidate_indicator_collection_list_obj.add_Candidate_Indicator_Collection(candidate_indicator_collection.to_obj())
+                candidate_indicator_collection_list_obj.add_Candidate_Indicator_Collection(candidate_indicator_collection.to_obj(ns_info=ns_info))
         if candidate_indicator_collection_list_obj.hasContent_():
             return candidate_indicator_collection_list_obj
 

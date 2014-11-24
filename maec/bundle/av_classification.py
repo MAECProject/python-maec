@@ -21,12 +21,13 @@ class AVClassification(ToolInformation, maec.Entity):
         self.definition_version = None
         self.classification_name = classification
 
-    def to_obj(self, return_obj = None, ns_info = None):
+    def to_obj(self, return_obj=None, ns_info=None):
         if not return_obj:
             return_obj = self._binding_class()
 
         super(AVClassification, self).to_obj(return_obj=return_obj, ns_info=ns_info)
-        if self.engine_version is not None : 
+
+        if self.engine_version is not None :
             return_obj.Engine_Version = self.engine_version
         if self.definition_version is not None : 
             return_obj.Definition_Version = self.definition_version
