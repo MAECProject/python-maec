@@ -1,3 +1,10 @@
+Version 4.1.0.9
+2014-11-26
+- Added __input_namespaces and __input_schemalocations to Package and Bundle
+- [#58] Added tool exception classes
+- [#57] Expanded custom_header support in to_xml_file()
+- Various bug fixes
+
 Version 4.1.0.8
 2014-10-15
 - Performance enhancements in to_xml() serialization (ref: python-stix #163)
