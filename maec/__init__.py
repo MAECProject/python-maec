@@ -49,8 +49,10 @@ class Entity(cyboxEntity):
         out_file.write("<?xml version='1.0' encoding='UTF-8'?>\n")
         # Write out the custom header, if included
         if isinstance(custom_header, list):
+            out_file.write("<!--\n")
             for line in custom_header:
-                out_file.write[line]
+                out_file.write(line.replace("-->", "\\-\\->") + "\n")
+            out_file.write("-->\n")
         elif isinstance(custom_header, dict):
             out_file.write("<!--\n")
             for key, value in custom_header.iteritems():
@@ -59,7 +61,9 @@ class Entity(cyboxEntity):
                 out_file.write(sanitized_key + ": " + sanitized_value + "\n")
             out_file.write("-->\n")
         elif isinstance(custom_header, basestring):
-            out_file.write(custom_header)
+            out_file.write("<!--\n")
+            out_file.write(custom_header.replace("-->", "\\-\\->") + "\n")
+            out_file.write("-->\n")
             
         self.to_obj().export(out_file.write, 0, namespacedef_ = self._get_namespace_def(namespace_dict))
         out_file.close()
