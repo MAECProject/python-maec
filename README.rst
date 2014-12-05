@@ -8,10 +8,11 @@ A Python library for parsing, manipulating, and generating MAEC content.
 :Information: http://maec.mitre.org
 :Download: https://pypi.python.org/pypi/maec/
 
-|landscape.io badge| |version badge| |downloads badge|
+|travis badge| |landscape.io badge| |version badge| |downloads badge|
 
-.. TODO: add Travis Badge
-
+.. |travis badge| image:: https://api.travis-ci.org/MAECProject/python-maec.png?branch=master
+   :target: https://travis-ci.org/MAECProject/python-maec
+   :alt: Build Status
 .. |landscape.io badge| image:: https://landscape.io/github/MAECProject/python-maec/master/landscape.png
    :target: https://landscape.io/github/MAECProject/python-maec/master
    :alt: Code Health
