@@ -147,6 +147,7 @@ Malware_Instance_Object_Attributes field to be set, since this would already
 be defined in their parent Malware Subject.
 
 .. testcode::
+
     from maec.package.malware_subject import MalwareSubject
     from maec.bundle.bundle import Bundle
     from maec.utils import IDGenerator, set_id_method
@@ -176,6 +177,9 @@ Which outputs:
                 <FileObj:File_Path>C:\Windows\Temp\malware.exe</FileObj:File_Path>
             </cybox:Properties>
         </maecPackage:Malware_Instance_Object_Attributes>
+        <maecPackage:Findings_Bundles>
+            <maecPackage:Bundle defined_subject="false" id="example:bundle-2" schema_version="4.1"/>
+        </maecPackage:Findings_Bundles>
     </maecPackage:MalwareSubjectType>
 
 
@@ -190,6 +194,7 @@ discussed above). As with the other MAEC entities, the easiest way to use the
 needed.
 
 .. testcode::
+
     from maec.bundle.bundle import Bundle
     from maec.bundle.malware_action import MalwareAction
     from maec.utils import IDGenerator, set_id_method
@@ -235,4 +240,3 @@ needed.
             </maecBundle:Action>
         </maecBundle:Actions>
     </maecBundle:MAEC_Bundle>
-
