@@ -1,5 +1,5 @@
 :mod:`maec.bundle.behavior` Module
-====================================
+==================================
 
 .. module:: maec.bundle.behavior
 

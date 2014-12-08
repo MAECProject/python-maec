@@ -1,5 +1,5 @@
 :mod:`maec.utils.parser` Module
-====================================
+===============================
 
 .. module:: maec.utils.parser
 

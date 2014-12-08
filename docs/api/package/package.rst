@@ -1,6 +1,6 @@
 :mod:`maec.package.package` Module
-====================================
-                              
+==================================
+
 .. module:: maec.package.package
 
 Classes

@@ -1,6 +1,6 @@
 :mod:`maec.package.grouping_relationship` Module
-====================================
-                              
+================================================
+
 .. module:: maec.package.grouping_relationship
 
 Classes

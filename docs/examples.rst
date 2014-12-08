@@ -1,7 +1,7 @@
 .. _examples:
 
 Examples
-========================
+========
 
 This page includes some basic examples of creating and parsing MAEC content.
 
@@ -20,9 +20,9 @@ that shouldn't be done in production code:
   document. In production code, you should omit this statement, which causes 
   random UUIDs to be created instead, or create explicit IDs yourself for 
   Malware Subjects and Actions.
-  
+
 Creating Packages
--------------------
+-----------------
 
 The most commonly used MAEC output format is the MAEC Package, which can contain
 one or more Malware Subjects. Malware Subjects (discussed in more detail below) 
@@ -35,12 +35,12 @@ different types of analysis.
     from maec.package.package import Package
     from maec.package.malware_subject import MalwareSubject
     from maec.utils import IDGenerator, set_id_method
-    
+
     set_id_method(IDGenerator.METHOD_INT)
     p = Package()
     ms = MalwareSubject()
     p.add_malware_subject(ms)
-    
+
     print p.to_xml(include_namespaces=False)
 
 Which outputs:
@@ -55,7 +55,7 @@ Which outputs:
     </maecPackage:MAEC_Package>
 
 Creating Malware Subjects
--------------------
+-------------------------
 
 The easiest way to create a Malware Subject is to construct one and then set 
 various properties on it.  The Malware_Instance_Object_Attributes field on a 
@@ -69,7 +69,7 @@ that it is characterizing.
     from maec.utils import IDGenerator, set_id_method
     from cybox.core import Object
     from cybox.objects.file_object import File
-    
+
     set_id_method(IDGenerator.METHOD_INT)
     ms = MalwareSubject()
     ms.malware_instance_object_attributes = Object()
@@ -90,9 +90,10 @@ Which outputs:
             </cybox:Properties>
         </maecPackage:Malware_Instance_Object_Attributes>
     </maecPackage:MalwareSubjectType>
-    
+
 Creating Bundles
---------------------
+----------------
+
 In MAEC, the ``Bundle`` represents a container for capturing the results from a
 particular malware analysis that was performed on a malware instance. While a
 ``Bundle`` is most commonly included as part of a Malware Subject, it can also
@@ -100,7 +101,8 @@ be used a standalone output format when only malware analysis results for a
 malware instance wish to be shared. We'll cover both cases here.
 
 Creating Standalone Bundles
---------------------
+---------------------------
+
 Standalone Bundles function very similarly to Malware Subjects. Therefore, the 
 easiest way to create a standalone Bundle is to construct one and then set 
 various properties on it.  The Malware_Instance_Object_Attributes field on a 
@@ -113,14 +115,14 @@ instance that it is characterizing.
     from maec.utils import IDGenerator, set_id_method
     from cybox.core import Object
     from cybox.objects.file_object import File
-    
-    set_id_method(IDGenerator.METHOD_INT)  
+
+    set_id_method(IDGenerator.METHOD_INT)
     b = Bundle()
     b.malware_instance_object_attributes = Object()
     b.malware_instance_object_attributes.properties = File()
     b.malware_instance_object_attributes.properties.file_name = "malware.exe"
     b.malware_instance_object_attributes.properties.file_path = "C:\Windows\Temp\malware.exe"
-    
+
     print b.to_xml(include_namespaces=False)
 
 Which outputs:
@@ -137,7 +139,8 @@ Which outputs:
     </maecBundle:MAEC_Bundle>
 
 Creating and adding Bundles to a Malware Subject
---------------------
+------------------------------------------------
+
 Bundles in a Malware Subject are defined nearly identically to those of the 
 standalone variety, with the sole exception that they do not require their
 Malware_Instance_Object_Attributes field to be set, since this would already
@@ -149,17 +152,17 @@ be defined in their parent Malware Subject.
     from maec.utils import IDGenerator, set_id_method
     from cybox.core import Object
     from cybox.objects.file_object import File
-    
-    set_id_method(IDGenerator.METHOD_INT)  
+
+    set_id_method(IDGenerator.METHOD_INT)
     ms = MalwareSubject()
     ms.malware_instance_object_attributes = Object()
     ms.malware_instance_object_attributes.properties = File()
     ms.malware_instance_object_attributes.properties.file_name = "malware.exe"
     ms.malware_instance_object_attributes.properties.file_path = "C:\Windows\Temp\malware.exe"
-    
+
     b = Bundle()
     ms.add_findings_bundle(b)
-    
+
     print ms.to_xml(include_namespaces=False)
 
 Which outputs:
@@ -177,7 +180,7 @@ Which outputs:
 
 
 Creating and adding Actions to a Bundle
---------------------
+---------------------------------------
 
 MAEC uses its ``MalwareAction`` to capture the low-level dynamic entities, such
 as API calls or their abstractions, performed by malware. A ``MalwareAction`` is
@@ -192,26 +195,26 @@ needed.
     from maec.utils import IDGenerator, set_id_method
     from cybox.core import Object, AssociatedObjects, AssociatedObject, AssociationType
     from cybox.objects.file_object import File
-    
+
     set_id_method(IDGenerator.METHOD_INT)
     b = Bundle()
     a = MalwareAction()
     ao = AssociatedObject()
-    
+
     ao.properties = File()
     ao.properties.file_name = "badware.exe"
     ao.properties.size_in_bytes = "123456"
     ao.association_type = AssociationType()
     ao.association_type.value = 'output'
     ao.association_type.xsi_type = 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'
-    
+
     a.name = 'create file'
     a.name.xsi_type = 'maecVocabs:FileActionNameVocab-1.0'
     a.associated_objects = AssociatedObjects()
     a.associated_objects.append(ao)
-    
+
     b.add_action(a)
-    
+
     print b.to_xml(include_namespaces = False)
 
 .. testoutput::

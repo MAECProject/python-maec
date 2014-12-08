@@ -1,5 +1,5 @@
 :mod:`maec.bundle.bundle` Module
-====================================
+================================
 
 .. module:: maec.bundle.bundle
 
