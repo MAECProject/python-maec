@@ -1,6 +1,6 @@
 :mod:`maec.package.object_equivalence` Module
-====================================
-                              
+=============================================
+
 .. module:: maec.package.object_equivalence
 
 Classes

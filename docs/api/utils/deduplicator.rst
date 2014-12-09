@@ -1,5 +1,5 @@
 :mod:`maec.utils.deduplicator` Module
-====================================
+=====================================
 
 .. module:: maec.utils.deduplicator
 

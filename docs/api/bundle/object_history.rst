@@ -1,5 +1,5 @@
 :mod:`maec.bundle.object_history` Module
-====================================
+========================================
 
 .. module:: maec.bundle.object_history
 

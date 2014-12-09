@@ -1,5 +1,5 @@
 :mod:`maec.utils.idgen` Module
-====================================
+==============================
 
 .. module:: maec.utils.idgen
 

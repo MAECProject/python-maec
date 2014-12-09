@@ -1,5 +1,5 @@
 :mod:`maec.bundle.candidate_indicator` Module
-====================================
+=============================================
 
 .. module:: maec.bundle.candidate_indicator
 

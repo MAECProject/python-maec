@@ -1,6 +1,6 @@
 :mod:`maec.package.action_equivalence` Module
-====================================
-                              
+=============================================
+
 .. module:: maec.package.action_equivalence
 
 Classes

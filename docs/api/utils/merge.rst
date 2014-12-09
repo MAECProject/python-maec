@@ -1,5 +1,5 @@
 :mod:`maec.utils.merge` Module
-====================================
+==============================
 
 .. module:: maec.utils.merge
 

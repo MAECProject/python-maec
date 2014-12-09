@@ -1,5 +1,5 @@
 :mod:`maec.utils.comparator` Module
-====================================
+===================================
 
 .. module:: maec.utils.comparator
 

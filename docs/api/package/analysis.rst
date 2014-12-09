@@ -1,6 +1,6 @@
 :mod:`maec.package.analysis` Module
-====================================
-                              
+===================================
+
 .. module:: maec.package.analysis
 
 Classes

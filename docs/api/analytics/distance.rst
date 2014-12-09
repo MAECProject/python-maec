@@ -1,5 +1,5 @@
 :mod:`maec.analytics.distance` Module
-====================================
+=====================================
 
 .. module:: maec.analytics.distance
 

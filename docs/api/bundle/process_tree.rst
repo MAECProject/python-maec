@@ -1,5 +1,5 @@
 :mod:`maec.bundle.process_tree` Module
-====================================
+======================================
 
 .. module:: maec.bundle.process_tree
 

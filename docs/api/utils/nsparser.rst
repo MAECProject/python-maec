@@ -1,5 +1,5 @@
 :mod:`maec.utils.nsparser` Module
-====================================
+=================================
 
 .. module:: maec.utils.nsparser
 

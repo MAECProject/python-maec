@@ -1,0 +1,19 @@
+language: python
+env:
+  - TOXENV=py26
+  - TOXENV=py27
+  - TOXENV=rhel6
+
+install:
+  - pip install tox
+
+script:
+  - tox
+
+branches:
+  only:
+    - master
+
+notifications:
+  email:
+    - maec-commits-list@lists.mitre.org

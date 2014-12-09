@@ -8,10 +8,11 @@ A Python library for parsing, manipulating, and generating MAEC content.
 :Information: http://maec.mitre.org
 :Download: https://pypi.python.org/pypi/maec/
 
-|landscape.io badge| |version badge| |downloads badge|
+|travis badge| |landscape.io badge| |version badge| |downloads badge|
 
-.. TODO: add Travis Badge
-
+.. |travis badge| image:: https://api.travis-ci.org/MAECProject/python-maec.png?branch=master
+   :target: https://travis-ci.org/MAECProject/python-maec
+   :alt: Build Status
 .. |landscape.io badge| image:: https://landscape.io/github/MAECProject/python-maec/master/landscape.png
    :target: https://landscape.io/github/MAECProject/python-maec/master
    :alt: Code Health
@@ -61,9 +62,13 @@ to indicate new versions of the python-maec library itself.
 Installation
 ------------
 
-The ``maec`` package depends on the following Python libraries: \* ``lxml`` >=
-3.1.x \* ``python-cybox`` >= 2.1.x.x \* ``setuptools`` (only if installing
-using setup.py)
+The ``maec`` package depends on the following Python libraries: 
+
+* ``lxml``
+
+* ``python-cybox``
+
+* ``setuptools`` (only if installing using setup.py)
 
 For Windows installers of the above libraries, we recommend looking here:
 http://www.lfd.uci.edu/~gohlke/pythonlibs. python-cybox can be found at
@@ -72,9 +77,13 @@ https://github.com/CybOXProject/python-cybox/releases.
 To build ``lxml`` on Ubuntu, you will need the following packages from the
 Ubuntu package repository:
 
--  python-dev
--  libxml2-dev
--  libxslt1-dev
+* python-dev
+
+* libxml2-dev
+
+* libxslt1-dev
+
+* zlib1g-dev
 
 For more information about installing lxml, see
 http://lxml.de/installation.html
