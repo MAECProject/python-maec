@@ -67,7 +67,7 @@ class BundleDeduplicator(object):
     @classmethod
     def handle_duplicate_objects(cls, bundle, all_objects):
         """Replace all of the duplicate Objects with references to the unique object placed in the "Re-used Objects" Collection."""
-        for duplicate_object_id, unique_object_id in cls.object_ids_mapping.items():
+        for duplicate_object_id, unique_object_id in cls.object_ids_mapping.iteritems():
             # Modify the existing Object to serve as a reference to
             # the unique Object in the collection
             if duplicate_object_id and duplicate_object_id in cls.id_objects:
@@ -147,18 +147,18 @@ class BundleDeduplicator(object):
         # If it's a BaseProperty instance, then we're done. Return it.
         if isinstance(val, BaseProperty):
             if ignoreCase:
-                values.add(name + ":" + str(val))
+                values.add(":".join([name,str(val)]))
             else:
-                values.add(name + ":" + str(val).lower())
+                values.add(":".join([name,str(val).lower()]))
         # If it's a list, then we need to iterate through each of its members
         elif isinstance(val, collections.MutableSequence):
             for list_item in val:
                 for list_item_property in list_item._get_vars():
-                    cls.get_typedfield_values(getattr(list_item, str(list_item_property)), name + "/" + str(list_item_property), values, ignoreCase)
+                    cls.get_typedfield_values(getattr(list_item, str(list_item_property)), "/".join([name,str(list_item_property)]), values, ignoreCase)
         # If it's a cybox.Entity, then we need to iterate through its properties
         elif isinstance(val, cybox.Entity):
             for item_property in val._get_vars():
-                cls.get_typedfield_values(getattr(val, str(item_property)), name + "/" + str(item_property), values, ignoreCase) 
+                cls.get_typedfield_values(getattr(val, str(item_property)), "/".join([name,str(item_property)]), values, ignoreCase) 
 
     @classmethod
     def get_object_values(cls, obj, ignoreCase = False):
@@ -172,7 +172,6 @@ class BundleDeduplicator(object):
                     cls.get_typedfield_values(val, str(typed_field), values, ignoreCase)
         return values
 
-    
     @classmethod
     def find_matching_object(cls, obj):
         """Find a matching object, if it exists."""
@@ -182,7 +181,7 @@ class BundleDeduplicator(object):
             if xsi_type and xsi_type in cls.objects_dict:
                 types_dict = cls.objects_dict[xsi_type]
                 # See if we already have an identical object in the dictionary
-                for obj_id, obj_values in types_dict.items():
+                for obj_id, obj_values in types_dict.iteritems():
                     if obj_values == object_values:
                         # If so, return its ID for use in the IDREF
                         return obj_id
