@@ -5,6 +5,7 @@ import base64
 from datetime import datetime, tzinfo, timedelta
 import re
 import contextlib
+import cybox.bindings as cybox_bindings
 
 from xml.sax import saxutils
 from lxml import etree as etree_
@@ -25,11 +26,16 @@ def save_encoding(encoding='utf-8'):
     global ExternalEncoding
 
     try:
-        orig_encoding = ExternalEncoding
+        orig_maec_encoding = ExternalEncoding
+        orig_cybox_encoding = cybox_bindings.ExternalEncoding
+
         ExternalEncoding = encoding
+        cybox_bindings.ExternalEncoding = encoding
+
         yield
     finally:
-        ExternalEncoding = orig_encoding
+        ExternalEncoding = orig_maec_encoding
+        cybox_bindings.ExternalEncoding = orig_cybox_encoding
 
 
 def parsexml_(*args, **kwargs):
