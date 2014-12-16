@@ -179,19 +179,19 @@ class SourceType(GeneratedsSuper):
             eol_ = ''
         if self.Name is not None:
             showIndent(write, level, pretty_print)
-            write('<%sName>%s</%sName>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Name).encode(ExternalEncoding), input_name='Name'), 'maecPackage:', eol_))
+            write('<%sName>%s</%sName>%s' % ('maecPackage:', quote_xml(self.Name), 'maecPackage:', eol_))
         if self.Method is not None:
             showIndent(write, level, pretty_print)
-            write('<%sMethod>%s</%sMethod>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Method).encode(ExternalEncoding), input_name='Method'), 'maecPackage:', eol_))
+            write('<%sMethod>%s</%sMethod>%s' % ('maecPackage:', quote_xml(self.Method), 'maecPackage:', eol_))
         if self.Reference is not None:
             showIndent(write, level, pretty_print)
-            write('<%sReference>%s</%sReference>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Reference).encode(ExternalEncoding), input_name='Reference'), 'maecPackage:', eol_))
+            write('<%sReference>%s</%sReference>%s' % ('maecPackage:', quote_xml(self.Reference), 'maecPackage:', eol_))
         if self.Organization is not None:
             showIndent(write, level, pretty_print)
-            write('<%sOrganization>%s</%sOrganization>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Organization).encode(ExternalEncoding), input_name='Organization'), 'maecPackage:', eol_))
+            write('<%sOrganization>%s</%sOrganization>%s' % ('maecPackage:', quote_xml(self.Organization), 'maecPackage:', eol_))
         if self.URL is not None:
             showIndent(write, level, pretty_print)
-            write('<%sURL>%s</%sURL>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.URL).encode(ExternalEncoding), input_name='URL'), 'maecPackage:', eol_))
+            write('<%sURL>%s</%sURL>%s' % ('maecPackage:', quote_xml(self.URL), 'maecPackage:', eol_))
     def exportLiteral(self, write, level, name_='SourceType'):
         level += 1
         already_processed = set()
@@ -563,7 +563,7 @@ class DynamicAnalysisMetadataType(GeneratedsSuper):
             eol_ = ''
         if self.Command_Line is not None:
             showIndent(write, level, pretty_print)
-            write('<%sCommand_Line>%s</%sCommand_Line>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Command_Line).encode(ExternalEncoding), input_name='Command_Line'), 'maecPackage:', eol_))
+            write('<%sCommand_Line>%s</%sCommand_Line>%s' % ('maecPackage:', quote_xml(self.Command_Line), 'maecPackage:', eol_))
         if self.Analysis_Duration is not None:
             showIndent(write, level, pretty_print)
             write('<%sAnalysis_Duration>%s</%sAnalysis_Duration>%s' % ('maecPackage:', self.gds_format_float(self.Analysis_Duration, input_name='Analysis_Duration'), 'maecPackage:', eol_))
@@ -2177,10 +2177,10 @@ class GroupingRelationshipType(GeneratedsSuper):
             self.Type.export(write, level, 'maecPackage:', name_='Type', pretty_print=pretty_print)
         if self.Malware_Family_Name is not None:
             showIndent(write, level, pretty_print)
-            write('<%sMalware_Family_Name>%s</%sMalware_Family_Name>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Malware_Family_Name).encode(ExternalEncoding), input_name='Malware_Family_Name'), 'maecPackage:', eol_))
+            write('<%sMalware_Family_Name>%s</%sMalware_Family_Name>%s' % ('maecPackage:', quote_xml(self.Malware_Family_Name), 'maecPackage:', eol_))
         if self.Malware_Toolkit_Name is not None:
             showIndent(write, level, pretty_print)
-            write('<%sMalware_Toolkit_Name>%s</%sMalware_Toolkit_Name>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Malware_Toolkit_Name).encode(ExternalEncoding), input_name='Malware_Toolkit_Name'), 'maecPackage:', eol_))
+            write('<%sMalware_Toolkit_Name>%s</%sMalware_Toolkit_Name>%s' % ('maecPackage:', quote_xml(self.Malware_Toolkit_Name), 'maecPackage:', eol_))
         if self.Clustering_Metadata is not None:
             self.Clustering_Metadata.export(write, level, 'maecPackage:', name_='Clustering_Metadata', pretty_print=pretty_print)
     def exportLiteral(self, write, level, name_='GroupingRelationshipType'):
@@ -2387,10 +2387,10 @@ class ClusteringMetadataType(GeneratedsSuper):
             eol_ = ''
         if self.Algorithm_Name is not None:
             showIndent(write, level, pretty_print)
-            write('<%sAlgorithm_Name>%s</%sAlgorithm_Name>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Algorithm_Name).encode(ExternalEncoding), input_name='Algorithm_Name'), 'maecPackage:', eol_))
+            write('<%sAlgorithm_Name>%s</%sAlgorithm_Name>%s' % ('maecPackage:', quote_xml(self.Algorithm_Name), 'maecPackage:', eol_))
         if self.Algorithm_Version is not None:
             showIndent(write, level, pretty_print)
-            write('<%sAlgorithm_Version>%s</%sAlgorithm_Version>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Algorithm_Version).encode(ExternalEncoding), input_name='Algorithm_Version'), 'maecPackage:', eol_))
+            write('<%sAlgorithm_Version>%s</%sAlgorithm_Version>%s' % ('maecPackage:', quote_xml(self.Algorithm_Version), 'maecPackage:', eol_))
         if self.Algorithm_Parameters is not None:
             self.Algorithm_Parameters.export(write, level, 'maecPackage:', name_='Algorithm_Parameters', pretty_print=pretty_print)
         if self.Cluster_Size is not None:
@@ -2398,7 +2398,7 @@ class ClusteringMetadataType(GeneratedsSuper):
             write('<%sCluster_Size>%s</%sCluster_Size>%s' % ('maecPackage:', self.gds_format_integer(self.Cluster_Size, input_name='Cluster_Size'), 'maecPackage:', eol_))
         if self.Cluster_Description is not None:
             showIndent(write, level, pretty_print)
-            write('<%sCluster_Description>%s</%sCluster_Description>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Cluster_Description).encode(ExternalEncoding), input_name='Cluster_Description'), 'maecPackage:', eol_))
+            write('<%sCluster_Description>%s</%sCluster_Description>%s' % ('maecPackage:', quote_xml(self.Cluster_Description), 'maecPackage:', eol_))
         if self.Cluster_Composition is not None:
             self.Cluster_Composition.export(write, level, 'maecPackage:', name_='Cluster_Composition', pretty_print=pretty_print)
     def exportLiteral(self, write, level, name_='ClusteringMetadataType'):
@@ -2655,7 +2655,7 @@ class ClusterCompositionType(GeneratedsSuper):
     def exportAttributes(self, write, level, already_processed, namespace_='maecPackage:', name_='ClusterCompositionType'):
         if self.score_type is not None and 'score_type' not in already_processed:
             already_processed.add('score_type')
-            write(' score_type=%s' % (self.gds_format_string(quote_attrib(self.score_type).encode(ExternalEncoding), input_name='score_type'), ))
+            write(' score_type=%s' % (quote_attrib(self.score_type)))
     def exportChildren(self, write, level, namespace_='maecPackage:', name_='ClusterCompositionType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -3661,7 +3661,7 @@ class CommentType(cybox_common.StructuredTextType):
         self.exportAttributes(write, level, already_processed, namespace_, name_='CommentType')
         if self.hasContent_():
             write('>')
-            write(str(self.valueOf_).encode(ExternalEncoding))
+            write(quote_xml(self.valueOf_))
             self.exportChildren(write, level + 1, namespace_, name_, pretty_print=pretty_print)
             write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -3673,10 +3673,10 @@ class CommentType(cybox_common.StructuredTextType):
             write(' timestamp="%s"' % self.gds_format_datetime(self.timestamp, input_name='timestamp'))
         if self.author is not None and 'author' not in already_processed:
             already_processed.add('author')
-            write(' author=%s' % (self.gds_format_string(quote_attrib(self.author).encode(ExternalEncoding), input_name='author'), ))
+            write(' author=%s' % (quote_attrib(self.author)))
         if self.observation_name is not None and 'observation_name' not in already_processed:
             already_processed.add('observation_name')
-            write(' observation_name=%s' % (self.gds_format_string(quote_attrib(self.observation_name).encode(ExternalEncoding), input_name='observation_name'), ))
+            write(' observation_name=%s' % (quote_attrib(self.observation_name)))
     def exportChildren(self, write, level, namespace_='maecPackage:', name_='CommentType', fromsubclass_=False, pretty_print=True):
         super(CommentType, self).exportChildren(write, level, 'maecPackage:', name_, True, pretty_print=pretty_print)
         pass
@@ -3796,10 +3796,10 @@ class MalwareExceptionType(cybox_common.ErrorType):
             eol_ = ''
         if self.Exception_Code is not None:
             showIndent(write, level, pretty_print)
-            write('<%sException_Code>%s</%sException_Code>%s' % (namespace_, self.gds_format_string(quote_xml(self.Exception_Code).encode(ExternalEncoding), input_name='Exception_Code'), namespace_, eol_))
+            write('<%sException_Code>%s</%sException_Code>%s' % (namespace_, quote_xml(self.Exception_Code), namespace_, eol_))
         if self.Faulting_Address is not None:
             showIndent(write, level, pretty_print)
-            write('<%sFaulting_Address>%s</%sFaulting_Address>%s' % (namespace_, self.gds_format_string(quote_xml(self.Faulting_Address).encode(ExternalEncoding), input_name='Faulting_Address'), namespace_, eol_))
+            write('<%sFaulting_Address>%s</%sFaulting_Address>%s' % (namespace_, quote_xml(self.Faulting_Address), namespace_, eol_))
         if self.Description is not None:
             showIndent(write, level, pretty_print)
             write('<%sDescription>%s</%sDescription>%s' % (namespace_, self.gds_format_integer(self.Description, input_name='Description'), namespace_, eol_))
@@ -4014,7 +4014,7 @@ class MalwareConfigurationParameterType(GeneratedsSuper):
             self.Name.export(write, level, 'maecPackage:', name_='Name', pretty_print=pretty_print)
         if self.Value is not None:
             showIndent(write, level, pretty_print)
-            write('<%sValue>%s</%sValue>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Value).encode(ExternalEncoding), input_name='Value'), 'maecPackage:', eol_))
+            write('<%sValue>%s</%sValue>%s' % ('maecPackage:', quote_xml(self.Value), 'maecPackage:', eol_))
     def exportLiteral(self, write, level, name_='MalwareConfigurationParameterType'):
         level += 1
         already_processed = set()
@@ -4352,7 +4352,7 @@ class MalwareConfigurationObfuscationAlgorithmType(GeneratedsSuper):
             eol_ = ''
         if self.Key is not None:
             showIndent(write, level, pretty_print)
-            write('<%sKey>%s</%sKey>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Key).encode(ExternalEncoding), input_name='Key'), 'maecPackage:', eol_))
+            write('<%sKey>%s</%sKey>%s' % ('maecPackage:', quote_xml(self.Key), 'maecPackage:', eol_))
         if self.Algorithm_Name is not None:
             self.Algorithm_Name.export(write, level, 'maecPackage:', name_='Algorithm_Name', pretty_print=pretty_print)
     def exportLiteral(self, write, level, name_='MalwareConfigurationObfuscationAlgorithmType'):
@@ -4572,13 +4572,13 @@ class MalwareBinaryConfigurationStorageDetailsType(GeneratedsSuper):
             eol_ = ''
         if self.File_Offset is not None:
             showIndent(write, level, pretty_print)
-            write('<%sFile_Offset>%s</%sFile_Offset>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.File_Offset).encode(ExternalEncoding), input_name='File_Offset'), 'maecPackage:', eol_))
+            write('<%sFile_Offset>%s</%sFile_Offset>%s' % ('maecPackage:', quote_xml(self.File_Offset), 'maecPackage:', eol_))
         if self.Section_Name is not None:
             showIndent(write, level, pretty_print)
-            write('<%sSection_Name>%s</%sSection_Name>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Section_Name).encode(ExternalEncoding), input_name='Section_Name'), 'maecPackage:', eol_))
+            write('<%sSection_Name>%s</%sSection_Name>%s' % ('maecPackage:', quote_xml(self.Section_Name), 'maecPackage:', eol_))
         if self.Section_Offset is not None:
             showIndent(write, level, pretty_print)
-            write('<%sSection_Offset>%s</%sSection_Offset>%s' % ('maecPackage:', self.gds_format_string(quote_xml(self.Section_Offset).encode(ExternalEncoding), input_name='Section_Offset'), 'maecPackage:', eol_))
+            write('<%sSection_Offset>%s</%sSection_Offset>%s' % ('maecPackage:', quote_xml(self.Section_Offset), 'maecPackage:', eol_))
     def exportLiteral(self, write, level, name_='MalwareBinaryConfigurationStorageDetailsType'):
         level += 1
         already_processed = set()

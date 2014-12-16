@@ -142,20 +142,20 @@ class malwareMetaData(GeneratedsSuper):
             write(' version="%s"' % self.gds_format_float(self.version, input_name='version'))
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
+            write(' id=%s' % (quote_attrib(self.id)))
     def exportChildren(self, write, level, namespace_='', name_='malwareMetaData', fromsubclass_=False):
         if self.company is not None:
             showIndent(write, level)
-            write('<%scompany>%s</%scompany>\n' % (namespace_, self.gds_format_string(quote_xml(self.company).encode(ExternalEncoding), input_name='company'), namespace_))
+            write('<%scompany>%s</%scompany>\n' % (namespace_, quote_xml(self.company), namespace_))
         if self.author is not None:
             showIndent(write, level)
-            write('<%sauthor>%s</%sauthor>\n' % (namespace_, self.gds_format_string(quote_xml(self.author).encode(ExternalEncoding), input_name='author'), namespace_))
+            write('<%sauthor>%s</%sauthor>\n' % (namespace_, quote_xml(self.author), namespace_))
         if self.comment is not None:
             showIndent(write, level)
-            write('<%scomment>%s</%scomment>\n' % (namespace_, self.gds_format_string(quote_xml(self.comment).encode(ExternalEncoding), input_name='comment'), namespace_))
+            write('<%scomment>%s</%scomment>\n' % (namespace_, quote_xml(self.comment), namespace_))
         if self.timestamp is not None:
             showIndent(write, level)
-            write('<%stimestamp>%s</%stimestamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.timestamp).encode(ExternalEncoding), input_name='timestamp'), namespace_))
+            write('<%stimestamp>%s</%stimestamp>\n' % (namespace_, quote_xml(self.timestamp), namespace_))
         if self.objects is not None:
             self.objects.export(write, level, namespace_, name_='objects')
         if self.objectProperties is not None:
@@ -1051,71 +1051,71 @@ class fileObject(GeneratedsSuper):
             write('<%ssize>%s</%ssize>\n' % (namespace_, self.gds_format_integer(self.size, input_name='size'), namespace_))
         if self.crc32 is not None:
             showIndent(write, level)
-            write('<%scrc32>%s</%scrc32>\n' % (namespace_, self.gds_format_string(quote_xml(self.crc32).encode(ExternalEncoding), input_name='crc32'), namespace_))
+            write('<%scrc32>%s</%scrc32>\n' % (namespace_, quote_xml(self.crc32), namespace_))
         for fileType_ in self.fileType:
             showIndent(write, level)
-            write('<%sfileType>%s</%sfileType>\n' % (namespace_, self.gds_format_string(quote_xml(fileType_).encode(ExternalEncoding), input_name='fileType'), namespace_))
+            write('<%sfileType>%s</%sfileType>\n' % (namespace_, quote_xml(fileType_), namespace_))
         for extraHash_ in self.extraHash:
             extraHash_.export(write, level, namespace_, name_='extraHash')
         for filename_ in self.filename:
             showIndent(write, level)
-            write('<%sfilename>%s</%sfilename>\n' % (namespace_, self.gds_format_string(quote_xml(filename_).encode(ExternalEncoding), input_name='filename'), namespace_))
+            write('<%sfilename>%s</%sfilename>\n' % (namespace_, quote_xml(filename_), namespace_))
         for normalizedNativePath_ in self.normalizedNativePath:
             showIndent(write, level)
-            write('<%snormalizedNativePath>%s</%snormalizedNativePath>\n' % (namespace_, self.gds_format_string(quote_xml(normalizedNativePath_).encode(ExternalEncoding), input_name='normalizedNativePath'), namespace_))
+            write('<%snormalizedNativePath>%s</%snormalizedNativePath>\n' % (namespace_, quote_xml(normalizedNativePath_), namespace_))
         for filenameWithinInstaller_ in self.filenameWithinInstaller:
             showIndent(write, level)
-            write('<%sfilenameWithinInstaller>%s</%sfilenameWithinInstaller>\n' % (namespace_, self.gds_format_string(quote_xml(filenameWithinInstaller_).encode(ExternalEncoding), input_name='filenameWithinInstaller'), namespace_))
+            write('<%sfilenameWithinInstaller>%s</%sfilenameWithinInstaller>\n' % (namespace_, quote_xml(filenameWithinInstaller_), namespace_))
         for folderWithinInstaller_ in self.folderWithinInstaller:
             showIndent(write, level)
-            write('<%sfolderWithinInstaller>%s</%sfolderWithinInstaller>\n' % (namespace_, self.gds_format_string(quote_xml(folderWithinInstaller_).encode(ExternalEncoding), input_name='folderWithinInstaller'), namespace_))
+            write('<%sfolderWithinInstaller>%s</%sfolderWithinInstaller>\n' % (namespace_, quote_xml(folderWithinInstaller_), namespace_))
         if self.vendor is not None:
             showIndent(write, level)
-            write('<%svendor>%s</%svendor>\n' % (namespace_, self.gds_format_string(quote_xml(self.vendor).encode(ExternalEncoding), input_name='vendor'), namespace_))
+            write('<%svendor>%s</%svendor>\n' % (namespace_, quote_xml(self.vendor), namespace_))
         for internalName_ in self.internalName:
             showIndent(write, level)
-            write('<%sinternalName>%s</%sinternalName>\n' % (namespace_, self.gds_format_string(quote_xml(internalName_).encode(ExternalEncoding), input_name='internalName'), namespace_))
+            write('<%sinternalName>%s</%sinternalName>\n' % (namespace_, quote_xml(internalName_), namespace_))
         for language_ in self.language:
             showIndent(write, level)
-            write('<%slanguage>%s</%slanguage>\n' % (namespace_, self.gds_format_string(quote_xml(language_).encode(ExternalEncoding), input_name='language'), namespace_))
+            write('<%slanguage>%s</%slanguage>\n' % (namespace_, quote_xml(language_), namespace_))
         if self.productName is not None:
             showIndent(write, level)
-            write('<%sproductName>%s</%sproductName>\n' % (namespace_, self.gds_format_string(quote_xml(self.productName).encode(ExternalEncoding), input_name='productName'), namespace_))
+            write('<%sproductName>%s</%sproductName>\n' % (namespace_, quote_xml(self.productName), namespace_))
         if self.fileVersion is not None:
             showIndent(write, level)
-            write('<%sfileVersion>%s</%sfileVersion>\n' % (namespace_, self.gds_format_string(quote_xml(self.fileVersion).encode(ExternalEncoding), input_name='fileVersion'), namespace_))
+            write('<%sfileVersion>%s</%sfileVersion>\n' % (namespace_, quote_xml(self.fileVersion), namespace_))
         if self.productVersion is not None:
             showIndent(write, level)
-            write('<%sproductVersion>%s</%sproductVersion>\n' % (namespace_, self.gds_format_string(quote_xml(self.productVersion).encode(ExternalEncoding), input_name='productVersion'), namespace_))
+            write('<%sproductVersion>%s</%sproductVersion>\n' % (namespace_, quote_xml(self.productVersion), namespace_))
         if self.developmentEnvironment is not None:
             showIndent(write, level)
-            write('<%sdevelopmentEnvironment>%s</%sdevelopmentEnvironment>\n' % (namespace_, self.gds_format_string(quote_xml(self.developmentEnvironment).encode(ExternalEncoding), input_name='developmentEnvironment'), namespace_))
+            write('<%sdevelopmentEnvironment>%s</%sdevelopmentEnvironment>\n' % (namespace_, quote_xml(self.developmentEnvironment), namespace_))
         if self.checksum is not None:
             self.checksum.export(write, level, namespace_, name_='checksum')
         if self.architecture is not None:
             showIndent(write, level)
-            write('<%sarchitecture>%s</%sarchitecture>\n' % (namespace_, self.gds_format_string(quote_xml(self.architecture).encode(ExternalEncoding), input_name='architecture'), namespace_))
+            write('<%sarchitecture>%s</%sarchitecture>\n' % (namespace_, quote_xml(self.architecture), namespace_))
         if self.buildTimeDateStamp is not None:
             showIndent(write, level)
-            write('<%sbuildTimeDateStamp>%s</%sbuildTimeDateStamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.buildTimeDateStamp).encode(ExternalEncoding), input_name='buildTimeDateStamp'), namespace_))
+            write('<%sbuildTimeDateStamp>%s</%sbuildTimeDateStamp>\n' % (namespace_, quote_xml(self.buildTimeDateStamp), namespace_))
         if self.compilerVersion is not None:
             showIndent(write, level)
-            write('<%scompilerVersion>%s</%scompilerVersion>\n' % (namespace_, self.gds_format_string(quote_xml(self.compilerVersion).encode(ExternalEncoding), input_name='compilerVersion'), namespace_))
+            write('<%scompilerVersion>%s</%scompilerVersion>\n' % (namespace_, quote_xml(self.compilerVersion), namespace_))
         if self.linkerVersion is not None:
             showIndent(write, level)
             write('<%slinkerVersion>%s</%slinkerVersion>\n' % (namespace_, self.gds_format_float(self.linkerVersion, input_name='linkerVersion'), namespace_))
         if self.minOSVersionCPE is not None:
             showIndent(write, level)
-            write('<%sminOSVersionCPE>%s</%sminOSVersionCPE>\n' % (namespace_, self.gds_format_string(quote_xml(self.minOSVersionCPE).encode(ExternalEncoding), input_name='minOSVersionCPE'), namespace_))
+            write('<%sminOSVersionCPE>%s</%sminOSVersionCPE>\n' % (namespace_, quote_xml(self.minOSVersionCPE), namespace_))
         if self.numberOfSections is not None:
             showIndent(write, level)
             write('<%snumberOfSections>%s</%snumberOfSections>\n' % (namespace_, self.gds_format_integer(self.numberOfSections, input_name='numberOfSections'), namespace_))
         if self.MIMEType is not None:
             showIndent(write, level)
-            write('<%sMIMEType>%s</%sMIMEType>\n' % (namespace_, self.gds_format_string(quote_xml(self.MIMEType).encode(ExternalEncoding), input_name='MIMEType'), namespace_))
+            write('<%sMIMEType>%s</%sMIMEType>\n' % (namespace_, quote_xml(self.MIMEType), namespace_))
         if self.requiredPrivilege is not None:
             showIndent(write, level)
-            write('<%srequiredPrivilege>%s</%srequiredPrivilege>\n' % (namespace_, self.gds_format_string(quote_xml(self.requiredPrivilege).encode(ExternalEncoding), input_name='requiredPrivilege'), namespace_))
+            write('<%srequiredPrivilege>%s</%srequiredPrivilege>\n' % (namespace_, quote_xml(self.requiredPrivilege), namespace_))
         if self.digitalSignature is not None:
             self.digitalSignature.export(write, level, namespace_, name_='digitalSignature')
         if self.taggant is not None:
@@ -1501,7 +1501,7 @@ class extraHash(GeneratedsSuper):
         self.exportAttributes(write, level, already_processed, namespace_, name_='extraHash')
         if self.hasContent_():
             write('>')
-            write(str(self.valueOf_).encode(ExternalEncoding))
+            write(quote_xml(self.valueOf_))
             self.exportChildren(write, level + 1, namespace_, name_)
             write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -1509,7 +1509,7 @@ class extraHash(GeneratedsSuper):
     def exportAttributes(self, write, level, already_processed, namespace_='', name_='extraHash'):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.append('type_')
-            write(' type=%s' % (self.gds_format_string(quote_attrib(self.type_).encode(ExternalEncoding), input_name='type'), ))
+            write(' type=%s' % (quote_attrib(self.type_)))
     def exportChildren(self, write, level, namespace_='', name_='extraHash', fromsubclass_=False):
         pass
     def hasContent_(self):
@@ -1589,14 +1589,14 @@ class registryObject(GeneratedsSuper):
     def exportAttributes(self, write, level, already_processed, namespace_='', name_='registryObject'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
+            write(' id=%s' % (quote_attrib(self.id)))
     def exportChildren(self, write, level, namespace_='', name_='registryObject', fromsubclass_=False):
         if self.key is not None:
             showIndent(write, level)
-            write('<%skey>%s</%skey>\n' % (namespace_, self.gds_format_string(quote_xml(self.key).encode(ExternalEncoding), input_name='key'), namespace_))
+            write('<%skey>%s</%skey>\n' % (namespace_, quote_xml(self.key), namespace_))
         if self.valueName is not None:
             showIndent(write, level)
-            write('<%svalueName>%s</%svalueName>\n' % (namespace_, self.gds_format_string(quote_xml(self.valueName).encode(ExternalEncoding), input_name='valueName'), namespace_))
+            write('<%svalueName>%s</%svalueName>\n' % (namespace_, quote_xml(self.valueName), namespace_))
     def hasContent_(self):
         if (
             self.key is not None or
@@ -1680,11 +1680,11 @@ class entityObject(GeneratedsSuper):
     def exportAttributes(self, write, level, already_processed, namespace_='', name_='entityObject'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
+            write(' id=%s' % (quote_attrib(self.id)))
     def exportChildren(self, write, level, namespace_='', name_='entityObject', fromsubclass_=False):
         if self.name is not None:
             showIndent(write, level)
-            write('<%sname>%s</%sname>\n' % (namespace_, self.gds_format_string(quote_xml(self.name).encode(ExternalEncoding), input_name='name'), namespace_))
+            write('<%sname>%s</%sname>\n' % (namespace_, quote_xml(self.name), namespace_))
     def hasContent_(self):
         if (
             self.name is not None
@@ -1789,25 +1789,25 @@ class uriObject(GeneratedsSuper):
     def exportChildren(self, write, level, namespace_='', name_='uriObject', fromsubclass_=False):
         if self.uriString is not None:
             showIndent(write, level)
-            write('<%suriString>%s</%suriString>\n' % (namespace_, self.gds_format_string(quote_xml(self.uriString).encode(ExternalEncoding), input_name='uriString'), namespace_))
+            write('<%suriString>%s</%suriString>\n' % (namespace_, quote_xml(self.uriString), namespace_))
         if self.protocol is not None:
             showIndent(write, level)
-            write('<%sprotocol>%s</%sprotocol>\n' % (namespace_, self.gds_format_string(quote_xml(self.protocol).encode(ExternalEncoding), input_name='protocol'), namespace_))
+            write('<%sprotocol>%s</%sprotocol>\n' % (namespace_, quote_xml(self.protocol), namespace_))
         if self.hostname is not None:
             showIndent(write, level)
-            write('<%shostname>%s</%shostname>\n' % (namespace_, self.gds_format_string(quote_xml(self.hostname).encode(ExternalEncoding), input_name='hostname'), namespace_))
+            write('<%shostname>%s</%shostname>\n' % (namespace_, quote_xml(self.hostname), namespace_))
         if self.domain is not None:
             showIndent(write, level)
-            write('<%sdomain>%s</%sdomain>\n' % (namespace_, self.gds_format_string(quote_xml(self.domain).encode(ExternalEncoding), input_name='domain'), namespace_))
+            write('<%sdomain>%s</%sdomain>\n' % (namespace_, quote_xml(self.domain), namespace_))
         if self.port is not None:
             showIndent(write, level)
             write('<%sport>%s</%sport>\n' % (namespace_, self.gds_format_integer(self.port, input_name='port'), namespace_))
         if self.path is not None:
             showIndent(write, level)
-            write('<%spath>%s</%spath>\n' % (namespace_, self.gds_format_string(quote_xml(self.path).encode(ExternalEncoding), input_name='path'), namespace_))
+            write('<%spath>%s</%spath>\n' % (namespace_, quote_xml(self.path), namespace_))
         if self.ipProtocol is not None:
             showIndent(write, level)
-            write('<%sipProtocol>%s</%sipProtocol>\n' % (namespace_, self.gds_format_string(quote_xml(self.ipProtocol).encode(ExternalEncoding), input_name='ipProtocol'), namespace_))
+            write('<%sipProtocol>%s</%sipProtocol>\n' % (namespace_, quote_xml(self.ipProtocol), namespace_))
     def hasContent_(self):
         if (
             self.uriString is not None or
@@ -2032,7 +2032,7 @@ class IPAddress(GeneratedsSuper):
         self.exportAttributes(write, level, already_processed, namespace_, name_='IPAddress')
         if self.hasContent_():
             write('>')
-            write(str(self.valueOf_).encode(ExternalEncoding))
+            write(quote_xml(self.valueOf_))
             self.exportChildren(write, level + 1, namespace_, name_)
             write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -2115,11 +2115,11 @@ class domainObject(GeneratedsSuper):
     def exportAttributes(self, write, level, already_processed, namespace_='', name_='domainObject'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
+            write(' id=%s' % (quote_attrib(self.id)))
     def exportChildren(self, write, level, namespace_='', name_='domainObject', fromsubclass_=False):
         if self.domain is not None:
             showIndent(write, level)
-            write('<%sdomain>%s</%sdomain>\n' % (namespace_, self.gds_format_string(quote_xml(self.domain).encode(ExternalEncoding), input_name='domain'), namespace_))
+            write('<%sdomain>%s</%sdomain>\n' % (namespace_, quote_xml(self.domain), namespace_))
     def hasContent_(self):
         if (
             self.domain is not None
@@ -2306,17 +2306,17 @@ class classificationObject(GeneratedsSuper):
             write(' type=%s' % (quote_attrib(self.type_), ))
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
+            write(' id=%s' % (quote_attrib(self.id)))
     def exportChildren(self, write, level, namespace_='', name_='classificationObject', fromsubclass_=False):
         if self.classificationName is not None:
             showIndent(write, level)
-            write('<%sclassificationName>%s</%sclassificationName>\n' % ('mmdef:', self.gds_format_string(quote_xml(self.classificationName).encode(ExternalEncoding), input_name='classificationName'), 'mmdef:'))
+            write('<%sclassificationName>%s</%sclassificationName>\n' % ('mmdef:', quote_xml(self.classificationName), 'mmdef:'))
         if self.companyName is not None:
             showIndent(write, level)
-            write('<%scompanyName>%s</%scompanyName>\n' % ('mmdef:', self.gds_format_string(quote_xml(self.companyName).encode(ExternalEncoding), input_name='companyName'), 'mmdef:'))
+            write('<%scompanyName>%s</%scompanyName>\n' % ('mmdef:', quote_xml(self.companyName), 'mmdef:'))
         if self.category is not None:
             showIndent(write, level)
-            write('<%scategory>%s</%scategory>\n' % ('mmdef:', self.gds_format_string(quote_xml(self.category).encode(ExternalEncoding), input_name='category'), 'mmdef:'))
+            write('<%scategory>%s</%scategory>\n' % ('mmdef:', quote_xml(self.category), 'mmdef:'))
         if self.classificationDetails is not None:
             self.classificationDetails.export(write, level, namespace_, name_='classificationDetails')
     def hasContent_(self):
@@ -2438,19 +2438,19 @@ class classificationDetails(GeneratedsSuper):
     def exportChildren(self, write, level, namespace_='', name_='classificationDetails', fromsubclass_=False):
         if self.definitionVersion is not None:
             showIndent(write, level)
-            write('<%sdefinitionVersion>%s</%sdefinitionVersion>\n' % (namespace_, self.gds_format_string(quote_xml(self.definitionVersion).encode(ExternalEncoding), input_name='definitionVersion'), namespace_))
+            write('<%sdefinitionVersion>%s</%sdefinitionVersion>\n' % (namespace_, quote_xml(self.definitionVersion), namespace_))
         if self.detectionAddedTimeStamp is not None:
             showIndent(write, level)
-            write('<%sdetectionAddedTimeStamp>%s</%sdetectionAddedTimeStamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.detectionAddedTimeStamp).encode(ExternalEncoding), input_name='detectionAddedTimeStamp'), namespace_))
+            write('<%sdetectionAddedTimeStamp>%s</%sdetectionAddedTimeStamp>\n' % (namespace_, quote_xml(self.detectionAddedTimeStamp), namespace_))
         if self.detectionShippedTimeStamp is not None:
             showIndent(write, level)
-            write('<%sdetectionShippedTimeStamp>%s</%sdetectionShippedTimeStamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.detectionShippedTimeStamp).encode(ExternalEncoding), input_name='detectionShippedTimeStamp'), namespace_))
+            write('<%sdetectionShippedTimeStamp>%s</%sdetectionShippedTimeStamp>\n' % (namespace_, quote_xml(self.detectionShippedTimeStamp), namespace_))
         if self.product is not None:
             showIndent(write, level)
-            write('<%sproduct>%s</%sproduct>\n' % (namespace_, self.gds_format_string(quote_xml(self.product).encode(ExternalEncoding), input_name='product'), namespace_))
+            write('<%sproduct>%s</%sproduct>\n' % (namespace_, quote_xml(self.product), namespace_))
         if self.productVersion is not None:
             showIndent(write, level)
-            write('<%sproductVersion>%s</%sproductVersion>\n' % (namespace_, self.gds_format_string(quote_xml(self.productVersion).encode(ExternalEncoding), input_name='productVersion'), namespace_))
+            write('<%sproductVersion>%s</%sproductVersion>\n' % (namespace_, quote_xml(self.productVersion), namespace_))
     def hasContent_(self):
         if (
             self.definitionVersion is not None or
@@ -2634,16 +2634,16 @@ class fieldDataEntry(GeneratedsSuper):
             self.references.export(write, level, namespace_, name_='references', )
         if self.startDate is not None:
             showIndent(write, level)
-            write('<%sstartDate>%s</%sstartDate>\n' % (namespace_, self.gds_format_string(quote_xml(self.startDate).encode(ExternalEncoding), input_name='startDate'), namespace_))
+            write('<%sstartDate>%s</%sstartDate>\n' % (namespace_, quote_xml(self.startDate), namespace_))
         if self.endDate is not None:
             showIndent(write, level)
-            write('<%sendDate>%s</%sendDate>\n' % (namespace_, self.gds_format_string(quote_xml(self.endDate).encode(ExternalEncoding), input_name='endDate'), namespace_))
+            write('<%sendDate>%s</%sendDate>\n' % (namespace_, quote_xml(self.endDate), namespace_))
         if self.firstSeenDate is not None:
             showIndent(write, level)
-            write('<%sfirstSeenDate>%s</%sfirstSeenDate>\n' % (namespace_, self.gds_format_string(quote_xml(self.firstSeenDate).encode(ExternalEncoding), input_name='firstSeenDate'), namespace_))
+            write('<%sfirstSeenDate>%s</%sfirstSeenDate>\n' % (namespace_, quote_xml(self.firstSeenDate), namespace_))
         if self.origin is not None:
             showIndent(write, level)
-            write('<%sorigin>%s</%sorigin>\n' % (namespace_, self.gds_format_string(quote_xml(self.origin).encode(ExternalEncoding), input_name='origin'), namespace_))
+            write('<%sorigin>%s</%sorigin>\n' % (namespace_, quote_xml(self.origin), namespace_))
         if self.commonality is not None:
             showIndent(write, level)
             write('<%scommonality>%s</%scommonality>\n' % (namespace_, self.gds_format_integer(self.commonality, input_name='commonality'), namespace_))
@@ -2882,7 +2882,7 @@ class volume(GeneratedsSuper):
         self.exportAttributes(write, level, already_processed, namespace_, name_='volume')
         if self.hasContent_():
             write('>')
-            write(str(self.valueOf_).encode(ExternalEncoding))
+            write(quote_xml(self.valueOf_))
             self.exportChildren(write, level + 1, namespace_, name_)
             write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -2958,7 +2958,7 @@ class location(GeneratedsSuper):
         self.exportAttributes(write, level, already_processed, namespace_, name_='location')
         if self.hasContent_():
             write('>')
-            write(str(self.valueOf_).encode(ExternalEncoding))
+            write(quote_xml(self.valueOf_))
             self.exportChildren(write, level + 1, namespace_, name_)
             write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -3029,7 +3029,7 @@ class reference(GeneratedsSuper):
         self.exportAttributes(write, level, already_processed, namespace_, name_='reference')
         if self.hasContent_():
             write('>')
-            write(str(self.valueOf_).encode(ExternalEncoding))
+            write(quote_xml(self.valueOf_))
             self.exportChildren(write, level + 1, namespace_, name_)
             write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -3096,7 +3096,7 @@ class property(GeneratedsSuper):
         self.exportAttributes(write, level, already_processed, namespace_, name_='property')
         if self.hasContent_():
             write('>')
-            write(str(self.valueOf_).encode(ExternalEncoding))
+            write(quote_xml(self.valueOf_))
             self.exportChildren(write, level + 1, namespace_, name_)
             write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -3202,7 +3202,7 @@ class objectProperty(GeneratedsSuper):
             self.references.export(write, level, namespace_, name_='references', )
         if self.timestamp is not None:
             showIndent(write, level)
-            write('<%stimestamp>%s</%stimestamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.timestamp).encode(ExternalEncoding), input_name='timestamp'), namespace_))
+            write('<%stimestamp>%s</%stimestamp>\n' % (namespace_, quote_xml(self.timestamp), namespace_))
         for property_ in self.property:
             property_.export(write, level, namespace_, name_='property')
     def hasContent_(self):
@@ -3340,7 +3340,7 @@ class relationship(GeneratedsSuper):
             self.target.export(write, level, namespace_, name_='target', )
         if self.timestamp is not None:
             showIndent(write, level)
-            write('<%stimestamp>%s</%stimestamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.timestamp).encode(ExternalEncoding), input_name='timestamp'), namespace_))
+            write('<%stimestamp>%s</%stimestamp>\n' % (namespace_, quote_xml(self.timestamp), namespace_))
     def hasContent_(self):
         if (
             self.source is not None or
@@ -3622,29 +3622,29 @@ class softwarePackageObject(GeneratedsSuper):
     def exportAttributes(self, write, level, already_processed, namespace_='', name_='softwarePackageObject'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
+            write(' id=%s' % (quote_attrib(self.id)))
     def exportChildren(self, write, level, namespace_='', name_='softwarePackageObject', fromsubclass_=False):
         if self.vendor is not None:
             showIndent(write, level)
-            write('<%svendor>%s</%svendor>\n' % (namespace_, self.gds_format_string(quote_xml(self.vendor).encode(ExternalEncoding), input_name='vendor'), namespace_))
+            write('<%svendor>%s</%svendor>\n' % (namespace_, quote_xml(self.vendor), namespace_))
         if self.productgroup is not None:
             showIndent(write, level)
-            write('<%sproductgroup>%s</%sproductgroup>\n' % (namespace_, self.gds_format_string(quote_xml(self.productgroup).encode(ExternalEncoding), input_name='productgroup'), namespace_))
+            write('<%sproductgroup>%s</%sproductgroup>\n' % (namespace_, quote_xml(self.productgroup), namespace_))
         if self.product is not None:
             showIndent(write, level)
-            write('<%sproduct>%s</%sproduct>\n' % (namespace_, self.gds_format_string(quote_xml(self.product).encode(ExternalEncoding), input_name='product'), namespace_))
+            write('<%sproduct>%s</%sproduct>\n' % (namespace_, quote_xml(self.product), namespace_))
         if self.version is not None:
             showIndent(write, level)
-            write('<%sversion>%s</%sversion>\n' % (namespace_, self.gds_format_string(quote_xml(self.version).encode(ExternalEncoding), input_name='version'), namespace_))
+            write('<%sversion>%s</%sversion>\n' % (namespace_, quote_xml(self.version), namespace_))
         if self.update is not None:
             showIndent(write, level)
-            write('<%supdate>%s</%supdate>\n' % (namespace_, self.gds_format_string(quote_xml(self.update).encode(ExternalEncoding), input_name='update'), namespace_))
+            write('<%supdate>%s</%supdate>\n' % (namespace_, quote_xml(self.update), namespace_))
         if self.edition is not None:
             showIndent(write, level)
-            write('<%sedition>%s</%sedition>\n' % (namespace_, self.gds_format_string(quote_xml(self.edition).encode(ExternalEncoding), input_name='edition'), namespace_))
+            write('<%sedition>%s</%sedition>\n' % (namespace_, quote_xml(self.edition), namespace_))
         if self.language is not None:
             showIndent(write, level)
-            write('<%slanguage>%s</%slanguage>\n' % (namespace_, self.gds_format_string(quote_xml(self.language).encode(ExternalEncoding), input_name='language'), namespace_))
+            write('<%slanguage>%s</%slanguage>\n' % (namespace_, quote_xml(self.language), namespace_))
         if self.CPEname is not None:
             self.CPEname.export(write, level, namespace_, name_='CPEname')
     def hasContent_(self):
@@ -3774,7 +3774,7 @@ class CPEname(GeneratedsSuper):
         self.exportAttributes(write, level, already_processed, namespace_, name_='CPEname')
         if self.hasContent_():
             write('>')
-            write(str(self.valueOf_).encode(ExternalEncoding))
+            write(quote_xml(self.valueOf_))
             self.exportChildren(write, level + 1, namespace_, name_)
             write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -3782,7 +3782,7 @@ class CPEname(GeneratedsSuper):
     def exportAttributes(self, write, level, already_processed, namespace_='', name_='CPEname'):
         if self.cpeVersion is not None and 'cpeVersion' not in already_processed:
             already_processed.append('cpeVersion')
-            write(' cpeVersion=%s' % (self.gds_format_string(quote_attrib(self.cpeVersion).encode(ExternalEncoding), input_name='cpeVersion'), ))
+            write(' cpeVersion=%s' % (quote_attrib(self.cpeVersion)))
     def exportChildren(self, write, level, namespace_='', name_='CPEname', fromsubclass_=False):
         pass
     def hasContent_(self):
@@ -3871,23 +3871,23 @@ class digitalSignatureObject(GeneratedsSuper):
     def exportAttributes(self, write, level, already_processed, namespace_='', name_='digitalSignatureObject'):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.append('type_')
-            write(' type=%s' % (self.gds_format_string(quote_attrib(self.type_).encode(ExternalEncoding), input_name='type'), ))
+            write(' type=%s' % (quote_attrib(self.type_)))
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
+            write(' id=%s' % (quote_attrib(self.id)))
     def exportChildren(self, write, level, namespace_='', name_='digitalSignatureObject', fromsubclass_=False):
         if self.certificateIssuer is not None:
             showIndent(write, level)
-            write('<%scertificateIssuer>%s</%scertificateIssuer>\n' % (namespace_, self.gds_format_string(quote_xml(self.certificateIssuer).encode(ExternalEncoding), input_name='certificateIssuer'), namespace_))
+            write('<%scertificateIssuer>%s</%scertificateIssuer>\n' % (namespace_, quote_xml(self.certificateIssuer), namespace_))
         if self.certificateSubject is not None:
             showIndent(write, level)
-            write('<%scertificateSubject>%s</%scertificateSubject>\n' % (namespace_, self.gds_format_string(quote_xml(self.certificateSubject).encode(ExternalEncoding), input_name='certificateSubject'), namespace_))
+            write('<%scertificateSubject>%s</%scertificateSubject>\n' % (namespace_, quote_xml(self.certificateSubject), namespace_))
         if self.certificateValidity is not None:
             showIndent(write, level)
             write('<%scertificateValidity>%s</%scertificateValidity>\n' % (namespace_, self.gds_format_boolean(self.gds_str_lower(str(self.certificateValidity)), input_name='certificateValidity'), namespace_))
         if self.certificateRevocationTimestamp is not None:
             showIndent(write, level)
-            write('<%scertificateRevocationTimestamp>%s</%scertificateRevocationTimestamp>\n' % (namespace_, self.gds_format_string(quote_xml(self.certificateRevocationTimestamp).encode(ExternalEncoding), input_name='certificateRevocationTimestamp'), namespace_))
+            write('<%scertificateRevocationTimestamp>%s</%scertificateRevocationTimestamp>\n' % (namespace_, quote_xml(self.certificateRevocationTimestamp), namespace_))
         if self.signingTimestamp is not None:
             self.signingTimestamp.export(write, level, namespace_, name_='signingTimestamp')
     def hasContent_(self):
@@ -4001,7 +4001,7 @@ class signingTimestamp(GeneratedsSuper):
         self.exportAttributes(write, level, already_processed, namespace_, name_='signingTimestamp')
         if self.hasContent_():
             write('>')
-            write(str(self.valueOf_).encode(ExternalEncoding))
+            write(quote_xml(self.valueOf_))
             self.exportChildren(write, level + 1, namespace_, name_)
             write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -4096,11 +4096,11 @@ class taggantObject(GeneratedsSuper):
     def exportAttributes(self, write, level, already_processed, namespace_='', name_='taggantObject'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.append('id')
-            write(' id=%s' % (self.gds_format_string(quote_attrib(self.id).encode(ExternalEncoding), input_name='id'), ))
+            write(' id=%s' % (quote_attrib(self.id)))
     def exportChildren(self, write, level, namespace_='', name_='taggantObject', fromsubclass_=False):
         if self.vendorID is not None:
             showIndent(write, level)
-            write('<%svendorID>%s</%svendorID>\n' % (namespace_, self.gds_format_string(quote_xml(self.vendorID).encode(ExternalEncoding), input_name='vendorID'), namespace_))
+            write('<%svendorID>%s</%svendorID>\n' % (namespace_, quote_xml(self.vendorID), namespace_))
         if self.taggantValidity is not None:
             showIndent(write, level)
             write('<%staggantValidity>%s</%staggantValidity>\n' % (namespace_, self.gds_format_boolean(self.gds_str_lower(str(self.taggantValidity)), input_name='taggantValidity'), namespace_))

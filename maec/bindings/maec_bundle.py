@@ -102,7 +102,7 @@ class BehaviorType(GeneratedsSuper):
             write(' status=%s' % (quote_attrib(self.status), ))
         if self.duration is not None and 'duration' not in already_processed:
             already_processed.add('duration')
-            write(' duration=%s' % (self.gds_format_string(quote_attrib(self.duration).encode(ExternalEncoding), input_name='duration'), ))
+            write(' duration=%s' % (quote_attrib(self.duration).encode(ExternalEncoding)))
         if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
             already_processed.add('ordinal_position')
             write(' ordinal_position="%s"' % self.gds_format_integer(self.ordinal_position, input_name='ordinal_position'))
@@ -118,7 +118,7 @@ class BehaviorType(GeneratedsSuper):
             self.Purpose.export(write, level, 'maecBundle:', name_='Purpose', pretty_print=pretty_print)
         if self.Description is not None:
             showIndent(write, level, pretty_print)
-            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', quote_xml(self.Description), 'maecBundle:', eol_))
         if self.Discovery_Method is not None:
             self.Discovery_Method.export(write, level, 'maecBundle:', name_='Discovery_Method', pretty_print=pretty_print)
         if self.Action_Composition is not None:
@@ -341,7 +341,7 @@ class BundleType(GeneratedsSuper):
             write(' id=%s' % (quote_attrib(self.id), ))
         if self.schema_version is not None and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
-            write(' schema_version=%s' % (self.gds_format_string(quote_attrib(self.schema_version).encode(ExternalEncoding), input_name='schema_version'), ))
+            write(' schema_version=%s' % (quote_attrib(self.schema_version)))
         if self.timestamp is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
             write(' timestamp="%s"' % self.gds_format_datetime(self.timestamp, input_name='timestamp'))
@@ -565,10 +565,10 @@ class APICallType(GeneratedsSuper):
     def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='APICallType'):
         if self.normalized_function_name is not None and 'normalized_function_name' not in already_processed:
             already_processed.add('normalized_function_name')
-            write(' normalized_function_name=%s' % (self.gds_format_string(quote_attrib(self.normalized_function_name).encode(ExternalEncoding), input_name='normalized_function_name'), ))
+            write(' normalized_function_name=%s' % (quote_attrib(self.normalized_function_name)))
         if self.function_name is not None and 'function_name' not in already_processed:
             already_processed.add('function_name')
-            write(' function_name=%s' % (self.gds_format_string(quote_attrib(self.function_name).encode(ExternalEncoding), input_name='function_name'), ))
+            write(' function_name=%s' % (quote_attrib(self.function_name)))
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='APICallType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -576,10 +576,10 @@ class APICallType(GeneratedsSuper):
             eol_ = ''
         if self.Address is not None:
             showIndent(write, level, pretty_print)
-            write('<%sAddress>%s</%sAddress>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Address).encode(ExternalEncoding), input_name='Address'), 'maecBundle:', eol_))
+            write('<%sAddress>%s</%sAddress>%s' % ('maecBundle:', quote_xml(self.Address), 'maecBundle:', eol_))
         if self.Return_Value is not None:
             showIndent(write, level, pretty_print)
-            write('<%sReturn_Value>%s</%sReturn_Value>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Return_Value).encode(ExternalEncoding), input_name='Return_Value'), 'maecBundle:', eol_))
+            write('<%sReturn_Value>%s</%sReturn_Value>%s' % ('maecBundle:', quote_xml(self.Return_Value), 'maecBundle:', eol_))
         if self.Parameters is not None:
             self.Parameters.export(write, level, 'maecBundle:', name_='Parameters', pretty_print=pretty_print)
     def exportLiteral(self, write, level, name_='APICallType'):
@@ -832,7 +832,7 @@ class CVEVulnerabilityType(GeneratedsSuper):
     def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='CVEVulnerabilityType'):
         if self.cve_id is not None and 'cve_id' not in already_processed:
             already_processed.add('cve_id')
-            write(' cve_id=%s' % (self.gds_format_string(quote_attrib(self.cve_id).encode(ExternalEncoding), input_name='cve_id'), ))
+            write(' cve_id=%s' % (quote_attrib(self.cve_id)))
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='CVEVulnerabilityType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -840,7 +840,7 @@ class CVEVulnerabilityType(GeneratedsSuper):
             eol_ = ''
         if self.Description is not None:
             showIndent(write, level, pretty_print)
-            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', quote_xml(self.Description), 'maecBundle:', eol_))
     def exportLiteral(self, write, level, name_='CVEVulnerabilityType'):
         level += 1
         already_processed = set()
@@ -929,7 +929,7 @@ class BaseCollectionType(GeneratedsSuper):
     def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='BaseCollectionType'):
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
-            write(' name=%s' % (self.gds_format_string(quote_attrib(self.name).encode(ExternalEncoding), input_name='name'), ))
+            write(' name=%s' % (quote_attrib(self.name)))
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
             write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
@@ -941,13 +941,13 @@ class BaseCollectionType(GeneratedsSuper):
             eol_ = ''
         if self.Affinity_Type is not None:
             showIndent(write, level, pretty_print)
-            write('<%sAffinity_Type>%s</%sAffinity_Type>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Affinity_Type).encode(ExternalEncoding), input_name='Affinity_Type'), 'maecBundle:', eol_))
+            write('<%sAffinity_Type>%s</%sAffinity_Type>%s' % ('maecBundle:', quote_xml(self.Affinity_Type), 'maecBundle:', eol_))
         if self.Affinity_Degree is not None:
             showIndent(write, level, pretty_print)
-            write('<%sAffinity_Degree>%s</%sAffinity_Degree>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Affinity_Degree).encode(ExternalEncoding), input_name='Affinity_Degree'), 'maecBundle:', eol_))
+            write('<%sAffinity_Degree>%s</%sAffinity_Degree>%s' % ('maecBundle:', quote_xml(self.Affinity_Degree), 'maecBundle:', eol_))
         if self.Description is not None:
             showIndent(write, level, pretty_print)
-            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', quote_xml(self.Description), 'maecBundle:', eol_))
     def exportLiteral(self, write, level, name_='BaseCollectionType'):
         level += 1
         already_processed = set()
@@ -1239,10 +1239,10 @@ class ParameterType(GeneratedsSuper):
             write(' ordinal_position="%s"' % self.gds_format_integer(self.ordinal_position, input_name='ordinal_position'))
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
-            write(' name=%s' % (self.gds_format_string(quote_attrib(self.name).encode(ExternalEncoding), input_name='name'), ))
+            write(' name=%s' % (quote_attrib(self.name)))
         if self.value is not None and 'value' not in already_processed:
             already_processed.add('value')
-            write(' value=%s' % (self.gds_format_string(quote_attrib(self.value).encode(ExternalEncoding), input_name='value'), ))
+            write(' value=%s' % (quote_attrib(self.value)))
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='ParameterType', fromsubclass_=False, pretty_print=True):
         pass
     def exportLiteral(self, write, level, name_='ParameterType'):
@@ -1518,7 +1518,7 @@ class BehaviorPurposeType(GeneratedsSuper):
             eol_ = ''
         if self.Description is not None:
             showIndent(write, level, pretty_print)
-            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', quote_xml(self.Description), 'maecBundle:', eol_))
         if self.Vulnerability_Exploit is not None:
             self.Vulnerability_Exploit.export(write, level, 'maecBundle:', name_='Vulnerability_Exploit', pretty_print=pretty_print)
     def exportLiteral(self, write, level, name_='BehaviorPurposeType'):
@@ -1718,7 +1718,7 @@ class ExploitType(GeneratedsSuper):
             self.CVE.export(write, level, 'maecBundle:', name_='CVE', pretty_print=pretty_print)
         for CWE_ID_ in self.CWE_ID:
             showIndent(write, level, pretty_print)
-            write('<%sCWE_ID>%s</%sCWE_ID>%s' % ('maecBundle:', self.gds_format_string(quote_xml(CWE_ID_).encode(ExternalEncoding), input_name='CWE_ID'), 'maecBundle:', eol_))
+            write('<%sCWE_ID>%s</%sCWE_ID>%s' % ('maecBundle:', quote_xml(CWE_ID_), 'maecBundle:', eol_))
         if self.Targeted_Platforms is not None:
             self.Targeted_Platforms.export(write, level, 'maecBundle:', name_='Targeted_Platforms', pretty_print=pretty_print)
     def exportLiteral(self, write, level, name_='ExploitType'):
@@ -2882,7 +2882,7 @@ class CandidateIndicatorType(GeneratedsSuper):
     def exportAttributes(self, write, level, already_processed, namespace_='maecBundle:', name_='CandidateIndicatorType'):
         if self.version is not None and 'version' not in already_processed:
             already_processed.add('version')
-            write(' version=%s' % (self.gds_format_string(quote_attrib(self.version).encode(ExternalEncoding), input_name='version'), ))
+            write(' version=%s' % (quote_attrib(self.version)))
         if self.creation_datetime is not None and 'creation_datetime' not in already_processed:
             already_processed.add('creation_datetime')
             write(' creation_datetime="%s"' % self.gds_format_datetime(self.creation_datetime, input_name='creation_datetime'))
@@ -2904,10 +2904,10 @@ class CandidateIndicatorType(GeneratedsSuper):
             write('<%sNumeric_Importance>%s</%sNumeric_Importance>%s' % ('maecBundle:', self.gds_format_integer(self.Numeric_Importance, input_name='Numeric_Importance'), 'maecBundle:', eol_))
         if self.Author is not None:
             showIndent(write, level, pretty_print)
-            write('<%sAuthor>%s</%sAuthor>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Author).encode(ExternalEncoding), input_name='Author'), 'maecBundle:', eol_))
+            write('<%sAuthor>%s</%sAuthor>%s' % ('maecBundle:', quote_xml(self.Author), 'maecBundle:', eol_))
         if self.Description is not None:
             showIndent(write, level, pretty_print)
-            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', quote_xml(self.Description), 'maecBundle:', eol_))
         if self.Malware_Entity is not None:
             self.Malware_Entity.export(write, level, 'maecBundle:', name_='Malware_Entity', pretty_print=pretty_print)
         if self.Composition is not None:
@@ -3165,10 +3165,10 @@ class MalwareEntityType(GeneratedsSuper):
             self.Type.export(write, level, 'maecBundle:', name_='Type', pretty_print=pretty_print)
         if self.Name is not None:
             showIndent(write, level, pretty_print)
-            write('<%sName>%s</%sName>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Name).encode(ExternalEncoding), input_name='Name'), 'maecBundle:', eol_))
+            write('<%sName>%s</%sName>%s' % ('maecBundle:', quote_xml(self.Name), 'maecBundle:', eol_))
         if self.Description is not None:
             showIndent(write, level, pretty_print)
-            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', quote_xml(self.Description), 'maecBundle:', eol_))
     def exportLiteral(self, write, level, name_='MalwareEntityType'):
         level += 1
         already_processed = set()
@@ -4158,13 +4158,13 @@ class AVClassificationType(cybox_common.ToolInformationType):
             eol_ = ''
         if self.Engine_Version is not None:
             showIndent(write, level, pretty_print)
-            write('<%sEngine_Version>%s</%sEngine_Version>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Engine_Version).encode(ExternalEncoding), input_name='Engine_Version'), 'maecBundle:', eol_))
+            write('<%sEngine_Version>%s</%sEngine_Version>%s' % ('maecBundle:', quote_xml(self.Engine_Version), 'maecBundle:', eol_))
         if self.Definition_Version is not None:
             showIndent(write, level, pretty_print)
-            write('<%sDefinition_Version>%s</%sDefinition_Version>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Definition_Version).encode(ExternalEncoding), input_name='Definition_Version'), 'maecBundle:', eol_))
+            write('<%sDefinition_Version>%s</%sDefinition_Version>%s' % ('maecBundle:', quote_xml(self.Definition_Version), 'maecBundle:', eol_))
         if self.Classification_Name is not None:
             showIndent(write, level, pretty_print)
-            write('<%sClassification_Name>%s</%sClassification_Name>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Classification_Name).encode(ExternalEncoding), input_name='Classification_Name'), 'maecBundle:', eol_))
+            write('<%sClassification_Name>%s</%sClassification_Name>%s' % ('maecBundle:', quote_xml(self.Classification_Name), 'maecBundle:', eol_))
     def exportLiteral(self, write, level, name_='AVClassificationType'):
         level += 1
         already_processed = set()
@@ -4729,7 +4729,7 @@ class BehaviorCollectionType(BaseCollectionType):
         else:
             eol_ = ''
         if self.Purpose is not None:
-            write('<%sPurpose>%s</%sPurpose>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Purpose).encode(ExternalEncoding), input_name='Purpose'), 'maecBundle:', eol_))
+            write('<%sPurpose>%s</%sPurpose>%s' % ('maecBundle:', quote_xml(self.Purpose), 'maecBundle:', eol_))
         if self.Behavior_List is not None:
             self.Behavior_List.export(write, level, 'maecBundle:', name_='Behavior_List', pretty_print=pretty_print)
     def exportLiteral(self, write, level, name_='BehaviorCollectionType'):
@@ -5071,7 +5071,7 @@ class CapabilityType(GeneratedsSuper):
             eol_ = ''
         if self.Description is not None:
             showIndent(write, level, pretty_print)
-            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', quote_xml(self.Description), 'maecBundle:', eol_))
         for Property_ in self.Property:
             Property_.export(write, level, 'maecBundle:', name_='Property', pretty_print=pretty_print)
         for Strategic_Objective_ in self.Strategic_Objective:
@@ -5464,7 +5464,7 @@ class CapabilityObjectiveType(GeneratedsSuper):
             self.Name.export(write, level, 'maecBundle:', name_='Name', pretty_print=pretty_print)
         if self.Description is not None:
             showIndent(write, level, pretty_print)
-            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'maecBundle:', eol_))
+            write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', quote_xml(self.Description), 'maecBundle:', eol_))
         for Property_ in self.Property:
             Property_.export(write, level, 'maecBundle:', name_='Property', pretty_print=pretty_print)
         for Behavior_Reference_ in self.Behavior_Reference:
