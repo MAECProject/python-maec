@@ -76,30 +76,6 @@ class ContainerType(GeneratedsSuper):
             eol_ = ''
         if self.Packages is not None:
             self.Packages.export(write, level, 'maecContainer:', name_='Packages', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='MAEC_Container'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.timestamp is not None and 'timestamp' not in already_processed:
-            already_processed.add('timestamp')
-            showIndent(write, level)
-            write('timestamp = "%s",\n' % (self.timestamp,))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-        if self.schema_version is not None and 'schema_version' not in already_processed:
-            already_processed.add('schema_version')
-            showIndent(write, level)
-            write('schema_version = %s,\n' % (self.schema_version))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Packages is not None:
-            write('Packages=model_.PackageListType(\n')
-            self.Packages.exportLiteral(write, level, name_='Packages')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -180,26 +156,6 @@ class PackageListType(GeneratedsSuper):
             eol_ = ''
         for Package_ in self.Package:
             Package_.export(write, level, 'maecContainer:', name_='Package', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='PackageListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Package=[\n')
-        level += 1
-        for Package_ in self.Package:
-            write('model_.maec_package_schema.PackageType(\n')
-            Package_.exportLiteral(write, level, name_='maec_package_schema.PackageType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)

@@ -178,57 +178,6 @@ class malwareMetaData(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='malwareMetaData'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.version is not None and 'version' not in already_processed:
-            already_processed.append('version')
-            showIndent(write, level)
-            write('version = %f,\n' % (self.version,))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.append('id')
-            showIndent(write, level)
-            write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.company is not None:
-            showIndent(write, level)
-            write('company=%s,\n' % quote_python(self.company).encode(ExternalEncoding))
-        if self.author is not None:
-            showIndent(write, level)
-            write('author=%s,\n' % quote_python(self.author).encode(ExternalEncoding))
-        if self.comment is not None:
-            showIndent(write, level)
-            write('comment=%s,\n' % quote_python(self.comment).encode(ExternalEncoding))
-        if self.timestamp is not None:
-            showIndent(write, level)
-            write('timestamp=%s,\n' % quote_python(self.timestamp).encode(ExternalEncoding))
-        if self.objects is not None:
-            showIndent(write, level)
-            write('objects=model_.objects(\n')
-            self.objects.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
-        if self.objectProperties is not None:
-            showIndent(write, level)
-            write('objectProperties=model_.objectProperties(\n')
-            self.objectProperties.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
-        if self.relationships is not None:
-            showIndent(write, level)
-            write('relationships=model_.relationships(\n')
-            self.relationships.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
-        if self.fieldData is not None:
-            showIndent(write, level)
-            write('fieldData=model_.fieldData(\n')
-            self.fieldData.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -442,146 +391,6 @@ class objects(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='objects'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('file=[\n')
-        level += 1
-        for file_ in self.file:
-            showIndent(write, level)
-            write('model_.fileObject(\n')
-            file_.exportLiteral(write, level, name_='fileObject')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('uri=[\n')
-        level += 1
-        for uri_ in self.uri:
-            showIndent(write, level)
-            write('model_.uriObject(\n')
-            uri_.exportLiteral(write, level, name_='uriObject')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('domain=[\n')
-        level += 1
-        for domain_ in self.domain:
-            showIndent(write, level)
-            write('model_.domainObject(\n')
-            domain_.exportLiteral(write, level, name_='domainObject')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('registry=[\n')
-        level += 1
-        for registry_ in self.registry:
-            showIndent(write, level)
-            write('model_.registryObject(\n')
-            registry_.exportLiteral(write, level, name_='registryObject')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('ip=[\n')
-        level += 1
-        for ip_ in self.ip:
-            showIndent(write, level)
-            write('model_.IPObject(\n')
-            ip_.exportLiteral(write, level, name_='IPObject')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('asn=[\n')
-        level += 1
-        for asn_ in self.asn:
-            showIndent(write, level)
-            write('model_.ASNObject(\n')
-            asn_.exportLiteral(write, level, name_='ASNObject')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('entity=[\n')
-        level += 1
-        for entity_ in self.entity:
-            showIndent(write, level)
-            write('model_.entityObject(\n')
-            entity_.exportLiteral(write, level, name_='entityObject')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('classification=[\n')
-        level += 1
-        for classification_ in self.classification:
-            showIndent(write, level)
-            write('model_.classificationObject(\n')
-            classification_.exportLiteral(write, level, name_='classificationObject')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('softwarePackage=[\n')
-        level += 1
-        for softwarePackage_ in self.softwarePackage:
-            showIndent(write, level)
-            write('model_.softwarePackageObject(\n')
-            softwarePackage_.exportLiteral(write, level, name_='softwarePackageObject')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('digitalSignature=[\n')
-        level += 1
-        for digitalSignature_ in self.digitalSignature:
-            showIndent(write, level)
-            write('model_.digitalSignatureObject(\n')
-            digitalSignature_.exportLiteral(write, level, name_='digitalSignatureObject')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('taggant=[\n')
-        level += 1
-        for taggant_ in self.taggant:
-            showIndent(write, level)
-            write('model_.taggantObject(\n')
-            taggant_.exportLiteral(write, level, name_='taggantObject')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -681,26 +490,6 @@ class objectProperties(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='objectProperties'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('objectProperty=[\n')
-        level += 1
-        for objectProperty_ in self.objectProperty:
-            showIndent(write, level)
-            write('model_.objectProperty(\n')
-            objectProperty_.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -759,26 +548,6 @@ class relationships(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='relationships'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('relationship=[\n')
-        level += 1
-        for relationship_ in self.relationship:
-            showIndent(write, level)
-            write('model_.relationship(\n')
-            relationship_.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -837,26 +606,6 @@ class fieldData(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='fieldData'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('fieldDataEntry=[\n')
-        level += 1
-        for fieldDataEntry_ in self.fieldDataEntry:
-            showIndent(write, level)
-            write('model_.fieldDataEntry(\n')
-            fieldDataEntry_.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -1156,179 +905,6 @@ class fileObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='fileObject'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.append('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.md5 is not None:
-            showIndent(write, level)
-            write('md5=model_.xs_hexBinary(\n')
-            self.md5.exportLiteral(write, level, name_='md5')
-            showIndent(write, level)
-            write('),\n')
-        if self.sha1 is not None:
-            showIndent(write, level)
-            write('sha1=model_.xs_hexBinary(\n')
-            self.sha1.exportLiteral(write, level, name_='sha1')
-            showIndent(write, level)
-            write('),\n')
-        if self.sha256 is not None:
-            showIndent(write, level)
-            write('sha256=model_.xs_hexBinary(\n')
-            self.sha256.exportLiteral(write, level, name_='sha256')
-            showIndent(write, level)
-            write('),\n')
-        if self.sha512 is not None:
-            showIndent(write, level)
-            write('sha512=model_.xs_hexBinary(\n')
-            self.sha512.exportLiteral(write, level, name_='sha512')
-            showIndent(write, level)
-            write('),\n')
-        if self.size is not None:
-            showIndent(write, level)
-            write('size=%d,\n' % self.size)
-        if self.crc32 is not None:
-            showIndent(write, level)
-            write('crc32=%s,\n' % quote_python(self.crc32).encode(ExternalEncoding))
-        showIndent(write, level)
-        write('fileType=[\n')
-        level += 1
-        for fileType_ in self.fileType:
-            showIndent(write, level)
-            write('%s,\n' % quote_python(fileType_).encode(ExternalEncoding))
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('extraHash=[\n')
-        level += 1
-        for extraHash_ in self.extraHash:
-            showIndent(write, level)
-            write('model_.extraHash(\n')
-            extraHash_.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('filename=[\n')
-        level += 1
-        for filename_ in self.filename:
-            showIndent(write, level)
-            write('%s,\n' % quote_python(filename_).encode(ExternalEncoding))
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('normalizedNativePath=[\n')
-        level += 1
-        for normalizedNativePath_ in self.normalizedNativePath:
-            showIndent(write, level)
-            write('%s,\n' % quote_python(normalizedNativePath_).encode(ExternalEncoding))
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('filenameWithinInstaller=[\n')
-        level += 1
-        for filenameWithinInstaller_ in self.filenameWithinInstaller:
-            showIndent(write, level)
-            write('%s,\n' % quote_python(filenameWithinInstaller_).encode(ExternalEncoding))
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('folderWithinInstaller=[\n')
-        level += 1
-        for folderWithinInstaller_ in self.folderWithinInstaller:
-            showIndent(write, level)
-            write('%s,\n' % quote_python(folderWithinInstaller_).encode(ExternalEncoding))
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        if self.vendor is not None:
-            showIndent(write, level)
-            write('vendor=%s,\n' % quote_python(self.vendor).encode(ExternalEncoding))
-        showIndent(write, level)
-        write('internalName=[\n')
-        level += 1
-        for internalName_ in self.internalName:
-            showIndent(write, level)
-            write('%s,\n' % quote_python(internalName_).encode(ExternalEncoding))
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('language=[\n')
-        level += 1
-        for language_ in self.language:
-            showIndent(write, level)
-            write('%s,\n' % quote_python(language_).encode(ExternalEncoding))
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        if self.productName is not None:
-            showIndent(write, level)
-            write('productName=%s,\n' % quote_python(self.productName).encode(ExternalEncoding))
-        if self.fileVersion is not None:
-            showIndent(write, level)
-            write('fileVersion=%s,\n' % quote_python(self.fileVersion).encode(ExternalEncoding))
-        if self.productVersion is not None:
-            showIndent(write, level)
-            write('productVersion=%s,\n' % quote_python(self.productVersion).encode(ExternalEncoding))
-        if self.developmentEnvironment is not None:
-            showIndent(write, level)
-            write('developmentEnvironment=%s,\n' % quote_python(self.developmentEnvironment).encode(ExternalEncoding))
-        if self.checksum is not None:
-            showIndent(write, level)
-            write('checksum=model_.xs_hexBinary(\n')
-            self.checksum.exportLiteral(write, level, name_='checksum')
-            showIndent(write, level)
-            write('),\n')
-        if self.architecture is not None:
-            showIndent(write, level)
-            write('architecture=%s,\n' % quote_python(self.architecture).encode(ExternalEncoding))
-        if self.buildTimeDateStamp is not None:
-            showIndent(write, level)
-            write('buildTimeDateStamp=%s,\n' % quote_python(self.buildTimeDateStamp).encode(ExternalEncoding))
-        if self.compilerVersion is not None:
-            showIndent(write, level)
-            write('compilerVersion=%s,\n' % quote_python(self.compilerVersion).encode(ExternalEncoding))
-        if self.linkerVersion is not None:
-            showIndent(write, level)
-            write('linkerVersion=%f,\n' % self.linkerVersion)
-        if self.minOSVersionCPE is not None:
-            showIndent(write, level)
-            write('minOSVersionCPE=%s,\n' % quote_python(self.minOSVersionCPE).encode(ExternalEncoding))
-        if self.numberOfSections is not None:
-            showIndent(write, level)
-            write('numberOfSections=%d,\n' % self.numberOfSections)
-        if self.MIMEType is not None:
-            showIndent(write, level)
-            write('MIMEType=%s,\n' % quote_python(self.MIMEType).encode(ExternalEncoding))
-        if self.requiredPrivilege is not None:
-            showIndent(write, level)
-            write('requiredPrivilege=%s,\n' % quote_python(self.requiredPrivilege).encode(ExternalEncoding))
-        if self.digitalSignature is not None:
-            showIndent(write, level)
-            write('digitalSignature=model_.digitalSignatureObject(\n')
-            self.digitalSignature.exportLiteral(write, level, name_='digitalSignature')
-            showIndent(write, level)
-            write('),\n')
-        if self.taggant is not None:
-            showIndent(write, level)
-            write('taggant=model_.taggantObject(\n')
-            self.taggant.exportLiteral(write, level, name_='taggant')
-            showIndent(write, level)
-            write('),\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -1519,20 +1095,6 @@ class extraHash(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='extraHash'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-        showIndent(write, level)
-        write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.append('type_')
-            showIndent(write, level)
-            write('type_ = "%s",\n' % (self.type_,))
-    def exportLiteralChildren(self, write, level, name_):
-        pass
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         self.valueOf_ = get_all_text_(node)
@@ -1605,23 +1167,6 @@ class registryObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='registryObject'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.append('id')
-            showIndent(write, level)
-            write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.key is not None:
-            showIndent(write, level)
-            write('key=%s,\n' % quote_python(self.key).encode(ExternalEncoding))
-        if self.valueName is not None:
-            showIndent(write, level)
-            write('valueName=%s,\n' % quote_python(self.valueName).encode(ExternalEncoding))
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -1692,20 +1237,6 @@ class entityObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='entityObject'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.append('id')
-            showIndent(write, level)
-            write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.name is not None:
-            showIndent(write, level)
-            write('name=%s,\n' % quote_python(self.name).encode(ExternalEncoding))
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -1821,38 +1352,6 @@ class uriObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='uriObject'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.append('id')
-            showIndent(write, level)
-            write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.uriString is not None:
-            showIndent(write, level)
-            write('uriString=%s,\n' % quote_python(self.uriString).encode(ExternalEncoding))
-        if self.protocol is not None:
-            showIndent(write, level)
-            write('protocol=%s,\n' % quote_python(self.protocol).encode(ExternalEncoding))
-        if self.hostname is not None:
-            showIndent(write, level)
-            write('hostname=%s,\n' % quote_python(self.hostname).encode(ExternalEncoding))
-        if self.domain is not None:
-            showIndent(write, level)
-            write('domain=%s,\n' % quote_python(self.domain).encode(ExternalEncoding))
-        if self.port is not None:
-            showIndent(write, level)
-            write('port=%d,\n' % self.port)
-        if self.path is not None:
-            showIndent(write, level)
-            write('path=%s,\n' % quote_python(self.path).encode(ExternalEncoding))
-        if self.ipProtocol is not None:
-            showIndent(write, level)
-            write('ipProtocol=%s,\n' % quote_python(self.ipProtocol).encode(ExternalEncoding))
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -1958,29 +1457,6 @@ class IPObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='IPObject'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.append('id')
-            showIndent(write, level)
-            write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.startAddress is not None:
-            showIndent(write, level)
-            write('startAddress=model_.IPAddress(\n')
-            self.startAddress.exportLiteral(write, level, name_='startAddress')
-            showIndent(write, level)
-            write('),\n')
-        if self.endAddress is not None:
-            showIndent(write, level)
-            write('endAddress=model_.IPAddress(\n')
-            self.endAddress.exportLiteral(write, level, name_='endAddress')
-            showIndent(write, level)
-            write('),\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -2050,20 +1526,6 @@ class IPAddress(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='IPAddress'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-        showIndent(write, level)
-        write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.append('type_')
-            showIndent(write, level)
-            write('type_ = "%s",\n' % (self.type_,))
-    def exportLiteralChildren(self, write, level, name_):
-        pass
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         self.valueOf_ = get_all_text_(node)
@@ -2127,20 +1589,6 @@ class domainObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='domainObject'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.append('id')
-            showIndent(write, level)
-            write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.domain is not None:
-            showIndent(write, level)
-            write('domain=%s,\n' % quote_python(self.domain).encode(ExternalEncoding))
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -2208,20 +1656,6 @@ class ASNObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='ASNObject'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.append('id')
-            showIndent(write, level)
-            write('id = %d,\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.as_number is not None:
-            showIndent(write, level)
-            write('as_number=%d,\n' % self.as_number)
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -2329,36 +1763,6 @@ class classificationObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='classificationObject'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.append('type_')
-            showIndent(write, level)
-            write('type_ = "%s",\n' % (self.type_,))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.append('id')
-            showIndent(write, level)
-            write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.classificationName is not None:
-            showIndent(write, level)
-            write('classificationName=%s,\n' % quote_python(self.classificationName).encode(ExternalEncoding))
-        if self.companyName is not None:
-            showIndent(write, level)
-            write('companyName=%s,\n' % quote_python(self.companyName).encode(ExternalEncoding))
-        if self.category is not None:
-            showIndent(write, level)
-            write('category=%s,\n' % quote_python(self.category).encode(ExternalEncoding))
-        if self.classificationDetails is not None:
-            showIndent(write, level)
-            write('classificationDetails=model_.classificationDetails(\n')
-            self.classificationDetails.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -2462,29 +1866,6 @@ class classificationDetails(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='classificationDetails'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.definitionVersion is not None:
-            showIndent(write, level)
-            write('definitionVersion=%s,\n' % quote_python(self.definitionVersion).encode(ExternalEncoding))
-        if self.detectionAddedTimeStamp is not None:
-            showIndent(write, level)
-            write('detectionAddedTimeStamp=%s,\n' % quote_python(self.detectionAddedTimeStamp).encode(ExternalEncoding))
-        if self.detectionShippedTimeStamp is not None:
-            showIndent(write, level)
-            write('detectionShippedTimeStamp=%s,\n' % quote_python(self.detectionShippedTimeStamp).encode(ExternalEncoding))
-        if self.product is not None:
-            showIndent(write, level)
-            write('product=%s,\n' % quote_python(self.product).encode(ExternalEncoding))
-        if self.productVersion is not None:
-            showIndent(write, level)
-            write('productVersion=%s,\n' % quote_python(self.productVersion).encode(ExternalEncoding))
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -2669,56 +2050,6 @@ class fieldDataEntry(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='fieldDataEntry'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.references is not None:
-            showIndent(write, level)
-            write('references=model_.references(\n')
-            self.references.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
-        if self.startDate is not None:
-            showIndent(write, level)
-            write('startDate=%s,\n' % quote_python(self.startDate).encode(ExternalEncoding))
-        if self.endDate is not None:
-            showIndent(write, level)
-            write('endDate=%s,\n' % quote_python(self.endDate).encode(ExternalEncoding))
-        if self.firstSeenDate is not None:
-            showIndent(write, level)
-            write('firstSeenDate=%s,\n' % quote_python(self.firstSeenDate).encode(ExternalEncoding))
-        if self.origin is not None:
-            showIndent(write, level)
-            write('origin=%s,\n' % quote_python(self.origin).encode(ExternalEncoding))
-        if self.commonality is not None:
-            showIndent(write, level)
-            write('commonality=%d,\n' % self.commonality)
-        showIndent(write, level)
-        write('volume=[\n')
-        level += 1
-        for volume_ in self.volume:
-            showIndent(write, level)
-            write('model_.volume(\n')
-            volume_.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        if self.importance is not None:
-            showIndent(write, level)
-            write('importance=%d,\n' % self.importance)
-        if self.location is not None:
-            showIndent(write, level)
-            write('location=model_.location(\n')
-            self.location.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -2820,26 +2151,6 @@ class references(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='references'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('ref=[\n')
-        level += 1
-        for ref_ in self.ref:
-            showIndent(write, level)
-            write('model_.reference(\n')
-            ref_.exportLiteral(write, level, name_='reference')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -2900,20 +2211,6 @@ class volume(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='volume'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-        showIndent(write, level)
-        write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.units is not None and 'units' not in already_processed:
-            already_processed.append('units')
-            showIndent(write, level)
-            write('units = "%s",\n' % (self.units,))
-    def exportLiteralChildren(self, write, level, name_):
-        pass
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         self.valueOf_ = get_all_text_(node)
@@ -2976,20 +2273,6 @@ class location(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='location'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-        showIndent(write, level)
-        write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.append('type_')
-            showIndent(write, level)
-            write('type_ = "%s",\n' % (self.type_,))
-    def exportLiteralChildren(self, write, level, name_):
-        pass
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         self.valueOf_ = get_all_text_(node)
@@ -3045,17 +2328,6 @@ class reference(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='reference'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-        showIndent(write, level)
-        write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        pass
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         self.valueOf_ = get_all_text_(node)
@@ -3114,20 +2386,6 @@ class property(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='property'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-        showIndent(write, level)
-        write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.append('type_')
-            showIndent(write, level)
-            write('type_ = "%s",\n' % (self.type_,))
-    def exportLiteralChildren(self, write, level, name_):
-        pass
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         self.valueOf_ = get_all_text_(node)
@@ -3214,38 +2472,6 @@ class objectProperty(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='objectProperty'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.append('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.references is not None:
-            showIndent(write, level)
-            write('references=model_.references(\n')
-            self.references.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
-        if self.timestamp is not None:
-            showIndent(write, level)
-            write('timestamp=%s,\n' % quote_python(self.timestamp).encode(ExternalEncoding))
-        showIndent(write, level)
-        write('property=[\n')
-        level += 1
-        for property_ in self.property:
-            showIndent(write, level)
-            write('model_.property(\n')
-            property_.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -3350,36 +2576,6 @@ class relationship(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='relationship'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.append('type_')
-            showIndent(write, level)
-            write('type_ = "%s",\n' % (self.type_,))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.append('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.source is not None:
-            showIndent(write, level)
-            write('source=model_.source(\n')
-            self.source.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
-        if self.target is not None:
-            showIndent(write, level)
-            write('target=model_.target(\n')
-            self.target.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
-        if self.timestamp is not None:
-            showIndent(write, level)
-            write('timestamp=%s,\n' % quote_python(self.timestamp).encode(ExternalEncoding))
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -3454,26 +2650,6 @@ class source(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='source'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('ref=[\n')
-        level += 1
-        for ref_ in self.ref:
-            showIndent(write, level)
-            write('model_.reference(\n')
-            ref_.exportLiteral(write, level, name_='reference')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -3532,26 +2708,6 @@ class target(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='target'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('ref=[\n')
-        level += 1
-        for ref_ in self.ref:
-            showIndent(write, level)
-            write('model_.reference(\n')
-            ref_.exportLiteral(write, level, name_='reference')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -3661,44 +2817,6 @@ class softwarePackageObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='softwarePackageObject'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.append('id')
-            showIndent(write, level)
-            write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.vendor is not None:
-            showIndent(write, level)
-            write('vendor=%s,\n' % quote_python(self.vendor).encode(ExternalEncoding))
-        if self.productgroup is not None:
-            showIndent(write, level)
-            write('productgroup=%s,\n' % quote_python(self.productgroup).encode(ExternalEncoding))
-        if self.product is not None:
-            showIndent(write, level)
-            write('product=%s,\n' % quote_python(self.product).encode(ExternalEncoding))
-        if self.version is not None:
-            showIndent(write, level)
-            write('version=%s,\n' % quote_python(self.version).encode(ExternalEncoding))
-        if self.update is not None:
-            showIndent(write, level)
-            write('update=%s,\n' % quote_python(self.update).encode(ExternalEncoding))
-        if self.edition is not None:
-            showIndent(write, level)
-            write('edition=%s,\n' % quote_python(self.edition).encode(ExternalEncoding))
-        if self.language is not None:
-            showIndent(write, level)
-            write('language=%s,\n' % quote_python(self.language).encode(ExternalEncoding))
-        if self.CPEname is not None:
-            showIndent(write, level)
-            write('CPEname=model_.CPEname(\n')
-            self.CPEname.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -3792,20 +2910,6 @@ class CPEname(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='CPEname'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-        showIndent(write, level)
-        write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.cpeVersion is not None and 'cpeVersion' not in already_processed:
-            already_processed.append('cpeVersion')
-            showIndent(write, level)
-            write('cpeVersion = "%s",\n' % (self.cpeVersion,))
-    def exportLiteralChildren(self, write, level, name_):
-        pass
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         self.valueOf_ = get_all_text_(node)
@@ -3901,39 +3005,6 @@ class digitalSignatureObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='digitalSignatureObject'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.append('type_')
-            showIndent(write, level)
-            write('type_ = "%s",\n' % (self.type_,))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.append('id')
-            showIndent(write, level)
-            write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.certificateIssuer is not None:
-            showIndent(write, level)
-            write('certificateIssuer=%s,\n' % quote_python(self.certificateIssuer).encode(ExternalEncoding))
-        if self.certificateSubject is not None:
-            showIndent(write, level)
-            write('certificateSubject=%s,\n' % quote_python(self.certificateSubject).encode(ExternalEncoding))
-        if self.certificateValidity is not None:
-            showIndent(write, level)
-            write('certificateValidity=%s,\n' % self.certificateValidity)
-        if self.certificateRevocationTimestamp is not None:
-            showIndent(write, level)
-            write('certificateRevocationTimestamp=%s,\n' % quote_python(self.certificateRevocationTimestamp).encode(ExternalEncoding))
-        if self.signingTimestamp is not None:
-            showIndent(write, level)
-            write('signingTimestamp=model_.signingTimestamp(\n')
-            self.signingTimestamp.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -4019,20 +3090,6 @@ class signingTimestamp(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='signingTimestamp'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-        showIndent(write, level)
-        write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.valid is not None and 'valid' not in already_processed:
-            already_processed.append('valid')
-            showIndent(write, level)
-            write('valid = %s,\n' % (self.valid,))
-    def exportLiteralChildren(self, write, level, name_):
-        pass
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         self.valueOf_ = get_all_text_(node)
@@ -4115,29 +3172,6 @@ class taggantObject(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, write, level, name_='taggantObject'):
-        level += 1
-        self.exportLiteralAttributes(write, level, [], name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.append('id')
-            showIndent(write, level)
-            write('id = "%s",\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.vendorID is not None:
-            showIndent(write, level)
-            write('vendorID=%s,\n' % quote_python(self.vendorID).encode(ExternalEncoding))
-        if self.taggantValidity is not None:
-            showIndent(write, level)
-            write('taggantValidity=%s,\n' % self.taggantValidity)
-        if self.signingTimestamp is not None:
-            showIndent(write, level)
-            write('signingTimestamp=model_.signingTimestamp(\n')
-            self.signingTimestamp.exportLiteral(write, level)
-            showIndent(write, level)
-            write('),\n')
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:

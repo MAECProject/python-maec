@@ -127,53 +127,6 @@ class BehaviorType(GeneratedsSuper):
             self.Associated_Code.export(write, level, 'maecBundle:', name_='Associated_Code', pretty_print=pretty_print)
         if self.Relationships is not None:
             self.Relationships.export(write, level, 'maecBundle:', name_='Relationships', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='BehaviorType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.status is not None and 'status' not in already_processed:
-            already_processed.add('status')
-            showIndent(write, level)
-            write('status = %s,\n' % (self.status,))
-        if self.duration is not None and 'duration' not in already_processed:
-            already_processed.add('duration')
-            showIndent(write, level)
-            write('duration = "%s",\n' % (self.duration,))
-        if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
-            already_processed.add('ordinal_position')
-            showIndent(write, level)
-            write('ordinal_position = %d,\n' % (self.ordinal_position,))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Purpose is not None:
-            write('Purpose=model_.BehaviorPurposeType(\n')
-            self.Purpose.exportLiteral(write, level, name_='Purpose')
-            write('),\n')
-        if self.Description is not None:
-            showIndent(write, level)
-            write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
-        if self.Discovery_Method is not None:
-            write('Discovery_Method=model_.cybox_common.MeasureSourceType(\n')
-            self.Discovery_Method.exportLiteral(write, level, name_='Discovery_Method')
-            write('),\n')
-        if self.Action_Composition is not None:
-            write('Action_Composition=model_.BehavioralActionsType(\n')
-            self.Action_Composition.exportLiteral(write, level, name_='Action_Composition')
-            write('),\n')
-        if self.Associated_Code is not None:
-            write('Associated_Code=model_.AssociatedCodeType(\n')
-            self.Associated_Code.exportLiteral(write, level, name_='Associated_Code')
-            write('),\n')
-        if self.Relationships is not None:
-            write('Relationships=model_.BehaviorRelationshipListType(\n')
-            self.Relationships.exportLiteral(write, level, name_='Relationships')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -368,70 +321,6 @@ class BundleType(GeneratedsSuper):
             self.Candidate_Indicators.export(write, level, 'maecBundle:', name_='Candidate_Indicators', pretty_print=pretty_print)
         if self.Collections is not None:
             self.Collections.export(write, level, 'maecBundle:', name_='Collections', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='MAEC_Bundle'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.defined_subject is not None and 'defined_subject' not in already_processed:
-            already_processed.add('defined_subject')
-            showIndent(write, level)
-            write('defined_subject = %s,\n' % (self.defined_subject,))
-        if self.content_type is not None and 'content_type' not in already_processed:
-            already_processed.add('content_type')
-            showIndent(write, level)
-            write('content_type = %s,\n' % (self.content_type,))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-        if self.schema_version is not None and 'schema_version' not in already_processed:
-            already_processed.add('schema_version')
-            showIndent(write, level)
-            write('schema_version = "%s",\n' % (self.schema_version,))
-        if self.timestamp is not None and 'timestamp' not in already_processed:
-            already_processed.add('timestamp')
-            showIndent(write, level)
-            write('timestamp = "%s",\n' % (self.timestamp,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Malware_Instance_Object_Attributes is not None:
-            write('Malware_Instance_Object_Attributes=model_.cybox_core.ObjectType(\n')
-            self.Malware_Instance_Object_Attributes.exportLiteral(write, level, name_='Malware_Instance_Object_Attributes')
-            write('),\n')
-        if self.AV_Classifications is not None:
-            write('AV_Classifications=model_.AVClassificationsType(\n')
-            self.AV_Classifications.exportLiteral(write, level, name_='AV_Classifications')
-            write('),\n')
-        if self.Process_Tree is not None:
-            write('Process_Tree=model_.ProcessTreeType(\n')
-            self.Process_Tree.exportLiteral(write, level, name_='Process_Tree')
-            write('),\n')
-        if self.Capabilities is not None:
-            write('Capabilities=model_.CapabilityListType(\n')
-            self.Capabilities.exportLiteral(write, level, name_='Capabilities')
-            write('),\n')
-        if self.Behaviors is not None:
-            write('Behaviors=model_.BehaviorListType(\n')
-            self.Behaviors.exportLiteral(write, level, name_='Behaviors')
-            write('),\n')
-        if self.Actions is not None:
-            write('Actions=model_.ActionListType(\n')
-            self.Actions.exportLiteral(write, level, name_='Actions')
-            write('),\n')
-        if self.Objects is not None:
-            write('Objects=model_.ObjectListType(\n')
-            self.Objects.exportLiteral(write, level, name_='Objects')
-            write('),\n')
-        if self.Candidate_Indicators is not None:
-            write('Candidate_Indicators=model_.CandidateIndicatorListType(\n')
-            self.Candidate_Indicators.exportLiteral(write, level, name_='Candidate_Indicators')
-            write('),\n')
-        if self.Collections is not None:
-            write('Collections=model_.CollectionsType(\n')
-            self.Collections.exportLiteral(write, level, name_='Collections')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -582,32 +471,6 @@ class APICallType(GeneratedsSuper):
             write('<%sReturn_Value>%s</%sReturn_Value>%s' % ('maecBundle:', quote_xml(self.Return_Value), 'maecBundle:', eol_))
         if self.Parameters is not None:
             self.Parameters.export(write, level, 'maecBundle:', name_='Parameters', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='APICallType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.normalized_function_name is not None and 'normalized_function_name' not in already_processed:
-            already_processed.add('normalized_function_name')
-            showIndent(write, level)
-            write('normalized_function_name = "%s",\n' % (self.normalized_function_name,))
-        if self.function_name is not None and 'function_name' not in already_processed:
-            already_processed.add('function_name')
-            showIndent(write, level)
-            write('function_name = "%s",\n' % (self.function_name,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Address is not None:
-            showIndent(write, level)
-            write('Address=%s,\n' % quote_python(self.Address).encode(ExternalEncoding))
-        if self.Return_Value is not None:
-            showIndent(write, level)
-            write('Return_Value=%s,\n' % quote_python(self.Return_Value).encode(ExternalEncoding))
-        if self.Parameters is not None:
-            write('Parameters=model_.ParameterListType(\n')
-            self.Parameters.exportLiteral(write, level, name_='Parameters')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -719,41 +582,6 @@ class ActionImplementationType(GeneratedsSuper):
             self.API_Call.export(write, level, 'maecBundle:', name_='API_Call', pretty_print=pretty_print)
         for Code_ in self.Code:
             Code_.export(write, level, 'maecBundle:', name_='Code', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ActionImplementationType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
-            showIndent(write, level)
-            write('type_ = %s,\n' % (self.type_,))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Compatible_Platforms is not None:
-            write('Compatible_Platforms=model_.PlatformListType(\n')
-            self.Compatible_Platforms.exportLiteral(write, level, name_='Compatible_Platforms')
-            write('),\n')
-        if self.API_Call is not None:
-            write('API_Call=model_.APICallType(\n')
-            self.API_Call.exportLiteral(write, level, name_='API_Call')
-            write('),\n')
-        showIndent(write, level)
-        write('Code=[\n')
-        level += 1
-        for Code_ in self.Code:
-            write('model_.code_object.CodeObjectType(\n')
-            Code_.exportLiteral(write, level, name_='code_object.CodeObjectType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -841,21 +669,6 @@ class CVEVulnerabilityType(GeneratedsSuper):
         if self.Description is not None:
             showIndent(write, level, pretty_print)
             write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', quote_xml(self.Description), 'maecBundle:', eol_))
-    def exportLiteral(self, write, level, name_='CVEVulnerabilityType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.cve_id is not None and 'cve_id' not in already_processed:
-            already_processed.add('cve_id')
-            showIndent(write, level)
-            write('cve_id = "%s",\n' % (self.cve_id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Description is not None:
-            showIndent(write, level)
-            write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -948,27 +761,6 @@ class BaseCollectionType(GeneratedsSuper):
         if self.Description is not None:
             showIndent(write, level, pretty_print)
             write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', quote_xml(self.Description), 'maecBundle:', eol_))
-    def exportLiteral(self, write, level, name_='BaseCollectionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.name is not None and 'name' not in already_processed:
-            already_processed.add('name')
-            showIndent(write, level)
-            write('name = "%s",\n' % (self.name,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Affinity_Type is not None:
-            showIndent(write, level)
-            write('Affinity_Type=%s,\n' % quote_python(self.Affinity_Type).encode(ExternalEncoding))
-        if self.Affinity_Degree is not None:
-            showIndent(write, level)
-            write('Affinity_Degree=%s,\n' % quote_python(self.Affinity_Degree).encode(ExternalEncoding))
-        if self.Description is not None:
-            showIndent(write, level)
-            write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1058,29 +850,6 @@ class BehaviorRelationshipType(GeneratedsSuper):
             eol_ = ''
         for Behavior_Reference_ in self.Behavior_Reference:
             Behavior_Reference_.export(write, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='BehaviorRelationshipType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
-            showIndent(write, level)
-            write('type_ = %s,\n' % (self.type_,))
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Behavior_Reference=[\n')
-        level += 1
-        for Behavior_Reference_ in self.Behavior_Reference:
-            write('model_.BehaviorReferenceType(\n')
-            Behavior_Reference_.exportLiteral(write, level, name_='BehaviorReferenceType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1151,26 +920,6 @@ class AVClassificationsType(GeneratedsSuper):
             eol_ = ''
         for AV_Classification_ in self.AV_Classification:
             AV_Classification_.export(write, level, 'maecBundle:', name_='AV_Classification', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='AVClassificationsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('AV_Classification=[\n')
-        level += 1
-        for AV_Classification_ in self.AV_Classification:
-            write('model_.AVClassificationType(\n')
-            AV_Classification_.exportLiteral(write, level, name_='AVClassificationType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1244,27 +993,6 @@ class ParameterType(GeneratedsSuper):
             already_processed.add('value')
             write(' value=%s' % (quote_attrib(self.value)))
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='ParameterType', fromsubclass_=False, pretty_print=True):
-        pass
-    def exportLiteral(self, write, level, name_='ParameterType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
-            already_processed.add('ordinal_position')
-            showIndent(write, level)
-            write('ordinal_position = %d,\n' % (self.ordinal_position,))
-        if self.name is not None and 'name' not in already_processed:
-            already_processed.add('name')
-            showIndent(write, level)
-            write('name = "%s",\n' % (self.name,))
-        if self.value is not None and 'value' not in already_processed:
-            already_processed.add('value')
-            showIndent(write, level)
-            write('value = "%s",\n' % (self.value,))
-    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -1345,26 +1073,6 @@ class ParameterListType(GeneratedsSuper):
             eol_ = ''
         for Parameter_ in self.Parameter:
             Parameter_.export(write, level, 'maecBundle:', name_='Parameter', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ParameterListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Parameter=[\n')
-        level += 1
-        for Parameter_ in self.Parameter:
-            write('model_.ParameterType(\n')
-            Parameter_.exportLiteral(write, level, name_='ParameterType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1432,26 +1140,6 @@ class AssociatedCodeType(GeneratedsSuper):
             eol_ = ''
         for Code_Snippet_ in self.Code_Snippet:
             Code_Snippet_.export(write, level, 'maecBundle:', name_='Code_Snippet', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='AssociatedCodeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Code_Snippet=[\n')
-        level += 1
-        for Code_Snippet_ in self.Code_Snippet:
-            write('model_.code_object.CodeObjectType(\n')
-            Code_Snippet_.exportLiteral(write, level, name_='code_object.CodeObjectType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1521,22 +1209,6 @@ class BehaviorPurposeType(GeneratedsSuper):
             write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', quote_xml(self.Description), 'maecBundle:', eol_))
         if self.Vulnerability_Exploit is not None:
             self.Vulnerability_Exploit.export(write, level, 'maecBundle:', name_='Vulnerability_Exploit', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='BehaviorPurposeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Description is not None:
-            showIndent(write, level)
-            write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
-        if self.Vulnerability_Exploit is not None:
-            write('Vulnerability_Exploit=model_.ExploitType(\n')
-            self.Vulnerability_Exploit.exportLiteral(write, level, name_='Vulnerability_Exploit')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1608,26 +1280,6 @@ class PlatformListType(GeneratedsSuper):
             eol_ = ''
         for Platform_ in self.Platform:
             Platform_.export(write, level, 'maecBundle:', name_='Platform', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='PlatformListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Platform=[\n')
-        level += 1
-        for Platform_ in self.Platform:
-            write('model_.cybox_common.PlatformSpecificationType(\n')
-            Platform_.exportLiteral(write, level, name_='cybox_common.PlatformSpecificationType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1721,35 +1373,6 @@ class ExploitType(GeneratedsSuper):
             write('<%sCWE_ID>%s</%sCWE_ID>%s' % ('maecBundle:', quote_xml(CWE_ID_), 'maecBundle:', eol_))
         if self.Targeted_Platforms is not None:
             self.Targeted_Platforms.export(write, level, 'maecBundle:', name_='Targeted_Platforms', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ExploitType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.known_vulnerability is not None and 'known_vulnerability' not in already_processed:
-            already_processed.add('known_vulnerability')
-            showIndent(write, level)
-            write('known_vulnerability = %s,\n' % (self.known_vulnerability,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.CVE is not None:
-            write('CVE=model_.CVEVulnerabilityType(\n')
-            self.CVE.exportLiteral(write, level, name_='CVE')
-            write('),\n')
-        showIndent(write, level)
-        write('CWE_ID=[\n')
-        level += 1
-        for CWE_ID_ in self.CWE_ID:
-            showIndent(write, level)
-            write('%s,\n' % quote_python(CWE_ID_).encode(ExternalEncoding))
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        if self.Targeted_Platforms is not None:
-            write('Targeted_Platforms=model_.PlatformListType(\n')
-            self.Targeted_Platforms.exportLiteral(write, level, name_='Targeted_Platforms')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1833,26 +1456,6 @@ class BehaviorRelationshipListType(GeneratedsSuper):
             eol_ = ''
         for Relationship_ in self.Relationship:
             Relationship_.export(write, level, 'maecBundle:', name_='Relationship', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='BehaviorRelationshipListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Relationship=[\n')
-        level += 1
-        for Relationship_ in self.Relationship:
-            write('model_.BehaviorRelationshipType(\n')
-            Relationship_.exportLiteral(write, level, name_='BehaviorRelationshipType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1953,59 +1556,6 @@ class BehavioralActionsType(GeneratedsSuper):
             Action_Reference_.export(write, level, 'maecBundle:', name_='Action_Reference', pretty_print=pretty_print)
         for Action_Equivalence_Reference_ in self.Action_Equivalence_Reference:
             Action_Equivalence_Reference_.export(write, level, 'maecBundle:', name_='Action_Equivalence_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='BehavioralActionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Action_Collection=[\n')
-        level += 1
-        for Action_Collection_ in self.Action_Collection:
-            write('model_.ActionCollectionType(\n')
-            Action_Collection_.exportLiteral(write, level, name_='ActionCollectionType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('Action=[\n')
-        level += 1
-        for Action_ in self.Action:
-            write('model_.BehavioralActionType(\n')
-            Action_.exportLiteral(write, level, name_='BehavioralActionType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('Action_Reference=[\n')
-        level += 1
-        for Action_Reference_ in self.Action_Reference:
-            write('model_.BehavioralActionReferenceType(\n')
-            Action_Reference_.exportLiteral(write, level, name_='BehavioralActionReferenceType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('Action_Equivalence_Reference=[\n')
-        level += 1
-        for Action_Equivalence_Reference_ in self.Action_Equivalence_Reference:
-            write('model_.BehavioralActionEquivalenceReferenceType(\n')
-            Action_Equivalence_Reference_.exportLiteral(write, level, name_='BehavioralActionEquivalenceReferenceType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2084,26 +1634,6 @@ class BehaviorListType(GeneratedsSuper):
             eol_ = ''
         for Behavior_ in self.Behavior:
             Behavior_.export(write, level, 'maecBundle:', name_='Behavior', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='BehaviorListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Behavior=[\n')
-        level += 1
-        for Behavior_ in self.Behavior:
-            write('model_.BehaviorType(\n')
-            Behavior_.exportLiteral(write, level, name_='BehaviorType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2170,26 +1700,6 @@ class ActionListType(GeneratedsSuper):
             eol_ = ''
         for Action_ in self.Action:
             Action_.export(write, level, 'maecBundle:', name_='Action', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ActionListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Action=[\n')
-        level += 1
-        for Action_ in self.Action:
-            write('model_.MalwareActionType(\n')
-            Action_.exportLiteral(write, level, name_='MalwareActionType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2256,26 +1766,6 @@ class ObjectListType(GeneratedsSuper):
             eol_ = ''
         for Object_ in self.Object:
             Object_.export(write, level, 'maecBundle:', name_='Object', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ObjectListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Object=[\n')
-        level += 1
-        for Object_ in self.Object:
-            write('model_.cybox_core.ObjectType(\n')
-            Object_.exportLiteral(write, level, name_='cybox_core.ObjectType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2337,19 +1827,6 @@ class BehaviorReferenceType(GeneratedsSuper):
             write(' behavior_idref=%s' % (quote_attrib(self.behavior_idref), ))
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehaviorReferenceType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, write, level, name_='BehaviorReferenceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.behavior_idref is not None and 'behavior_idref' not in already_processed:
-            already_processed.add('behavior_idref')
-            showIndent(write, level)
-            write('behavior_idref = %s,\n' % (self.behavior_idref,))
-    def exportLiteralChildren(self, write, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2410,19 +1887,6 @@ class ObjectReferenceType(GeneratedsSuper):
             already_processed.add('object_idref')
             write(' object_idref=%s' % (quote_attrib(self.object_idref), ))
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='ObjectReferenceType', fromsubclass_=False, pretty_print=True):
-        pass
-    def exportLiteral(self, write, level, name_='ObjectReferenceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.object_idref is not None and 'object_idref' not in already_processed:
-            already_processed.add('object_idref')
-            showIndent(write, level)
-            write('object_idref = %s,\n' % (self.object_idref,))
-    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -2498,23 +1962,6 @@ class BehavioralActionEquivalenceReferenceType(GeneratedsSuper):
             already_processed.add('behavioral_ordering')
             write(' behavioral_ordering="%s"' % self.gds_format_integer(self.behavioral_ordering, input_name='behavioral_ordering'))
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehavioralActionEquivalenceReferenceType', fromsubclass_=False, pretty_print=True):
-        pass
-    def exportLiteral(self, write, level, name_='BehavioralActionEquivalenceReferenceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.action_equivalence_idref is not None and 'action_equivalence_idref' not in already_processed:
-            already_processed.add('action_equivalence_idref')
-            showIndent(write, level)
-            write('action_equivalence_idref = %s,\n' % (self.action_equivalence_idref,))
-        if self.behavioral_ordering is not None and 'behavioral_ordering' not in already_processed:
-            already_processed.add('behavioral_ordering')
-            showIndent(write, level)
-            write('behavioral_ordering = %d,\n' % (self.behavioral_ordering,))
-    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -2592,26 +2039,6 @@ class BehaviorReferenceListType(GeneratedsSuper):
             eol_ = ''
         for Behavior_Reference_ in self.Behavior_Reference:
             Behavior_Reference_.export(write, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='BehaviorReferenceListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Behavior_Reference=[\n')
-        level += 1
-        for Behavior_Reference_ in self.Behavior_Reference:
-            write('model_.BehaviorReferenceType(\n')
-            Behavior_Reference_.exportLiteral(write, level, name_='BehaviorReferenceType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2678,26 +2105,6 @@ class ActionReferenceListType(GeneratedsSuper):
             eol_ = ''
         for Action_Reference_ in self.Action_Reference:
             Action_Reference_.export(write, level, 'maecBundle:', name_='Action_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ActionReferenceListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Action_Reference=[\n')
-        level += 1
-        for Action_Reference_ in self.Action_Reference:
-            write('model_.cybox_core.ActionReferenceType(\n')
-            Action_Reference_.exportLiteral(write, level, name_='cybox_core.ActionReferenceType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2765,26 +2172,6 @@ class ObjectReferenceListType(GeneratedsSuper):
             eol_ = ''
         for Object_Reference_ in self.Object_Reference:
             Object_Reference_.export(write, level, 'maecBundle:', name_='Object_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ObjectReferenceListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Object_Reference=[\n')
-        level += 1
-        for Object_Reference_ in self.Object_Reference:
-            write('model_.ObjectReferenceType(\n')
-            Object_Reference_.exportLiteral(write, level, name_='ObjectReferenceType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2912,51 +2299,6 @@ class CandidateIndicatorType(GeneratedsSuper):
             self.Malware_Entity.export(write, level, 'maecBundle:', name_='Malware_Entity', pretty_print=pretty_print)
         if self.Composition is not None:
             self.Composition.export(write, level, 'maecBundle:', name_='Composition', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='CandidateIndicatorType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.version is not None and 'version' not in already_processed:
-            already_processed.add('version')
-            showIndent(write, level)
-            write('version = "%s",\n' % (self.version,))
-        if self.creation_datetime is not None and 'creation_datetime' not in already_processed:
-            already_processed.add('creation_datetime')
-            showIndent(write, level)
-            write('creation_datetime = "%s",\n' % (self.creation_datetime,))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-        if self.lastupdate_datetime is not None and 'lastupdate_datetime' not in already_processed:
-            already_processed.add('lastupdate_datetime')
-            showIndent(write, level)
-            write('lastupdate_datetime = "%s",\n' % (self.lastupdate_datetime,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Importance is not None:
-            write('Importance=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Importance.exportLiteral(write, level, name_='Importance')
-            write('),\n')
-        if self.Numeric_Importance is not None:
-            showIndent(write, level)
-            write('Numeric_Importance=%d,\n' % self.Numeric_Importance)
-        if self.Author is not None:
-            showIndent(write, level)
-            write('Author=%s,\n' % quote_python(self.Author).encode(ExternalEncoding))
-        if self.Description is not None:
-            showIndent(write, level)
-            write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
-        if self.Malware_Entity is not None:
-            write('Malware_Entity=model_.MalwareEntityType(\n')
-            self.Malware_Entity.exportLiteral(write, level, name_='Malware_Entity')
-            write('),\n')
-        if self.Composition is not None:
-            write('Composition=model_.CandidateIndicatorCompositionType(\n')
-            self.Composition.exportLiteral(write, level, name_='Composition')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3071,26 +2413,6 @@ class CandidateIndicatorListType(GeneratedsSuper):
             eol_ = ''
         for Candidate_Indicator_ in self.Candidate_Indicator:
             Candidate_Indicator_.export(write, level, 'maecBundle:', name_='Candidate_Indicator', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='CandidateIndicatorListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Candidate_Indicator=[\n')
-        level += 1
-        for Candidate_Indicator_ in self.Candidate_Indicator:
-            write('model_.CandidateIndicatorType(\n')
-            Candidate_Indicator_.exportLiteral(write, level, name_='CandidateIndicatorType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3169,25 +2491,6 @@ class MalwareEntityType(GeneratedsSuper):
         if self.Description is not None:
             showIndent(write, level, pretty_print)
             write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', quote_xml(self.Description), 'maecBundle:', eol_))
-    def exportLiteral(self, write, level, name_='MalwareEntityType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Type is not None:
-            write('Type=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Type.exportLiteral(write, level, name_='Type')
-            write('),\n')
-        if self.Name is not None:
-            showIndent(write, level)
-            write('Name=%s,\n' % quote_python(self.Name).encode(ExternalEncoding))
-        if self.Description is not None:
-            showIndent(write, level)
-            write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3276,31 +2579,6 @@ class CollectionsType(GeneratedsSuper):
             self.Object_Collections.export(write, level, 'maecBundle:', name_='Object_Collections', pretty_print=pretty_print)
         if self.Candidate_Indicator_Collections is not None:
             self.Candidate_Indicator_Collections.export(write, level, 'maecBundle:', name_='Candidate_Indicator_Collections', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='CollectionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Behavior_Collections is not None:
-            write('Behavior_Collections=model_.BehaviorCollectionListType(\n')
-            self.Behavior_Collections.exportLiteral(write, level, name_='Behavior_Collections')
-            write('),\n')
-        if self.Action_Collections is not None:
-            write('Action_Collections=model_.ActionCollectionListType(\n')
-            self.Action_Collections.exportLiteral(write, level, name_='Action_Collections')
-            write('),\n')
-        if self.Object_Collections is not None:
-            write('Object_Collections=model_.ObjectCollectionListType(\n')
-            self.Object_Collections.exportLiteral(write, level, name_='Object_Collections')
-            write('),\n')
-        if self.Candidate_Indicator_Collections is not None:
-            write('Candidate_Indicator_Collections=model_.CandidateIndicatorCollectionListType(\n')
-            self.Candidate_Indicator_Collections.exportLiteral(write, level, name_='Candidate_Indicator_Collections')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3373,19 +2651,6 @@ class BundleReferenceType(GeneratedsSuper):
             write(' bundle_idref=%s' % (quote_attrib(self.bundle_idref), ))
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='BundleReferenceType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, write, level, name_='BundleReferenceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.bundle_idref is not None and 'bundle_idref' not in already_processed:
-            already_processed.add('bundle_idref')
-            showIndent(write, level)
-            write('bundle_idref = %s,\n' % (self.bundle_idref,))
-    def exportLiteralChildren(self, write, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3449,19 +2714,6 @@ class ProcessTreeType(GeneratedsSuper):
             eol_ = ''
         if self.Root_Process is not None:
             self.Root_Process.export(write, level, 'maecBundle:', name_='Root_Process', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ProcessTreeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Root_Process is not None:
-            write('Root_Process=model_.ProcessTreeNodeType(\n')
-            self.Root_Process.exportLiteral(write, level, name_='Root_Process')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3570,62 +2822,6 @@ class CandidateIndicatorCompositionType(GeneratedsSuper):
             Object_Reference_.export(write, level, 'maecBundle:', name_='Object_Reference', pretty_print=pretty_print)
         for Sub_Composition_ in self.Sub_Composition:
             Sub_Composition_.export(write, level, 'maecBundle:', name_='Sub_Composition', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='CandidateIndicatorCompositionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.operator is not None and 'operator' not in already_processed:
-            already_processed.add('operator')
-            showIndent(write, level)
-            write('operator = %s,\n' % (self.operator,))
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Behavior_Reference=[\n')
-        level += 1
-        for Behavior_Reference_ in self.Behavior_Reference:
-            write('model_.BehaviorReferenceType(\n')
-            Behavior_Reference_.exportLiteral(write, level, name_='BehaviorReferenceType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('Action_Reference=[\n')
-        level += 1
-        for Action_Reference_ in self.Action_Reference:
-            write('model_.cybox_core.ActionReferenceType(\n')
-            Action_Reference_.exportLiteral(write, level, name_='cybox_core.ActionReferenceType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('Object_Reference=[\n')
-        level += 1
-        for Object_Reference_ in self.Object_Reference:
-            write('model_.ObjectReferenceType(\n')
-            Object_Reference_.exportLiteral(write, level, name_='ObjectReferenceType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('Sub_Composition=[\n')
-        level += 1
-        for Sub_Composition_ in self.Sub_Composition:
-            write('model_.CandidateIndicatorCompositionType(\n')
-            Sub_Composition_.exportLiteral(write, level, name_='CandidateIndicatorCompositionType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3715,24 +2911,6 @@ class CandidateIndicatorCollectionType(BaseCollectionType):
             eol_ = ''
         if self.Candidate_Indicator_List is not None:
             self.Candidate_Indicator_List.export(write, level, 'maecBundle:', name_='Candidate_Indicator_List', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='CandidateIndicatorCollectionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-        super(CandidateIndicatorCollectionType, self).exportLiteralAttributes(write, level, already_processed, name_)
-    def exportLiteralChildren(self, write, level, name_):
-        super(CandidateIndicatorCollectionType, self).exportLiteralChildren(write, level, name_)
-        if self.Candidate_Indicator_List is not None:
-            write('Candidate_Indicator_List=model_.CandidateIndicatorListType(\n')
-            self.Candidate_Indicator_List.exportLiteral(write, level, name_='Candidate_Indicator_List')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3805,26 +2983,6 @@ class CandidateIndicatorCollectionListType(GeneratedsSuper):
             eol_ = ''
         for Candidate_Indicator_Collection_ in self.Candidate_Indicator_Collection:
             Candidate_Indicator_Collection_.export(write, level, 'maecBundle:', name_='Candidate_Indicator_Collection', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='CandidateIndicatorCollectionListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Candidate_Indicator_Collection=[\n')
-        level += 1
-        for Candidate_Indicator_Collection_ in self.Candidate_Indicator_Collection:
-            write('model_.CandidateIndicatorCollectionType(\n')
-            Candidate_Indicator_Collection_.exportLiteral(write, level, name_='CandidateIndicatorCollectionType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3892,26 +3050,6 @@ class BehaviorCollectionListType(GeneratedsSuper):
             eol_ = ''
         for Behavior_Collection_ in self.Behavior_Collection:
             Behavior_Collection_.export(write, level, 'maecBundle:', name_='Behavior_Collection', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='BehaviorCollectionListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Behavior_Collection=[\n')
-        level += 1
-        for Behavior_Collection_ in self.Behavior_Collection:
-            write('model_.BehaviorCollectionType(\n')
-            Behavior_Collection_.exportLiteral(write, level, name_='BehaviorCollectionType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3978,26 +3116,6 @@ class ActionCollectionListType(GeneratedsSuper):
             eol_ = ''
         for Action_Collection_ in self.Action_Collection:
             Action_Collection_.export(write, level, 'maecBundle:', name_='Action_Collection', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ActionCollectionListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Action_Collection=[\n')
-        level += 1
-        for Action_Collection_ in self.Action_Collection:
-            write('model_.ActionCollectionType(\n')
-            Action_Collection_.exportLiteral(write, level, name_='ActionCollectionType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4064,26 +3182,6 @@ class ObjectCollectionListType(GeneratedsSuper):
             eol_ = ''
         for Object_Collection_ in self.Object_Collection:
             Object_Collection_.export(write, level, 'maecBundle:', name_='Object_Collection', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ObjectCollectionListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Object_Collection=[\n')
-        level += 1
-        for Object_Collection_ in self.Object_Collection:
-            write('model_.ObjectCollectionType(\n')
-            Object_Collection_.exportLiteral(write, level, name_='ObjectCollectionType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4165,25 +3263,6 @@ class AVClassificationType(cybox_common.ToolInformationType):
         if self.Classification_Name is not None:
             showIndent(write, level, pretty_print)
             write('<%sClassification_Name>%s</%sClassification_Name>%s' % ('maecBundle:', quote_xml(self.Classification_Name), 'maecBundle:', eol_))
-    def exportLiteral(self, write, level, name_='AVClassificationType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        super(AVClassificationType, self).exportLiteralAttributes(write, level, already_processed, name_)
-    def exportLiteralChildren(self, write, level, name_):
-        super(AVClassificationType, self).exportLiteralChildren(write, level, name_)
-        if self.Engine_Version is not None:
-            showIndent(write, level)
-            write('Engine_Version=%s,\n' % quote_python(self.Engine_Version).encode(ExternalEncoding))
-        if self.Definition_Version is not None:
-            showIndent(write, level)
-            write('Definition_Version=%s,\n' % quote_python(self.Definition_Version).encode(ExternalEncoding))
-        if self.Classification_Name is not None:
-            showIndent(write, level)
-            write('Classification_Name=%s,\n' % quote_python(self.Classification_Name).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4303,50 +3382,6 @@ class ProcessTreeNodeType(process_object.ProcessObjectType):
             Spawned_Process_.export(write, level, 'maecBundle:', name_='Spawned_Process', pretty_print=pretty_print)
         for Injected_Process_ in self.Injected_Process:
             Injected_Process_.export(write, level, 'maecBundle:', name_='Injected_Process', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ProcessTreeNodeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-        if self.parent_action_idref is not None and 'parent_action_idref' not in already_processed:
-            already_processed.add('parent_action_idref')
-            showIndent(write, level)
-            write('parent_action_idref = %s,\n' % (self.parent_action_idref,))
-        super(ProcessTreeNodeType, self).exportLiteralAttributes(write, level, already_processed, name_)
-    def exportLiteralChildren(self, write, level, name_):
-        super(ProcessTreeNodeType, self).exportLiteralChildren(write, level, name_)
-        if self.Initiated_Actions is not None:
-            write('Initiated_Actions=model_.ActionReferenceListType(\n')
-            self.Initiated_Actions.exportLiteral(write, level, name_='Initiated_Actions')
-            write('),\n')
-        showIndent(write, level)
-        write('Spawned_Process=[\n')
-        level += 1
-        for Spawned_Process_ in self.Spawned_Process:
-            write('model_.ProcessTreeNodeType(\n')
-            Spawned_Process_.exportLiteral(write, level, name_='ProcessTreeNodeType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('Injected_Process=[\n')
-        level += 1
-        for Injected_Process_ in self.Injected_Process:
-            write('model_.ProcessTreeNodeType(\n')
-            Injected_Process_.exportLiteral(write, level, name_='ProcessTreeNodeType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4434,21 +3469,6 @@ class BehavioralActionReferenceType(cybox_core.ActionReferenceType):
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehavioralActionReferenceType', fromsubclass_=False, pretty_print=True):
         super(BehavioralActionReferenceType, self).exportChildren(write, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, write, level, name_='BehavioralActionReferenceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.behavioral_ordering is not None and 'behavioral_ordering' not in already_processed:
-            already_processed.add('behavioral_ordering')
-            showIndent(write, level)
-            write('behavioral_ordering = %d,\n' % (self.behavioral_ordering,))
-        super(BehavioralActionReferenceType, self).exportLiteralAttributes(write, level, already_processed, name_)
-    def exportLiteralChildren(self, write, level, name_):
-        super(BehavioralActionReferenceType, self).exportLiteralChildren(write, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4531,24 +3551,6 @@ class ObjectCollectionType(BaseCollectionType):
             eol_ = ''
         if self.Object_List is not None:
             self.Object_List.export(write, level, 'maecBundle:', name_='Object_List', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ObjectCollectionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-        super(ObjectCollectionType, self).exportLiteralAttributes(write, level, already_processed, name_)
-    def exportLiteralChildren(self, write, level, name_):
-        super(ObjectCollectionType, self).exportLiteralChildren(write, level, name_)
-        if self.Object_List is not None:
-            write('Object_List=model_.ObjectListType(\n')
-            self.Object_List.exportLiteral(write, level, name_='Object_List')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4630,24 +3632,6 @@ class ActionCollectionType(BaseCollectionType):
             eol_ = ''
         if self.Action_List is not None:
             self.Action_List.export(write, level, 'maecBundle:', name_='Action_List', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ActionCollectionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-        super(ActionCollectionType, self).exportLiteralAttributes(write, level, already_processed, name_)
-    def exportLiteralChildren(self, write, level, name_):
-        super(ActionCollectionType, self).exportLiteralChildren(write, level, name_)
-        if self.Action_List is not None:
-            write('Action_List=model_.ActionListType(\n')
-            self.Action_List.exportLiteral(write, level, name_='Action_List')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4732,26 +3716,6 @@ class BehaviorCollectionType(BaseCollectionType):
             write('<%sPurpose>%s</%sPurpose>%s' % ('maecBundle:', quote_xml(self.Purpose), 'maecBundle:', eol_))
         if self.Behavior_List is not None:
             self.Behavior_List.export(write, level, 'maecBundle:', name_='Behavior_List', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='BehaviorCollectionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-        super(BehaviorCollectionType, self).exportLiteralAttributes(write, level, already_processed, name_)
-    def exportLiteralChildren(self, write, level, name_):
-        super(BehaviorCollectionType, self).exportLiteralChildren(write, level, name_)
-        if self.Purpose is not None:
-            write('Purpose=%s,\n' % quote_python(self.Purpose).encode(ExternalEncoding))
-        if self.Behavior_List is not None:
-            write('Behavior_List=model_.BehaviorListType(\n')
-            self.Behavior_List.exportLiteral(write, level, name_='Behavior_List')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4843,20 +3807,6 @@ class MalwareActionType(cybox_core.ActionType):
             eol_ = ''
         if self.Implementation is not None:
             self.Implementation.export(write, level, 'maecBundle:', name_='Implementation', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='MalwareActionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        super(MalwareActionType, self).exportLiteralAttributes(write, level, already_processed, name_)
-    def exportLiteralChildren(self, write, level, name_):
-        super(MalwareActionType, self).exportLiteralChildren(write, level, name_)
-        if self.Implementation is not None:
-            write('Implementation=model_.ActionImplementationType(\n')
-            self.Implementation.exportLiteral(write, level, name_='Implementation')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4927,20 +3877,6 @@ class BehavioralActionType(MalwareActionType):
             write(' behavioral_ordering="%s"' % self.gds_format_integer(self.behavioral_ordering, input_name='behavioral_ordering'))
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehavioralActionType', fromsubclass_=False, pretty_print=True):
         super(BehavioralActionType, self).exportChildren(write, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='BehavioralActionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.behavioral_ordering is not None and 'behavioral_ordering' not in already_processed:
-            already_processed.add('behavioral_ordering')
-            showIndent(write, level)
-            write('behavioral_ordering = %d,\n' % (self.behavioral_ordering,))
-        super(BehavioralActionType, self).exportLiteralAttributes(write, level, already_processed, name_)
-    def exportLiteralChildren(self, write, level, name_):
-        super(BehavioralActionType, self).exportLiteralChildren(write, level, name_)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5082,80 +4018,6 @@ class CapabilityType(GeneratedsSuper):
             Behavior_Reference_.export(write, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
         for Relationship_ in self.Relationship:
             Relationship_.export(write, level, 'maecBundle:', name_='Relationship', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='CapabilityType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-        if self.name is not None and 'name' not in already_processed:
-            already_processed.add('name')
-            showIndent(write, level)
-            write('name = %s,\n' % (self.name,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Description is not None:
-            showIndent(write, level)
-            write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
-        showIndent(write, level)
-        write('Property=[\n')
-        level += 1
-        for Property_ in self.Property:
-            write('model_.CapabilityPropertyType(\n')
-            Property_.exportLiteral(write, level, name_='CapabilityPropertyType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('Strategic_Objective=[\n')
-        level += 1
-        for Strategic_Objective_ in self.Strategic_Objective:
-            write('model_.CapabilityObjectiveType(\n')
-            Strategic_Objective_.exportLiteral(write, level, name_='CapabilityObjectiveType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('Tactical_Objective=[\n')
-        level += 1
-        for Tactical_Objective_ in self.Tactical_Objective:
-            write('model_.CapabilityObjectiveType(\n')
-            Tactical_Objective_.exportLiteral(write, level, name_='CapabilityObjectiveType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('Behavior_Reference=[\n')
-        level += 1
-        for Behavior_Reference_ in self.Behavior_Reference:
-            write('model_.BehaviorReferenceType(\n')
-            Behavior_Reference_.exportLiteral(write, level, name_='BehaviorReferenceType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('Relationship=[\n')
-        level += 1
-        for Relationship_ in self.Relationship:
-            write('model_.CapabilityRelationshipType(\n')
-            Relationship_.exportLiteral(write, level, name_='CapabilityRelationshipType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5260,30 +4122,6 @@ class CapabilityListType(GeneratedsSuper):
             Capability_.export(write, level, 'maecBundle:', name_='Capability', pretty_print=pretty_print)
         for Capability_Reference_ in self.Capability_Reference:
             Capability_Reference_.export(write, level, 'maecBundle:', name_='Capability_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='CapabilityListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Capability is not None:
-            write('Capability=model_.CapabilityType(\n')
-            self.Capability.exportLiteral(write, level, name_='Capability')
-            write('),\n')
-        showIndent(write, level)
-        write('Capability_Reference=[\n')
-        level += 1
-        for Capability_Reference_ in self.Capability_Reference:
-            write('model_.CapabilityReferenceType(\n')
-            Capability_Reference_.exportLiteral(write, level, name_='CapabilityReferenceType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5348,19 +4186,6 @@ class CapabilityReferenceType(GeneratedsSuper):
             already_processed.add('capability_idref')
             write(' capability_idref=%s' % (quote_attrib(self.capability_idref), ))
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='CapabilityReferenceType', fromsubclass_=False, pretty_print=True):
-        pass
-    def exportLiteral(self, write, level, name_='CapabilityReferenceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.capability_idref is not None and 'capability_idref' not in already_processed:
-            already_processed.add('capability_idref')
-            showIndent(write, level)
-            write('capability_idref = %s,\n' % (self.capability_idref,))
-    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -5471,58 +4296,6 @@ class CapabilityObjectiveType(GeneratedsSuper):
             Behavior_Reference_.export(write, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
         for Relationship_ in self.Relationship:
             Relationship_.export(write, level, 'maecBundle:', name_='Relationship', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='CapabilityObjectiveType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Name is not None:
-            write('Name=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Name.exportLiteral(write, level, name_='Name')
-            write('),\n')
-        if self.Description is not None:
-            showIndent(write, level)
-            write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
-        showIndent(write, level)
-        write('Property=[\n')
-        level += 1
-        for Property_ in self.Property:
-            write('model_.CapabilityPropertyType(\n')
-            Property_.exportLiteral(write, level, name_='CapabilityPropertyType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('Behavior_Reference=[\n')
-        level += 1
-        for Behavior_Reference_ in self.Behavior_Reference:
-            write('model_.BehaviorReferenceType(\n')
-            Behavior_Reference_.exportLiteral(write, level, name_='BehaviorReferenceType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('Relationship=[\n')
-        level += 1
-        for Relationship_ in self.Relationship:
-            write('model_.CapabilityObjectiveRelationshipType(\n')
-            Relationship_.exportLiteral(write, level, name_='CapabilityObjectiveRelationshipType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5615,30 +4388,6 @@ class CapabilityRelationshipType(GeneratedsSuper):
             self.Relationship_Type.export(write, level, 'maecBundle:', name_='Relationship_Type', pretty_print=pretty_print)
         for Capability_Reference_ in self.Capability_Reference:
             Capability_Reference_.export(write, level, 'maecBundle:', name_='Capability_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='CapabilityRelationshipType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Relationship_Type is not None:
-            write('Relationship_Type=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Relationship_Type.exportLiteral(write, level, name_='Relationship_Type')
-            write('),\n')
-        showIndent(write, level)
-        write('Capability_Reference=[\n')
-        level += 1
-        for Capability_Reference_ in self.Capability_Reference:
-            write('model_.CapabilityType(\n')
-            Capability_Reference_.exportLiteral(write, level, name_='CapabilityType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5717,30 +4466,6 @@ class CapabilityObjectiveRelationshipType(GeneratedsSuper):
             self.Relationship_Type.export(write, level, 'maecBundle:', name_='Relationship_Type', pretty_print=pretty_print)
         for Objective_Reference_ in self.Objective_Reference:
             Objective_Reference_.export(write, level, 'maecBundle:', name_='Objective_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='CapabilityObjectiveRelationshipType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Relationship_Type is not None:
-            write('Relationship_Type=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Relationship_Type.exportLiteral(write, level, name_='Relationship_Type')
-            write('),\n')
-        showIndent(write, level)
-        write('Objective_Reference=[\n')
-        level += 1
-        for Objective_Reference_ in self.Objective_Reference:
-            write('model_.CapabilityObjectiveReferenceType(\n')
-            Objective_Reference_.exportLiteral(write, level, name_='CapabilityObjectiveReferenceType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5806,19 +4531,6 @@ class CapabilityObjectiveReferenceType(GeneratedsSuper):
             already_processed.add('objective_idref')
             write(' objective_idref=%s' % (quote_attrib(self.objective_idref), ))
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='CapabilityObjectiveReferenceType', fromsubclass_=False, pretty_print=True):
-        pass
-    def exportLiteral(self, write, level, name_='CapabilityObjectiveReferenceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.objective_idref is not None and 'objective_idref' not in already_processed:
-            already_processed.add('objective_idref')
-            showIndent(write, level)
-            write('objective_idref = %s,\n' % (self.objective_idref,))
-    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -5891,23 +4603,6 @@ class CapabilityPropertyType(GeneratedsSuper):
             self.Name.export(write, level, 'maecBundle:', name_='Name', pretty_print=pretty_print)
         if self.Value is not None:
             self.Value.export(write, level, 'maecBundle:', name_='Value', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='CapabilityPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Name is not None:
-            write('Name=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Name.exportLiteral(write, level, name_='Name')
-            write('),\n')
-        if self.Value is not None:
-            write('Value=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Value.exportLiteral(write, level, name_='Value')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)

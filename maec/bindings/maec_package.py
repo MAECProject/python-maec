@@ -72,27 +72,6 @@ class AnalysisEnvironmentType(GeneratedsSuper):
             self.Analysis_Systems.export(write, level, 'maecPackage:', name_='Analysis_Systems', pretty_print=pretty_print)
         if self.Network_Infrastructure is not None:
             self.Network_Infrastructure.export(write, level, 'maecPackage:', name_='Network_Infrastructure', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='AnalysisEnvironmentType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Hypervisor_Host_System is not None:
-            write('Hypervisor_Host_System=model_.HypervisorHostSystemType(\n')
-            self.Hypervisor_Host_System.exportLiteral(write, level, name_='Hypervisor_Host_System')
-            write('),\n')
-        if self.Analysis_Systems is not None:
-            write('Analysis_Systems=model_.AnalysisSystemListType(\n')
-            self.Analysis_Systems.exportLiteral(write, level, name_='Analysis_Systems')
-            write('),\n')
-        if self.Network_Infrastructure is not None:
-            write('Network_Infrastructure=model_.NetworkInfrastructureType(\n')
-            self.Network_Infrastructure.exportLiteral(write, level, name_='Network_Infrastructure')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -192,30 +171,6 @@ class SourceType(GeneratedsSuper):
         if self.URL is not None:
             showIndent(write, level, pretty_print)
             write('<%sURL>%s</%sURL>%s' % ('maecPackage:', quote_xml(self.URL), 'maecPackage:', eol_))
-    def exportLiteral(self, write, level, name_='SourceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Name is not None:
-            showIndent(write, level)
-            write('Name=%s,\n' % quote_python(self.Name).encode(ExternalEncoding))
-        if self.Method is not None:
-            showIndent(write, level)
-            write('Method=%s,\n' % quote_python(self.Method).encode(ExternalEncoding))
-        if self.Reference is not None:
-            showIndent(write, level)
-            write('Reference=%s,\n' % quote_python(self.Reference).encode(ExternalEncoding))
-        if self.Organization is not None:
-            showIndent(write, level)
-            write('Organization=%s,\n' % quote_python(self.Organization).encode(ExternalEncoding))
-        if self.URL is not None:
-            showIndent(write, level)
-            write('URL=%s,\n' % quote_python(self.URL).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -299,26 +254,6 @@ class CommentListType(GeneratedsSuper):
             eol_ = ''
         for Comment_ in self.Comment:
             Comment_.export(write, level, 'maecPackage:', name_='Comment', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='CommentListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Comment=[\n')
-        level += 1
-        for Comment_ in self.Comment:
-            write('model_.CommentType(\n')
-            Comment_.exportLiteral(write, level, name_='CommentType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -386,26 +321,6 @@ class AnalysisSystemListType(GeneratedsSuper):
             eol_ = ''
         for Analysis_System_ in self.Analysis_System:
             Analysis_System_.export(write, level, 'maecPackage:', name_='Analysis_System', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='AnalysisSystemListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Analysis_System=[\n')
-        level += 1
-        for Analysis_System_ in self.Analysis_System:
-            write('model_.AnalysisSystemType(\n')
-            Analysis_System_.exportLiteral(write, level, name_='AnalysisSystemType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -473,26 +388,6 @@ class ToolListType(GeneratedsSuper):
             eol_ = ''
         for Tool_ in self.Tool:
             Tool_.export(write, level, 'maecPackage:', name_='Tool', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ToolListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Tool=[\n')
-        level += 1
-        for Tool_ in self.Tool:
-            write('model_.cybox_common.ToolInformationType(\n')
-            Tool_.exportLiteral(write, level, name_='cybox_common.ToolInformationType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -570,24 +465,6 @@ class DynamicAnalysisMetadataType(GeneratedsSuper):
         if self.Exit_Code is not None:
             showIndent(write, level, pretty_print)
             write('<%sExit_Code>%s</%sExit_Code>%s' % ('maecPackage:', self.gds_format_integer(self.Exit_Code, input_name='Exit_Code'), 'maecPackage:', eol_))
-    def exportLiteral(self, write, level, name_='DynamicAnalysisMetadataType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Command_Line is not None:
-            showIndent(write, level)
-            write('Command_Line=%s,\n' % quote_python(self.Command_Line).encode(ExternalEncoding))
-        if self.Analysis_Duration is not None:
-            showIndent(write, level)
-            write('Analysis_Duration=%f,\n' % self.Analysis_Duration)
-        if self.Exit_Code is not None:
-            showIndent(write, level)
-            write('Exit_Code=%d,\n' % self.Exit_Code)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -772,78 +649,6 @@ class AnalysisType(GeneratedsSuper):
             self.Analysis_Environment.export(write, level, 'maecPackage:', name_='Analysis_Environment', pretty_print=pretty_print)
         if self.Report is not None:
             self.Report.export(write, level, 'maecPackage:', name_='Report', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='AnalysisType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.start_datetime is not None and 'start_datetime' not in already_processed:
-            already_processed.add('start_datetime')
-            showIndent(write, level)
-            write('start_datetime = "%s",\n' % (self.start_datetime,))
-        if self.complete_datetime is not None and 'complete_datetime' not in already_processed:
-            already_processed.add('complete_datetime')
-            showIndent(write, level)
-            write('complete_datetime = "%s",\n' % (self.complete_datetime,))
-        if self.method is not None and 'method' not in already_processed:
-            already_processed.add('method')
-            showIndent(write, level)
-            write('method = %s,\n' % (self.method,))
-        if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
-            already_processed.add('ordinal_position')
-            showIndent(write, level)
-            write('ordinal_position = %d,\n' % (self.ordinal_position,))
-        if self.lastupdate_datetime is not None and 'lastupdate_datetime' not in already_processed:
-            already_processed.add('lastupdate_datetime')
-            showIndent(write, level)
-            write('lastupdate_datetime = "%s",\n' % (self.lastupdate_datetime,))
-        if self.type is not None and 'type' not in already_processed:
-            already_processed.add('type')
-            showIndent(write, level)
-            write('type = %s,\n' % (self.type,))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Source is not None:
-            write('Source=model_.SourceType(\n')
-            self.Source.exportLiteral(write, level, name_='Source')
-            write('),\n')
-        if self.Analysts is not None:
-            write('Analysts=model_.cybox_common.PersonnelType(\n')
-            self.Analysts.exportLiteral(write, level, name_='Analysts')
-            write('),\n')
-        if self.Summary is not None:
-            write('Summary=model_.cybox_common.StructuredTextType(\n')
-            self.Summary.exportLiteral(write, level, name_='Summary')
-            write('),\n')
-        if self.Comments is not None:
-            write('Comments=model_.CommentListType(\n')
-            self.Comments.exportLiteral(write, level, name_='Comments')
-            write('),\n')
-        if self.Findings_Bundle_Reference is not None:
-            write('Findings_Bundle_Reference=model_.maec_bundle_schema.BundleReferenceType(\n')
-            self.Findings_Bundle_Reference.exportLiteral(write, level, name_='Findings_Bundle_Reference')
-            write('),\n')
-        if self.Tools is not None:
-            write('Tools=model_.ToolListType(\n')
-            self.Tools.exportLiteral(write, level, name_='Tools')
-            write('),\n')
-        if self.Dynamic_Analysis_Metadata is not None:
-            write('Dynamic_Analysis_Metadata=model_.DynamicAnalysisMetadataType(\n')
-            self.Dynamic_Analysis_Metadata.exportLiteral(write, level, name_='Dynamic_Analysis_Metadata')
-            write('),\n')
-        if self.Analysis_Environment is not None:
-            write('Analysis_Environment=model_.AnalysisEnvironmentType(\n')
-            self.Analysis_Environment.exportLiteral(write, level, name_='Analysis_Environment')
-            write('),\n')
-        if self.Report is not None:
-            write('Report=model_.cybox_common.StructuredTextType(\n')
-            self.Report.exportLiteral(write, level, name_='Report')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -984,26 +789,6 @@ class AnalysisListType(GeneratedsSuper):
             eol_ = ''
         for Analysis_ in self.Analysis:
             Analysis_.export(write, level, 'maecPackage:', name_='Analysis', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='AnalysisListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Analysis=[\n')
-        level += 1
-        for Analysis_ in self.Analysis:
-            write('model_.AnalysisType(\n')
-            Analysis_.exportLiteral(write, level, name_='AnalysisType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1072,26 +857,6 @@ class InstalledProgramsType(GeneratedsSuper):
             eol_ = ''
         for Program_ in self.Program:
             Program_.export(write, level, 'maecPackage:', name_='Program', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='InstalledProgramsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Program=[\n')
-        level += 1
-        for Program_ in self.Program:
-            write('model_.cybox_common.PlatformSpecificationType(\n')
-            Program_.exportLiteral(write, level, name_='cybox_common.PlatformSpecificationType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1189,34 +954,6 @@ class PackageType(GeneratedsSuper):
             self.Malware_Subjects.export(write, level, 'maecPackage:', name_='Malware_Subjects', pretty_print=pretty_print)
         if self.Grouping_Relationships is not None:
             self.Grouping_Relationships.export(write, level, 'maecPackage:', name_='Grouping_Relationships', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='MAEC_Package'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.timestamp is not None and 'timestamp' not in already_processed:
-            already_processed.add('timestamp')
-            showIndent(write, level)
-            write('timestamp = "%s",\n' % (self.timestamp,))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-        if self.schema_version is not None and 'schema_version' not in already_processed:
-            already_processed.add('schema_version')
-            showIndent(write, level)
-            write('schema_version = %s,\n' % (self.schema_version,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Malware_Subjects is not None:
-            write('Malware_Subjects=model_.MalwareSubjectListType(\n')
-            self.Malware_Subjects.exportLiteral(write, level, name_='Malware_Subjects')
-            write('),\n')
-        if self.Grouping_Relationships is not None:
-            write('Grouping_Relationships=model_.GroupingRelationshipListType(\n')
-            self.Grouping_Relationships.exportLiteral(write, level, name_='Grouping_Relationships')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1370,42 +1107,6 @@ class MalwareSubjectType(GeneratedsSuper):
             self.Relationships.export(write, level, 'maecPackage:', name_='Relationships', pretty_print=pretty_print)
         for Compatible_Platform_ in self.Compatible_Platform:
             Compatible_Platform_.export(write, level, 'maecPackage:', name_='Compatible_Platform', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='MalwareSubjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Malware_Instance_Object_Attributes is not None:
-            write('Malware_Instance_Object_Attributes=model_.cybox_core.ObjectType(\n')
-            self.Malware_Instance_Object_Attributes.exportLiteral(write, level, name_='Malware_Instance_Object_Attributes')
-            write('),\n')
-        if self.Minor_Variants is not None:
-            write('Minor_Variants=model_.MinorVariantListType(\n')
-            self.Minor_Variants.exportLiteral(write, level, name_='Minor_Variants')
-            write('),\n')
-        if self.Field_Data is not None:
-            write('Field_Data=model_.metadatasharing.fieldDataEntry(\n')
-            self.Field_Data.exportLiteral(write, level, name_='Field_Data')
-            write('),\n')
-        if self.Analyses is not None:
-            write('Analyses=model_.AnalysisListType(\n')
-            self.Analyses.exportLiteral(write, level, name_='Analyses')
-            write('),\n')
-        if self.Findings_Bundles is not None:
-            write('Findings_Bundles=model_.FindingsBundleListType(\n')
-            self.Findings_Bundles.exportLiteral(write, level, name_='Findings_Bundles')
-            write('),\n')
-        if self.Relationships is not None:
-            write('Relationships=model_.MalwareSubjectRelationshipListType(\n')
-            self.Relationships.exportLiteral(write, level, name_='Relationships')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1514,23 +1215,6 @@ class MetaAnalysisType(GeneratedsSuper):
             self.Action_Equivalences.export(write, level, 'maecPackage:', name_='Action_Equivalences', pretty_print=pretty_print)
         if self.Object_Equivalences is not None:
             self.Object_Equivalences.export(write, level, 'maecPackage:', name_='Object_Equivalences', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='MetaAnalysisType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Action_Equivalences is not None:
-            write('Action_Equivalences=model_.ActionEquivalenceListType(\n')
-            self.Action_Equivalences.exportLiteral(write, level, name_='Action_Equivalences')
-            write('),\n')
-        if self.Object_Equivalences is not None:
-            write('Object_Equivalences=model_.ObjectEquivalenceListType(\n')
-            self.Object_Equivalences.exportLiteral(write, level, name_='Object_Equivalences')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1609,30 +1293,6 @@ class MalwareSubjectRelationshipType(GeneratedsSuper):
             self.Type.export(write, level, 'maecPackage:', name_='Type', pretty_print=pretty_print)
         for Malware_Subject_Reference_ in self.Malware_Subject_Reference:
             Malware_Subject_Reference_.export(write, level, 'maecPackage:', name_='Malware_Subject_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='MalwareSubjectRelationshipType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Type is not None:
-            write('Type=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Type.exportLiteral(write, level, name_='Type')
-            write('),\n')
-        showIndent(write, level)
-        write('Malware_Subject_Reference=[\n')
-        level += 1
-        for Malware_Subject_Reference_ in self.Malware_Subject_Reference:
-            write('model_.MalwareSubjectReferenceType(\n')
-            Malware_Subject_Reference_.exportLiteral(write, level, name_='MalwareSubjectReferenceType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1705,26 +1365,6 @@ class MalwareSubjectRelationshipListType(GeneratedsSuper):
             eol_ = ''
         for Relationship_ in self.Relationship:
             Relationship_.export(write, level, 'maecPackage:', name_='Relationship', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='MalwareSubjectRelationshipListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Relationship=[\n')
-        level += 1
-        for Relationship_ in self.Relationship:
-            write('model_.MalwareSubjectRelationshipType(\n')
-            Relationship_.exportLiteral(write, level, name_='MalwareSubjectRelationshipType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1785,19 +1425,6 @@ class MalwareSubjectReferenceType(GeneratedsSuper):
             already_processed.add('malware_subject_idref')
             write(' malware_subject_idref=%s' % (quote_attrib(self.malware_subject_idref), ))
     def exportChildren(self, write, level, namespace_='maecPackage:', name_='MalwareSubjectReferenceType', fromsubclass_=False, pretty_print=True):
-        pass
-    def exportLiteral(self, write, level, name_='MalwareSubjectReferenceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.malware_subject_idref is not None and 'malware_subject_idref' not in already_processed:
-            already_processed.add('malware_subject_idref')
-            showIndent(write, level)
-            write('malware_subject_idref = %s,\n' % (self.malware_subject_idref,))
-    def exportLiteralChildren(self, write, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -1865,26 +1492,6 @@ class MalwareSubjectListType(GeneratedsSuper):
             eol_ = ''
         for Malware_Subject_ in self.Malware_Subject:
             Malware_Subject_.export(write, level, 'maecPackage:', name_='Malware_Subject', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='MalwareSubjectListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Malware_Subject=[\n')
-        level += 1
-        for Malware_Subject_ in self.Malware_Subject:
-            write('model_.MalwareSubjectType(\n')
-            Malware_Subject_.exportLiteral(write, level, name_='MalwareSubjectType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1953,26 +1560,6 @@ class MinorVariantListType(GeneratedsSuper):
             eol_ = ''
         for Minor_Variant_ in self.Minor_Variant:
             Minor_Variant_.export(write, level, 'maecPackage:', name_='Minor_Variant', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='MinorVariantListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Minor_Variant=[\n')
-        level += 1
-        for Minor_Variant_ in self.Minor_Variant:
-            write('model_.cybox_core.ObjectType(\n')
-            Minor_Variant_.exportLiteral(write, level, name_='cybox_core.ObjectType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2059,39 +1646,6 @@ class FindingsBundleListType(GeneratedsSuper):
         for Bundle_External_Reference_ in self.Bundle_External_Reference:
             showIndent(write, level, pretty_print)
             write('<%sBundle_External_Reference>%s</%sBundle_External_Reference>%s' % ('maecPackage:', self.gds_format_string(quote_xml(Bundle_External_Reference_).encode(ExternalEncoding), input_name='Bundle_External_Reference'), 'maecPackage:', eol_))
-    def exportLiteral(self, write, level, name_='FindingsBundleListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Meta_Analysis is not None:
-            write('Meta_Analysis=model_.MetaAnalysisType(\n')
-            self.Meta_Analysis.exportLiteral(write, level, name_='Meta_Analysis')
-            write('),\n')
-        showIndent(write, level)
-        write('Bundle=[\n')
-        level += 1
-        for Bundle_ in self.Bundle:
-            write('model_.maec_bundle_schema.BundleType(\n')
-            Bundle_.exportLiteral(write, level, name_='maec_bundle_schema.BundleType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
-        showIndent(write, level)
-        write('Bundle_External_Reference=[\n')
-        level += 1
-        for Bundle_External_Reference_ in self.Bundle_External_Reference:
-            showIndent(write, level)
-            write('%s,\n' % quote_python(Bundle_External_Reference_).encode(ExternalEncoding))
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2183,29 +1737,6 @@ class GroupingRelationshipType(GeneratedsSuper):
             write('<%sMalware_Toolkit_Name>%s</%sMalware_Toolkit_Name>%s' % ('maecPackage:', quote_xml(self.Malware_Toolkit_Name), 'maecPackage:', eol_))
         if self.Clustering_Metadata is not None:
             self.Clustering_Metadata.export(write, level, 'maecPackage:', name_='Clustering_Metadata', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='GroupingRelationshipType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Type is not None:
-            write('Type=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Type.exportLiteral(write, level, name_='Type')
-            write('),\n')
-        if self.Malware_Family_Name is not None:
-            showIndent(write, level)
-            write('Malware_Family_Name=%s,\n' % quote_python(self.Malware_Family_Name).encode(ExternalEncoding))
-        if self.Malware_Toolkit_Name is not None:
-            showIndent(write, level)
-            write('Malware_Toolkit_Name=%s,\n' % quote_python(self.Malware_Toolkit_Name).encode(ExternalEncoding))
-        if self.Clustering_Metadata is not None:
-            write('Clustering_Metadata=model_.ClusteringMetadataType(\n')
-            self.Clustering_Metadata.exportLiteral(write, level, name_='Clustering_Metadata')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2285,26 +1816,6 @@ class GroupingRelationshipListType(GeneratedsSuper):
             eol_ = ''
         for Grouping_Relationship_ in self.Grouping_Relationship:
             Grouping_Relationship_.export(write, level, 'maecPackage:', name_='Grouping_Relationship', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='GroupingRelationshipListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Grouping_Relationship=[\n')
-        level += 1
-        for Grouping_Relationship_ in self.Grouping_Relationship:
-            write('model_.GroupingRelationshipType(\n')
-            Grouping_Relationship_.exportLiteral(write, level, name_='GroupingRelationshipType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2401,35 +1912,6 @@ class ClusteringMetadataType(GeneratedsSuper):
             write('<%sCluster_Description>%s</%sCluster_Description>%s' % ('maecPackage:', quote_xml(self.Cluster_Description), 'maecPackage:', eol_))
         if self.Cluster_Composition is not None:
             self.Cluster_Composition.export(write, level, 'maecPackage:', name_='Cluster_Composition', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ClusteringMetadataType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Algorithm_Name is not None:
-            showIndent(write, level)
-            write('Algorithm_Name=%s,\n' % quote_python(self.Algorithm_Name).encode(ExternalEncoding))
-        if self.Algorithm_Version is not None:
-            showIndent(write, level)
-            write('Algorithm_Version=%s,\n' % quote_python(self.Algorithm_Version).encode(ExternalEncoding))
-        if self.Algorithm_Parameters is not None:
-            write('Algorithm_Parameters=model_.ClusteringAlgorithmParametersType(\n')
-            self.Algorithm_Parameters.exportLiteral(write, level, name_='Algorithm_Parameters')
-            write('),\n')
-        if self.Cluster_Size is not None:
-            showIndent(write, level)
-            write('Cluster_Size=%d,\n' % self.Cluster_Size)
-        if self.Cluster_Description is not None:
-            showIndent(write, level)
-            write('Cluster_Description=%s,\n' % quote_python(self.Cluster_Description).encode(ExternalEncoding))
-        if self.Cluster_Composition is not None:
-            write('Cluster_Composition=model_.ClusterCompositionType(\n')
-            self.Cluster_Composition.exportLiteral(write, level, name_='Cluster_Composition')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2546,30 +2028,6 @@ class ClusterEdgeNodePairType(GeneratedsSuper):
             self.Malware_Subject_Node_A.export(write, level, 'maecPackage:', name_='Malware_Subject_Node_A', pretty_print=pretty_print)
         if self.Malware_Subject_Node_B is not None:
             self.Malware_Subject_Node_B.export(write, level, 'maecPackage:', name_='Malware_Subject_Node_B', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ClusterEdgeNodePairType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.similarity_distance is not None and 'similarity_distance' not in already_processed:
-            already_processed.add('similarity_distance')
-            showIndent(write, level)
-            write('similarity_distance = %f,\n' % (self.similarity_distance,))
-        if self.similarity_index is not None and 'similarity_index' not in already_processed:
-            already_processed.add('similarity_index')
-            showIndent(write, level)
-            write('similarity_index = %f,\n' % (self.similarity_index,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Malware_Subject_Node_A is not None:
-            write('Malware_Subject_Node_A=model_.MalwareSubjectReferenceType(\n')
-            self.Malware_Subject_Node_A.exportLiteral(write, level, name_='Malware_Subject_Node_A')
-            write('),\n')
-        if self.Malware_Subject_Node_B is not None:
-            write('Malware_Subject_Node_B=model_.MalwareSubjectReferenceType(\n')
-            self.Malware_Subject_Node_B.exportLiteral(write, level, name_='Malware_Subject_Node_B')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2663,29 +2121,6 @@ class ClusterCompositionType(GeneratedsSuper):
             eol_ = ''
         for Edge_Node_Pair_ in self.Edge_Node_Pair:
             Edge_Node_Pair_.export(write, level, 'maecPackage:', name_='Edge_Node_Pair', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ClusterCompositionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.score_type is not None and 'score_type' not in already_processed:
-            already_processed.add('score_type')
-            showIndent(write, level)
-            write('score_type = "%s",\n' % (self.score_type,))
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Edge_Node_Pair=[\n')
-        level += 1
-        for Edge_Node_Pair_ in self.Edge_Node_Pair:
-            write('model_.ClusterEdgeNodePairType(\n')
-            Edge_Node_Pair_.exportLiteral(write, level, name_='ClusterEdgeNodePairType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2759,21 +2194,6 @@ class ClusteringAlgorithmParametersType(GeneratedsSuper):
         if self.Number_of_Iterations is not None:
             showIndent(write, level, pretty_print)
             write('<%sNumber_of_Iterations>%s</%sNumber_of_Iterations>%s' % ('maecPackage:', self.gds_format_integer(self.Number_of_Iterations, input_name='Number_of_Iterations'), 'maecPackage:', eol_))
-    def exportLiteral(self, write, level, name_='ClusteringAlgorithmParametersType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Distance_Threshold is not None:
-            showIndent(write, level)
-            write('Distance_Threshold=%f,\n' % self.Distance_Threshold)
-        if self.Number_of_Iterations is not None:
-            showIndent(write, level)
-            write('Number_of_Iterations=%d,\n' % self.Number_of_Iterations)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2850,19 +2270,6 @@ class NetworkInfrastructureType(GeneratedsSuper):
             eol_ = ''
         if self.Captured_Protocols is not None:
             self.Captured_Protocols.export(write, level, 'maecPackage:', name_='Captured_Protocols', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='NetworkInfrastructureType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Captured_Protocols is not None:
-            write('Captured_Protocols=model_.CapturedProtocolListType(\n')
-            self.Captured_Protocols.exportLiteral(write, level, name_='Captured_Protocols')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2941,29 +2348,6 @@ class ActionEquivalenceType(GeneratedsSuper):
             eol_ = ''
         for Action_Reference_ in self.Action_Reference:
             Action_Reference_.export(write, level, 'maecPackage:', name_='Action_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ActionEquivalenceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Action_Reference=[\n')
-        level += 1
-        for Action_Reference_ in self.Action_Reference:
-            write('model_.cybox_core.ActionReferenceType(\n')
-            Action_Reference_.exportLiteral(write, level, name_='cybox_core.ActionReferenceType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3034,26 +2418,6 @@ class ActionEquivalenceListType(GeneratedsSuper):
             eol_ = ''
         for Action_Equivalence_ in self.Action_Equivalence:
             Action_Equivalence_.export(write, level, 'maecPackage:', name_='Action_Equivalence', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ActionEquivalenceListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Action_Equivalence=[\n')
-        level += 1
-        for Action_Equivalence_ in self.Action_Equivalence:
-            write('model_.ActionEquivalenceType(\n')
-            Action_Equivalence_.exportLiteral(write, level, name_='ActionEquivalenceType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3122,26 +2486,6 @@ class CapturedProtocolListType(GeneratedsSuper):
             eol_ = ''
         for Protocol_ in self.Protocol:
             Protocol_.export(write, level, 'maecPackage:', name_='Protocol', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='CapturedProtocolListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Protocol=[\n')
-        level += 1
-        for Protocol_ in self.Protocol:
-            write('model_.CapturedProtocolType(\n')
-            Protocol_.exportLiteral(write, level, name_='CapturedProtocolType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3229,31 +2573,6 @@ class CapturedProtocolType(GeneratedsSuper):
             write(' layer4_protocol=%s' % (quote_attrib(self.layer4_protocol), ))
     def exportChildren(self, write, level, namespace_='maecPackage:', name_='CapturedProtocolType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, write, level, name_='CapturedProtocolType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.layer7_protocol is not None and 'layer7_protocol' not in already_processed:
-            already_processed.add('layer7_protocol')
-            showIndent(write, level)
-            write('layer7_protocol = %s,\n' % (self.layer7_protocol,))
-        if self.port_number is not None and 'port_number' not in already_processed:
-            already_processed.add('port_number')
-            showIndent(write, level)
-            write('port_number = %d,\n' % (self.port_number,))
-        if self.interaction_level is not None and 'interaction_level' not in already_processed:
-            already_processed.add('interaction_level')
-            showIndent(write, level)
-            write('interaction_level = %s,\n' % (self.interaction_level,))
-        if self.layer4_protocol is not None and 'layer4_protocol' not in already_processed:
-            already_processed.add('layer4_protocol')
-            showIndent(write, level)
-            write('layer4_protocol = %s,\n' % (self.layer4_protocol,))
-    def exportLiteralChildren(self, write, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3338,26 +2657,6 @@ class ObjectEquivalenceListType(GeneratedsSuper):
             eol_ = ''
         for Object_Equivalence_ in self.Object_Equivalence:
             Object_Equivalence_.export(write, level, 'maecPackage:', name_='Object_Equivalence', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ObjectEquivalenceListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Object_Equivalence=[\n')
-        level += 1
-        for Object_Equivalence_ in self.Object_Equivalence:
-            write('model_.ObjectEquivalenceType(\n')
-            Object_Equivalence_.exportLiteral(write, level, name_='ObjectEquivalenceType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3423,20 +2722,6 @@ class ObjectEquivalenceType(maec_bundle_schema.ObjectReferenceListType):
             write(' id=%s' % (quote_attrib(self.id), ))
     def exportChildren(self, write, level, namespace_='maecPackage:', name_='ObjectEquivalenceType', fromsubclass_=False, pretty_print=True):
         super(ObjectEquivalenceType, self).exportChildren(write, level, 'maecPackage:', name_, True, pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='ObjectEquivalenceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(write, level)
-            write('id = %s,\n' % (self.id,))
-        super(ObjectEquivalenceType, self).exportLiteralAttributes(write, level, already_processed, name_)
-    def exportLiteralChildren(self, write, level, name_):
-        super(ObjectEquivalenceType, self).exportLiteralChildren(write, level, name_)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3504,20 +2789,6 @@ class HypervisorHostSystemType(system_object.SystemObjectType):
             eol_ = ''
         if self.VM_Hypervisor is not None:
             self.VM_Hypervisor.export(write, level, 'maecPackage:', name_='VM_Hypervisor', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='HypervisorHostSystemType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        super(HypervisorHostSystemType, self).exportLiteralAttributes(write, level, already_processed, name_)
-    def exportLiteralChildren(self, write, level, name_):
-        super(HypervisorHostSystemType, self).exportLiteralChildren(write, level, name_)
-        if self.VM_Hypervisor is not None:
-            write('VM_Hypervisor=model_.cybox_common.PlatformSpecificationType(\n')
-            self.VM_Hypervisor.exportLiteral(write, level, name_='VM_Hypervisor')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3585,20 +2856,6 @@ class AnalysisSystemType(system_object.SystemObjectType):
             eol_ = ''
         if self.Installed_Programs is not None:
             self.Installed_Programs.export(write, level, 'maecPackage:', name_='Installed_Programs', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='AnalysisSystemType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        super(AnalysisSystemType, self).exportLiteralAttributes(write, level, already_processed, name_)
-    def exportLiteralChildren(self, write, level, name_):
-        super(AnalysisSystemType, self).exportLiteralChildren(write, level, name_)
-        if self.Installed_Programs is not None:
-            write('Installed_Programs=model_.InstalledProgramsType(\n')
-            self.Installed_Programs.exportLiteral(write, level, name_='Installed_Programs')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3679,27 +2936,6 @@ class CommentType(cybox_common.StructuredTextType):
             write(' observation_name=%s' % (quote_attrib(self.observation_name)))
     def exportChildren(self, write, level, namespace_='maecPackage:', name_='CommentType', fromsubclass_=False, pretty_print=True):
         super(CommentType, self).exportChildren(write, level, 'maecPackage:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, write, level, name_='CommentType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-        showIndent(write, level)
-        write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.timestamp is not None and 'timestamp' not in already_processed:
-            already_processed.add('timestamp')
-            showIndent(write, level)
-            write('timestamp = "%s",\n' % (self.timestamp,))
-        if self.author is not None and 'author' not in already_processed:
-            already_processed.add('author')
-            showIndent(write, level)
-            write('author = "%s",\n' % (self.author,))
-        super(CommentType, self).exportLiteralAttributes(write, level, already_processed, name_)
-    def exportLiteralChildren(self, write, level, name_):
-        super(CommentType, self).exportLiteralChildren(write, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -3803,27 +3039,6 @@ class MalwareExceptionType(cybox_common.ErrorType):
         if self.Description is not None:
             showIndent(write, level, pretty_print)
             write('<%sDescription>%s</%sDescription>%s' % (namespace_, self.gds_format_integer(self.Description, input_name='Description'), namespace_, eol_))
-    def exportLiteral(self, write, level, name_='MalwareExceptionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.is_fatal is not None and 'is_fatal' not in already_processed:
-            already_processed.add('is_fatal')
-            showIndent(write, level)
-            write('is_fatal = %s,\n' % (self.is_fatal,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Exception_Code is not None:
-            showIndent(write, level)
-            write('Exception_Code=%s,\n' % quote_python(self.Exception_Code).encode(ExternalEncoding))
-        if self.Faulting_Address is not None:
-            showIndent(write, level)
-            write('Faulting_Address=%s,\n' % quote_python(self.Faulting_Address).encode(ExternalEncoding))
-        if self.Description is not None:
-            showIndent(write, level)
-            write('Description=%d,\n' % self.Description)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3920,27 +3135,6 @@ class MalwareDevelopmentEnvironmentType(GeneratedsSuper):
             self.Tools.export(write, level, namespace_, name_='Tools', pretty_print=pretty_print)
         for Debugging_File_ in self.Debugging_File:
             Debugging_File_.export(write, level, namespace_, name_='Debugging_File', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='MalwareDevelopmentEnvironmentType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Tools is not None:
-            showIndent(write, level)
-            write('Tools=%s,\n' % quote_python(self.Tools).encode(ExternalEncoding))
-        showIndent(write, level)
-        write('Debugging_File=[\n')
-        level += 1
-        for Debugging_File_ in self.Debugging_File:
-            showIndent(write, level)
-            write('%s,\n' % quote_python(Debugging_File_).encode(ExternalEncoding))
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4015,22 +3209,6 @@ class MalwareConfigurationParameterType(GeneratedsSuper):
         if self.Value is not None:
             showIndent(write, level, pretty_print)
             write('<%sValue>%s</%sValue>%s' % ('maecPackage:', quote_xml(self.Value), 'maecPackage:', eol_))
-    def exportLiteral(self, write, level, name_='MalwareConfigurationParameterType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Name is not None:
-            write('Name=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Name.exportLiteral(write, level, name_='Name')
-            write('),\n')
-        if self.Value is not None:
-            showIndent(write, level)
-            write('Value=%s,\n' % quote_python(self.Value).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4114,34 +3292,6 @@ class MalwareConfigurationDetailsType(GeneratedsSuper):
             self.Obfuscation.export(write, level, 'maecPackage:', name_='Obfuscation', pretty_print=pretty_print)
         for Configuration_Parameter_ in self.Configuration_Parameter:
             Configuration_Parameter_.export(write, level, 'maecPackage:', name_='Configuration_Parameter', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='MalwareConfigurationDetailsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Storage is not None:
-            write('Storage=model_.MalwareConfigurationStorageDetailsType(\n')
-            self.Storage.exportLiteral(write, level, name_='Storage')
-            write('),\n')
-        if self.Obfuscation is not None:
-            write('Obfuscation=model_.MalwareConfigurationObfuscationDetailsType(\n')
-            self.Obfuscation.exportLiteral(write, level, name_='Obfuscation')
-            write('),\n')
-        showIndent(write, level)
-        write('Configuration_Parameter=[\n')
-        level += 1
-        for Configuration_Parameter_ in self.Configuration_Parameter:
-            write('model_.MalwareConfigurationParameterType(\n')
-            Configuration_Parameter_.exportLiteral(write, level, name_='MalwareConfigurationParameterType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4233,33 +3383,6 @@ class MalwareConfigurationObfuscationDetailsType(GeneratedsSuper):
             eol_ = ''
         for Algorithm_Details_ in self.Algorithm_Details:
             Algorithm_Details_.export(write, level, 'maecPackage:', name_='Algorithm_Details', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='MalwareConfigurationObfuscationDetailsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.is_encoded is not None and 'is_encoded' not in already_processed:
-            already_processed.add('is_encoded')
-            showIndent(write, level)
-            write('is_encoded = %s,\n' % (self.is_encoded,))
-        if self.is_encrypted is not None and 'is_encrypted' not in already_processed:
-            already_processed.add('is_encrypted')
-            showIndent(write, level)
-            write('is_encrypted = %s,\n' % (self.is_encrypted,))
-    def exportLiteralChildren(self, write, level, name_):
-        showIndent(write, level)
-        write('Algorithm_Details=[\n')
-        level += 1
-        for Algorithm_Details_ in self.Algorithm_Details:
-            write('model_.MalwareConfigurationObfuscationAlgorithmType(\n')
-            Algorithm_Details_.exportLiteral(write, level, name_='MalwareConfigurationObfuscationAlgorithmType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4355,25 +3478,6 @@ class MalwareConfigurationObfuscationAlgorithmType(GeneratedsSuper):
             write('<%sKey>%s</%sKey>%s' % ('maecPackage:', quote_xml(self.Key), 'maecPackage:', eol_))
         if self.Algorithm_Name is not None:
             self.Algorithm_Name.export(write, level, 'maecPackage:', name_='Algorithm_Name', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='MalwareConfigurationObfuscationAlgorithmType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
-            already_processed.add('ordinal_position')
-            showIndent(write, level)
-            write('ordinal_position = %d,\n' % (self.ordinal_position,))
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Key is not None:
-            showIndent(write, level)
-            write('Key=%s,\n' % quote_python(self.Key).encode(ExternalEncoding))
-        if self.Algorithm_Name is not None:
-            write('Algorithm_Name=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Algorithm_Name.exportLiteral(write, level, name_='Algorithm_Name')
-            write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4465,34 +3569,6 @@ class MalwareConfigurationStorageDetailsType(GeneratedsSuper):
             self.File.export(write, level, 'maecPackage:', name_='File', pretty_print=pretty_print)
         for URL_ in self.URL:
             URL_.export(write, level, 'maecPackage:', name_='URL', pretty_print=pretty_print)
-    def exportLiteral(self, write, level, name_='MalwareConfigurationStorageDetailsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.Malware_Binary is not None:
-            write('Malware_Binary=model_.MalwareBinaryConfigurationStorageDetailsType(\n')
-            self.Malware_Binary.exportLiteral(write, level, name_='Malware_Binary')
-            write('),\n')
-        if self.File is not None:
-            write('File=model_.file_object.FileObjectType(\n')
-            self.File.exportLiteral(write, level, name_='File')
-            write('),\n')
-        showIndent(write, level)
-        write('URL=[\n')
-        level += 1
-        for URL_ in self.URL:
-            write('model_.uri_object.URIObjectType(\n')
-            URL_.exportLiteral(write, level, name_='uri_object.URIObjectType')
-            showIndent(write, level)
-            write('),\n')
-        level -= 1
-        showIndent(write, level)
-        write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4579,24 +3655,6 @@ class MalwareBinaryConfigurationStorageDetailsType(GeneratedsSuper):
         if self.Section_Offset is not None:
             showIndent(write, level, pretty_print)
             write('<%sSection_Offset>%s</%sSection_Offset>%s' % ('maecPackage:', quote_xml(self.Section_Offset), 'maecPackage:', eol_))
-    def exportLiteral(self, write, level, name_='MalwareBinaryConfigurationStorageDetailsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(write, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(write, level, name_)
-    def exportLiteralAttributes(self, write, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, write, level, name_):
-        if self.File_Offset is not None:
-            showIndent(write, level)
-            write('File_Offset=%s,\n' % quote_python(self.File_Offset).encode(ExternalEncoding))
-        if self.Section_Name is not None:
-            showIndent(write, level)
-            write('Section_Name=%s,\n' % quote_python(self.Section_Name).encode(ExternalEncoding))
-        if self.Section_Offset is not None:
-            showIndent(write, level)
-            write('Section_Offset=%s,\n' % quote_python(self.Section_Offset).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
