@@ -8,7 +8,7 @@ Classes
 
 .. autoclass:: Entity
   :show-inheritance:
-	:members:
+  :members:
 
 .. autoclass:: EntityList
 	:show-inheritance:
