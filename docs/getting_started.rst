@@ -33,11 +33,11 @@ Creating a MAEC Package
   from maec.package.package import Package                # Import the MAEC Package API
   from maec.package.malware_subject import MalwareSubject # Import the MAEC Malware Subject API
 
-  package = STIXPackage()                         # Create an instance of Package
+  package = Package()                         # Create an instance of Package
   malware_subject = MalwareSubject()              # Create an instance of MalwareSubject
   package.add_malware_subject(malware_subject)    # Add the Malware Subject to the Package
 
-  print(stix_package.to_xml())                    # Print the XML for this MAEC Package
+  print(package.to_xml())                    # Print the XML for this MAEC Package
 	
 Parsing MAEC XML
 ****************
@@ -46,7 +46,7 @@ Parsing MAEC XML
 
   import maec                                # Import the python-maec API
 
-  fn = 'stix_content.xml'                    # The MAEC content filename
+  fn = 'sample_maec_package.xml'             # generate by running examples\package_generation_example.py
   maec_objects = maec.parse_xml_instance(fn) # Parse using the from_xml() method
   api_object = maec_objects['api']           # Get the API object from the parsed objects
   
