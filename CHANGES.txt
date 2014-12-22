@@ -1,3 +1,10 @@
+Version 4.1.0.10
+2014-12-22
+- Various Unicode-related fixes in the bindings [#32]
+- [#58] Namespace collection
+- [#60] Added support for File-like objects in to_xml_file()
+- Various bug fixes
+
 Version 4.1.0.9
 2014-11-26
 - Added __input_namespaces and __input_schemalocations to Package and Bundle
