@@ -4,6 +4,7 @@
 import pprint
 import sys
 import os
+import timeit
 import maec
 from maec.bundle.bundle import Bundle
 from maec.package.package import Package
@@ -19,16 +20,21 @@ Usage: python run_deduplicator.py -l <single whitespace separated list of MAEC f
 # Process a set of MAEC binding objects and peform the deduplication as appropriate
 def process_maec_file(filename):
     new_filename = filename[:filename.find(".xml")] + "_deduplicated.xml"
+    start_time = timeit.default_timer()
     parsed_objects = maec.parse_xml_instance(filename)
+    print "Parsing: " + str(timeit.default_timer() - start_time)
+    start_time = timeit.default_timer()
     if parsed_objects and isinstance(parsed_objects['api'], Package):
         parsed_objects['api'].deduplicate_malware_subjects()
         parsed_objects['api'].to_xml_file(new_filename)
     elif parsed_objects and isinstance(parsed_objects['api'], Bundle):
         parsed_objects['api'].deduplicate()
         parsed_objects['api'].to_xml_file(new_filename)
+    elapsed = timeit.default_timer() - start_time
+    print "Deduplicating: " + str(timeit.default_timer() - start_time)
 
 def main():
-    sys.stdout.write("Deduplicating.")
+    #sys.stdout.write("Deduplicating.")
     infilenames = []
     list_mode = False
     directoryname = ''
@@ -50,7 +56,7 @@ def main():
     if list_mode:
         files = args[1:]
         for file in files:
-            sys.stdout.write(".")
+            #sys.stdout.write(".")
             process_maec_file(file)
     elif directoryname != '':
         for filename in os.listdir(directoryname):
@@ -59,6 +65,6 @@ def main():
                 pass
             else:
                 process_maec_file(os.path.join(directoryname, filename))
-    sys.stdout.write("Done.")
+    #sys.stdout.write("Done.")
 if __name__ == "__main__":
     main()    

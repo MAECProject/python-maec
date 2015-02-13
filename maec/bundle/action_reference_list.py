@@ -1,6 +1,6 @@
 #MAEC Action Reference List Class
 
-#Copyright (c) 2014, The MITRE Corporation
+#Copyright (c) 2015, The MITRE Corporation
 #All rights reserved
 
 #Compatible with MAEC v4.1
@@ -17,3 +17,4 @@ class ActionReferenceList(maec.EntityList):
     _binding_class = bundle_binding.ActionReferenceListType
     _binding_var = "Action_Reference"
     _namespace = maec.bundle._namespace
+     

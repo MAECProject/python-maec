@@ -1,10 +1,10 @@
-#MAEC Behavior Class
+# MAEC Behavior Class
 
-#Copyright (c) 2014, The MITRE Corporation
-#All rights reserved
+# Copyright (c) 2015, The MITRE Corporation
+# All rights reserved
 
-#Compatible with MAEC v4.1
-#Last updated 04/15/2014
+# Compatible with MAEC v4.1
+# Last updated 08/27/2014
 
 import maec
 import maec.bindings.maec_bundle as bundle_binding

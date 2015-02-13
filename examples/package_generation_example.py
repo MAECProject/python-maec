@@ -8,7 +8,7 @@
 from cybox.core import AssociatedObjects, AssociatedObject, Object, AssociationType
 from cybox.common import Hash, HashList
 from cybox.objects.file_object import File
-from maec.bundle.bundle import Bundle
+from maec.bundle.bundle import Bundle, Collections
 from maec.bundle.malware_action import MalwareAction
 from maec.bundle.capability import Capability
 from maec.package.analysis import Analysis
@@ -57,6 +57,7 @@ capability.name = 'persistence'
 bundle.add_capability(capability)
 # Add the Bundle to the Malware Subject
 subject.add_findings_bundle(bundle)
+subject.findings_bundles.bundle = [bundle]
 # Add the Malware Subject to the Package
 package.add_malware_subject(subject)
 # Export the Package Bindings Object to an XML file and use the namespaceparser for writing out the namespace definitions

@@ -3,7 +3,7 @@
 # NOTE: This code imports and uses the maec.analytics.distance module, which uses the external numpy library.
 # Numpy can be found here: https://pypi.python.org/pypi/numpy
 
-# Copyright (c) 2014, The MITRE Corporation. All rights reserved.
+# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
 import os

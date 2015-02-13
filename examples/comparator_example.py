@@ -2,7 +2,7 @@ import pprint
 import maec.bindings.maec_bundle as maec_bundle_binding
 from maec.bundle.bundle import Bundle
 # Matching properties dictionary
-match_on_dictionary = {'FileObjectType': ['full_name'],
+match_on_dictionary = {'FileObjectType': ['file_name'],
                        'WindowsRegistryKeyObjectType': ['hive', 'values.name/data'],
                        'WindowsMutexObjectType': ['name']}
 # Parse in the input Bundle documents and create their python-maec Bundle class representations
