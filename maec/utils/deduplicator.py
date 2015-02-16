@@ -77,7 +77,7 @@ class BundleDeduplicator(object):
                 object.properties = None
                 object.related_objects = None
                 object.domain_specific_object_properties = None
-            elif duplicate_object_id and duplicate_object_id in cls.idref_objects:
+            if duplicate_object_id and duplicate_object_id in cls.idref_objects:
                 for object in cls.idref_objects[duplicate_object_id]:
                     object.idref = unique_object_id
 
