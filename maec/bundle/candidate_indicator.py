@@ -7,6 +7,7 @@
 # Last updated 08/27/2014
 
 import maec
+from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
 from maec.bundle.object_reference import ObjectReference
 from maec.bundle.behavior_reference import BehaviorReference
@@ -16,7 +17,7 @@ from cybox.core import ActionReference
 class MalwareEntity(maec.Entity):
     _binding = bundle_binding
     _binding_class = bundle_binding.MalwareEntityType    
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
     type_ = maec.TypedField("Type", VocabString)
     name = maec.TypedField("Name")
@@ -28,7 +29,7 @@ class MalwareEntity(maec.Entity):
 class CandidateIndicatorComposition(maec.Entity):
     _binding = bundle_binding
     _binding_class = bundle_binding.CandidateIndicatorCompositionType    
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
     operator = maec.TypedField("operator")
     behavior_reference = maec.TypedField("Behavior_Reference", BehaviorReference, multiple = True)
@@ -45,7 +46,7 @@ CandidateIndicatorComposition.sub_composition.type_ = CandidateIndicatorComposit
 class CandidateIndicator(maec.Entity):
     _binding = bundle_binding
     _binding_class = bundle_binding.CandidateIndicatorType    
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
     id_ = maec.TypedField("id")
     creation_datetime = maec.TypedField("creation_datetime")
@@ -69,4 +70,4 @@ class CandidateIndicatorList(maec.EntityList):
     _contained_type = CandidateIndicator
     _binding_class = bundle_binding.CandidateIndicatorListType
     _binding_var = "Candidate_Indicator"
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace

@@ -12,13 +12,14 @@ from cybox.common import (PlatformSpecification, Personnel, StructuredText,
 from cybox.objects.system_object import System
 
 import maec
+from . import _namespace
 import maec.bindings.maec_package as package_binding
-from maec.bundle.bundle_reference import BundleReference
+from maec.bundle import BundleReference
 
 class Source(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.SourceType
-    _namespace = maec.package._namespace
+    _namespace = _namespace
 
     name = maec.TypedField("Name")
     method = maec.TypedField("Method")
@@ -32,7 +33,7 @@ class Source(maec.Entity):
 class Comment(StructuredText):
     _binding = package_binding
     _binding_class = package_binding.CommentType
-    _namespace = maec.package._namespace
+    _namespace = _namespace
 
     author = maec.TypedField("author")
     timestamp = maec.TypedField("timestamp")
@@ -53,18 +54,18 @@ class CommentList(maec.EntityList):
     _contained_type = Comment
     _binding_class = package_binding.CommentListType
     _binding_var = "Comment"
-    _namespace = maec.package._namespace
+    _namespace = _namespace
 
 class ToolList(maec.EntityList):
     _contained_type = ToolInformation
     _binding_class = package_binding.ToolListType
     _binding_var = "Tool"
-    _namespace = maec.package._namespace
+    _namespace = _namespace
 
 class DynamicAnalysisMetadata(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.DynamicAnalysisMetadataType
-    _namespace = maec.package._namespace
+    _namespace = _namespace
 
     command_line = maec.TypedField("Command_Line")
     analysis_duration = maec.TypedField("Analysis_Duration")
@@ -77,7 +78,7 @@ class DynamicAnalysisMetadata(maec.Entity):
 class HypervisorHostSystem(System):
     _binding = package_binding
     _binding_class = package_binding.HypervisorHostSystemType
-    _namespace = maec.package._namespace
+    _namespace = _namespace
 
     vm_hypervisor = maec.TypedField("VM_Hypervisor", PlatformSpecification)
 
@@ -88,12 +89,12 @@ class InstalledPrograms(maec.EntityList):
     _contained_type = PlatformSpecification
     _binding_class = package_binding.InstalledProgramsType
     _binding_var = "Program"
-    _namespace = maec.package._namespace
+    _namespace = _namespace
         
 class AnalysisSystem(System):
     _binding = package_binding
     _binding_class = package_binding.AnalysisSystemType
-    _namespace = maec.package._namespace
+    _namespace = _namespace
 
     installed_programs = maec.TypedField("Installed_Programs", InstalledPrograms)
 
@@ -105,12 +106,12 @@ class AnalysisSystemList(maec.EntityList):
     _contained_type = AnalysisSystem
     _binding_class = package_binding.AnalysisSystemListType
     _binding_var = "Analysis_System"
-    _namespace = maec.package._namespace
+    _namespace = _namespace
 
 class CapturedProtocol(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.CapturedProtocolType
-    _namespace = maec.package._namespace
+    _namespace = _namespace
 
     layer7_protocol = maec.TypedField("layer7_protocol")
     layer4_protocol = maec.TypedField("layer4_protocol")
@@ -124,12 +125,12 @@ class CapturedProtocolList(maec.EntityList):
     _contained_type = CapturedProtocol
     _binding_class = package_binding.CapturedProtocolListType
     _binding_var = "Protocol"
-    _namespace = maec.package._namespace
+    _namespace = _namespace
 
 class NetworkInfrastructure(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.NetworkInfrastructureType
-    _namespace = maec.package._namespace
+    _namespace = _namespace
 
     captured_protocols = maec.TypedField("Captured_Protocols", CapturedProtocolList)
 
@@ -140,7 +141,7 @@ class NetworkInfrastructure(maec.Entity):
 class AnalysisEnvironment(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.AnalysisEnvironmentType
-    _namespace = maec.package._namespace
+    _namespace = _namespace
 
     hypervisor_host_system = maec.TypedField("Hypervisor_Host_System", HypervisorHostSystem)
     analysis_systems = maec.TypedField("Analysis_Systems", AnalysisSystemList)
@@ -152,7 +153,7 @@ class AnalysisEnvironment(maec.Entity):
 class Analysis(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.AnalysisType
-    _namespace = maec.package._namespace
+    _namespace = _namespace
 
     id_ = maec.TypedField("id")
     method = maec.TypedField("method")

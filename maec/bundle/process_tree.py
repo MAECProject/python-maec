@@ -11,6 +11,7 @@ from cybox.objects.process_object import Process
 from cybox.core import ActionReference
 
 import maec
+from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
 from maec.bundle.action_reference_list import ActionReferenceList
 
@@ -108,7 +109,7 @@ class ProcessTreeNode(Process):
 class ProcessTree(maec.Entity):
     _binding = bundle_binding
     _binding_class = bundle_binding.ProcessTreeType    
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
     root_process = maec.TypedField("Root_Process", ProcessTreeNode)
 
