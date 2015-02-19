@@ -7,11 +7,12 @@
 # Last updated 09/26/2014
 
 import maec
+from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
 from cybox.common import ToolInformation
 
 class AVClassification(ToolInformation, maec.Entity):
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
     _binding = bundle_binding
     _binding_class = bundle_binding.AVClassificationType
 
@@ -66,4 +67,4 @@ class AVClassifications(maec.EntityList):
     _contained_type = AVClassification
     _binding_class = bundle_binding.AVClassificationsType
     _binding_var = "AV_Classification"
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace

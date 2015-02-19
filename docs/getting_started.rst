@@ -30,14 +30,14 @@ Creating a MAEC Package
 
 .. code-block:: python
 	
-  from maec.package.package import Package                # Import the MAEC Package API
-  from maec.package.malware_subject import MalwareSubject # Import the MAEC Malware Subject API
+  from maec.package import Package              # Import the MAEC Package API
+  from maec.package import MalwareSubject       # Import the MAEC Malware Subject API
 
-  package = Package()                         # Create an instance of Package
-  malware_subject = MalwareSubject()              # Create an instance of MalwareSubject
-  package.add_malware_subject(malware_subject)    # Add the Malware Subject to the Package
+  package = Package()                           # Create an instance of Package
+  malware_subject = MalwareSubject()            # Create an instance of MalwareSubject
+  package.add_malware_subject(malware_subject)  # Add the Malware Subject to the Package
 
-  print(package.to_xml())                    # Print the XML for this MAEC Package
+  print(package.to_xml())                       # Print the XML for this MAEC Package
 	
 Parsing MAEC XML
 ****************

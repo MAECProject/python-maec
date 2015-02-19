@@ -8,12 +8,8 @@
 from cybox.core import AssociatedObjects, AssociatedObject, Object, AssociationType
 from cybox.common import Hash, HashList
 from cybox.objects.file_object import File
-from maec.bundle.bundle import Bundle, Collections
-from maec.bundle.malware_action import MalwareAction
-from maec.bundle.capability import Capability
-from maec.package.analysis import Analysis
-from maec.package.malware_subject import MalwareSubject
-from maec.package.package import Package
+from maec.bundle import Bundle, Collections, MalwareAction, Capability
+from maec.package import Analysis, MalwareSubject, Package
 from cybox.utils import Namespace
 import maec.utils
 

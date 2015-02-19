@@ -8,6 +8,7 @@
 
 import cybox
 import maec
+from . import _namespace
 import maec.bindings.maec_package as package_binding  
 from maec.package.malware_subject_reference import MalwareSubjectReference
 from cybox.common import VocabString
@@ -15,7 +16,7 @@ from cybox.common import VocabString
 class ClusterEdgeNodePair(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.ClusterEdgeNodePairType
-    _namespace = maec.package._namespace
+    _namespace = _namespace
     
     similarity_index = maec.TypedField("similarity_index")
     similarity_distance = maec.TypedField("similarity_distance")
@@ -28,7 +29,7 @@ class ClusterEdgeNodePair(maec.Entity):
 class ClusterComposition(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.ClusterCompositionType
-    _namespace = maec.package._namespace
+    _namespace = _namespace
     
     score_type = maec.TypedField("score_type")
     edge_node_pair = maec.TypedField("Edge_Node_Pair", ClusterEdgeNodePair, multiple=True)
@@ -39,7 +40,7 @@ class ClusterComposition(maec.Entity):
 class ClusteringAlgorithmParameters(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.ClusteringAlgorithmParametersType
-    _namespace = maec.package._namespace
+    _namespace = _namespace
 
     distance_threashold = maec.TypedField("Distance_Threashold")
     number_of_iterations = maec.TypedField("Number_of_Iterations")
@@ -50,7 +51,7 @@ class ClusteringAlgorithmParameters(maec.Entity):
 class ClusteringMetadata(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.ClusteringMetadataType
-    _namespace = maec.package._namespace
+    _namespace = _namespace
 
     algorithm_name = maec.TypedField("Algorithm_Name")
     algorithm_version = maec.TypedField("Algorithm_Version")
@@ -65,7 +66,7 @@ class ClusteringMetadata(maec.Entity):
 class GroupingRelationship(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.GroupingRelationshipType
-    _namespace = maec.package._namespace
+    _namespace = _namespace
 
     type_ = maec.TypedField("Type", VocabString)
     malware_family_name = maec.TypedField("Malware_Family_Name")
@@ -79,7 +80,7 @@ class GroupingRelationshipList(maec.EntityList):
     _contained_type = GroupingRelationship
     _binding_class = package_binding.GroupingRelationshipListType
     _binding_var = "Grouping_Relationship"
-    _namespace = maec.package._namespace
+    _namespace = _namespace
 
 
 

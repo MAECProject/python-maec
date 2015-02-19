@@ -7,12 +7,13 @@
 # Last updated 08/28/2014
 
 import maec
+from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
        
 class BehaviorReference(maec.Entity):
     _binding = bundle_binding
     _binding_class = bundle_binding.BehaviorReferenceType    
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
     behavior_idref = maec.TypedField("behavior_idref")
 

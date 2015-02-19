@@ -7,10 +7,11 @@
 #Last updated 08/14/2014
 
 import maec
+from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
        
 class BundleReference(maec.Entity):
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
     _binding = bundle_binding
     _binding_class = bundle_binding.BundleReferenceType
 

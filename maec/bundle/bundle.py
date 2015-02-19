@@ -13,41 +13,37 @@ from cybox.core import Object
 from cybox.utils.normalize import normalize_object_properties
 
 import maec
+from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
-from maec.bundle.malware_action import MalwareAction
-from maec.bundle.av_classification import AVClassifications
-from maec.bundle.behavior import Behavior
-from maec.bundle.candidate_indicator import CandidateIndicator, CandidateIndicatorList
-from maec.bundle.action_reference_list import ActionReferenceList
-from maec.bundle.process_tree import ProcessTree
-from maec.bundle.capability import CapabilityList
-from maec.bundle.object_history import ObjectHistory
-from maec.utils.comparator import BundleComparator
-from maec.utils.deduplicator import BundleDeduplicator
+from maec.bundle import (MalwareAction, AVClassifications, Behavior, 
+                         CandidateIndicator, CandidateIndicatorList,
+                         ActionReferenceList, ProcessTree, CapabilityList,
+                         ObjectHistory)
+from maec.utils import BundleComparator, BundleDeduplicator
 
 
 class BehaviorList(maec.EntityList):
     _contained_type = Behavior
     _binding_class = bundle_binding.BehaviorListType
     _binding_var = "Behavior"
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
 class ActionList(maec.EntityList):
     _contained_type = MalwareAction
     _binding_class = bundle_binding.ActionListType
     _binding_var = "Action"
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
     
 class ObjectList(maec.EntityList):
     _contained_type = Object
     _binding_class = bundle_binding.ObjectListType
     _binding_var = "Object"
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
 class BaseCollection(maec.Entity):
     _binding = bundle_binding
     _binding_class = bundle_binding.BaseCollectionType
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
     name = maec.TypedField("name")
     affinity_type = maec.TypedField("Affinity_Type")
@@ -61,7 +57,7 @@ class BaseCollection(maec.Entity):
 class ActionCollection(BaseCollection):
     _binding = bundle_binding
     _binding_class = bundle_binding.ActionCollectionType
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
     id_ = maec.TypedField("id")
     action_list = maec.TypedField("Action_List", ActionList)
@@ -81,7 +77,7 @@ class ActionCollection(BaseCollection):
 class BehaviorCollection(BaseCollection):
     _binding = bundle_binding
     _binding_class = bundle_binding.BehaviorCollectionType
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
     id_ = maec.TypedField("id")
     behavior_list = maec.TypedField("Behavior_List", BehaviorList)
@@ -101,7 +97,7 @@ class BehaviorCollection(BaseCollection):
 class ObjectCollection(BaseCollection):
     _binding = bundle_binding
     _binding_class = bundle_binding.ObjectCollectionType
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
     id_ = maec.TypedField("id")
     object_list = maec.TypedField("Object_List", ObjectList)
@@ -121,7 +117,7 @@ class ObjectCollection(BaseCollection):
 class CandidateIndicatorCollection(BaseCollection):
     _binding = bundle_binding
     _binding_class = bundle_binding.CandidateIndicatorCollectionType
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
     id_ = maec.TypedField("id")
     candidate_indicator_list = maec.TypedField("Candidate_Indicator_List", CandidateIndicatorList)
@@ -142,7 +138,7 @@ class BehaviorCollectionList(maec.EntityList):
     _contained_type = BehaviorCollection
     _binding_class = bundle_binding.BehaviorCollectionListType
     _binding_var = "Behavior_Collection"
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
     def __init__(self):
         super(BehaviorCollectionList, self).__init__()
@@ -175,7 +171,7 @@ class ActionCollectionList(maec.EntityList):
     _contained_type = ActionCollection
     _binding_class = bundle_binding.ActionCollectionListType
     _binding_var = "Action_Collection"
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
     def __init__(self):
         super(ActionCollectionList, self).__init__()
@@ -208,7 +204,7 @@ class ObjectCollectionList(maec.EntityList):
     _contained_type = ObjectCollection
     _binding_class = bundle_binding.ObjectCollectionListType
     _binding_var = "Object_Collection"
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
     def __init__(self):
         super(ObjectCollectionList, self).__init__()
@@ -241,7 +237,7 @@ class CandidateIndicatorCollectionList(maec.EntityList):
     _contained_type = CandidateIndicatorCollection
     _binding_class = bundle_binding.CandidateIndicatorCollectionListType
     _binding_var = "Candidate_Indicator_Collection"
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
     def __init__(self):
         super(CandidateIndicatorCollectionList, self).__init__()
@@ -273,7 +269,7 @@ class CandidateIndicatorCollectionList(maec.EntityList):
 class Collections(maec.Entity):
     _binding = bundle_binding
     _binding_class = bundle_binding.CollectionsType
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
     behavior_collections = maec.TypedField("Behavior_Collections", BehaviorCollectionList)
     action_collections = maec.TypedField("Action_Collections", ActionCollectionList)
@@ -322,13 +318,13 @@ class Collections(maec.Entity):
 class BehaviorReference(maec.Entity):
     _binding = bundle_binding
     _binding_class = bundle_binding.BehaviorReferenceType
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
 
     behavior_idref = maec.TypedField('behavior_idref')
 
 class Bundle(maec.Entity):
     _binding = bundle_binding
-    _namespace = maec.bundle._namespace
+    _namespace = _namespace
     _binding_class = bundle_binding.BundleType
 
     id_ = maec.TypedField("id")

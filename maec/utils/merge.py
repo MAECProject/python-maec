@@ -9,12 +9,11 @@ from copy import deepcopy
 from cybox.core import Object
 from cybox.common import HashList
 from cybox.utils import Namespace
-from maec.package.package import Package
-from maec.bundle.bundle import Bundle
-from maec.package.malware_subject import (MalwareSubject, MalwareConfigurationDetails,
-                                          FindingsBundleList, MetaAnalysis, Analyses,
-                                          MinorVariants, MalwareSubjectRelationshipList,
-                                          MalwareSubjectList)
+from maec.bundle import Bundle
+from maec.package import (Package, MalwareSubject, MalwareConfigurationDetails,
+                          FindingsBundleList, MetaAnalysis, Analyses,
+                          MinorVariants, MalwareSubjectRelationshipList,
+                          MalwareSubjectList)
 
 def dict_merge(target, *args):
     '''Merge multiple dictionaries into one'''

@@ -7,15 +7,15 @@
 #Last updated 08/20/2014
 
 import maec
+from . import _namespace
 import maec.bindings.maec_package as package_binding
-from maec.package.malware_subject import MalwareSubjectList
-from maec.package.grouping_relationship import GroupingRelationshipList
+from maec.package import MalwareSubjectList, GroupingRelationshipList
 from cybox.common import DateTime
 
 class Package(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.PackageType
-    _namespace = maec.package._namespace   
+    _namespace = _namespace   
 
     id_ = maec.TypedField('id')
     timestamp = maec.TypedField('timestamp')
