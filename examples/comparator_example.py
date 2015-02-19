@@ -1,6 +1,6 @@
 import pprint
 import maec.bindings.maec_bundle as maec_bundle_binding
-from maec.bundle.bundle import Bundle
+from maec.bundle import Bundle
 # Matching properties dictionary
 match_on_dictionary = {'FileObjectType': ['file_name'],
                        'WindowsRegistryKeyObjectType': ['hive', 'values.name/data'],
