@@ -13,7 +13,7 @@ from cybox.core import ActionReference
 import maec
 from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
-from maec.bundle.action_reference_list import ActionReferenceList
+from maec.bundle import ActionReferenceList
 
 class ProcessTreeNode(Process):
     _binding = bundle_binding

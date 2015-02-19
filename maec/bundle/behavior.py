@@ -9,10 +9,10 @@
 import maec
 from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
+from maec.bundle import MalwareAction
 from cybox.core.action_reference import ActionReference
 from cybox.common.measuresource import MeasureSource
 from cybox.common.platform_specification import PlatformSpecification
-from maec.bundle.malware_action import MalwareAction
 from cybox.objects.code_object import Code
 #from maec.bundle.bundle import ActionCollection
 import datetime

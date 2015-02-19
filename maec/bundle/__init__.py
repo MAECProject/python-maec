@@ -3,6 +3,7 @@ _namespace = 'http://maec.mitre.org/XMLSchema/maec-bundle-4'
 import maec
 from .malware_action import (MalwareAction, ActionImplementation, APICall,
                              ParameterList, Parameter)
+from .object_reference import ObjectReferenceList, ObjectReference
 from .av_classification import AVClassification, AVClassifications
 from .behavior_reference import BehaviorReference
 from .behavior import (Behavior, AssociatedCode, BehaviorPurpose, Exploit,
@@ -19,7 +20,6 @@ from .capability import (CapabilityList, Capability, CapabilityObjective,
                          CapabilityObjectiveRelationship, CapabilityReference,
                          CapabilityObjectiveReference)
 from .object_history import ObjectHistoryEntry, ObjectHistory
-from .object_reference import ObjectReferenceList, ObjectReference
 from .bundle import (Bundle, BehaviorReference, Collections,
                      CandidateIndicatorCollectionList, ObjectCollectionList,
                      ActionCollectionList, BehaviorCollectionList, 

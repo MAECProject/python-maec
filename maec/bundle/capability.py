@@ -9,7 +9,7 @@
 import maec
 from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
-from maec.bundle.behavior_reference import BehaviorReference
+from maec.bundle import BehaviorReference
 from cybox.common import VocabString, String
 
 class CapabilityObjectiveReference(maec.Entity):

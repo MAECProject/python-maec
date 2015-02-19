@@ -9,8 +9,7 @@
 import maec
 from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
-from maec.bundle.object_reference import ObjectReference
-from maec.bundle.behavior_reference import BehaviorReference
+from maec.bundle import ObjectReference, BehaviorReference
 from cybox.common import VocabString
 from cybox.core import ActionReference
 
