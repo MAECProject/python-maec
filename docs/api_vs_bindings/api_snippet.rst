@@ -1,8 +1,7 @@
 .. code-block:: python
 
   # Import the required APIs
-  from maec.bundle.bundle import Bundle
-  from maec.bundle.malware_action import MalwareAction
+  from maec.bundle import Bundle, MalwareAction
   from maec.utils import IDGenerator, set_id_method
   from cybox.core import Object, AssociatedObjects, AssociatedObject, AssociationType
   from cybox.objects.file_object import File

@@ -32,8 +32,7 @@ different types of analysis.
 
 .. testcode::
 
-    from maec.package.package import Package
-    from maec.package.malware_subject import MalwareSubject
+    from maec.package import Package, MalwareSubject
     from maec.utils import IDGenerator, set_id_method
 
     set_id_method(IDGenerator.METHOD_INT)
@@ -65,7 +64,7 @@ that it is characterizing.
 
 .. testcode::
 
-    from maec.package.malware_subject import MalwareSubject
+    from maec.package import MalwareSubject
     from maec.utils import IDGenerator, set_id_method
     from cybox.core import Object
     from cybox.objects.file_object import File
@@ -111,7 +110,7 @@ instance that it is characterizing.
 
 .. testcode::
 
-    from maec.bundle.bundle import Bundle
+    from maec.bundle import Bundle
     from maec.utils import IDGenerator, set_id_method
     from cybox.core import Object
     from cybox.objects.file_object import File
@@ -148,8 +147,8 @@ be defined in their parent Malware Subject.
 
 .. testcode::
 
-    from maec.package.malware_subject import MalwareSubject
-    from maec.bundle.bundle import Bundle
+    from maec.package import MalwareSubject
+    from maec.bundle import Bundle
     from maec.utils import IDGenerator, set_id_method
     from cybox.core import Object
     from cybox.objects.file_object import File
@@ -195,8 +194,8 @@ needed.
 
 .. testcode::
 
-    from maec.bundle.bundle import Bundle
-    from maec.bundle.malware_action import MalwareAction
+    from maec.bundle import Bundle
+    from maec.bundle import MalwareAction
     from maec.utils import IDGenerator, set_id_method
     from cybox.core import Object, AssociatedObjects, AssociatedObject, AssociationType
     from cybox.objects.file_object import File
