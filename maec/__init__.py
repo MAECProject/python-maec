@@ -1,4 +1,4 @@
-__version__ = "4.1.0.10"
+__version__ = "4.1.0.11"
 
 import collections
 import json
