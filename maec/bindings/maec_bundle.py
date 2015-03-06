@@ -5299,6 +5299,10 @@ class MalwareActionType(cybox_core.ActionType):
         else:
             eol_ = ''
         if self.Implementation is not None:
+            # This is kluge to handle a python-cybox compatibility issue
+            from maec.bundle.malware_action import ActionImplementation
+            if isinstance(self.Implementation, ActionImplementation):
+                self.Implementation = self.Implementation.to_obj()
             self.Implementation.export(outfile, level, 'maecBundle:', name_='Implementation', pretty_print=pretty_print)
     def exportLiteral(self, outfile, level, name_='MalwareActionType'):
         level += 1
