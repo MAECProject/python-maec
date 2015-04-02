@@ -1,3 +1,5 @@
+import os
+
 import maec
 
 project = u'python-maec'
@@ -23,29 +25,17 @@ rst_prolog = """
 **Version**: {}
 """.format(release)
 
-exclude_patterns = ['_build']
+exclude_patterns = ['_build', 'api_vs_bindings/*_snippet.rst']
 pygments_style = 'sphinx'
 
-html_theme = 'default'
-html_style = '/default.css'
-html_static_path = ['_static']
-htmlhelp_basename = 'python-maecdoc'
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+if not on_rtd:  # only import and set the theme if we're building docs locally
+    import sphinx_rtd_theme
+    html_theme = 'sphinx_rtd_theme'
+    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+else:
+    html_theme = 'default'
 
-html_theme_options = {
-    'codebgcolor': '#EEE',
-    'footerbgcolor': '#FFF',
-    'footertextcolor': '#114684',
-    'headbgcolor': '#E0DBD2',
-    'headtextcolor': '#F15A22',
-    'headlinkcolor': '#114684',
-    'linkcolor': '#706C60',
-    'relbarbgcolor': '#114684',
-    'relbartextcolor': '#F15A22',
-    'sidebarbgcolor': '#FFF',
-    'sidebarlinkcolor': '#706C60',
-    'sidebartextcolor': '#000',
-    'visitedlinkcolor': '#706C60',
-}
 html_sidebars = {"**": ['localtoc.html', 'relations.html', 'sourcelink.html',
 'searchbox.html', 'links.html']}
 
