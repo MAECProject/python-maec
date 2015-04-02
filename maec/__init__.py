@@ -1,17 +1,23 @@
-__version__ = "4.1.0.12.dev0"
+# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
 
 import collections
-import json
 import inspect
-import maec
+import json
 from StringIO import StringIO
-import bindings.maec_bundle as bundle_binding
-import bindings.maec_package as package_binding
+
 from cybox import Entity as cyboxEntity
 from cybox import EntityList
 from cybox import TypedField
 from cybox.utils import Namespace, META
+
+import bindings.maec_bundle as bundle_binding
+import bindings.maec_package as package_binding
+import maec
 from maec.utils import maecMETA, EntityParser
+
+from .version import __version__  # noqa
+
 
 def get_xmlns_string(ns_set):
     """Build a string with 'xmlns' definitions for every namespace in ns_set.
