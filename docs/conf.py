@@ -12,10 +12,13 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.ifconfig',
     'sphinx.ext.intersphinx',
+    'sphinx.ext.viewcode',
     'sphinxcontrib.napoleon',
 ]
 
-intersphinx_mapping = {'http://docs.python.org/': None}
+intersphinx_mapping = {
+    'python': ('http://docs.python.org/', None),
+}
 
 templates_path = ['_templates']
 source_suffix = '.rst'
@@ -25,22 +28,21 @@ rst_prolog = """
 **Version**: {0}
 """.format(release)
 
-exclude_patterns = ['_build', 'api_vs_bindings/*_snippet.rst']
-pygments_style = 'sphinx'
+exclude_patterns = [
+    '_build',
+    'api_vs_bindings/*_snippet.rst',
+]
 
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-if not on_rtd:  # only import and set the theme if we're building docs locally
+if not on_rtd:
     import sphinx_rtd_theme
     html_theme = 'sphinx_rtd_theme'
     html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 else:
     html_theme = 'default'
 
-html_sidebars = {"**": ['localtoc.html', 'relations.html', 'sourcelink.html',
-'searchbox.html', 'links.html']}
-
 latex_elements = {}
 latex_documents = [
-  ('index', 'python-maec.tex', u'python-maec Documentation',
-   u'The MITRE Corporation', 'manual'),
+    ('index', 'python-maec.tex', u'python-maec Documentation',
+     u'The MITRE Corporation', 'manual'),
 ]
