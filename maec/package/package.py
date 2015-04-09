@@ -6,11 +6,15 @@
 #Compatible with MAEC v4.1
 #Last updated 08/20/2014
 
+from cybox.common import DateTime
+
 import maec
-from . import _namespace
 import maec.bindings.maec_package as package_binding
 from maec.package import MalwareSubjectList, GroupingRelationshipList
-from cybox.common import DateTime
+
+from . import _namespace
+
+
 
 class Package(maec.Entity):
     _binding = package_binding
@@ -45,7 +49,8 @@ class Package(maec.Entity):
         if not self.grouping_relationships:
             self.grouping_relationships = GroupingRelationshipList()
         self.grouping_relationships.append(grouping_relationship)
-        
+
+
     # Create new Package from the XML document at the specified path
     @staticmethod
     def from_xml(xml_file):
@@ -54,16 +59,11 @@ class Package(maec.Entity):
         Parameters:
         xml_file - either a filename or a stream object
         '''
-        
-        if isinstance(xml_file, basestring):
-            f = open(xml_file, "rb")
-        else:
-            f = xml_file
-        
-        doc = package_binding.parsexml_(f)
-        maec_package_obj = package_binding.PackageType().factory()
-        maec_package_obj.build(doc.getroot())
-        maec_package = Package.from_obj(maec_package_obj)
+        from maec.utils.parser import EntityParser
+
+        parser = EntityParser()
+        maec_package = parser.parse_xml(xml_file)
+        maec_package_obj = maec_package.to_obj()
         
         return (maec_package, maec_package_obj)
 
