@@ -18,6 +18,7 @@ from maec.bundle import ActionReferenceList
 class ProcessTreeNode(Process):
     _binding = bundle_binding
     _binding_class = bundle_binding.ProcessTreeNodeType
+    _namespace = _namespace
     _XSI_NS = "maecBundle"
     _XSI_TYPE = "ProcessTreeNodeType"
     superclass = Process
