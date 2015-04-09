@@ -14,7 +14,7 @@ from cybox.utils import Namespace, META
 import bindings.maec_bundle as bundle_binding
 import bindings.maec_package as package_binding
 import maec
-from maec.utils import maecMETA, EntityParser
+from maec.utils import flip_dict, maecMETA, EntityParser
 
 from .version import __version__  # noqa
 
@@ -44,8 +44,18 @@ def get_schemaloc_string(ns_set):
 class Entity(cyboxEntity):
     """Base class for all classes in the MAEC SimpleAPI."""
 
+    def _ns_to_prefix_input_namespaces(self):
+        """The namespace that are extracted during parse are mapped from
+        namespace prefix to namespace. The serialization code expects a mapping
+        from namespace to prefix.
+
+        """
+        input_namespaces = getattr(self, '__input_namespaces__', {})
+        return flip_dict(input_namespaces)
+
     def to_xml_file(self, file, namespace_dict=None, custom_header=None):
-        """Export an object to an XML file. Only supports Package or Bundle objects at the moment.
+        """Export an object to an XML file. Only supports Package or Bundle
+        objects at the moment.
         
         Args:
             file: the name of a file or a file-like object to write the output to.
@@ -53,12 +63,18 @@ class Entity(cyboxEntity):
                 prefixes.
             custom_header: a string, list, or dictionary that represents a custom
                 XML header to be written to the output.
+
         """
+        if not namespace_dict:
+            namespace_dict = {}
+        else:
+            # Make a copy so we don't pollute the source
+            namespace_dict = dict(namespace_dict.iteritems())
+
         # Update the namespace dictionary with namespaces found upon import
-        if namespace_dict and hasattr(self, '__input_namespaces__'):
-            namespace_dict.update(self.__input_namespaces__)
-        elif not namespace_dict and hasattr(self, '__input_namespaces__'):
-            namespace_dict = self.__input_namespaces__
+        input_namespaces = self._ns_to_prefix_input_namespaces()
+        namespace_dict.update(input_namespaces)
+
         # Check whether we're dealing with a filename or file-like Object
         if isinstance(file, basestring):
             out_file  = open(file, 'w')
@@ -129,9 +145,8 @@ class Entity(cyboxEntity):
         del self.touched
 
         # Add any additional namespaces that may be included in the entity
-        entity_dict = self.__dict__
-        input_ns = entity_dict.get("__input_namespaces__", {})
-        for namespace, alias in input_ns.items():
+        input_ns = self._ns_to_prefix_input_namespaces()
+        for namespace, alias in input_ns.iteritems():
             maec_ns = maecMETA.lookup_namespace(namespace)
             cybox_ns = META.lookup_namespace(namespace)
             if not maec_ns and not cybox_ns:

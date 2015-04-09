@@ -62,9 +62,7 @@ class EntityParser(object):
         except AttributeError:
             root = tree
         
-        entity.__input_namespaces__ = {}
-        for alias,ns in root.nsmap.iteritems():
-            entity.__input_namespaces__[ns] = alias
+        entity.__input_namespaces__ = dict(root.nsmap.iteritems())
 
     def parse_xml_to_obj(self, xml_file, check_version=True):
         """Creates a MAEC binding object from the supplied xml file.
