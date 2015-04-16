@@ -181,7 +181,7 @@ class BundleDeduplicator(object):
             if xsi_type and xsi_type in cls.objects_dict:
                 types_dict = cls.objects_dict[xsi_type]
                 # See if we already have an identical object in the dictionary
-                for obj_id, obj_values in types_dict.iteritems():
+                for obj_id, obj_values in types_dict.items():
                     if obj_values == object_values:
                         # If so, return its ID for use in the IDREF
                         return obj_id
