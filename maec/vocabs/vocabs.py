@@ -1379,7 +1379,7 @@ class SecurityDegradationStrategicObjectives(VocabString):
     TERM_DEGRADE_SECURITY_PROGRAMS = 'degrade security programs'
     TERM_DISABLE_SYSTEM_UPDATES = 'disable system updates'
     TERM_DISABLE_OS_SECURITY_FEATURES = 'disable os security features'
-    TERM_DISABLE_[HOST_BASED_OR_OS]_ACCESS_CONTROLS = 'disable [host-based or os] access controls'
+    TERM_DISABLE_HOST_BASED_OR_OS_ACCESS_CONTROLS = 'disable [host-based or os] access controls'
 
 
 class PrivilegeEscalationProperties(VocabString):
