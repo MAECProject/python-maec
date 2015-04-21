@@ -1,34 +1,13 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-from cybox.common import VocabString
+from cybox.common import vocabs, VocabString
 
+@vocabs.add_allowed_values
 class DataTheftTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:DataTheftTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'steal dialed phone numbers',
-        'steal email data',
-        'steal referrer urls',
-        'steal cryptocurrency data',
-        'steal pki software certificate',
-        'steal browser cache',
-        'steal serial numbers',
-        'steal sms database',
-        'steal cookie',
-        'steal password hash',
-        'steal make/model',
-        'steal documents',
-        'steal network address',
-        'steal open port',
-        'steal images',
-        'steal browser history',
-        'steal web/network credential',
-        'steal pki key',
-        'steal contact list data',
-        'steal database content',
-    )
     TERM_STEAL_DIALED_PHONE_NUMBERS = 'steal dialed phone numbers'
     TERM_STEAL_EMAIL_DATA = 'steal email data'
     TERM_STEAL_PKI_KEY = 'steal pki key'
@@ -50,64 +29,33 @@ class DataTheftTacticalObjectives(VocabString):
     TERM_STEAL_NETWORK_ADDRESS = 'steal network address'
     TERM_STEAL_OPEN_PORT = 'steal open port'
 
-
+@vocabs.add_allowed_values
 class MachineAccessControlTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:MachineAccessControlTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'control machine via remote command',
-    )
     TERM_CONTROL_MACHINE_VIA_REMOTE_COMMAND = 'control machine via remote command'
 
-
+@vocabs.add_allowed_values
 class DataTheftProperties(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:DataTheftPropertiesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'targeted application',
-        'targeted website',
-    )
     TERM_TARGETED_APPLICATION = 'targeted application'
     TERM_TARGETED_WEBSITE = 'targeted website'
 
-
+@vocabs.add_allowed_values
 class SecondaryOperationProperties(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:SecondaryOperationPropertiesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'trigger type',
-    )
     TERM_TRIGGER_TYPE = 'trigger type'
 
-
+@vocabs.add_allowed_values
 class SystemActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:SystemActionNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'add scheduled task',
-        'shutdown system',
-        'sleep system',
-        'get elapsed system up time',
-        'get netbios name',
-        'set netbios name',
-        'get system host name',
-        'set system host name',
-        'get system time',
-        'set system time',
-        'get system local time',
-        'set system local time',
-        'get username',
-        'enumerate system handles',
-        'get system global flags',
-        'set system global flags',
-        'get windows directory',
-        'get windows system directory',
-        'get windows temporary files directory',
-    )
     TERM_ENUMERATE_SYSTEM_HANDLES = 'enumerate system handles'
     TERM_ADD_SCHEDULED_TASK = 'add scheduled task'
     TERM_GET_WINDOWS_DIRECTORY = 'get windows directory'
@@ -128,127 +76,81 @@ class SystemActionName(VocabString):
     TERM_GET_SYSTEM_GLOBAL_FLAGS = 'get system global flags'
     TERM_SET_SYSTEM_GLOBAL_FLAGS = 'set system global flags'
 
-
+@vocabs.add_allowed_values
 class AvailabilityViolationTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:AvailabilityViolationTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'denial of service',
-        'compromise local system availability',
-        'crack passwords',
-        'mine for cryptocurrency',
-        'compromise access to information assets',
-    )
     TERM_DENIAL_OF_SERVICE = 'denial of service'
     TERM_COMPROMISE_ACCESS_TO_INFORMATION_ASSETS = 'compromise access to information assets'
     TERM_COMPROMISE_LOCAL_SYSTEM_AVAILABILITY = 'compromise local system availability'
     TERM_MINE_FOR_CRYPTOCURRENCY = 'mine for cryptocurrency'
     TERM_CRACK_PASSWORDS = 'crack passwords'
 
-
+@vocabs.add_allowed_values
 class ActionObjectAssociationType(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'input',
-        'output',
-        'side-effect',
-    )
     TERM_INPUT = 'input'
     TERM_SIDE_EFFECT = 'side-effect'
     TERM_OUTPUT = 'output'
 
-
+@vocabs.add_allowed_values
 class CommonCapabilityProperties(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:CommonCapabilityPropertiesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'encryption algorithm',
-        'protocol used',
-    )
     TERM_ENCRYPTION_ALGORITHM = 'encryption algorithm'
     TERM_PROTOCOL_USED = 'protocol used'
 
-
+@vocabs.add_allowed_values
 class RemoteMachineManipulationTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:RemoteMachineManipulationTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'compromise remote machine',
-    )
     TERM_COMPROMISE_REMOTE_MACHINE = 'compromise remote machine'
 
-
+@vocabs.add_allowed_values
 class PrivilegeEscalationStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:PrivilegeEscalationStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'impersonate user',
-        'escalate user privilege',
-    )
     TERM_IMPERSONATE_USER = 'impersonate user'
     TERM_ESCALATE_USER_PRIVILEGE = 'escalate user privilege'
 
-
+@vocabs.add_allowed_values
 class DebuggingActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:DebuggingActionNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'check for remote debugger',
-        'check for kernel debugger',
-    )
     TERM_CHECK_FOR_KERNEL_DEBUGGER = 'check for kernel debugger'
     TERM_CHECK_FOR_REMOTE_DEBUGGER = 'check for remote debugger'
 
-
+@vocabs.add_allowed_values
 class DataExfiltrationStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:DataExfiltrationStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'perform data exfiltration',
-        'obfuscate data for exfiltration',
-        'stage data for exfiltration',
-    )
     TERM_STAGE_DATA_FOR_EXFILTRATION = 'stage data for exfiltration'
     TERM_OBFUSCATE_DATA_FOR_EXFILTRATION = 'obfuscate data for exfiltration'
     TERM_PERFORM_DATA_EXFILTRATION = 'perform data exfiltration'
 
-
+@vocabs.add_allowed_values
 class DeviceDriverActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:DeviceDriverActionNameVocab-1.1'
     _VOCAB_VERSION = '1.1'
-    _ALLOWED_VALUES = (
-        'load and call driver',
-        'load driver',
-        'unload driver',
-        'emulate driver',
-    )
     TERM_LOAD_AND_CALL_DRIVER = 'load and call driver'
     TERM_UNLOAD_DRIVER = 'unload driver'
     TERM_LOAD_DRIVER = 'load driver'
     TERM_EMULATE_DRIVER = 'emulate driver'
 
-
+@vocabs.add_allowed_values
 class ImportanceType(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:ImportanceTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'high',
-        'medium',
-        'low',
-        'informational',
-        'numeric',
-        'unknown',
-    )
     TERM_MEDIUM = 'medium'
     TERM_UNKNOWN = 'unknown'
     TERM_NUMERIC = 'numeric'
@@ -256,23 +158,11 @@ class ImportanceType(VocabString):
     TERM_LOW = 'low'
     TERM_INFORMATIONAL = 'informational'
 
-
+@vocabs.add_allowed_values
 class HTTPActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:HTTPActionNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'send http get request',
-        'send http head request',
-        'send http post request',
-        'send http put request',
-        'send http delete request',
-        'send http trace request',
-        'send http options request',
-        'send http connect request',
-        'send http patch request',
-        'receive http response',
-    )
     TERM_SEND_HTTP_PATCH_REQUEST = 'send http patch request'
     TERM_SEND_HTTP_POST_REQUEST = 'send http post request'
     TERM_SEND_HTTP_GET_REQUEST = 'send http get request'
@@ -284,19 +174,11 @@ class HTTPActionName(VocabString):
     TERM_SEND_HTTP_CONNECT_REQUEST = 'send http connect request'
     TERM_SEND_HTTP_PUT_REQUEST = 'send http put request'
 
-
+@vocabs.add_allowed_values
 class AntiDetectionStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:AntiDetectionStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'security software evasion',
-        'hide executing code',
-        'self-modification',
-        'anti-memory forensics',
-        'hide non-executing code',
-        'hide malware artifacts',
-    )
     TERM_SECURITY_SOFTWARE_EVASION = 'security software evasion'
     TERM_HIDE_EXECUTING_CODE = 'hide executing code'
     TERM_SELF_MODIFICATION = 'self-modification'
@@ -304,25 +186,11 @@ class AntiDetectionStrategicObjectives(VocabString):
     TERM_HIDE_NON_EXECUTING_CODE = 'hide non-executing code'
     TERM_HIDE_MALWARE_ARTIFACTS = 'hide malware artifacts'
 
-
+@vocabs.add_allowed_values
 class SocketActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:SocketActionNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'accept socket connection',
-        'bind address to socket',
-        'create socket',
-        'close socket',
-        'connect to socket',
-        'disconnect from socket',
-        'listen on socket',
-        'send data on socket',
-        'receive data on socket',
-        'send data to address on socket',
-        'get host by address',
-        'get host by name',
-    )
     TERM_CLOSE_SOCKET = 'close socket'
     TERM_CONNECT_TO_SOCKET = 'connect to socket'
     TERM_ACCEPT_SOCKET_CONNECTION = 'accept socket connection'
@@ -336,20 +204,11 @@ class SocketActionName(VocabString):
     TERM_BIND_ADDRESS_TO_SOCKET = 'bind address to socket'
     TERM_GET_HOST_BY_NAME = 'get host by name'
 
-
+@vocabs.add_allowed_values
 class CommandandControlTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:CommandandControlTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'check for payload',
-        'validate data',
-        'control malware via remote command',
-        'send system information',
-        'send heartbeat data',
-        'generate c2 domain name(s)',
-        'update configuration',
-    )
     TERM_CHECK_FOR_PAYLOAD = 'check for payload'
     TERM_VALIDATE_DATA = 'validate data'
     TERM_UPDATE_CONFIGURATION = 'update configuration'
@@ -358,102 +217,63 @@ class CommandandControlTacticalObjectives(VocabString):
     TERM_GENERATE_C2_DOMAIN_NAME_S = 'generate c2 domain name(s)'
     TERM_CONTROL_MALWARE_VIA_REMOTE_COMMAND = 'control malware via remote command'
 
-
+@vocabs.add_allowed_values
 class HookingActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:HookingActionNameVocab-1.1'
     _VOCAB_VERSION = '1.1'
-    _ALLOWED_VALUES = (
-        'add system call hook',
-        'add windows hook',
-        'hide hook',
-    )
     TERM_ADD_SYSTEM_CALL_HOOK = 'add system call hook'
     TERM_HIDE_HOOK = 'hide hook'
     TERM_ADD_WINDOWS_HOOK = 'add windows hook'
 
-
+@vocabs.add_allowed_values
 class GroupingRelationship(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:GroupingRelationshipVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'same malware family',
-        'clustered together',
-        'observed together',
-        'part of intrusion set',
-        'same malware toolkit',
-    )
     TERM_PART_OF_INTRUSION_SET = 'part of intrusion set'
     TERM_CLUSTERED_TOGETHER = 'clustered together'
     TERM_SAME_MALWARE_TOOLKIT = 'same malware toolkit'
     TERM_SAME_MALWARE_FAMILY = 'same malware family'
     TERM_OBSERVED_TOGETHER = 'observed together'
 
-
+@vocabs.add_allowed_values
 class PersistenceProperties(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:PersistencePropertiesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'scope',
-    )
     TERM_SCOPE = 'scope'
 
-
+@vocabs.add_allowed_values
 class DestructionProperties(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:DestructionPropertiesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'erasure scope',
-    )
     TERM_ERASURE_SCOPE = 'erasure scope'
 
-
+@vocabs.add_allowed_values
 class AntiCodeAnalysisStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:AntiCodeAnalysisStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'anti-debugging',
-        'code obfuscation',
-        'anti-disassembly',
-    )
     TERM_ANTI_DEBUGGING = 'anti-debugging'
     TERM_CODE_OBFUSCATION = 'code obfuscation'
     TERM_ANTI_DISASSEMBLY = 'anti-disassembly'
 
-
+@vocabs.add_allowed_values
 class AvailabilityViolationStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:AvailabilityViolationStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'compromise data availability',
-        'compromise system availability',
-        'consume system resources',
-    )
     TERM_CONSUME_SYSTEM_RESOURCES = 'consume system resources'
     TERM_COMPROMISE_DATA_AVAILABILITY = 'compromise data availability'
     TERM_COMPROMISE_SYSTEM_AVAILABILITY = 'compromise system availability'
 
-
+@vocabs.add_allowed_values
 class IPCActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:IPCActionNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'create named pipe',
-        'delete named pipe',
-        'connect to named pipe',
-        'disconnect from named pipe',
-        'read from named pipe',
-        'write to named pipe',
-        'create mailslot',
-        'read from mailslot',
-        'write to mailslot',
-    )
     TERM_DISCONNECT_FROM_NAMED_PIPE = 'disconnect from named pipe'
     TERM_READ_FROM_NAMED_PIPE = 'read from named pipe'
     TERM_CREATE_MAILSLOT = 'create mailslot'
@@ -464,35 +284,21 @@ class IPCActionName(VocabString):
     TERM_CONNECT_TO_NAMED_PIPE = 'connect to named pipe'
     TERM_WRITE_TO_MAILSLOT = 'write to mailslot'
 
-
+@vocabs.add_allowed_values
 class DirectoryActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:DirectoryActionNameVocab-1.1'
     _VOCAB_VERSION = '1.1'
-    _ALLOWED_VALUES = (
-        'create directory',
-        'delete directory',
-        'monitor directory',
-        'hide directory',
-    )
     TERM_MONITOR_DIRECTORY = 'monitor directory'
     TERM_DELETE_DIRECTORY = 'delete directory'
     TERM_CREATE_DIRECTORY = 'create directory'
     TERM_HIDE_DIRECTORY = 'hide directory'
 
-
+@vocabs.add_allowed_values
 class NetworkShareActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:NetworkShareActionNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'add connection to network share',
-        'add network share',
-        'delete network share',
-        'connect to network share',
-        'disconnect from network share',
-        'enumerate network shares',
-    )
     TERM_ENUMERATE_NETWORK_SHARES = 'enumerate network shares'
     TERM_DISCONNECT_FROM_NETWORK_SHARE = 'disconnect from network share'
     TERM_ADD_NETWORK_SHARE = 'add network share'
@@ -500,19 +306,11 @@ class NetworkShareActionName(VocabString):
     TERM_DELETE_NETWORK_SHARE = 'delete network share'
     TERM_CONNECT_TO_NETWORK_SHARE = 'connect to network share'
 
-
+@vocabs.add_allowed_values
 class InfectionPropagationProperties(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:InfectionPropagationPropertiesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'scope',
-        'infection targeting',
-        'autonomy',
-        'targeted file type',
-        'targeted file architecture type',
-        'file infection type',
-    )
     TERM_AUTONOMY = 'autonomy'
     TERM_TARGETED_FILE_TYPE = 'targeted file type'
     TERM_FILE_INFECTION_TYPE = 'file infection type'
@@ -520,32 +318,19 @@ class InfectionPropagationProperties(VocabString):
     TERM_SCOPE = 'scope'
     TERM_TARGETED_FILE_ARCHITECTURE_TYPE = 'targeted file architecture type'
 
-
+@vocabs.add_allowed_values
 class ProbingStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:ProbingStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'probe host configuration',
-        'probe network environment',
-    )
     TERM_PROBE_NETWORK_ENVIRONMENT = 'probe network environment'
     TERM_PROBE_HOST_CONFIGURATION = 'probe host configuration'
 
-
+@vocabs.add_allowed_values
 class InfectionPropagationTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:InfectionPropagationTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'identify file',
-        'perform autonomous remote infection',
-        'identify target machine(s)',
-        'perform social-engineering based remote infection',
-        'inventory victims',
-        'write code into file',
-        'modify file',
-    )
     TERM_IDENTIFY_FILE = 'identify file'
     TERM_PERFORM_AUTONOMOUS_REMOTE_INFECTION = 'perform autonomous remote infection'
     TERM_IDENTIFY_TARGET_MACHINE_S = 'identify target machine(s)'
@@ -554,49 +339,30 @@ class InfectionPropagationTacticalObjectives(VocabString):
     TERM_WRITE_CODE_INTO_FILE = 'write code into file'
     TERM_MODIFY_FILE = 'modify file'
 
-
+@vocabs.add_allowed_values
 class DataExfiltrationProperties(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:DataExfiltrationPropertiesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'archive type',
-        'file type',
-    )
     TERM_ARCHIVE_TYPE = 'archive type'
     TERM_FILE_TYPE = 'file type'
 
-
+@vocabs.add_allowed_values
 class LibraryActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:LibraryActionNameVocab-1.1'
     _VOCAB_VERSION = '1.1'
-    _ALLOWED_VALUES = (
-        'enumerate libraries',
-        'free library',
-        'load library',
-        'get function address',
-        'call library function',
-    )
     TERM_GET_FUNCTION_ADDRESS = 'get function address'
     TERM_LOAD_LIBRARY = 'load library'
     TERM_CALL_LIBRARY_FUNCTION = 'call library function'
     TERM_FREE_LIBRARY = 'free library'
     TERM_ENUMERATE_LIBRARIES = 'enumerate libraries'
 
-
+@vocabs.add_allowed_values
 class MalwareDevelopmentTool(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:MalwareDevelopmentToolVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'builder',
-        'compiler',
-        'linker',
-        'packer',
-        'crypter',
-        'protector',
-    )
     TERM_PACKER = 'packer'
     TERM_BUILDER = 'builder'
     TERM_LINKER = 'linker'
@@ -604,35 +370,11 @@ class MalwareDevelopmentTool(VocabString):
     TERM_PROTECTOR = 'protector'
     TERM_COMPILER = 'compiler'
 
-
+@vocabs.add_allowed_values
 class FileActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:FileActionNameVocab-1.1'
     _VOCAB_VERSION = '1.1'
-    _ALLOWED_VALUES = (
-        'create file',
-        'delete file',
-        'copy file',
-        'create file symbolic link',
-        'find file',
-        'get file attributes',
-        'set file attributes',
-        'lock file',
-        'unlock file',
-        'modify file',
-        'move file',
-        'open file',
-        'read from file',
-        'write to file',
-        'rename file',
-        'create file alternate data stream',
-        'send control code to file',
-        'create file mapping',
-        'open file mapping',
-        'execute file',
-        'hide file',
-        'close file',
-    )
     TERM_CREATE_FILE_MAPPING = 'create file mapping'
     TERM_FIND_FILE = 'find file'
     TERM_READ_FROM_FILE = 'read from file'
@@ -656,30 +398,18 @@ class FileActionName(VocabString):
     TERM_CREATE_FILE = 'create file'
     TERM_MODIFY_FILE = 'modify file'
 
-
+@vocabs.add_allowed_values
 class CommandandControlProperties(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:CommandandControlPropertiesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'frequency',
-    )
     TERM_FREQUENCY = 'frequency'
 
-
+@vocabs.add_allowed_values
 class IRCActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:IRCActionNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'connect to irc server',
-        'disconnect from irc server',
-        'set irc nickname',
-        'join irc channel',
-        'leave irc channel',
-        'send irc private message',
-        'receive irc private message',
-    )
     TERM_RECEIVE_IRC_PRIVATE_MESSAGE = 'receive irc private message'
     TERM_JOIN_IRC_CHANNEL = 'join irc channel'
     TERM_SEND_IRC_PRIVATE_MESSAGE = 'send irc private message'
@@ -688,47 +418,20 @@ class IRCActionName(VocabString):
     TERM_DISCONNECT_FROM_IRC_SERVER = 'disconnect from irc server'
     TERM_SET_IRC_NICKNAME = 'set irc nickname'
 
-
+@vocabs.add_allowed_values
 class InfectionPropagationStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:InfectionPropagationStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'prevent duplicate infection',
-        'infect file',
-        'infect remote machine',
-    )
     TERM_INFECT_FILE = 'infect file'
     TERM_PREVENT_DUPLICATE_INFECTION = 'prevent duplicate infection'
     TERM_INFECT_REMOTE_MACHINE = 'infect remote machine'
 
-
+@vocabs.add_allowed_values
 class MalwareCapability(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:MalwareCapabilityVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'command and control',
-        'remote machine manipulation',
-        'privilege escalation',
-        'data theft',
-        'spying',
-        'secondary operation',
-        'anti-detection',
-        'anti-code analysis',
-        'infection/propagation',
-        'anti-behavioral analysis',
-        'integrity violation',
-        'data exfiltration',
-        'probing',
-        'anti-removal',
-        'security degradation',
-        'availability violation',
-        'destruction',
-        'fraud',
-        'persistence',
-        'machine access/control',
-    )
     TERM_COMMAND_AND_CONTROL = 'command and control'
     TERM_REMOTE_MACHINE_MANIPULATION = 'remote machine manipulation'
     TERM_INFECTION_PROPAGATION = 'infection/propagation'
@@ -750,61 +453,35 @@ class MalwareCapability(VocabString):
     TERM_PERSISTENCE = 'persistence'
     TERM_DESTRUCTION = 'destruction'
 
-
+@vocabs.add_allowed_values
 class AntiBehavioralAnalysisProperties(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:AntiBehavioralAnalysisPropertiesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'targeted vm',
-        'targeted sandbox',
-    )
     TERM_TARGETED_VM = 'targeted vm'
     TERM_TARGETED_SANDBOX = 'targeted sandbox'
 
-
+@vocabs.add_allowed_values
 class DNSActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:DNSActionNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'send dns query',
-        'send reverse dns lookup',
-    )
     TERM_SEND_DNS_QUERY = 'send dns query'
     TERM_SEND_REVERSE_DNS_LOOKUP = 'send reverse dns lookup'
 
-
+@vocabs.add_allowed_values
 class RemoteMachineManipulationStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:RemoteMachineManipulationStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'access remote machine',
-        'search for remote machines',
-    )
     TERM_ACCESS_REMOTE_MACHINE = 'access remote machine'
     TERM_SEARCH_FOR_REMOTE_MACHINES = 'search for remote machines'
 
-
+@vocabs.add_allowed_values
 class ProcessActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:ProcessActionNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'create process',
-        'kill process',
-        'create process as user',
-        'enumerate processes',
-        'open process',
-        'flush process instruction cache',
-        'get process current directory',
-        'set process current directory',
-        'get process environment variable',
-        'set process environment variable',
-        'sleep process',
-        'get process startupinfo',
-    )
     TERM_GET_PROCESS_CURRENT_DIRECTORY = 'get process current directory'
     TERM_SET_PROCESS_ENVIRONMENT_VARIABLE = 'set process environment variable'
     TERM_ENUMERATE_PROCESSES = 'enumerate processes'
@@ -818,42 +495,21 @@ class ProcessActionName(VocabString):
     TERM_CREATE_PROCESS_AS_USER = 'create process as user'
     TERM_OPEN_PROCESS = 'open process'
 
-
+@vocabs.add_allowed_values
 class PersistenceStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:PersistenceStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'persist to re-infect system',
-        'gather information for improvement',
-        'ensure compatibility',
-        'persist to continuously execute on system',
-    )
     TERM_PERSIST_TO_RE_INFECT_SYSTEM = 'persist to re-infect system'
     TERM_GATHER_INFORMATION_FOR_IMPROVEMENT = 'gather information for improvement'
     TERM_ENSURE_COMPATIBILITY = 'ensure compatibility'
     TERM_PERSIST_TO_CONTINUOUSLY_EXECUTE_ON_SYSTEM = 'persist to continuously execute on system'
 
-
+@vocabs.add_allowed_values
 class NetworkActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:NetworkActionNameVocab-1.1'
     _VOCAB_VERSION = '1.1'
-    _ALLOWED_VALUES = (
-        'open port',
-        'close port',
-        'connect to ip',
-        'disconnect from ip',
-        'connect to url',
-        'connect to socket address',
-        'download file',
-        'upload file',
-        'listen on port',
-        'send email message',
-        'send icmp request',
-        'send network packet',
-        'receive network packet',
-    )
     TERM_SEND_EMAIL_MESSAGE = 'send email message'
     TERM_SEND_NETWORK_PACKET = 'send network packet'
     TERM_DISCONNECT_FROM_IP = 'disconnect from ip'
@@ -868,19 +524,11 @@ class NetworkActionName(VocabString):
     TERM_LISTEN_ON_PORT = 'listen on port'
     TERM_RECEIVE_NETWORK_PACKET = 'receive network packet'
 
-
+@vocabs.add_allowed_values
 class SecondaryOperationStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:SecondaryOperationStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'patch operating system file(s)',
-        'remove traces of infection',
-        'log activity',
-        'lay dormant',
-        'install other components',
-        'suicide exit',
-    )
     TERM_PATCH_OPERATING_SYSTEM_FILE_S = 'patch operating system file(s)'
     TERM_REMOVE_TRACES_OF_INFECTION = 'remove traces of infection'
     TERM_LAY_DORMANT = 'lay dormant'
@@ -888,31 +536,18 @@ class SecondaryOperationStrategicObjectives(VocabString):
     TERM_SUICIDE_EXIT = 'suicide exit'
     TERM_LOG_ACTIVITY = 'log activity'
 
-
+@vocabs.add_allowed_values
 class FraudTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:FraudTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'access premium service',
-    )
     TERM_ACCESS_PREMIUM_SERVICE = 'access premium service'
 
-
+@vocabs.add_allowed_values
 class ProcessMemoryActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:ProcessMemoryActionNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'allocate process virtual memory',
-        'free process virtual memory',
-        'modify process virtual memory protection',
-        'read from process memory',
-        'write to process memory',
-        'map file into process',
-        'unmap file from process',
-        'map library into process',
-    )
     TERM_UNMAP_FILE_FROM_PROCESS = 'unmap file from process'
     TERM_MODIFY_PROCESS_VIRTUAL_MEMORY_PROTECTION = 'modify process virtual memory protection'
     TERM_WRITE_TO_PROCESS_MEMORY = 'write to process memory'
@@ -922,26 +557,11 @@ class ProcessMemoryActionName(VocabString):
     TERM_FREE_PROCESS_VIRTUAL_MEMORY = 'free process virtual memory'
     TERM_MAP_FILE_INTO_PROCESS = 'map file into process'
 
-
+@vocabs.add_allowed_values
 class RegistryActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:RegistryActionNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'create registry key',
-        'delete registry key',
-        'open registry key',
-        'close registry key',
-        'create registry key value',
-        'delete registry key value',
-        'enumerate registry key subkeys',
-        'enumerate registry key values',
-        'get registry key attributes',
-        'read registry key value',
-        'modify registry key value',
-        'modify registry key',
-        'monitor registry key',
-    )
     TERM_MODIFY_REGISTRY_KEY = 'modify registry key'
     TERM_MONITOR_REGISTRY_KEY = 'monitor registry key'
     TERM_CLOSE_REGISTRY_KEY = 'close registry key'
@@ -956,119 +576,74 @@ class RegistryActionName(VocabString):
     TERM_MODIFY_REGISTRY_KEY_VALUE = 'modify registry key value'
     TERM_DELETE_REGISTRY_KEY_VALUE = 'delete registry key value'
 
-
+@vocabs.add_allowed_values
 class AvailabilityViolationProperties(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:AvailabilityViolationPropertiesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'cryptocurrency type',
-    )
     TERM_CRYPTOCURRENCY_TYPE = 'cryptocurrency type'
 
-
+@vocabs.add_allowed_values
 class CommandandControlStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:CommandandControlStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'determine c2 server',
-        'receive data from c2 server',
-        'send data to c2 server',
-    )
     TERM_DETERMINE_C2_SERVER = 'determine c2 server'
     TERM_RECEIVE_DATA_FROM_C2_SERVER = 'receive data from c2 server'
     TERM_SEND_DATA_TO_C2_SERVER = 'send data to c2 server'
 
-
+@vocabs.add_allowed_values
 class DestructionTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:DestructionTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'erase data',
-        'destroy firmware',
-        'destroy hardware',
-    )
     TERM_ERASE_DATA = 'erase data'
     TERM_DESTROY_FIRMWARE = 'destroy firmware'
     TERM_DESTROY_HARDWARE = 'destroy hardware'
 
-
+@vocabs.add_allowed_values
 class SpyingStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:SpyingStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'capture system input peripheral data',
-        'capture system state data',
-        'capture system interface data',
-        'capture system output peripheral data',
-    )
     TERM_CAPTURE_SYSTEM_INPUT_PERIPHERAL_DATA = 'capture system input peripheral data'
     TERM_CAPTURE_SYSTEM_INTERFACE_DATA = 'capture system interface data'
     TERM_CAPTURE_SYSTEM_OUTPUT_PERIPHERAL_DATA = 'capture system output peripheral data'
     TERM_CAPTURE_SYSTEM_STATE_DATA = 'capture system state data'
 
-
+@vocabs.add_allowed_values
 class FTPActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:FTPActionNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'connect to ftp server',
-        'disconnect from ftp server',
-        'send ftp command',
-    )
     TERM_CONNECT_TO_FTP_SERVER = 'connect to ftp server'
     TERM_SEND_FTP_COMMAND = 'send ftp command'
     TERM_DISCONNECT_FROM_FTP_SERVER = 'disconnect from ftp server'
 
-
+@vocabs.add_allowed_values
 class MachineAccessControlStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:MachineAccessControlStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'control local machine',
-        'install backdoor',
-    )
     TERM_CONTROL_LOCAL_MACHINE = 'control local machine'
     TERM_INSTALL_BACKDOOR = 'install backdoor'
 
-
+@vocabs.add_allowed_values
 class IntegrityViolationStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:IntegrityViolationStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'compromise system operational integrity',
-        'compromise user data integrity',
-        'annoy user',
-        'compromise network operational integrity',
-        'compromise system data integrity',
-    )
     TERM_COMPROMISE_SYSTEM_DATA_INTEGRITY = 'compromise system data integrity'
     TERM_ANNOY_USER = 'annoy user'
     TERM_COMPROMISE_NETWORK_OPERATIONAL_INTEGRITY = 'compromise network operational integrity'
     TERM_COMPROMISE_USER_DATA_INTEGRITY = 'compromise user data integrity'
     TERM_COMPROMISE_SYSTEM_OPERATIONAL_INTEGRITY = 'compromise system operational integrity'
 
-
+@vocabs.add_allowed_values
 class ProbingTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:ProbingTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'identify os',
-        'check for proxy',
-        'check for firewall',
-        'check for network drives',
-        'map local network',
-        'inventory system applications',
-        'check language',
-        'check for internet connectivity',
-    )
     TERM_IDENTIFY_OS = 'identify os'
     TERM_CHECK_FOR_PROXY = 'check for proxy'
     TERM_INVENTORY_SYSTEM_APPLICATIONS = 'inventory system applications'
@@ -1078,50 +653,28 @@ class ProbingTacticalObjectives(VocabString):
     TERM_CHECK_LANGUAGE = 'check language'
     TERM_CHECK_FOR_INTERNET_CONNECTIVITY = 'check for internet connectivity'
 
-
+@vocabs.add_allowed_values
 class MalwareEntityType(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:MalwareEntityTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'instance',
-        'family',
-        'class',
-    )
     TERM_INSTANCE = 'instance'
     TERM_CLASS = 'class'
     TERM_FAMILY = 'family'
 
-
+@vocabs.add_allowed_values
 class FraudStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:FraudStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'perform premium rate fraud',
-        'perform click fraud',
-    )
     TERM_PERFORM_CLICK_FRAUD = 'perform click fraud'
     TERM_PERFORM_PREMIUM_RATE_FRAUD = 'perform premium rate fraud'
 
-
+@vocabs.add_allowed_values
 class SpyingTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:SpyingTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'capture system screenshot',
-        'capture camera input',
-        'capture file system',
-        'capture printer output',
-        'capture gps data',
-        'capture keyboard input',
-        'capture mouse input',
-        'capture microphone input',
-        'capture system network traffic',
-        'capture touchscreen input',
-        'capture system memory',
-    )
     TERM_CAPTURE_SYSTEM_SCREENSHOT = 'capture system screenshot'
     TERM_CAPTURE_KEYBOARD_INPUT = 'capture keyboard input'
     TERM_CAPTURE_FILE_SYSTEM = 'capture file system'
@@ -1134,23 +687,11 @@ class SpyingTacticalObjectives(VocabString):
     TERM_CAPTURE_TOUCHSCREEN_INPUT = 'capture touchscreen input'
     TERM_CAPTURE_SYSTEM_MEMORY = 'capture system memory'
 
-
+@vocabs.add_allowed_values
 class ProcessThreadActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:ProcessThreadActionNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'create thread',
-        'kill thread',
-        'create remote thread in process',
-        'enumerate threads',
-        'get thread username',
-        'impersonate process',
-        'revert thread to self',
-        'get thread context',
-        'set thread context',
-        'queue apc in thread',
-    )
     TERM_CREATE_THREAD = 'create thread'
     TERM_SET_THREAD_CONTEXT = 'set thread context'
     TERM_ENUMERATE_THREADS = 'enumerate threads'
@@ -1162,39 +703,21 @@ class ProcessThreadActionName(VocabString):
     TERM_KILL_THREAD = 'kill thread'
     TERM_IMPERSONATE_PROCESS = 'impersonate process'
 
-
+@vocabs.add_allowed_values
 class DataTheftStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:DataTheftStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'steal stored information',
-        'steal user data',
-        'steal system information',
-        'steal authentication credentials',
-    )
     TERM_STEAL_STORED_INFORMATION = 'steal stored information'
     TERM_STEAL_USER_DATA = 'steal user data'
     TERM_STEAL_SYSTEM_INFORMATION = 'steal system information'
     TERM_STEAL_AUTHENTICATION_CREDENTIALS = 'steal authentication credentials'
 
-
+@vocabs.add_allowed_values
 class AntiCodeAnalysisTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:AntiCodeAnalysisTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'transform control flow',
-        'restructure arrays',
-        'detect debugging',
-        'prevent debugging',
-        'defeat flow-oriented (recursive traversal) disassembler',
-        'defeat linear disassembler',
-        'obfuscate instructions',
-        'obfuscate imports',
-        'defeat call graph generation',
-        'obfuscate runtime code',
-    )
     TERM_DEFEAT_CALL_GRAPH_GENERATION = 'defeat call graph generation'
     TERM_RESTRUCTURE_ARRAYS = 'restructure arrays'
     TERM_DETECT_DEBUGGING = 'detect debugging'
@@ -1206,45 +729,18 @@ class AntiCodeAnalysisTacticalObjectives(VocabString):
     TERM_TRANSFORM_CONTROL_FLOW = 'transform control flow'
     TERM_OBFUSCATE_RUNTIME_CODE = 'obfuscate runtime code'
 
-
+@vocabs.add_allowed_values
 class PrivilegeEscalationTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:PrivilegeEscalationTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'elevate cpu mode',
-    )
     TERM_ELEVATE_CPU_MODE = 'elevate cpu mode'
 
-
+@vocabs.add_allowed_values
 class MalwareSubjectRelationship(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:MalwareSubjectRelationshipVocab-1.1'
     _VOCAB_VERSION = '1.1'
-    _ALLOWED_VALUES = (
-        'downloads',
-        'downloaded by',
-        'drops',
-        'dropped by',
-        'extracts',
-        'extracted from',
-        'direct descendant of',
-        'direct ancestor of',
-        'memory image of',
-        'contained in memory image',
-        'disk image of',
-        'contained in disk image',
-        'network traffic capture of',
-        'contained in network traffic capture',
-        'packed version of',
-        'unpacked version of',
-        'installs',
-        'installed by',
-        '64-bit version of',
-        '32-bit version of',
-        'encrypted version of',
-        'decrypted version of',
-    )
     TERM_NETWORK_TRAFFIC_CAPTURE_OF = 'network traffic capture of'
     TERM_64_BIT_VERSION_OF = '64-bit version of'
     TERM_DROPPED_BY = 'dropped by'
@@ -1268,37 +764,22 @@ class MalwareSubjectRelationship(VocabString):
     TERM_CONTAINED_IN_DISK_IMAGE = 'contained in disk image'
     TERM_DECRYPTED_VERSION_OF = 'decrypted version of'
 
-
+@vocabs.add_allowed_values
 class AntiBehavioralAnalysisTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:AntiBehavioralAnalysisTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'detect vm environment',
-        'overload sandbox',
-        'prevent execution in sandbox',
-        'detect sandbox environment',
-        'prevent execution in vm',
-    )
     TERM_DETECT_VM_ENVIRONMENT = 'detect vm environment'
     TERM_OVERLOAD_SANDBOX = 'overload sandbox'
     TERM_PREVENT_EXECUTION_IN_SANDBOX = 'prevent execution in sandbox'
     TERM_DETECT_SANDBOX_ENVIRONMENT = 'detect sandbox environment'
     TERM_PREVENT_EXECUTION_IN_VM = 'prevent execution in vm'
 
-
+@vocabs.add_allowed_values
 class PersistenceTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:PersistenceTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'reinstantiate self after initial detection',
-        'limit application type/version',
-        'persist after os install/reinstall',
-        'drop/retrieve debug log file',
-        'persist independent of hard disk/os changes',
-        'persist after system reboot',
-    )
     TERM_REINSTANTIATE_SELF_AFTER_INITIAL_DETECTION = 'reinstantiate self after initial detection'
     TERM_LIMIT_APPLICATION_TYPE_VERSION = 'limit application type/version'
     TERM_PERSIST_AFTER_OS_INSTALL_REINSTALL = 'persist after os install/reinstall'
@@ -1306,29 +787,11 @@ class PersistenceTacticalObjectives(VocabString):
     TERM_PERSIST_INDEPENDENT_OF_HARD_DISK_OS_CHANGES = 'persist independent of hard disk/os changes'
     TERM_PERSIST_AFTER_SYSTEM_REBOOT = 'persist after system reboot'
 
-
+@vocabs.add_allowed_values
 class SynchronizationActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:SynchronizationActionNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'create mutex',
-        'delete mutex',
-        'open mutex',
-        'release mutex',
-        'create semaphore',
-        'delete semaphore',
-        'open semaphore',
-        'release semaphore',
-        'create event',
-        'delete event',
-        'open event',
-        'reset event',
-        'create critical section',
-        'delete critical section',
-        'open critical section',
-        'release critical section',
-    )
     TERM_CREATE_EVENT = 'create event'
     TERM_CREATE_MUTEX = 'create mutex'
     TERM_OPEN_MUTEX = 'open mutex'
@@ -1346,19 +809,11 @@ class SynchronizationActionName(VocabString):
     TERM_DELETE_SEMAPHORE = 'delete semaphore'
     TERM_OPEN_CRITICAL_SECTION = 'open critical section'
 
-
+@vocabs.add_allowed_values
 class AntiRemovalTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:AntiRemovalTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'prevent registry deletion',
-        'prevent api unhooking',
-        'prevent file access',
-        'prevent memory access',
-        'prevent registry access',
-        'prevent file deletion',
-    )
     TERM_PREVENT_REGISTRY_DELETION = 'prevent registry deletion'
     TERM_PREVENT_API_UNHOOKING = 'prevent api unhooking'
     TERM_PREVENT_FILE_ACCESS = 'prevent file access'
@@ -1366,48 +821,29 @@ class AntiRemovalTacticalObjectives(VocabString):
     TERM_PREVENT_REGISTRY_ACCESS = 'prevent registry access'
     TERM_PREVENT_FILE_DELETION = 'prevent file deletion'
 
-
+@vocabs.add_allowed_values
 class SecurityDegradationStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:SecurityDegradationStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'disable service provider security features',
-        'degrade security programs',
-        'disable system updates',
-        'disable os security features',
-        'disable [host-based or os] access controls',
-    )
     TERM_DISABLE_SERVICE_PROVIDER_SECURITY_FEATURES = 'disable service provider security features'
     TERM_DEGRADE_SECURITY_PROGRAMS = 'degrade security programs'
     TERM_DISABLE_SYSTEM_UPDATES = 'disable system updates'
     TERM_DISABLE_OS_SECURITY_FEATURES = 'disable os security features'
     TERM_DISABLE_HOST_BASED_OR_OS_ACCESS_CONTROLS = 'disable [host-based or os] access controls'
 
-
+@vocabs.add_allowed_values
 class PrivilegeEscalationProperties(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:PrivilegeEscalationPropertiesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'user privilege escalation type',
-    )
     TERM_USER_PRIVILEGE_ESCALATION_TYPE = 'user privilege escalation type'
 
-
+@vocabs.add_allowed_values
 class GUIActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:GUIActionNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'create window',
-        'kill window',
-        'create dialog box',
-        'enumerate windows',
-        'find window',
-        'hide window',
-        'show window',
-    )
     TERM_FIND_WINDOW = 'find window'
     TERM_SHOW_WINDOW = 'show window'
     TERM_KILL_WINDOW = 'kill window'
@@ -1416,28 +852,11 @@ class GUIActionName(VocabString):
     TERM_CREATE_DIALOG_BOX = 'create dialog box'
     TERM_HIDE_WINDOW = 'hide window'
 
-
+@vocabs.add_allowed_values
 class SecurityDegradationTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:SecurityDegradationTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'stop execution of security program',
-        'disable firewall',
-        'disable access right checking',
-        'disable kernel patching protection',
-        'prevent access to security websites',
-        'remove sms warning messages',
-        'modify security program configuration',
-        'prevent security program from running',
-        'disable system update services/daemons',
-        'disable system service pack/patch installation',
-        'disable system file overwrite protection',
-        'disable privilege limiting',
-        'gather security product info',
-        'disable os security alerts',
-        'disable user account control',
-    )
     TERM_STOP_EXECUTION_OF_SECURITY_PROGRAM = 'stop execution of security program'
     TERM_DISABLE_FIREWALL = 'disable firewall'
     TERM_DISABLE_ACCESS_RIGHT_CHECKING = 'disable access right checking'
@@ -1454,19 +873,11 @@ class SecurityDegradationTacticalObjectives(VocabString):
     TERM_DISABLE_OS_SECURITY_ALERTS = 'disable os security alerts'
     TERM_DISABLE_USER_ACCOUNT_CONTROL = 'disable user account control'
 
-
+@vocabs.add_allowed_values
 class MalwareConfigurationParameter(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:MalwareConfigurationParameterVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'magic number',
-        'id',
-        'group id',
-        'mutex',
-        'filename',
-        'installation path',
-    )
     TERM_MAGIC_NUMBER = 'magic number'
     TERM_GROUP_ID = 'group id'
     TERM_FILENAME = 'filename'
@@ -1474,31 +885,18 @@ class MalwareConfigurationParameter(VocabString):
     TERM_INSTALLATION_PATH = 'installation path'
     TERM_ID = 'id'
 
-
+@vocabs.add_allowed_values
 class MachineAccessControlProperties(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:MachineAccessControlPropertiesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'backdoor type',
-    )
     TERM_BACKDOOR_TYPE = 'backdoor type'
 
-
+@vocabs.add_allowed_values
 class ServiceActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:ServiceActionNameVocab-1.1'
     _VOCAB_VERSION = '1.1'
-    _ALLOWED_VALUES = (
-        'create service',
-        'delete service',
-        'start service',
-        'stop service',
-        'enumerate services',
-        'modify service configuration',
-        'open service',
-        'send control code to service',
-    )
     TERM_SEND_CONTROL_CODE_TO_SERVICE = 'send control code to service'
     TERM_MODIFY_SERVICE_CONFIGURATION = 'modify service configuration'
     TERM_CREATE_SERVICE = 'create service'
@@ -1508,51 +906,29 @@ class ServiceActionName(VocabString):
     TERM_DELETE_SERVICE = 'delete service'
     TERM_OPEN_SERVICE = 'open service'
 
-
+@vocabs.add_allowed_values
 class AntiBehavioralAnalysisStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:AntiBehavioralAnalysisStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'anti-vm',
-        'anti-sandbox',
-    )
     TERM_ANTI_VM = 'anti-vm'
     TERM_ANTI_SANDBOX = 'anti-sandbox'
 
-
+@vocabs.add_allowed_values
 class CapabilityObjectiveRelationship(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:CapabilityObjectiveRelationshipVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'child of',
-        'parent of',
-        'incorporates',
-        'incorporated by',
-    )
     TERM_CHILD_OF = 'child of'
     TERM_PARENT_OF = 'parent of'
     TERM_INCORPORATED_BY = 'incorporated by'
     TERM_INCORPORATES = 'incorporates'
 
-
+@vocabs.add_allowed_values
 class DataExfiltrationTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:DataExfiltrationTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'exfiltrate via covert channel',
-        'exfiltrate via fax',
-        'exfiltrate via physical media',
-        'encrypt data',
-        'exfiltrate via network',
-        'hide data',
-        'package data',
-        'exfiltrate via dumpster dive',
-        'move data to staging server',
-        'exfiltrate via voip/phone',
-    )
     TERM_EXFILTRATE_VIA_COVERT_CHANNEL = 'exfiltrate via covert channel'
     TERM_EXFILTRATE_VIA_FAX = 'exfiltrate via fax'
     TERM_EXFILTRATE_VIA_PHYSICAL_MEDIA = 'exfiltrate via physical media'
@@ -1564,22 +940,11 @@ class DataExfiltrationTacticalObjectives(VocabString):
     TERM_MOVE_DATA_TO_STAGING_SERVER = 'move data to staging server'
     TERM_EXFILTRATE_VIA_VOIP_PHONE = 'exfiltrate via voip/phone'
 
-
+@vocabs.add_allowed_values
 class UserActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:UserActionNameVocab-1.1'
     _VOCAB_VERSION = '1.1'
-    _ALLOWED_VALUES = (
-        'add user',
-        'delete user',
-        'enumerate users',
-        'get user attributes',
-        'logon as user',
-        'change password',
-        'add user to group',
-        'remove user from group',
-        'invoke user privilege',
-    )
     TERM_DELETE_USER = 'delete user'
     TERM_CHANGE_PASSWORD = 'change password'
     TERM_LOGON_AS_USER = 'logon as user'
@@ -1590,99 +955,38 @@ class UserActionName(VocabString):
     TERM_INVOKE_USER_PRIVILEGE = 'invoke user privilege'
     TERM_GET_USER_ATTRIBUTES = 'get user attributes'
 
-
+@vocabs.add_allowed_values
 class DestructionStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:DestructionStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'destroy physical entity',
-        'destroy virtual entity',
-    )
     TERM_DESTROY_PHYSICAL_ENTITY = 'destroy physical entity'
     TERM_DESTROY_VIRTUAL_ENTITY = 'destroy virtual entity'
 
-
+@vocabs.add_allowed_values
 class AntiRemovalStrategicObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:AntiRemovalStrategicObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'prevent malware artifact access',
-        'prevent malware artifact deletion',
-    )
     TERM_PREVENT_MALWARE_ARTIFACT_ACCESS = 'prevent malware artifact access'
     TERM_PREVENT_MALWARE_ARTIFACT_DELETION = 'prevent malware artifact deletion'
 
-
+@vocabs.add_allowed_values
 class SecondaryOperationTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:SecondaryOperationTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'install secondary module',
-        'install secondary malware',
-        'install legitimate software',
-        'remove self',
-        'remove system artifacts',
-    )
     TERM_INSTALL_SECONDARY_MODULE = 'install secondary module'
     TERM_INSTALL_SECONDARY_MALWARE = 'install secondary malware'
     TERM_INSTALL_LEGITIMATE_SOFTWARE = 'install legitimate software'
     TERM_REMOVE_SELF = 'remove self'
     TERM_REMOVE_SYSTEM_ARTIFACTS = 'remove system artifacts'
 
-
+@vocabs.add_allowed_values
 class MalwareLabel(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:MalwareLabelVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'adware',
-        'appender',
-        'backdoor',
-        'boot sector virus',
-        'bot',
-        'clicker',
-        'companion virus',
-        'cavity filler',
-        'data diddler',
-        'downloader',
-        'dropper file',
-        'file infector virus',
-        'fork bomb',
-        'greyware',
-        'implant',
-        'infector',
-        'keylogger',
-        'kleptographic worm',
-        'macro virus',
-        'malcode',
-        'mass-mailer',
-        'metamorphic virus',
-        'mid-infector',
-        'mobile code',
-        'multipartite virus',
-        'password stealer',
-        'polymorphic virus',
-        'premium dialer/smser',
-        'prepender',
-        'ransomware',
-        'rat',
-        'rogue anti-malware',
-        'rootkit',
-        'shellcode',
-        'spaghetti packer',
-        'spyware',
-        'trojan horse',
-        'variant',
-        'virus',
-        'wabbit',
-        'web bug',
-        'wiper',
-        'worm',
-        'zip bomb',
-    )
     TERM_DATA_DIDDLER = 'data diddler'
     TERM_PASSWORD_STEALER = 'password stealer'
     TERM_ADWARE = 'adware'
@@ -1728,30 +1032,18 @@ class MalwareLabel(VocabString):
     TERM_FILE_INFECTOR_VIRUS = 'file infector virus'
     TERM_TROJAN_HORSE = 'trojan horse'
 
-
+@vocabs.add_allowed_values
 class SecurityDegradationProperties(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:SecurityDegradationPropertiesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'targeted program',
-    )
     TERM_TARGETED_PROGRAM = 'targeted program'
 
-
+@vocabs.add_allowed_values
 class DiskActionName(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:DiskActionNameVocab-1.1'
     _VOCAB_VERSION = '1.1'
-    _ALLOWED_VALUES = (
-        'get disk type',
-        'get disk attributes',
-        'mount disk',
-        'unmount disk',
-        'emulate disk',
-        'list disks',
-        'monitor disk',
-    )
     TERM_GET_DISK_ATTRIBUTES = 'get disk attributes'
     TERM_GET_DISK_TYPE = 'get disk type'
     TERM_MONITOR_DISK = 'monitor disk'
@@ -1760,19 +1052,11 @@ class DiskActionName(VocabString):
     TERM_EMULATE_DISK = 'emulate disk'
     TERM_UNMOUNT_DISK = 'unmount disk'
 
-
+@vocabs.add_allowed_values
 class IntegrityViolationTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:IntegrityViolationTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'subvert system',
-        'corrupt system data',
-        'annoy local system user',
-        'intercept/manipulate network traffic',
-        'annoy remote user',
-        'corrupt user data',
-    )
     TERM_SUBVERT_SYSTEM = 'subvert system'
     TERM_CORRUPT_SYSTEM_DATA = 'corrupt system data'
     TERM_ANNOY_LOCAL_SYSTEM_USER = 'annoy local system user'
@@ -1780,33 +1064,11 @@ class IntegrityViolationTacticalObjectives(VocabString):
     TERM_ANNOY_REMOTE_USER = 'annoy remote user'
     TERM_CORRUPT_USER_DATA = 'corrupt user data'
 
-
+@vocabs.add_allowed_values
 class AntiDetectionTacticalObjectives(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = 'maecVocabs:AntiDetectionTacticalObjectivesVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'hide open network ports',
-        'execute before/external to kernel/hypervisor',
-        'encrypt self',
-        'hide processes',
-        'hide network traffic',
-        'change/add content',
-        'execute stealthy code',
-        'hide registry artifacts',
-        'hide userspace libraries',
-        'hide arbitrary virtual memory',
-        'execute non-main cpu code',
-        'feed misinformation during physical memory acquisition',
-        'prevent physical memory acquisition',
-        'prevent native api hooking',
-        'obfuscate artifact properties',
-        'hide kernel modules',
-        'hide code in file',
-        'hide services',
-        'hide file system artifacts',
-        'hide threads',
-    )
     TERM_HIDE_FILE_SYSTEM_ARTIFACTS = 'hide file system artifacts'
     TERM_HIDE_OPEN_NETWORK_PORTS = 'hide open network ports'
     TERM_EXECUTE_BEFORE_EXTERNAL_TO_KERNEL_HYPERVISOR = 'execute before/external to kernel/hypervisor'
