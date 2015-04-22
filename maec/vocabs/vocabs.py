@@ -1,7 +1,67 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+import maec
 from cybox.common import vocabs, VocabString
+
+class EnumString(maec.Entity):
+    # All subclasses should override this
+    _ALLOWED_VALUES = None
+
+    def __init__(self, value=None):
+        super(EnumString, self).__init__()
+        self.value = value
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, v):
+        allowed = self._ALLOWED_VALUES
+
+        if not v:
+            self._value = None
+        elif allowed and (v not in allowed):
+            error = "Value must be one of {0}. Received '{1}'"
+            error = error.format(allowed, v)
+            raise ValueError(error)
+        else:
+            self._value = v
+
+    def __str__(self):
+        return str(self.value)
+
+    def __eq__(self, other):
+        return other == self.value
+
+    def to_obj(self, return_obj=None, ns_info=None):
+        return self.value
+
+    def to_dict(self):
+        return self.value
+
+    @classmethod
+    def from_obj(cls, vocab_obj, return_obj=None):
+        if not vocab_obj:
+            return None
+
+        return_obj = EnumString()
+        if isinstance(vocab_obj, basestring):
+            return_obj.value = vocab_obj
+
+        return return_obj
+
+    @classmethod
+    def from_dict(cls, vocab_dict, return_obj=None):
+        if not vocab_dict:
+            return None
+
+        return_obj = EnumString()
+        if isinstance(vocab_dict, basestring):
+            return_obj.value = vocab_dict
+
+        return return_obj
 
 @vocabs.add_allowed_values
 class DataTheftTacticalObjectives(VocabString):
@@ -1090,7 +1150,27 @@ class AntiDetectionTacticalObjectives(VocabString):
     TERM_HIDE_NETWORK_TRAFFIC = 'hide network traffic'
     TERM_HIDE_THREADS = 'hide threads'
 
-
+class CapabilityName(EnumString):
+    _ALLOWED_VALUES = ['command and control',
+                       'remote machine manipulation',
+                       'privilege escalation',
+                       'data theft',
+                       'spying',
+                       'secondary operation',
+                       'anti-detection',
+                       'anti-code analysis',
+                       'infection/propagation',
+                       'anti-behavioral analysis',
+                       'integrity violation',
+                       'data exfiltration',
+                       'probing',
+                       'anti-removal',
+                       'security degradation',
+                       'availability violation',
+                       'destruction',
+                       'fraud',
+                       'persistence',
+                       'machine access/control']
 
 #: Mapping of Controlled Vocabulary xsi:type's to their class implementations.
 _VOCAB_MAP = {}
