@@ -8,7 +8,6 @@
 
 import cybox
 from cybox.objects.process_object import Process
-from cybox.core import ActionReference
 
 import maec
 from . import _namespace
