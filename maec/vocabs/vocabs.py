@@ -1150,27 +1150,28 @@ class AntiDetectionTacticalObjectives(VocabString):
     TERM_HIDE_NETWORK_TRAFFIC = 'hide network traffic'
     TERM_HIDE_THREADS = 'hide threads'
 
+@vocabs.add_allowed_values
 class CapabilityName(EnumString):
-    _ALLOWED_VALUES = ['command and control',
-                       'remote machine manipulation',
-                       'privilege escalation',
-                       'data theft',
-                       'spying',
-                       'secondary operation',
-                       'anti-detection',
-                       'anti-code analysis',
-                       'infection/propagation',
-                       'anti-behavioral analysis',
-                       'integrity violation',
-                       'data exfiltration',
-                       'probing',
-                       'anti-removal',
-                       'security degradation',
-                       'availability violation',
-                       'destruction',
-                       'fraud',
-                       'persistence',
-                       'machine access/control']
+    TERM_COMMAND_AND_CONTROL = "command and control"
+    TERM_REMOTE_MACHINE_MANIPULATION = "remote machine manipulation"
+    TERM_PRIVILEGE_ESCALATION = "privilege escalation"
+    TERM_DATA_THEFT = "data theft"
+    TERM_SPYING = "spying"
+    TERM_SECONDARY_OPERATION = "secondary operation"
+    TERM_ANTI_DETECTION = "anti-detection"
+    TERM_ANTI_CODE_ANALYSIS = "anti-code analysis"
+    TERM_INFECTION_PROPAGATION = "infection/propagation"
+    TERM_ANTI_BEHAVIORAL_ANALYSIS = "anti-behavioral analysis"
+    TERM_INTEGRITY_VIOLATION = "integrity violation"
+    TERM_DATA_EXFILTRATION = "data exfiltration"
+    TERM_PROBING = "probing"
+    TERM_ANTI_REMOVAL = "anti-removal"
+    TERM_SECURITY_DEGRADATION = "security degradation"
+    TERM_AVAILABILITY_VIOLATION = "availability violation"
+    TERM_DESTRUCTION = "destruction"
+    TERM_FRAUD = "fraud"
+    TERM_PERSISTENCE = "persistence"
+    TERM_MACHINE_ACCESS_CONTROL = "machine access/control"
 
 #: Mapping of Controlled Vocabulary xsi:type's to their class implementations.
 _VOCAB_MAP = {}
