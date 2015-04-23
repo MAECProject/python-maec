@@ -3,9 +3,6 @@
 # Copyright (c) 2015, The MITRE Corporation
 # All rights reserved
 
-# Compatible with MAEC v4.1
-# Last updated 11/12/2014
-
 class ObjectHistory(object):
     @classmethod
     def build(cls, bundle):

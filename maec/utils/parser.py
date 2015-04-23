@@ -2,7 +2,6 @@
 # See LICENSE.txt for complete terms.
 
 import maec
-from distutils.version import StrictVersion
 from lxml import etree
 
 class UnsupportedVersionError(Exception):

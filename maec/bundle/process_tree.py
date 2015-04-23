@@ -3,12 +3,8 @@
 # Copyright (c) 2015, The MITRE Corporation
 # All rights reserved
 
-# Compatible with MAEC v4.1
-# Last updated 08/27/2014
-
 import cybox
 from cybox.objects.process_object import Process
-from cybox.core import ActionReference
 
 import maec
 from . import _namespace

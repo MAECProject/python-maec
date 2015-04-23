@@ -1,12 +1,8 @@
-#MAEC Analysis Class
+# MAEC Analysis Class
 
-#Copyright (c) 2015, The MITRE Corporation
-#All rights reserved
+# Copyright (c) 2015, The MITRE Corporation
+# All rights reserved
 
-#Compatible with MAEC v4.1
-#Last updated 08/20/2014
-
-import cybox
 from cybox.common import (PlatformSpecification, Personnel, StructuredText,
         ToolInformation)
 from cybox.objects.system_object import System

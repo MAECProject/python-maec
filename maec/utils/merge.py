@@ -2,14 +2,12 @@
 # See LICENSE.txt for complete terms.
 # Methods for merging MAEC documents
 
-import sys
 import itertools
 import maec
 from copy import deepcopy
 from cybox.core import Object
 from cybox.common import HashList
 from cybox.utils import Namespace
-from maec.bundle import Bundle
 from maec.package import (Package, MalwareSubject, MalwareConfigurationDetails,
                           FindingsBundleList, MetaAnalysis, Analyses,
                           MinorVariants, MalwareSubjectRelationshipList,

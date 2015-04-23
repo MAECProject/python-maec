@@ -1,20 +1,12 @@
-#MAEC Package Class
+# MAEC Package Class
 
-#Copyright (c) 2015, The MITRE Corporation
-#All rights reserved
-
-#Compatible with MAEC v4.1
-#Last updated 08/20/2014
-
-from cybox.common import DateTime
+# Copyright (c) 2015, The MITRE Corporation
+# All rights reserved
 
 import maec
 import maec.bindings.maec_package as package_binding
 from maec.package import MalwareSubjectList, GroupingRelationshipList
-
 from . import _namespace
-
-
 
 class Package(maec.Entity):
     _binding = package_binding
