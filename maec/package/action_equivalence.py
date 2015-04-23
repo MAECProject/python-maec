@@ -3,9 +3,6 @@
 #Copyright (c) 2015, The MITRE Corporation
 #All rights reserved
 
-#Compatible with MAEC v4.1
-#Last updated 08/20/2014
-
 import maec
 from . import _namespace
 import maec.bindings.maec_package as package_binding

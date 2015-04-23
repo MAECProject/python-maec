@@ -1,10 +1,7 @@
-#MAEC Analysis Class
+# MAEC Analysis Class
 
-#Copyright (c) 2015, The MITRE Corporation
-#All rights reserved
-
-#Compatible with MAEC v4.1
-#Last updated 08/20/2014
+# Copyright (c) 2015, The MITRE Corporation
+# All rights reserved
 
 from cybox.common import (PlatformSpecification, Personnel, StructuredText,
         ToolInformation)

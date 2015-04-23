@@ -3,9 +3,6 @@
 # Copyright (c) 2015, The MITRE Corporation
 # All rights reserved
 
-# Compatible with MAEC v4.1
-# Last updated 10/21/2014
-
 from cybox.core import Object
 from cybox.utils.normalize import normalize_object_properties
 

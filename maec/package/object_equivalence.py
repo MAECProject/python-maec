@@ -1,10 +1,7 @@
-#MAEC Action Equivalence Class
+# MAEC Action Equivalence Class
 
-#Copyright (c) 2015, The MITRE Corporation
-#All rights reserved
-
-#Compatible with MAEC v4.1
-#Last updated 08/20/2014
+# Copyright (c) 2015, The MITRE Corporation
+# All rights reserved
 
 import maec
 from . import _namespace

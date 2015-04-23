@@ -3,8 +3,6 @@
 #Copyright (c) 2015, The MITRE Corporation
 #All rights reserved
 
-#Compatible with MAEC v4.1
-#Last updated 02/18/2014
 
 from cybox.core import ActionReference
 
