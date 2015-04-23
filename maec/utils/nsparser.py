@@ -8,8 +8,6 @@
 
 from cybox.utils import Namespace
 
-import itertools
-
 class Metadata(object):
     """Metadata about MAEC namespaces."""
 
