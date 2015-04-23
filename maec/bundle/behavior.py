@@ -14,7 +14,6 @@ from cybox.common.measuresource import MeasureSource
 from cybox.common.platform_specification import PlatformSpecification
 from cybox.objects.code_object import Code
 #from maec.bundle.bundle import ActionCollection
-import datetime
 
 class BehavioralActionEquivalenceReference(maec.Entity):
     _binding = bundle_binding
