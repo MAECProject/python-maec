@@ -6,9 +6,7 @@
 #Compatible with MAEC v4.1
 #Last updated 02/18/2014
 
-import maec.bindings.maec_bundle as bundle_binding
-import maec.bindings.maec_package as package_binding
-from cybox.utils import Namespace, META
+from cybox.utils import Namespace
 
 import itertools
 
