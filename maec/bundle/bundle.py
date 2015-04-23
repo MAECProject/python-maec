@@ -12,8 +12,7 @@ from cybox.utils.normalize import normalize_object_properties
 import maec
 from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
-from maec.bundle import (MalwareAction, AVClassifications, Behavior, 
-                         CandidateIndicator, CandidateIndicatorList,
+from maec.bundle import (MalwareAction, AVClassifications, Behavior, CandidateIndicatorList,
                          ActionReferenceList, ProcessTree, CapabilityList,
                          ObjectHistory)
 from maec.utils import BundleComparator, BundleDeduplicator
