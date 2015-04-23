@@ -6,7 +6,6 @@
 #Compatible with MAEC v4.1
 #Last updated 08/20/2014
 
-import cybox
 import maec
 from . import _namespace
 import maec.bindings.maec_package as package_binding
