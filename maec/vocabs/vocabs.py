@@ -4,7 +4,7 @@
 import maec
 from cybox.common import vocabs, VocabString
 
-class EnumString(maec.Entity):
+class EnumString(object):
     # All subclasses should override this
     _ALLOWED_VALUES = None
 
@@ -62,6 +62,10 @@ class EnumString(maec.Entity):
             return_obj.value = vocab_dict
 
         return return_obj
+
+    @classmethod
+    def istypeof(cls, obj):
+        return isinstance(obj, cls)
 
 @vocabs.add_allowed_values
 class DataTheftTacticalObjectives(VocabString):
