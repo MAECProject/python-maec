@@ -8,7 +8,6 @@ from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
 from maec.bundle import BehaviorReference
 from cybox.common import VocabString, String
-from maec.vocabs.vocabs import MalwareCapability
 
 
 class CapabilityObjectiveReference(maec.Entity):
@@ -91,7 +90,7 @@ class Capability(maec.Entity):
     _binding_class = bundle_binding.CapabilityType
 
     id_ = maec.TypedField("id")
-    name = maec.TypedField("name", MalwareCapability)
+    name = maec.TypedField("name")
     description = maec.TypedField("Description")
     property = maec.TypedField("Property", CapabilityProperty, multiple = True)
     strategic_objective = maec.TypedField("Strategic_Objective", CapabilityObjective, multiple = True)
