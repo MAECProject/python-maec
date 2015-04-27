@@ -1,12 +1,15 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-import maec
 from cybox.common.vocabs import VocabString, register_vocab
+
 
 @register_vocab
 class MalwareCapability(VocabString):
+    _namespace = 'http://maec.mitre.org/default_vocabularies-1'
     _XSI_TYPE = "maecVocabs:MalwareCapabilityEnum-1.0"
+    _VOCAB_VERSION = '1.0'
+
     TERM_ANTI_BEHAVIORAL_ANALYSIS = 'anti-behavioral analysis'
     TERM_ANTI_CODE_ANALYSIS = 'anti-code analysis'
     TERM_ANTI_DETECTION = 'anti-detection'
