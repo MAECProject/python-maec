@@ -1,3 +1,3 @@
-from .exceptions import (LookupNotFoundException, NetworkFailureException,
-                         APIKeyException)
-from .options import ScriptOptions
+from .exceptions import (LookupNotFoundException, NetworkFailureException, # noqa
+                         APIKeyException) # noqa
+from .options import ScriptOptions # noqa

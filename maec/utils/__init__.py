@@ -18,10 +18,9 @@ def flip_dict(d):
 
 
 # Namespace flattening
-import maec
-from .nsparser import maecMETA
-from .idgen import *
-from .parser import EntityParser
-from .comparator import (ObjectHash, BundleComparator, SimilarObjectCluster,
-                         ComparisonResult)
-from .deduplicator import BundleDeduplicator
+from .nsparser import maecMETA # noqa
+from .idgen import * # noqa
+from .parser import EntityParser # noqa
+from .comparator import (ObjectHash, BundleComparator, SimilarObjectCluster, # noqa
+                         ComparisonResult) # noqa
+from .deduplicator import BundleDeduplicator # noqa
