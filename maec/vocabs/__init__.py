@@ -1,0 +1,1 @@
+from .vocabs import * # noqa
