@@ -8,7 +8,8 @@ import maec
 from . import _namespace
 import maec.bindings.maec_package as package_binding  
 from maec.package.malware_subject_reference import MalwareSubjectReference
-from cybox.common import VocabString
+from cybox.common import vocabs
+from maec.vocabs.vocabs import GroupingRelationship as GroupingRelationshipVocab
 
 class ClusterEdgeNodePair(maec.Entity):
     _binding = package_binding
@@ -65,7 +66,7 @@ class GroupingRelationship(maec.Entity):
     _binding_class = package_binding.GroupingRelationshipType
     _namespace = _namespace
 
-    type_ = maec.TypedField("Type", VocabString)
+    type_ = vocabs.VocabField("Type", GroupingRelationshipVocab)
     malware_family_name = maec.TypedField("Malware_Family_Name")
     malware_toolkit_name = maec.TypedField("Malware_Toolkit_Name")
     clustering_metadata = maec.TypedField("Clustering_Metadata", ClusteringMetadata)

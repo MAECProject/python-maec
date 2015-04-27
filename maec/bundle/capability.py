@@ -9,6 +9,7 @@ import maec.bindings.maec_bundle as bundle_binding
 from maec.bundle import BehaviorReference
 from cybox.common import VocabString, String
 
+
 class CapabilityObjectiveReference(maec.Entity):
     _namespace = _namespace
     _binding = bundle_binding
