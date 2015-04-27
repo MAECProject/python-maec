@@ -6,7 +6,7 @@
 # - A single Capability embedded in the Bundle
 
 from cybox.core import AssociatedObjects, AssociatedObject, Object, AssociationType
-from cybox.common import Hash, HashList
+from cybox.common import Hash, HashList, VocabString
 from cybox.objects.file_object import File
 from maec.bundle import Bundle, Collections, MalwareAction, Capability
 from maec.package import Analysis, MalwareSubject, Package
@@ -35,12 +35,13 @@ associated_object = AssociatedObject()
 associated_object.properties = File() 
 associated_object.properties.file_name = 'abcd.dll'
 associated_object.properties.size_in_bytes = '123456'
-associated_object.association_type = AssociationType()
+associated_object.association_type = VocabString()
 associated_object.association_type.value = 'output'
 associated_object.association_type.xsi_type = 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'
 # Create the Action from another dictionary
 action = MalwareAction()
-action.name = 'create file'
+action.name = VocabString()
+action.name.value = 'create file'
 action.name.xsi_type = 'maecVocabs:FileActionNameVocab-1.0'
 action.associated_objects = AssociatedObjects()
 action.associated_objects.append(associated_object)
