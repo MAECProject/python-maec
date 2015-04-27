@@ -35,10 +35,8 @@ class TestMalwareSubject(EntityTestCase, unittest.TestCase):
                 'capabilities': {
                     'capability': [{
                         'id': 'example:capability-5b1f99c6-203b-422d-831e-b440a1a32052',
-                        'name': {
-                            'value': 'persistence',
-                            'xsi:type': 'maecVocabs:MalwareCapabilityVocab-1.0',
-                        }
+                        'name': 'persistence'
+
                     }],
                 },
                 'defined_subject': False,
