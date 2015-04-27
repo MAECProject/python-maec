@@ -197,8 +197,9 @@ needed.
     from maec.bundle import Bundle
     from maec.bundle import MalwareAction
     from maec.utils import IDGenerator, set_id_method
-    from cybox.core import Object, AssociatedObjects, AssociatedObject, AssociationType
+    from cybox.core import Object, AssociatedObjects, AssociatedObject
     from cybox.objects.file_object import File
+    from cybox.common import VocabString
 
     set_id_method(IDGenerator.METHOD_INT)
     b = Bundle()
@@ -208,11 +209,12 @@ needed.
     ao.properties = File()
     ao.properties.file_name = "badware.exe"
     ao.properties.size_in_bytes = "123456"
-    ao.association_type = AssociationType()
+    ao.association_type = VocabString()
     ao.association_type.value = 'output'
     ao.association_type.xsi_type = 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'
 
-    a.name = 'create file'
+    a.name = VocabString()
+    a.name.value = 'create file'
     a.name.xsi_type = 'maecVocabs:FileActionNameVocab-1.0'
     a.associated_objects = AssociatedObjects()
     a.associated_objects.append(ao)
