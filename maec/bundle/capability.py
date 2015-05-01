@@ -19,7 +19,8 @@ class CapabilityObjectiveReference(maec.Entity):
 
     def __init__(self):
         super(CapabilityObjectiveReference, self).__init__()
-        
+
+
 class CapabilityReference(maec.Entity):
     _namespace = _namespace
     _binding = bundle_binding
@@ -30,17 +31,19 @@ class CapabilityReference(maec.Entity):
     def __init__(self):
         super(CapabilityReference, self).__init__()
 
+
 class CapabilityObjectiveRelationship(maec.Entity):
     _namespace = _namespace
     _binding = bundle_binding
     _binding_class = bundle_binding.CapabilityObjectiveRelationshipType
 
     relationship_type = maec.TypedField("Relationship_Type", VocabString)
-    objective_reference = maec.TypedField("Objective_Reference", CapabilityObjectiveReference, multiple = True)
+    objective_reference = maec.TypedField("Objective_Reference", CapabilityObjectiveReference, multiple=True)
 
     def __init__(self):
         super(CapabilityObjectiveRelationship, self).__init__()
         self.objective_reference = []
+
 
 class CapabilityRelationship(maec.Entity):
     _namespace = _namespace
@@ -48,11 +51,12 @@ class CapabilityRelationship(maec.Entity):
     _binding_class = bundle_binding.CapabilityRelationshipType
 
     relationship_type = maec.TypedField("Relationship_Type", VocabString)
-    capability_reference = maec.TypedField("Capability_Reference", CapabilityReference, multiple = True)
+    capability_reference = maec.TypedField("Capability_Reference", CapabilityReference, multiple=True)
 
     def __init__(self):
         super(CapabilityRelationship, self).__init__()
         self.capability_reference = []
+
 
 class CapabilityProperty(maec.Entity):
     _namespace = _namespace
@@ -65,6 +69,7 @@ class CapabilityProperty(maec.Entity):
     def __init__(self):
         super(CapabilityProperty, self).__init__()
 
+
 class CapabilityObjective(maec.Entity):
     _namespace = _namespace
     _binding = bundle_binding
@@ -73,16 +78,17 @@ class CapabilityObjective(maec.Entity):
     id_ = maec.TypedField("id")
     name = maec.TypedField("Name", VocabString)
     description = maec.TypedField("Description")
-    property = maec.TypedField("Property", CapabilityProperty, multiple = True)
-    behavior_reference = maec.TypedField("Behavior_Reference", BehaviorReference, multiple = True)
-    relationship = maec.TypedField("Relationship", CapabilityObjectiveRelationship, multiple = True)
+    property = maec.TypedField("Property", CapabilityProperty, multiple=True)
+    behavior_reference = maec.TypedField("Behavior_Reference", BehaviorReference, multiple=True)
+    relationship = maec.TypedField("Relationship", CapabilityObjectiveRelationship, multiple=True)
 
-    def __init__(self, id = None):
+    def __init__(self, id=None):
         super(CapabilityObjective, self).__init__()
         if id:
             self.id_ = id
         else:
             self.id_ = maec.utils.idgen.create_id(prefix="capability_objective")
+
 
 class Capability(maec.Entity):
     _namespace = _namespace
@@ -92,13 +98,13 @@ class Capability(maec.Entity):
     id_ = maec.TypedField("id")
     name = maec.TypedField("name")
     description = maec.TypedField("Description")
-    property = maec.TypedField("Property", CapabilityProperty, multiple = True)
-    strategic_objective = maec.TypedField("Strategic_Objective", CapabilityObjective, multiple = True)
-    tactical_objective = maec.TypedField("Tactical_Objective", CapabilityObjective, multiple = True)
-    behavior_reference = maec.TypedField("Behavior_Reference", BehaviorReference, multiple = True)
-    relationship = maec.TypedField("Relationship", CapabilityRelationship, multiple = True)
+    property = maec.TypedField("Property", CapabilityProperty, multiple=True)
+    strategic_objective = maec.TypedField("Strategic_Objective", CapabilityObjective, multiple=True)
+    tactical_objective = maec.TypedField("Tactical_Objective", CapabilityObjective, multiple=True)
+    behavior_reference = maec.TypedField("Behavior_Reference", BehaviorReference, multiple=True)
+    relationship = maec.TypedField("Relationship", CapabilityRelationship, multiple=True)
 
-    def __init__(self, id = None, name = None):
+    def __init__(self, id=None, name=None):
         super(Capability, self).__init__()
         if id:
             self.id_ = id
@@ -117,14 +123,15 @@ class Capability(maec.Entity):
         if not self.strategic_objective:
             self.strategic_objective = []
         self.strategic_objective.append(strategic_objective)
-        
+
+
 class CapabilityList(maec.Entity):
     _namespace = _namespace
     _binding = bundle_binding
     _binding_class = bundle_binding.CapabilityListType
 
-    capability = maec.TypedField("Capability", Capability, multiple = True)
-    capability_reference = maec.TypedField("Capability_Reference", CapabilityReference, multiple = True)
+    capability = maec.TypedField("Capability", Capability, multiple=True)
+    capability_reference = maec.TypedField("Capability_Reference", CapabilityReference, multiple=True)
 
     def __init__(self):
         super(CapabilityList, self).__init__()
