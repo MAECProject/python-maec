@@ -3,7 +3,8 @@
 
 import sys
 
-from maec.bindings import *
+from mixbox.binding_utils import *
+
 from cybox.bindings import cybox_core
 from cybox.bindings import cybox_common
 from cybox.bindings import code_object

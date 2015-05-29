@@ -3,7 +3,8 @@
 
 import sys
 
-from maec.bindings import *
+from mixbox.binding_utils import *
+
 from maec.bindings import maec_bundle as maec_bundle_schema
 from maec.bindings import mmdef_1_2 as metadatasharing
 from cybox.bindings import cybox_core

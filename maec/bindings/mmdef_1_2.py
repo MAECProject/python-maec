@@ -4,7 +4,7 @@
 
 import sys
 
-from maec.bindings import *
+from mixbox.binding_utils import *
 
 class malwareMetaData(GeneratedsSuper):
     """This is the top level element for the xml document. Required
