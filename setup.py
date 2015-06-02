@@ -43,7 +43,7 @@ setup(
     long_description=readme,
     url="http://maec.mitre.org",
     packages=find_packages(),
-    install_requires=['lxml>=2.2.3', 'cybox>=2.1.0.11,<2.1.1.0'],
+    install_requires=['mixbox', 'lxml>=2.2.3', 'cybox>=2.1.0.11,<2.1.1.0'],
     extras_require=extras_require,
     classifiers=[
         "Programming Language :: Python",

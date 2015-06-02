@@ -3,7 +3,8 @@
 
 import sys
 
-from maec.bindings import *
+from mixbox.binding_utils import *
+
 from maec.bindings import maec_package as maec_package_schema
 
 class ContainerType(GeneratedsSuper):
