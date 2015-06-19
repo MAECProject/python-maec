@@ -5,13 +5,13 @@
 
 from mixbox import fields
 
-import cybox
 from cybox.objects.process_object import Process
 
 import maec
 from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
 from maec.bundle import ActionReferenceList
+
 
 class ProcessTreeNode(Process):
     _binding = bundle_binding
@@ -104,6 +104,7 @@ class ProcessTreeNode(Process):
     def set_parent_action(self, parent_action_id):
         """Set the ID of the parent action of the Process Tree node."""
         self.parent_action_idref = parent_action_id
+
 
 class ProcessTree(maec.Entity):
     _binding = bundle_binding
