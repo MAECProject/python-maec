@@ -3,6 +3,7 @@
 # Copyright (c) 2015, The MITRE Corporation
 # All rights reserved
 
+from mixbox import fields
 
 import maec
 from . import _namespace
@@ -13,7 +14,7 @@ class BehaviorReference(maec.Entity):
     _binding_class = bundle_binding.BehaviorReferenceType    
     _namespace = _namespace
 
-    behavior_idref = maec.TypedField("behavior_idref")
+    behavior_idref = fields.TypedField("behavior_idref")
 
     def __init__(self, behavior_idref = None):
         super(BehaviorReference, self).__init__()

@@ -3,6 +3,8 @@
 # Copyright (c) 2015, The MITRE Corporation
 # All rights reserved
 
+from mixbox import fields
+
 from cybox.core import Object
 from cybox.utils.normalize import normalize_object_properties
 
@@ -38,10 +40,10 @@ class BaseCollection(maec.Entity):
     _binding_class = bundle_binding.BaseCollectionType
     _namespace = _namespace
 
-    name = maec.TypedField("name")
-    affinity_type = maec.TypedField("Affinity_Type")
-    affinity_degree = maec.TypedField("Affinity_Degree")
-    description = maec.TypedField("Description")
+    name = fields.TypedField("name")
+    affinity_type = fields.TypedField("Affinity_Type")
+    affinity_degree = fields.TypedField("Affinity_Degree")
+    description = fields.TypedField("Description")
 
     def __init__(self, name = None):
         super(BaseCollection, self).__init__()
@@ -52,8 +54,8 @@ class ActionCollection(BaseCollection):
     _binding_class = bundle_binding.ActionCollectionType
     _namespace = _namespace
 
-    id_ = maec.TypedField("id")
-    action_list = maec.TypedField("Action_List", ActionList)
+    id_ = fields.TypedField("id")
+    action_list = fields.TypedField("Action_List", ActionList)
 
     def __init__(self, name = None, id = None):
         super(ActionCollection, self).__init__(name)
@@ -72,8 +74,8 @@ class BehaviorCollection(BaseCollection):
     _binding_class = bundle_binding.BehaviorCollectionType
     _namespace = _namespace
 
-    id_ = maec.TypedField("id")
-    behavior_list = maec.TypedField("Behavior_List", BehaviorList)
+    id_ = fields.TypedField("id")
+    behavior_list = fields.TypedField("Behavior_List", BehaviorList)
 
     def __init__(self, name = None, id = None):
         super(BehaviorCollection, self).__init__(name)
@@ -92,8 +94,8 @@ class ObjectCollection(BaseCollection):
     _binding_class = bundle_binding.ObjectCollectionType
     _namespace = _namespace
 
-    id_ = maec.TypedField("id")
-    object_list = maec.TypedField("Object_List", ObjectList)
+    id_ = fields.TypedField("id")
+    object_list = fields.TypedField("Object_List", ObjectList)
 
     def __init__(self, name = None, id = None):
         super(ObjectCollection, self).__init__(name)
@@ -112,8 +114,8 @@ class CandidateIndicatorCollection(BaseCollection):
     _binding_class = bundle_binding.CandidateIndicatorCollectionType
     _namespace = _namespace
 
-    id_ = maec.TypedField("id")
-    candidate_indicator_list = maec.TypedField("Candidate_Indicator_List", CandidateIndicatorList)
+    id_ = fields.TypedField("id")
+    candidate_indicator_list = fields.TypedField("Candidate_Indicator_List", CandidateIndicatorList)
 
     def __init__(self, name = None, id = None):
         super(CandidateIndicatorCollection, self).__init__(name)
@@ -264,10 +266,10 @@ class Collections(maec.Entity):
     _binding_class = bundle_binding.CollectionsType
     _namespace = _namespace
 
-    behavior_collections = maec.TypedField("Behavior_Collections", BehaviorCollectionList)
-    action_collections = maec.TypedField("Action_Collections", ActionCollectionList)
-    object_collections = maec.TypedField("Object_Collections", ObjectCollectionList)
-    candidate_indicator_collections = maec.TypedField("Candidate_Indicator_Collections", CandidateIndicatorCollectionList)
+    behavior_collections = fields.TypedField("Behavior_Collections", BehaviorCollectionList)
+    action_collections = fields.TypedField("Action_Collections", ActionCollectionList)
+    object_collections = fields.TypedField("Object_Collections", ObjectCollectionList)
+    candidate_indicator_collections = fields.TypedField("Candidate_Indicator_Collections", CandidateIndicatorCollectionList)
 
     def __init__(self):
         super(Collections, self).__init__()
@@ -313,27 +315,27 @@ class BehaviorReference(maec.Entity):
     _binding_class = bundle_binding.BehaviorReferenceType
     _namespace = _namespace
 
-    behavior_idref = maec.TypedField('behavior_idref')
+    behavior_idref = fields.TypedField('behavior_idref')
 
 class Bundle(maec.Entity):
     _binding = bundle_binding
     _namespace = _namespace
     _binding_class = bundle_binding.BundleType
 
-    id_ = maec.TypedField("id")
-    schema_version = maec.TypedField("schema_version")
-    defined_subject = maec.TypedField("defined_subject")
-    content_type = maec.TypedField("content_type")
-    timestamp = maec.TypedField("timestamp")
-    malware_instance_object_attributes = maec.TypedField("Malware_Instance_Object_Attributes", Object)
-    av_classifications = maec.TypedField("AV_Classifications", AVClassifications)
-    actions = maec.TypedField("Actions", ActionList)
-    process_tree = maec.TypedField("Process_Tree", ProcessTree)
-    behaviors = maec.TypedField("Behaviors", BehaviorList)
-    capabilities = maec.TypedField("Capabilities", CapabilityList)
-    objects = maec.TypedField("Objects", ObjectList)
-    candidate_indicators = maec.TypedField("Candidate_Indicators", CandidateIndicatorList)
-    collections = maec.TypedField("Collections", Collections)
+    id_ = fields.TypedField("id")
+    schema_version = fields.TypedField("schema_version")
+    defined_subject = fields.TypedField("defined_subject")
+    content_type = fields.TypedField("content_type")
+    timestamp = fields.TypedField("timestamp")
+    malware_instance_object_attributes = fields.TypedField("Malware_Instance_Object_Attributes", Object)
+    av_classifications = fields.TypedField("AV_Classifications", AVClassifications)
+    actions = fields.TypedField("Actions", ActionList)
+    process_tree = fields.TypedField("Process_Tree", ProcessTree)
+    behaviors = fields.TypedField("Behaviors", BehaviorList)
+    capabilities = fields.TypedField("Capabilities", CapabilityList)
+    objects = fields.TypedField("Objects", ObjectList)
+    candidate_indicators = fields.TypedField("Candidate_Indicators", CandidateIndicatorList)
+    collections = fields.TypedField("Collections", Collections)
 
     def __init__(self, id = None, defined_subject = False, schema_version = "4.1", content_type = None, malware_instance_object = None):
         super(Bundle, self).__init__()

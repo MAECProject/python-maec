@@ -3,6 +3,7 @@
 #Copyright (c) 2015, The MITRE Corporation
 #All rights reserved
 
+from mixbox import fields
 
 from cybox.core import ActionReference
 

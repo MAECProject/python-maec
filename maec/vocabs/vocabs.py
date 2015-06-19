@@ -3,7 +3,6 @@
 
 from cybox.common.vocabs import VocabString, register_vocab
 
-
 @register_vocab
 class MalwareCapability(VocabString):
     _namespace = 'http://maec.mitre.org/default_vocabularies-1'
