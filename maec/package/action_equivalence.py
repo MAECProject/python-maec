@@ -3,6 +3,8 @@
 #Copyright (c) 2015, The MITRE Corporation
 #All rights reserved
 
+from mixbox import fields
+
 import maec
 from . import _namespace
 import maec.bindings.maec_package as package_binding
@@ -13,8 +15,8 @@ class ActionEquivalence(maec.Entity):
     _binding_class = package_binding.ActionEquivalenceType
     _namespace = _namespace
 
-    id_ = maec.TypedField('id')
-    action_reference = maec.TypedField('Action_Reference', ActionReference, multiple = True)
+    id_ = fields.TypedField('id')
+    action_reference = fields.TypedField('Action_Reference', ActionReference, multiple = True)
 
     def __init__(self):
         super(ActionEquivalence, self).__init__()

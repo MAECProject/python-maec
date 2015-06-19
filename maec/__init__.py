@@ -8,7 +8,6 @@ from StringIO import StringIO
 
 from cybox import Entity as cyboxEntity
 from cybox import EntityList
-from cybox import TypedField
 from cybox.utils import Namespace, META
 
 import bindings.maec_bundle as bundle_binding

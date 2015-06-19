@@ -3,6 +3,8 @@
 # Copyright (c) 2015, The MITRE Corporation
 # All rights reserved
 
+from mixbox import fields
+
 import maec
 from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
@@ -15,9 +17,9 @@ class MalwareEntity(maec.Entity):
     _binding_class = bundle_binding.MalwareEntityType    
     _namespace = _namespace
 
-    type_ = maec.TypedField("Type", VocabString)
-    name = maec.TypedField("Name")
-    description = maec.TypedField("Description")
+    type_ = fields.TypedField("Type", VocabString)
+    name = fields.TypedField("Name")
+    description = fields.TypedField("Description")
 
     def __init__(self):
         super(MalwareEntity, self).__init__()
@@ -27,11 +29,11 @@ class CandidateIndicatorComposition(maec.Entity):
     _binding_class = bundle_binding.CandidateIndicatorCompositionType    
     _namespace = _namespace
 
-    operator = maec.TypedField("operator")
-    behavior_reference = maec.TypedField("Behavior_Reference", BehaviorReference, multiple = True)
-    action_reference = maec.TypedField("Action_Reference", ActionReference, multiple = True)
-    object_reference = maec.TypedField("Object_Reference", ObjectReference, multiple = True)
-    sub_composition = maec.TypedField("Sub_Composition", multiple = True)
+    operator = fields.TypedField("operator")
+    behavior_reference = fields.TypedField("Behavior_Reference", BehaviorReference, multiple = True)
+    action_reference = fields.TypedField("Action_Reference", ActionReference, multiple = True)
+    object_reference = fields.TypedField("Object_Reference", ObjectReference, multiple = True)
+    sub_composition = fields.TypedField("Sub_Composition", multiple = True)
 
     def __init__(self):
         super(CandidateIndicatorComposition, self).__init__()
@@ -44,16 +46,16 @@ class CandidateIndicator(maec.Entity):
     _binding_class = bundle_binding.CandidateIndicatorType    
     _namespace = _namespace
 
-    id_ = maec.TypedField("id")
-    creation_datetime = maec.TypedField("creation_datetime")
-    lastupdate_datetime = maec.TypedField("lastupdate_datetime")
-    version = maec.TypedField("version")
-    importance = maec.TypedField("Importance", VocabString)
-    numeric_importance = maec.TypedField("Numeric_Importance")
-    author = maec.TypedField("Author")
-    description = maec.TypedField("Description")
-    malware_entity = maec.TypedField("Malware_Entity", MalwareEntity)
-    composition = maec.TypedField("Composition", CandidateIndicatorComposition)
+    id_ = fields.TypedField("id")
+    creation_datetime = fields.TypedField("creation_datetime")
+    lastupdate_datetime = fields.TypedField("lastupdate_datetime")
+    version = fields.TypedField("version")
+    importance = fields.TypedField("Importance", VocabString)
+    numeric_importance = fields.TypedField("Numeric_Importance")
+    author = fields.TypedField("Author")
+    description = fields.TypedField("Description")
+    malware_entity = fields.TypedField("Malware_Entity", MalwareEntity)
+    composition = fields.TypedField("Composition", CandidateIndicatorComposition)
 
     def __init__(self, id = None):
         super(CandidateIndicator, self).__init__()

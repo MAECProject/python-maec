@@ -3,6 +3,8 @@
 # Copyright (c) 2015, The MITRE Corporation
 # All rights reserved
 
+from mixbox import fields
+
 import maec
 import maec.bindings.maec_package as package_binding
 from maec.package import MalwareSubjectList, GroupingRelationshipList
@@ -13,11 +15,11 @@ class Package(maec.Entity):
     _binding_class = package_binding.PackageType
     _namespace = _namespace   
 
-    id_ = maec.TypedField('id')
-    timestamp = maec.TypedField('timestamp')
-    schema_version = maec.TypedField('schema_version')
-    malware_subjects = maec.TypedField('Malware_Subjects', MalwareSubjectList)
-    grouping_relationships = maec.TypedField('Grouping_Relationships', GroupingRelationshipList)
+    id_ = fields.TypedField('id')
+    timestamp = fields.TypedField('timestamp')
+    schema_version = fields.TypedField('schema_version')
+    malware_subjects = fields.TypedField('Malware_Subjects', MalwareSubjectList)
+    grouping_relationships = fields.TypedField('Grouping_Relationships', GroupingRelationshipList)
 
     def __init__(self, id = None, schema_version = "2.1", timestamp = None):
         super(Package, self).__init__()

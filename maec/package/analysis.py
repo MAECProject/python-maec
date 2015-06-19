@@ -3,6 +3,8 @@
 # Copyright (c) 2015, The MITRE Corporation
 # All rights reserved
 
+from mixbox import fields
+
 from cybox.common import (PlatformSpecification, Personnel, StructuredText,
         ToolInformation)
 from cybox.objects.system_object import System
@@ -17,11 +19,11 @@ class Source(maec.Entity):
     _binding_class = package_binding.SourceType
     _namespace = _namespace
 
-    name = maec.TypedField("Name")
-    method = maec.TypedField("Method")
-    reference = maec.TypedField("Reference")
-    organization = maec.TypedField("Organization")
-    url = maec.TypedField("URL")
+    name = fields.TypedField("Name")
+    method = fields.TypedField("Method")
+    reference = fields.TypedField("Reference")
+    organization = fields.TypedField("Organization")
+    url = fields.TypedField("URL")
     
     def __init__(self):
         super(Source, self).__init__()
@@ -31,9 +33,9 @@ class Comment(StructuredText):
     _binding_class = package_binding.CommentType
     _namespace = _namespace
 
-    author = maec.TypedField("author")
-    timestamp = maec.TypedField("timestamp")
-    observation_name = maec.TypedField("observation_name")
+    author = fields.TypedField("author")
+    timestamp = fields.TypedField("timestamp")
+    observation_name = fields.TypedField("observation_name")
 
     def __init__(self, value=None):
         super(Comment, self).__init__(value)
@@ -107,10 +109,10 @@ class DynamicAnalysisMetadata(maec.Entity):
     _binding_class = package_binding.DynamicAnalysisMetadataType
     _namespace = _namespace
 
-    command_line = maec.TypedField("Command_Line")
-    analysis_duration = maec.TypedField("Analysis_Duration")
-    exit_code = maec.TypedField("Exit_Code")
-    #raised_exception = maec.TypedField("Raised_Exception", MalwareException)
+    command_line = fields.TypedField("Command_Line")
+    analysis_duration = fields.TypedField("Analysis_Duration")
+    exit_code = fields.TypedField("Exit_Code")
+    #raised_exception = fields.TypedField("Raised_Exception", MalwareException)
     
     def __init__(self):
         super(DynamicAnalysisMetadata, self).__init__()
@@ -120,7 +122,7 @@ class HypervisorHostSystem(System):
     _binding_class = package_binding.HypervisorHostSystemType
     _namespace = _namespace
 
-    vm_hypervisor = maec.TypedField("VM_Hypervisor", PlatformSpecification)
+    vm_hypervisor = fields.TypedField("VM_Hypervisor", PlatformSpecification)
 
     def __init__(self):
         super(HypervisorHostSystem, self).__init__()
@@ -136,7 +138,7 @@ class AnalysisSystem(System):
     _binding_class = package_binding.AnalysisSystemType
     _namespace = _namespace
 
-    installed_programs = maec.TypedField("Installed_Programs", InstalledPrograms)
+    installed_programs = fields.TypedField("Installed_Programs", InstalledPrograms)
 
     def __init__(self):
         super(AnalysisSystem, self).__init__()
@@ -153,10 +155,10 @@ class CapturedProtocol(maec.Entity):
     _binding_class = package_binding.CapturedProtocolType
     _namespace = _namespace
 
-    layer7_protocol = maec.TypedField("layer7_protocol")
-    layer4_protocol = maec.TypedField("layer4_protocol")
-    port_number = maec.TypedField("port_number")
-    interaction_level = maec.TypedField("interaction_level")
+    layer7_protocol = fields.TypedField("layer7_protocol")
+    layer4_protocol = fields.TypedField("layer4_protocol")
+    port_number = fields.TypedField("port_number")
+    interaction_level = fields.TypedField("interaction_level")
 
     def __init__(self):
         super(CapturedProtocol, self).__init__()
@@ -172,7 +174,7 @@ class NetworkInfrastructure(maec.Entity):
     _binding_class = package_binding.NetworkInfrastructureType
     _namespace = _namespace
 
-    captured_protocols = maec.TypedField("Captured_Protocols", CapturedProtocolList)
+    captured_protocols = fields.TypedField("Captured_Protocols", CapturedProtocolList)
 
     def __init__(self):
         super(NetworkInfrastructure, self).__init__()
@@ -183,9 +185,9 @@ class AnalysisEnvironment(maec.Entity):
     _binding_class = package_binding.AnalysisEnvironmentType
     _namespace = _namespace
 
-    hypervisor_host_system = maec.TypedField("Hypervisor_Host_System", HypervisorHostSystem)
-    analysis_systems = maec.TypedField("Analysis_Systems", AnalysisSystemList)
-    network_infrastructure = maec.TypedField("Network_Infrastructure", NetworkInfrastructure)
+    hypervisor_host_system = fields.TypedField("Hypervisor_Host_System", HypervisorHostSystem)
+    analysis_systems = fields.TypedField("Analysis_Systems", AnalysisSystemList)
+    network_infrastructure = fields.TypedField("Network_Infrastructure", NetworkInfrastructure)
 
     def __init__(self):
         super(AnalysisEnvironment, self).__init__()
@@ -195,22 +197,22 @@ class Analysis(maec.Entity):
     _binding_class = package_binding.AnalysisType
     _namespace = _namespace
 
-    id_ = maec.TypedField("id")
-    method = maec.TypedField("method")
-    type_ = maec.TypedField("type")
-    ordinal_position = maec.TypedField("ordinal_position")
-    start_datetime = maec.TypedField("start_datetime")
-    complete_datetime = maec.TypedField("complete_datetime")
-    lastupdate_datetime = maec.TypedField("lastupdate_datetime")
-    source = maec.TypedField("Source", Source)
-    analysts = maec.TypedField("Analysts", Personnel)
-    summary = maec.TypedField("Summary", StructuredText)
-    comments = maec.TypedField("Comments", CommentList)
-    findings_bundle_reference = maec.TypedField("Findings_Bundle_Reference", BundleReference, multiple = True)
-    tools = maec.TypedField("Tools", ToolList)
-    dynamic_analysis_metadata = maec.TypedField("Dynamic_Analysis_Metadata", DynamicAnalysisMetadata)
-    analysis_environment = maec.TypedField("Analysis_Environment", AnalysisEnvironment)
-    report = maec.TypedField("Report", StructuredText)
+    id_ = fields.TypedField("id")
+    method = fields.TypedField("method")
+    type_ = fields.TypedField("type")
+    ordinal_position = fields.TypedField("ordinal_position")
+    start_datetime = fields.TypedField("start_datetime")
+    complete_datetime = fields.TypedField("complete_datetime")
+    lastupdate_datetime = fields.TypedField("lastupdate_datetime")
+    source = fields.TypedField("Source", Source)
+    analysts = fields.TypedField("Analysts", Personnel)
+    summary = fields.TypedField("Summary", StructuredText)
+    comments = fields.TypedField("Comments", CommentList)
+    findings_bundle_reference = fields.TypedField("Findings_Bundle_Reference", BundleReference, multiple = True)
+    tools = fields.TypedField("Tools", ToolList)
+    dynamic_analysis_metadata = fields.TypedField("Dynamic_Analysis_Metadata", DynamicAnalysisMetadata)
+    analysis_environment = fields.TypedField("Analysis_Environment", AnalysisEnvironment)
+    report = fields.TypedField("Report", StructuredText)
 
     def __init__(self, id = None, method = None, type = None, findings_bundle_reference = []):
         super(Analysis, self).__init__()

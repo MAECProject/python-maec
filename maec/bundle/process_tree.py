@@ -3,13 +3,15 @@
 # Copyright (c) 2015, The MITRE Corporation
 # All rights reserved
 
-import cybox
+from mixbox import fields
+
 from cybox.objects.process_object import Process
 
 import maec
 from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
 from maec.bundle import ActionReferenceList
+
 
 class ProcessTreeNode(Process):
     _binding = bundle_binding
@@ -19,12 +21,12 @@ class ProcessTreeNode(Process):
     _XSI_TYPE = "ProcessTreeNodeType"
     superclass = Process
 
-    id_ = cybox.TypedField("id")
-    parent_action_idref = cybox.TypedField("parent_action_idref")
-    ordinal_position = cybox.TypedField("ordinal_position")
-    initiated_actions = cybox.TypedField("Initiated_Actions", ActionReferenceList)
-    spawned_process = cybox.TypedField("Spawned_Process", multiple = True)
-    injected_process = cybox.TypedField("Injected_Process", multiple = True)
+    id_ = fields.TypedField("id")
+    parent_action_idref = fields.TypedField("parent_action_idref")
+    ordinal_position = fields.TypedField("ordinal_position")
+    initiated_actions = fields.TypedField("Initiated_Actions", ActionReferenceList)
+    spawned_process = fields.TypedField("Spawned_Process", multiple = True)
+    injected_process = fields.TypedField("Injected_Process", multiple = True)
 
     def __init__(self, id = None, parent_action_idref = None):
         super(ProcessTreeNode, self).__init__()
@@ -103,12 +105,13 @@ class ProcessTreeNode(Process):
         """Set the ID of the parent action of the Process Tree node."""
         self.parent_action_idref = parent_action_id
 
+
 class ProcessTree(maec.Entity):
     _binding = bundle_binding
     _binding_class = bundle_binding.ProcessTreeType    
     _namespace = _namespace
 
-    root_process = maec.TypedField("Root_Process", ProcessTreeNode)
+    root_process = fields.TypedField("Root_Process", ProcessTreeNode)
 
     def __init__(self, root_process = None):
         super(ProcessTree, self).__init__()

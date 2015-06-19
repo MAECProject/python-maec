@@ -3,7 +3,6 @@
 #Copyright (c) 2015, The MITRE Corporation
 #All rights reserved
 
-
 from cybox.core import ActionReference
 
 import maec
@@ -16,4 +15,3 @@ class ActionReferenceList(maec.EntityList):
     _binding_class = bundle_binding.ActionReferenceListType
     _binding_var = "Action_Reference"
     _namespace = _namespace
-     
