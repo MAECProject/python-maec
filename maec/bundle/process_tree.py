@@ -8,9 +8,10 @@ from mixbox import fields
 from cybox.objects.process_object import Process
 
 import maec
-from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
-from maec.bundle import ActionReferenceList
+
+from . import _namespace
+from .action_reference_list import ActionReferenceList
 
 
 class ProcessTreeNode(Process):

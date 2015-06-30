@@ -12,7 +12,6 @@ from cybox.core.action_reference import ActionReference
 from cybox.common.measuresource import MeasureSource
 from cybox.common.platform_specification import PlatformSpecification
 from cybox.objects.code_object import Code
-#from maec.bundle.bundle import ActionCollection
 
 class BehavioralActionEquivalenceReference(maec.Entity):
     _binding = bundle_binding
@@ -41,7 +40,8 @@ class BehavioralActions(maec.Entity):
     _binding_class = bundle_binding.BehavioralActionsType    
     _namespace = _namespace
 
-    #action_collection = fields.TypedField('Action_Collection', ActionCollection, multiple=True) #TODO: solve recursive import
+    #TODO: action_collection.type_ is set below to avoid circular import.
+    action_collection = fields.TypedField('Action_Collection', None, multiple=True)
     action = fields.TypedField('Action', BehavioralAction, multiple=True)
     action_reference = fields.TypedField('Action_Reference', BehavioralActionReference, multiple=True)
     action_equivalence_reference = fields.TypedField('Action_Equivalence_Reference', BehavioralActionEquivalenceReference, multiple=True)
@@ -109,3 +109,7 @@ class Behavior(maec.Entity):
         else:
             self.id_ = maec.utils.idgen.create_id(prefix="behavior")
         self.description = description
+
+
+from maec.bundle.bundle import ActionCollection
+BehavioralActions.action_collection.type_ = ActionCollection
