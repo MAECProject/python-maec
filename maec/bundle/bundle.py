@@ -9,12 +9,17 @@ from cybox.core import Object
 from cybox.utils.normalize import normalize_object_properties
 
 import maec
-from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
-from maec.bundle import (MalwareAction, AVClassifications, Behavior,
-                         CandidateIndicatorList, ProcessTree, CapabilityList,
-                         ObjectHistory)
 from maec.utils import BundleComparator, BundleDeduplicator
+
+from . import _namespace
+from .malware_action import MalwareAction
+from .av_classification import AVClassifications
+from .behavior import Behavior
+from .candidate_indicator import CandidateIndicatorList
+from .process_tree import ProcessTree
+from .capability import CapabilityList
+from .object_history import ObjectHistory
 
 
 class BehaviorList(maec.EntityList):
@@ -23,17 +28,20 @@ class BehaviorList(maec.EntityList):
     _binding_var = "Behavior"
     _namespace = _namespace
 
+
 class ActionList(maec.EntityList):
     _contained_type = MalwareAction
     _binding_class = bundle_binding.ActionListType
     _binding_var = "Action"
     _namespace = _namespace
-    
+
+
 class ObjectList(maec.EntityList):
     _contained_type = Object
     _binding_class = bundle_binding.ObjectListType
     _binding_var = "Object"
     _namespace = _namespace
+
 
 class BaseCollection(maec.Entity):
     _binding = bundle_binding
@@ -48,6 +56,7 @@ class BaseCollection(maec.Entity):
     def __init__(self, name = None):
         super(BaseCollection, self).__init__()
         self.name = name
+
 
 class ActionCollection(BaseCollection):
     _binding = bundle_binding
@@ -69,6 +78,7 @@ class ActionCollection(BaseCollection):
         """Add an input Action to the Collection."""
         self.action_list.append(action)
 
+
 class BehaviorCollection(BaseCollection):
     _binding = bundle_binding
     _binding_class = bundle_binding.BehaviorCollectionType
@@ -88,6 +98,7 @@ class BehaviorCollection(BaseCollection):
     def add_behavior(self, behavior):
         """Add an input Behavior to the Collection."""
         self.behavior_list.append(behavior)
+
 
 class ObjectCollection(BaseCollection):
     _binding = bundle_binding
@@ -109,6 +120,7 @@ class ObjectCollection(BaseCollection):
         """Add an input Object to the Collection."""
         self.object_list.append(object)
 
+
 class CandidateIndicatorCollection(BaseCollection):
     _binding = bundle_binding
     _binding_class = bundle_binding.CandidateIndicatorCollectionType
@@ -128,6 +140,7 @@ class CandidateIndicatorCollection(BaseCollection):
     def add_candidate_indicator(self, candidate_indicator):
         """Add an input Candidate Indicator to the Collection."""
         self.candidate_indicator_list.append(candidate_indicator)
+
 
 class BehaviorCollectionList(maec.EntityList):
     _contained_type = BehaviorCollection
@@ -162,6 +175,7 @@ class BehaviorCollectionList(maec.EntityList):
                 return collection
         return None
 
+
 class ActionCollectionList(maec.EntityList):
     _contained_type = ActionCollection
     _binding_class = bundle_binding.ActionCollectionListType
@@ -194,6 +208,7 @@ class ActionCollectionList(maec.EntityList):
             if collection.name is not None and collection.name == collection_name:
                 return collection
         return None
+
 
 class ObjectCollectionList(maec.EntityList):
     _contained_type = ObjectCollection
@@ -228,6 +243,7 @@ class ObjectCollectionList(maec.EntityList):
                 return collection
         return None
 
+
 class CandidateIndicatorCollectionList(maec.EntityList):
     _contained_type = CandidateIndicatorCollection
     _binding_class = bundle_binding.CandidateIndicatorCollectionListType
@@ -260,6 +276,7 @@ class CandidateIndicatorCollectionList(maec.EntityList):
             if collection.name is not None and collection.name == collection_name:
                 return collection
         return None
+
 
 class Collections(maec.Entity):
     _binding = bundle_binding
@@ -310,12 +327,14 @@ class Collections(maec.Entity):
             return True
         return False
 
+
 class BehaviorReference(maec.Entity):
     _binding = bundle_binding
     _binding_class = bundle_binding.BehaviorReferenceType
     _namespace = _namespace
 
     behavior_idref = fields.TypedField('behavior_idref')
+
 
 class Bundle(maec.Entity):
     _binding = bundle_binding
