@@ -1,19 +1,15 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-import collections
-import inspect
-import json
-from StringIO import StringIO
-
-from cybox import Entity as cyboxEntity
-from cybox import EntityList
-from cybox.utils import Namespace, META
+from mixbox.entities import Entity as cyboxEntity
+from mixbox.entities import EntityList
+from mixbox.namespaces import Namespace, lookup_name, lookup_prefix
+from cybox.utils import META
 
 import bindings.maec_bundle as bundle_binding
 import bindings.maec_package as package_binding
 import maec
-from maec.utils import flip_dict, maecMETA, EntityParser
+from maec.utils import flip_dict, EntityParser
 
 from .version import __version__  # noqa
 
@@ -108,14 +104,14 @@ class Entity(cyboxEntity):
         # if there are any other namepaces, include xsi for "schemaLocation"
         # also, include the MAEC default vocabularies schema by default
         if namespaces:
-            namespaces.update([maecMETA.lookup_prefix('xsi')])
-            namespaces.update([maecMETA.lookup_prefix('maecVocabs')])
+            namespaces.update([lookup_prefix('xsi')])
+            namespaces.update([lookup_prefix('maecVocabs')])
 
         if namespaces and additional_ns_dict:
             namespace_list = [x.name for x in namespaces if x]
             for ns, prefix in additional_ns_dict.iteritems():
                 if ns not in namespace_list:
-                    namespaces.update([Namespace(ns, prefix)])
+                    namespaces.update([Namespace(ns, prefix, '')])
 
         if not namespaces:
             return ""
@@ -133,7 +129,7 @@ class Entity(cyboxEntity):
         namespaces = [x._namespace for x in self.__class__.__mro__
                       if hasattr(x, '_namespace')]
 
-        nsset.update([maecMETA.lookup_namespace(ns) for ns in namespaces])
+        nsset.update([lookup_name(ns) for ns in namespaces])
 
         #In case of recursive relationships, don't process this item twice
         self.touched = True
@@ -146,12 +142,11 @@ class Entity(cyboxEntity):
         # Add any additional namespaces that may be included in the entity
         input_ns = self._ns_to_prefix_input_namespaces()
         for namespace, alias in input_ns.iteritems():
-            maec_ns = maecMETA.lookup_namespace(namespace)
-            cybox_ns = META.lookup_namespace(namespace)
-            if not maec_ns and not cybox_ns:
-                nsset.add(Namespace(namespace, alias))
+            if not lookup_name(namespace):
+                nsset.add(Namespace(namespace, alias, ''))
 
         return nsset
+
 
 def parse_xml_instance(filename, check_version = True):
     """Parse a MAEC instance and return the correct Binding and API objects

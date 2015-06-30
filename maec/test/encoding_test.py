@@ -15,6 +15,7 @@ from maec.bundle.bundle import Bundle
 from maec.bundle.av_classification import AVClassification
 from maec.bundle.behavior import Behavior
 from maec.bundle.capability import Capability
+import maec.utils
 
 from cybox.test import round_trip
 

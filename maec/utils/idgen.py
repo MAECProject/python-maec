@@ -2,9 +2,11 @@
 # See LICENSE.txt for complete terms.
 
 import uuid
+
+from mixbox.namespaces import Namespace
 import cybox.utils
 
-EXAMPLE_NAMESPACE = cybox.utils.Namespace("http://example.com", "example")
+EXAMPLE_NAMESPACE = Namespace("http://example.com", "example", '')
 
 class InvalidMethodError(ValueError):
     def __init__(self, method):
@@ -31,7 +33,7 @@ class IDGenerator(object):
 
     @namespace.setter
     def namespace(self, value):
-        if not isinstance(value, cybox.utils.Namespace):
+        if not isinstance(value, Namespace):
             raise ValueError("Must be a Namespace object")
         self._namespace = value
         self.reset()

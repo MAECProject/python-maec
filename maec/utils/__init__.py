@@ -16,11 +16,12 @@ def flip_dict(d):
     """
     return dict((v,k) for k, v in d.iteritems())
 
-
 # Namespace flattening
-from .nsparser import maecMETA # noqa
 from .idgen import * # noqa
 from .parser import EntityParser # noqa
 from .comparator import (ObjectHash, BundleComparator, SimilarObjectCluster, # noqa
                          ComparisonResult) # noqa
 from .deduplicator import BundleDeduplicator # noqa
+
+#Ensure MAEC namespaces get registered
+from .nsparser import *  # noqa 

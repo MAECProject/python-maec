@@ -1,13 +1,17 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
-# Methods for merging MAEC documents
 
-import itertools
-import maec
+"""Methods for merging MAEC documents"""
+
 from copy import deepcopy
+import itertools
+
+from mixbox.namespaces import Namespace
+
 from cybox.core import Object
 from cybox.common import HashList
-from cybox.utils import Namespace
+
+import maec
 from maec.package import (Package, MalwareSubject, MalwareConfigurationDetails,
                           FindingsBundleList, MetaAnalysis, Analyses,
                           MinorVariants, MalwareSubjectRelationshipList,
