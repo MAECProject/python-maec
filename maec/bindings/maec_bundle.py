@@ -1571,7 +1571,7 @@ class BehavioralActionsType(GeneratedsSuper):
             obj_.build(child_)
             self.Action_Collection.append(obj_)
         elif nodeName_ == 'Action':
-            obj_ = MalwareActionType.factory()
+            obj_ = BehavioralActionType.factory()
             obj_.build(child_)
             self.Action.append(obj_)
         elif nodeName_ == 'Action_Reference':
