@@ -17,7 +17,6 @@ def flip_dict(d):
     return dict((v,k) for k, v in d.iteritems())
 
 # Namespace flattening
-from .idgen import * # noqa
 from .parser import EntityParser # noqa
 from .comparator import (ObjectHash, BundleComparator, SimilarObjectCluster, # noqa
                          ComparisonResult) # noqa

@@ -4,6 +4,7 @@
 # All rights reserved
 
 from mixbox import fields
+from mixbox import idgen
 
 from cybox.core import Object
 from cybox.utils.normalize import normalize_object_properties
@@ -71,7 +72,7 @@ class ActionCollection(BaseCollection):
         if id:
             self.id_ = id
         else:
-            self.id_ = maec.utils.idgen.create_id(prefix="action_collection")
+            self.id_ = idgen.create_id(prefix="action_collection")
         self.action_list = ActionList()
 
     def add_action(self, action):
@@ -92,7 +93,7 @@ class BehaviorCollection(BaseCollection):
         if id:
             self.id_ = id
         else:
-            self.id_ = maec.utils.idgen.create_id(prefix="behavior_collection")
+            self.id_ = idgen.create_id(prefix="behavior_collection")
         self.behavior_list = BehaviorList()
 
     def add_behavior(self, behavior):
@@ -113,7 +114,7 @@ class ObjectCollection(BaseCollection):
         if id:
             self.id_ = id
         else:
-            self.id_ = maec.utils.idgen.create_id(prefix="object_collection")
+            self.id_ = idgen.create_id(prefix="object_collection")
         self.object_list = ObjectList()
 
     def add_object(self, object):
@@ -134,7 +135,7 @@ class CandidateIndicatorCollection(BaseCollection):
         if id:
             self.id_ = id
         else:
-            self.id_ = maec.utils.idgen.create_id(prefix="candidate_indicator_collection")
+            self.id_ = idgen.create_id(prefix="candidate_indicator_collection")
         self.candidate_indicator_list = CandidateIndicatorList()
 
     def add_candidate_indicator(self, candidate_indicator):
@@ -361,7 +362,7 @@ class Bundle(maec.Entity):
         if id:
             self.id_ = id
         else:
-            self.id_ = maec.utils.idgen.create_id(prefix="bundle")
+            self.id_ = idgen.create_id(prefix="bundle")
         self.schema_version = schema_version
         self.defined_subject = defined_subject
         self.content_type = content_type

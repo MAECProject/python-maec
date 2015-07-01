@@ -6,6 +6,7 @@
 from copy import deepcopy
 import itertools
 
+from mixbox import idgen
 from mixbox.namespaces import Namespace
 
 from cybox.core import Object
@@ -165,7 +166,7 @@ def merge_binned_malware_subjects(merged_malware_subject, binned_list, id_mappin
     mal_inst_obj_list = [x.malware_instance_object_attributes for x in binned_list]
     merged_inst_obj = Object.from_dict(merge_entities(mal_inst_obj_list))
     # Give the merged Object a new ID
-    merged_inst_obj.id_ = maec.utils.idgen.create_id('object')
+    merged_inst_obj.id_ = idgen.create_id('object')
     # Deduplicate the hash values, if they exist
     if merged_inst_obj.properties and merged_inst_obj.properties.hashes:
         hashes = merged_inst_obj.properties.hashes

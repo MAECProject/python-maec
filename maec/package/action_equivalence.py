@@ -4,6 +4,7 @@
 #All rights reserved
 
 from mixbox import fields
+from mixbox import idgen
 
 import maec
 from . import _namespace
@@ -20,7 +21,7 @@ class ActionEquivalence(maec.Entity):
 
     def __init__(self):
         super(ActionEquivalence, self).__init__()
-        self.id_ = maec.utils.idgen.create_id(prefix="action_equivalence")
+        self.id_ = idgen.create_id(prefix="action_equivalence")
 
 class ActionEquivalenceList(maec.EntityList):
     _contained_type = ActionEquivalence

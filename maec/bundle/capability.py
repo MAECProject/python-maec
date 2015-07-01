@@ -4,6 +4,7 @@
 # All rights reserved
 
 from mixbox import fields
+from mixbox import idgen
 
 import maec
 from . import _namespace
@@ -89,7 +90,7 @@ class CapabilityObjective(maec.Entity):
         if id:
             self.id_ = id
         else:
-            self.id_ = maec.utils.idgen.create_id(prefix="capability_objective")
+            self.id_ = idgen.create_id(prefix="capability_objective")
 
 
 class Capability(maec.Entity):
@@ -111,7 +112,7 @@ class Capability(maec.Entity):
         if id:
             self.id_ = id
         else:
-            self.id_ = maec.utils.idgen.create_id(prefix="capability")
+            self.id_ = idgen.create_id(prefix="capability")
         self.name = name
 
     def add_tactical_objective(self, tactical_objective):

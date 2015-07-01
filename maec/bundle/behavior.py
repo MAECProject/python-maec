@@ -4,6 +4,7 @@
 # All rights reserved
 
 from mixbox import fields
+from mixbox import idgen
 
 import maec
 from . import _namespace
@@ -107,7 +108,7 @@ class Behavior(maec.Entity):
         if id:
             self.id_ = id
         else:
-            self.id_ = maec.utils.idgen.create_id(prefix="behavior")
+            self.id_ = idgen.create_id(prefix="behavior")
         self.description = description
 
 

@@ -4,6 +4,7 @@
 # All rights reserved
 
 from mixbox import fields
+from mixbox import idgen
 
 from cybox.objects.process_object import Process
 
@@ -34,7 +35,7 @@ class ProcessTreeNode(Process):
         if id:
             self.id_ = id
         else:
-            self.id_ = maec.utils.idgen.create_id(prefix="process_tree")
+            self.id_ = idgen.create_id(prefix="process_tree")
         self.parent_action_idref = parent_action_idref
 
     def add_spawned_process(self, process_node, process_id = None):

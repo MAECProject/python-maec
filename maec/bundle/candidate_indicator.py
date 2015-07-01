@@ -4,6 +4,7 @@
 # All rights reserved
 
 from mixbox import fields
+from mixbox import idgen
 
 import maec
 from . import _namespace
@@ -62,7 +63,7 @@ class CandidateIndicator(maec.Entity):
         if id:
             id_ = id
         else:
-            id_ = maec.utils.idgen.create_id(prefix="candidate_indicator")
+            id_ = idgen.create_id(prefix="candidate_indicator")
 
 class CandidateIndicatorList(maec.EntityList):
     _contained_type = CandidateIndicator

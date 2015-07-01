@@ -4,6 +4,7 @@
 # All rights reserved
 
 from mixbox import fields
+from mixbox import idgen
 
 from cybox.common import (PlatformSpecification, Personnel, StructuredText,
         ToolInformation)
@@ -219,7 +220,7 @@ class Analysis(maec.Entity):
         if id:
             self.id_ = id
         else:
-            self.id_ = maec.utils.idgen.create_id(prefix="analysis")
+            self.id_ = idgen.create_id(prefix="analysis")
         self.method = method
         self.type_ = type
         self.findings_bundle_reference = findings_bundle_reference

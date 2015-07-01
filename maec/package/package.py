@@ -4,6 +4,7 @@
 # All rights reserved
 
 from mixbox import fields
+from mixbox import idgen
 
 import maec
 import maec.bindings.maec_package as package_binding
@@ -26,7 +27,7 @@ class Package(maec.Entity):
         if id:
             self.id_ = id
         else:
-            self.id_ = maec.utils.idgen.create_id(prefix="package")
+            self.id_ = idgen.create_id(prefix="package")
         self.schema_version = schema_version
         self.timestamp = timestamp
         self.malware_subjects = MalwareSubjectList()
