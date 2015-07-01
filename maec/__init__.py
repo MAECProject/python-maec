@@ -5,7 +5,6 @@ from mixbox.entities import Entity as cyboxEntity
 from mixbox.entities import EntityList
 from mixbox.namespaces import (Namespace, get_xmlns_string,
         get_schemaloc_string, lookup_name, lookup_prefix)
-from cybox.utils import META
 
 import bindings.maec_bundle as bundle_binding
 import bindings.maec_package as package_binding
