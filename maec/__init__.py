@@ -3,7 +3,8 @@
 
 from mixbox.entities import Entity as cyboxEntity
 from mixbox.entities import EntityList
-from mixbox.namespaces import Namespace, lookup_name, lookup_prefix
+from mixbox.namespaces import (Namespace, get_xmlns_string,
+        get_schemaloc_string, lookup_name, lookup_prefix)
 from cybox.utils import META
 
 import bindings.maec_bundle as bundle_binding
@@ -13,28 +14,6 @@ from maec.utils import flip_dict, EntityParser
 
 from .version import __version__  # noqa
 
-
-def get_xmlns_string(ns_set):
-    """Build a string with 'xmlns' definitions for every namespace in ns_set.
-
-    Arguments:
-    - ns_set: a set (or other iterable) of Namespace objects
-    """
-    xmlns_format = 'xmlns:{0.prefix}="{0.name}"'
-    return "\n\t".join([xmlns_format.format(x) for x in ns_set if x])
-
-
-def get_schemaloc_string(ns_set):
-    """Build a "schemaLocation" string for every namespace in ns_set.
-
-    Arguments:
-    - ns_set: a set (or other iterable) of Namespace objects
-    """
-    schemaloc_format = '{0.name} {0.schema_location}'
-    # Only include schemas that have a schema_location defined (for instance,
-    # 'xsi' does not.
-    return " ".join([schemaloc_format.format(x) for x in ns_set
-                     if x and x.schema_location])
 
 class Entity(cyboxEntity):
     """Base class for all classes in the MAEC SimpleAPI."""
