@@ -23,6 +23,12 @@ def get_version():
 with open('README.rst') as f:
     readme = f.read()
 
+install_requires = [
+    'lxml>=2.2.3',
+    'mixbox>=0.0.8',
+    'cybox>=2.1.0.12.dev1,<2.1.1.0',
+]
+
 extras_require = {
     'docs': [
         'Sphinx==1.3.1',
@@ -43,7 +49,7 @@ setup(
     long_description=readme,
     url="http://maec.mitre.org",
     packages=find_packages(),
-    install_requires=['mixbox', 'lxml>=2.2.3', 'cybox>=2.1.0.12.dev0,<2.1.1.0'],
+    install_requires=install_requires,
     extras_require=extras_require,
     classifiers=[
         "Programming Language :: Python",
