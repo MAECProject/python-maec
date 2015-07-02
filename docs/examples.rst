@@ -32,10 +32,11 @@ different types of analysis.
 
 .. testcode::
 
-    from maec.package import Package, MalwareSubject
-    from maec.utils import IDGenerator, set_id_method
-
+    from mixbox.idgen import IDGenerator, set_id_method
     set_id_method(IDGenerator.METHOD_INT)
+
+    from maec.package import Package, MalwareSubject
+
     p = Package()
     ms = MalwareSubject()
     p.add_malware_subject(ms)
@@ -64,12 +65,13 @@ that it is characterizing.
 
 .. testcode::
 
-    from maec.package import MalwareSubject
-    from maec.utils import IDGenerator, set_id_method
+    from mixbox.idgen import IDGenerator, set_id_method
+    set_id_method(IDGenerator.METHOD_INT)
+
     from cybox.core import Object
     from cybox.objects.file_object import File
+    from maec.package import MalwareSubject
 
-    set_id_method(IDGenerator.METHOD_INT)
     ms = MalwareSubject()
     ms.malware_instance_object_attributes = Object()
     ms.malware_instance_object_attributes.properties = File()
@@ -82,7 +84,7 @@ Which outputs:
 .. testoutput::
 
     <maecPackage:MalwareSubjectType id="example:malware_subject-1">
-        <maecPackage:Malware_Instance_Object_Attributes id="example:Object-1">
+        <maecPackage:Malware_Instance_Object_Attributes id="example:Object-2">
             <cybox:Properties xsi:type="FileObj:FileObjectType">
                 <FileObj:File_Name>malware.exe</FileObj:File_Name>
                 <FileObj:File_Path>C:\Windows\Temp\malware.exe</FileObj:File_Path>
@@ -110,12 +112,13 @@ instance that it is characterizing.
 
 .. testcode::
 
-    from maec.bundle import Bundle
-    from maec.utils import IDGenerator, set_id_method
+    from mixbox.idgen import IDGenerator, set_id_method
+    set_id_method(IDGenerator.METHOD_INT)
+
     from cybox.core import Object
     from cybox.objects.file_object import File
+    from maec.bundle import Bundle
 
-    set_id_method(IDGenerator.METHOD_INT)
     b = Bundle()
     b.malware_instance_object_attributes = Object()
     b.malware_instance_object_attributes.properties = File()
@@ -129,7 +132,7 @@ Which outputs:
 .. testoutput::
 
     <maecBundle:MAEC_Bundle defined_subject="false" id="example:bundle-1" schema_version="4.1">
-        <maecBundle:Malware_Instance_Object_Attributes id="example:Object-1">
+        <maecBundle:Malware_Instance_Object_Attributes id="example:Object-2">
             <cybox:Properties xsi:type="FileObj:FileObjectType">
                 <FileObj:File_Name>malware.exe</FileObj:File_Name>
                 <FileObj:File_Path>C:\Windows\Temp\malware.exe</FileObj:File_Path>
@@ -147,13 +150,15 @@ be defined in their parent Malware Subject.
 
 .. testcode::
 
-    from maec.package import MalwareSubject
-    from maec.bundle import Bundle
-    from maec.utils import IDGenerator, set_id_method
+    from mixbox.idgen import IDGenerator, set_id_method
+    set_id_method(IDGenerator.METHOD_INT)
+
     from cybox.core import Object
     from cybox.objects.file_object import File
 
-    set_id_method(IDGenerator.METHOD_INT)
+    from maec.package import MalwareSubject
+    from maec.bundle import Bundle
+
     ms = MalwareSubject()
     ms.malware_instance_object_attributes = Object()
     ms.malware_instance_object_attributes.properties = File()
@@ -170,14 +175,14 @@ Which outputs:
 .. testoutput::
 
     <maecPackage:MalwareSubjectType id="example:malware_subject-1">
-        <maecPackage:Malware_Instance_Object_Attributes id="example:Object-1">
+        <maecPackage:Malware_Instance_Object_Attributes id="example:Object-2">
             <cybox:Properties xsi:type="FileObj:FileObjectType">
                 <FileObj:File_Name>malware.exe</FileObj:File_Name>
                 <FileObj:File_Path>C:\Windows\Temp\malware.exe</FileObj:File_Path>
             </cybox:Properties>
         </maecPackage:Malware_Instance_Object_Attributes>
         <maecPackage:Findings_Bundles>
-            <maecPackage:Bundle defined_subject="false" id="example:bundle-2" schema_version="4.1"/>
+            <maecPackage:Bundle defined_subject="false" id="example:bundle-3" schema_version="4.1"/>
         </maecPackage:Findings_Bundles>
     </maecPackage:MalwareSubjectType>
 
@@ -194,14 +199,15 @@ needed.
 
 .. testcode::
 
-    from maec.bundle import Bundle
-    from maec.bundle import MalwareAction
-    from maec.utils import IDGenerator, set_id_method
+    from mixbox.idgen import IDGenerator, set_id_method
+    set_id_method(IDGenerator.METHOD_INT)
+
     from cybox.core import Object, AssociatedObjects, AssociatedObject
     from cybox.objects.file_object import File
     from cybox.common import VocabString
+    from maec.bundle import Bundle
+    from maec.bundle import MalwareAction
 
-    set_id_method(IDGenerator.METHOD_INT)
     b = Bundle()
     a = MalwareAction()
     ao = AssociatedObject()
@@ -230,7 +236,7 @@ needed.
             <maecBundle:Action id="example:action-2">
                 <cybox:Name xsi:type="maecVocabs:FileActionNameVocab-1.0">create file</cybox:Name>
                 <cybox:Associated_Objects>
-                    <cybox:Associated_Object id="example:Object-1">
+                    <cybox:Associated_Object id="example:Object-3">
                         <cybox:Properties xsi:type="FileObj:FileObjectType">
                             <FileObj:File_Name>badware.exe</FileObj:File_Name>
                             <FileObj:Size_In_Bytes>123456</FileObj:Size_In_Bytes>
