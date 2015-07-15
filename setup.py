@@ -25,7 +25,7 @@ with open('README.rst') as f:
 
 install_requires = [
     'lxml>=2.2.3',
-    'mixbox>=0.0.8',
+    'mixbox>=0.0.10',
     'cybox>=2.1.0.12.dev1,<2.1.1.0',
 ]
 
