@@ -23,10 +23,11 @@ def get_version():
 with open('README.rst') as f:
     readme = f.read()
 
+
 install_requires = [
     'lxml>=2.2.3',
     'mixbox>=0.0.10',
-    'cybox>=2.1.0.12.dev1,<2.1.1.0',
+    'cybox>=2.1.0.13.dev0,<2.1.1.0',
 ]
 
 extras_require = {
