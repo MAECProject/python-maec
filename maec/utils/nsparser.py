@@ -16,4 +16,4 @@ MAEC_NAMESPACES = NamespaceSet()
 for k, v in dict(globals()).items():
     if k.startswith('NS_'):
         register_namespace(v)
-        MAEC_NAMESPACES.add(v)
+        MAEC_NAMESPACES.add_namespace(v)
