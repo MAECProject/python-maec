@@ -5,7 +5,7 @@ class ComparisonResult(object):
     def __init__(self, bundle_list, lookup_table):
         self.lookup_table = lookup_table
         self.bundle_list = bundle_list
-    
+
     def get_unique(self, bundle_list=None):
         unique_objs = {}
         
@@ -121,6 +121,7 @@ class BundleComparator(object):
                 val.append(obj_dict_list[0]['ownerBundle'])
         return val
 
+
 class ObjectHash(object):
     @classmethod
     def get_hash(cls, obj, match_on, case_sensitive):
@@ -128,7 +129,7 @@ class ObjectHash(object):
         cls.case_sensitive = case_sensitive
         hash_val = ''
         
-        for typed_field in obj.properties._get_vars():
+        for typed_field in obj.properties.typed_fields:
             # Make sure the typed field is comparable
             if typed_field.comparable:
                 # Check if we're dealing with a nested element that we want to compare

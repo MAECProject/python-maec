@@ -14,8 +14,8 @@ from cybox.utils import Namespace
 import maec.utils
 
 # Instantiate the ID generator class (for automatic ID generation) with our example namespace
-NS = Namespace("http://example.com/", "example")
-maec.utils.set_id_namespace(NS)
+NS = Namespace("http://example.com/", "example", "")
+maec.utils.register_namespace(NS)
 # Instantiate the Bundle, Package, MalwareSubject, and Analysis classes
 bundle = Bundle(defined_subject=False)
 package = Package()

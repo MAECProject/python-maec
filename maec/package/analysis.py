@@ -49,47 +49,58 @@ class Comment(StructuredText):
                 self.timestamp is None and 
                 self.observation_name is None)
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        comment_obj = super(Comment, self).to_obj(return_obj=package_binding.CommentType())
-        if self.author: comment_obj.author = self.author
-        if self.timestamp: comment_obj.timestamp = self.timestamp
-        if self.observation_name: comment_obj.observation_name = self.observation_name
+    def to_obj(self, ns_info=None):
+        comment_obj = super(Comment, self).to_obj()
+
+        if self.author:
+            comment_obj.author = self.author
+        if self.timestamp:
+            comment_obj.timestamp = self.timestamp
+        if self.observation_name:
+            comment_obj.observation_name = self.observation_name
 
         return comment_obj
 
     def to_dict(self):
         comment_dict = super(Comment, self).to_dict()
-        if self.author: comment_dict['author'] = self.author
-        if self.timestamp: comment_dict['timestamp'] = self.timestamp
-        if self.observation_name: comment_dict['observation_name'] = self.observation_name
+        if self.author:
+            comment_dict['author'] = self.author
+        if self.timestamp:
+            comment_dict['timestamp'] = self.timestamp
+        if self.observation_name:
+            comment_dict['observation_name'] = self.observation_name
 
         return comment_dict
 
     @classmethod
-    def from_obj(cls, comment_obj):
-        if not comment_obj:
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
 
-        comment = Comment(comment_obj.valueOf_)
-        if comment_obj.author: comment.author = comment_obj.author
-        if comment_obj.timestamp: comment.timestamp = comment_obj.timestamp
-        if comment_obj.observation_name: comment.observation_name = comment_obj.observation_name
+        comment = super(Comment, cls).from_obj(cls_obj)
+        comment.value = cls_obj.valueOf_
+
+        if cls_obj.author:
+            comment.author = cls_obj.author
+        if cls_obj.timestamp:
+            comment.timestamp = cls_obj.timestamp
+        if cls_obj.observation_name:
+            comment.observation_name = cls_obj.observation_name
 
         return comment
 
     @classmethod
-    def from_dict(cls, comment_dict):
-        if not comment_dict:
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
 
-        comment = Comment()
-        if not isinstance(comment_dict, dict):
-            comment.value = comment_dict
+        if not isinstance(cls_dict, dict):
+            comment = cls(cls_dict)
         else:
-            comment.value = comment_dict.get('value')
-            comment.author = comment_dict.get('author')
-            comment.timestamp = comment_dict.get('timestamp')
-            comment.observation_name = comment_dict.get('observation_name')
+            super(Comment, cls).from_dict(cls_dict)
+            comment.author = cls_dict.get('author')
+            comment.timestamp = cls_dict.get('timestamp')
+            comment.observation_name = cls_dict.get('observation_name')
 
         return comment
 

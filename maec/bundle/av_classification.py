@@ -1,65 +1,68 @@
 # MAEC AV Classification classes
-
 # Copyright (c) 2015, The MITRE Corporation
 # All rights reserved
 
+from cybox.common import ToolInformation
 
 import maec
 from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding
-from cybox.common import ToolInformation
+
 
 class AVClassification(ToolInformation, maec.Entity):
     _namespace = _namespace
     _binding = bundle_binding
     _binding_class = bundle_binding.AVClassificationType
 
-    def __init__(self, classification = None, tool_name = None, tool_vendor = None):
-        super(AVClassification, self).__init__(tool_name, tool_vendor)
+    def __init__(self, classification=None, tool_name=None, tool_vendor=None):
+        super(AVClassification, self).__init__(tool_name=tool_name, tool_vendor=tool_vendor)
         self.engine_version = None
         self.definition_version = None
         self.classification_name = classification
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        if not return_obj:
-            return_obj = self._binding_class()
-
-        super(AVClassification, self).to_obj(return_obj=return_obj, ns_info=ns_info)
-
+    def to_obj(self, ns_info=None):
+        obj = super(AVClassification, self).to_obj(ns_info=ns_info)
         if self.engine_version is not None :
-            return_obj.Engine_Version = self.engine_version
+            obj.Engine_Version = self.engine_version
         if self.definition_version is not None : 
-            return_obj.Definition_Version = self.definition_version
+            obj.Definition_Version = self.definition_version
         if self.classification_name is not None : 
-            return_obj.Classification_Name = self.classification_name
-        return return_obj
+            obj.Classification_Name = self.classification_name
+        return obj
 
     def to_dict(self):
-        av_classification_dict = super(AVClassification, self).to_dict()
-        if self.engine_version is not None : av_classification_dict['engine_version'] = self.engine_version
-        if self.definition_version is not None : av_classification_dict['definition_version'] = self.definition_version
-        if self.classification_name is not None : av_classification_dict['classification_name'] = self.classification_name
-        return av_classification_dict
+        d = super(AVClassification, self).to_dict()
 
-    @staticmethod
-    def from_dict(av_classification_dict):
-        if not av_classification_dict:
+        if self.engine_version is not None:
+            d['engine_version'] = self.engine_version
+        if self.definition_version is not None:
+            d['definition_version'] = self.definition_version
+        if self.classification_name is not None:
+            d['classification_name'] = self.classification_name
+
+        return d
+
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
-        av_classification_ = ToolInformation.from_dict(av_classification_dict, AVClassification())
-        av_classification_.engine_version = av_classification_dict.get('engine_version')
-        av_classification_.definition_version = av_classification_dict.get('definition_version')
-        av_classification_.classification_name = av_classification_dict.get('classification_name')
+
+        av_classification_ = super(AVClassification, cls).from_dict(cls_dict)
+        av_classification_.engine_version = cls_dict.get('engine_version')
+        av_classification_.definition_version = cls_dict.get('definition_version')
+        av_classification_.classification_name = cls_dict.get('classification_name')
         return av_classification_
 
-    @staticmethod
-    def from_obj(av_classification_obj):
-        if not av_classification_obj:
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
-        av_classification_ = ToolInformation.from_obj(av_classification_obj, AVClassification())
-        av_classification_.engine_version = av_classification_obj.Engine_Version
-        av_classification_.definition_version = av_classification_obj.Definition_Version
-        av_classification_.classification_name = av_classification_obj.Classification_Name
+        av_classification_ = super(AVClassification, cls).from_obj(cls_obj)
+        av_classification_.engine_version = cls_obj.Engine_Version
+        av_classification_.definition_version = cls_obj.Definition_Version
+        av_classification_.classification_name = cls_obj.Classification_Name
         return av_classification_
+
 
 class AVClassifications(maec.EntityList):
     _contained_type = AVClassification
