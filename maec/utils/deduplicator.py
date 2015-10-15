@@ -3,10 +3,15 @@
 # All rights reserved
 
 # See LICENSE.txt for complete terms
+
 import collections
-import cybox
 import copy
+
+from mixbox import entities
+
+import cybox
 from cybox.common.properties import BaseProperty
+
 
 class BundleDeduplicator(object):
     @classmethod
@@ -150,26 +155,29 @@ class BundleDeduplicator(object):
                 values.add(":".join([name,str(val)]))
             else:
                 values.add(":".join([name,str(val).lower()]))
+            return
+
         # If it's a list, then we need to iterate through each of its members
-        elif isinstance(val, collections.MutableSequence):
+        if isinstance(val, cybox.Entity):
+            for attrname, item_property in val.typed_fields_with_attrnames:
+                path = "{name}/{attrname}".format(**locals())
+                fieldval = getattr(val, attrname)
+                cls.get_typedfield_values(fieldval, path, values, ignoreCase)
+
+        if isinstance(val, collections.MutableSequence):
             for list_item in val:
-                for list_item_property in list_item._get_vars():
-                    cls.get_typedfield_values(getattr(list_item, str(list_item_property)), "/".join([name,str(list_item_property)]), values, ignoreCase)
-        # If it's a cybox.Entity, then we need to iterate through its properties
-        elif isinstance(val, cybox.Entity):
-            for item_property in val._get_vars():
-                cls.get_typedfield_values(getattr(val, str(item_property)), "/".join([name,str(item_property)]), values, ignoreCase) 
+                cls.get_typedfield_values(list_item, name, values, ignoreCase)
 
     @classmethod
     def get_object_values(cls, obj, ignoreCase = False):
         """Get the values specified for an Object's properties as a set."""
         values = set()
-        for typed_field in obj.properties._get_vars():
+        for attrname, typed_field in obj.properties.typed_fields_with_attrnames:
             # Make sure the typed field is comparable
             if typed_field.comparable:
-                val = getattr(obj.properties, str(typed_field))
+                val = getattr(obj.properties, attrname)
                 if val is not None:
-                    cls.get_typedfield_values(val, str(typed_field), values, ignoreCase)
+                    cls.get_typedfield_values(val, attrname, values, ignoreCase)
         return values
 
     @classmethod
