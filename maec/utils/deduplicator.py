@@ -9,7 +9,7 @@ import copy
 
 from mixbox import entities
 
-import cybox
+from cybox.core import RelatedObject, AssociatedObject
 from cybox.common.properties import BaseProperty
 
 
@@ -113,9 +113,9 @@ class BundleDeduplicator(object):
                 for object in all_objects:
                     if object.id_ and object.id_ == unique_object_id:
                         object_copy = copy.deepcopy(object)
-                        if isinstance(object_copy, cybox.core.AssociatedObject):
+                        if isinstance(object_copy, AssociatedObject):
                             object_copy.association_type = None
-                        elif isinstance(object_copy, cybox.core.RelatedObject):
+                        elif isinstance(object_copy, RelatedObject):
                             object_copy.relationship = None
                         # Modify the existing Object to serve as a reference to the Object in the collection
                         object.idref = object.id_
@@ -147,29 +147,31 @@ class BundleDeduplicator(object):
                 cls.object_ids_mapping[obj.id_] = matching_object_id
 
     @classmethod
-    def get_typedfield_values(cls, val, name, values, ignoreCase = False):
+    def get_typedfield_values(cls, val, name, values, ignoreCase=False):
         """Returns the value contained in a TypedField or its nested members, if applicable."""
         # If it's a BaseProperty instance, then we're done. Return it.
         if isinstance(val, BaseProperty):
-            if ignoreCase:
-                values.add(":".join([name,str(val)]))
-            else:
-                values.add(":".join([name,str(val).lower()]))
+            val  = str(val) if ignoreCase else str(val).lower()
+            values.add("%s:%s" % (name, val))
             return
 
-        # If it's a list, then we need to iterate through each of its members
-        if isinstance(val, cybox.Entity):
+        # If it's an Entity, iterate over the typedfields and find the values
+        # for each field.
+        if isinstance(val, entities.Entity):
             for attrname, item_property in val.typed_fields_with_attrnames:
                 path = "{name}/{attrname}".format(**locals())
                 fieldval = getattr(val, attrname)
                 cls.get_typedfield_values(fieldval, path, values, ignoreCase)
 
+        # If the value is a mutable sequence, attempt to find TypedFields as
+        # in each item. EntityLists are Entity subclasses that can have
+        # TypedFields, so we don't make this an elif.
         if isinstance(val, collections.MutableSequence):
             for list_item in val:
                 cls.get_typedfield_values(list_item, name, values, ignoreCase)
 
     @classmethod
-    def get_object_values(cls, obj, ignoreCase = False):
+    def get_object_values(cls, obj, ignoreCase=False):
         """Get the values specified for an Object's properties as a set."""
         values = set()
         for attrname, typed_field in obj.properties.typed_fields_with_attrnames:
