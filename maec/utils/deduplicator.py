@@ -37,34 +37,37 @@ class BundleDeduplicator(object):
         if cls.object_ids_mapping:
             # Next, add the unique objects to their own collection
             cls.handle_unique_objects(bundle, all_objects)
-            # Replace the non-unique Objects with references 
+            # Replace the non-unique Objects with references
             # to unique Objects across the entire Bundle
             cls.handle_duplicate_objects(bundle, all_objects)
             # Finally, perform some cleanup to handle strange
             # cases where you may have Objects pointing to each other
             cls.cleanup(bundle)
 
-
     @classmethod
     def cleanup(cls, bundle):
         """Cleanup and remove and Objects that may be referencing the re-used Objects.
-           Otherwise, this can create Object->Object->Object etc. references which don't make sense."""
+           Otherwise, this can create Object->Object->Object etc. references which don't make sense.
+        """
+        object_ids = cls.object_ids_mapping.values()  # copy aside for lookup later
+
         # Cleanup the root-level Objects
         if bundle.objects:
             # List of Objects to remove
-            objs = [x for x in bundle.objects if (x.idref and x.idref in cls.object_ids_mapping.values())]
+            objs = (x for x in bundle.objects if (x.idref and x.idref in object_ids))
             # Remove the extraneous Objects
             for obj in objs:
                 bundle.objects.remove(obj)
+
         # Cleanup the Object Collections
         if bundle.collections and bundle.collections.object_collections:
             for collection in bundle.collections.object_collections:
                 # Ignore the re-used objects collection
-                if collection.name and collection.name == "Deduplicated Objects":
+                if collection.name == "Deduplicated Objects":
                     continue
 
                 # List of Objects to remove
-                objs = [x for x in collection.object_list if (x.idref and x.idref in cls.object_ids_mapping.values())]
+                objs = (x for x in collection.object_list if (x.idref and x.idref in object_ids))
 
                 for obj in objs:
                     collection.object_list.remove(obj)
@@ -82,6 +85,7 @@ class BundleDeduplicator(object):
                 object.properties = None
                 object.related_objects = None
                 object.domain_specific_object_properties = None
+
             if duplicate_object_id and duplicate_object_id in cls.idref_objects:
                 for object in cls.idref_objects[duplicate_object_id]:
                     object.idref = unique_object_id
@@ -93,14 +97,17 @@ class BundleDeduplicator(object):
         # First, find the ID of the last Object Collection (if applicable)
         counter = 1
         if bundle.collections and bundle.collections.object_collections:
-            for object_collection in bundle.collections.object_collections:
-                counter += 1
+            counter += len(bundle.collections.object_collections)
+
         # Find the namespace used in the Bundle IDs
         bundle_namespace = bundle.id_.split('-')[1]
+
         # Build the collection ID
-        collection_id = "maec-" + bundle_namespace + "-objc-" + str(counter)
+        collection_id = "maec-%s-objc-%s" % (bundle_namespace, counter)
+
         # Add the named Object collection
         bundle.add_named_object_collection("Deduplicated Objects", collection_id)
+
         # Add the unique Objects to the collection
         cls.add_unique_objects(bundle, all_objects)
 
@@ -117,16 +124,20 @@ class BundleDeduplicator(object):
                             object_copy.association_type = None
                         elif isinstance(object_copy, RelatedObject):
                             object_copy.relationship = None
+
                         # Modify the existing Object to serve as a reference to the Object in the collection
                         object.idref = object.id_
                         object.id_ = None
                         object.properties = None
                         object.related_objects = None
                         object.domain_specific_object_properties = None
+
                         # Add the unique Object to the collection
                         bundle.add_object(object_copy, "Deduplicated Objects")
+
                         # Break out of the all_objects loop
                         break
+
                 added_ids.append(unique_object_id)
 
     @classmethod
@@ -141,6 +152,7 @@ class BundleDeduplicator(object):
                 cls.idref_objects[obj.idref] = [obj]
             elif obj.idref and obj.idref in cls.idref_objects:
                 cls.idref_objects[obj.idref].append(obj)
+
             # Find a matching ID for the Object
             matching_object_id = cls.find_matching_object(obj)
             if matching_object_id:
@@ -151,7 +163,7 @@ class BundleDeduplicator(object):
         """Returns the value contained in a TypedField or its nested members, if applicable."""
         # If it's a BaseProperty instance, then we're done. Return it.
         if isinstance(val, BaseProperty):
-            val  = str(val) if ignoreCase else str(val).lower()
+            val  = str(val) if ignoreCase else str(val).lower()  # TODO (bworrell): This seems backwards.
             values.add("%s:%s" % (name, val))
             return
 
@@ -187,17 +199,23 @@ class BundleDeduplicator(object):
         """Find a matching object, if it exists."""
         if obj and obj.properties:
             object_values = cls.get_object_values(obj)
-            xsi_type = obj.properties._XSI_TYPE 
-            if xsi_type and xsi_type in cls.objects_dict:
+            xsi_type = obj.properties._XSI_TYPE
+
+            if not xsi_type:
+                return None
+            elif xsi_type in cls.objects_dict:
                 types_dict = cls.objects_dict[xsi_type]
+
                 # See if we already have an identical object in the dictionary
-                for obj_id, obj_values in types_dict.items():
+                for obj_id, obj_values in types_dict.iteritems():
                     if obj_values == object_values:
                         # If so, return its ID for use in the IDREF
                         return obj_id
+
                 # If not, add it to the dictionary
                 types_dict[obj.id_] = object_values
-            elif xsi_type and xsi_type not in cls.objects_dict:
+            else:
                 types_dict = {obj.id_:object_values}
                 cls.objects_dict[xsi_type] = types_dict
-            return None
+
+        return None
