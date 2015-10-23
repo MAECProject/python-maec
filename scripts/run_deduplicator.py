@@ -1,7 +1,6 @@
 # run_deduplicator script
 # v0.10 BETA
 # Runs the MAEC Deduplicator against a list or folder of MAEC files
-import pprint
 import sys
 import os
 import timeit
