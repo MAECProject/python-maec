@@ -8,14 +8,9 @@
 from cybox.core import AssociatedObjects, AssociatedObject, Object, AssociationType
 from cybox.common import Hash, HashList, VocabString
 from cybox.objects.file_object import File
-from maec.bundle import Bundle, Collections, MalwareAction, Capability
+from maec.bundle import Bundle, MalwareAction, Capability
 from maec.package import Analysis, MalwareSubject, Package
-from cybox.utils import Namespace
-import maec.utils
 
-# Instantiate the ID generator class (for automatic ID generation) with our example namespace
-NS = Namespace("http://example.com/", "example")
-maec.utils.set_id_namespace(NS)
 # Instantiate the Bundle, Package, MalwareSubject, and Analysis classes
 bundle = Bundle(defined_subject=False)
 package = Package()
