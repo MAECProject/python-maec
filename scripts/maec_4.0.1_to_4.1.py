@@ -4,6 +4,7 @@
 import sys
 import os
 import shutil
+import argparse
 import maec
 from maec.bundle.bundle import Bundle
 from maec.package.package import Package
@@ -47,41 +48,42 @@ Usage: python maec_4.0.1_to_4.1.py -i <input maec 4.0.1 xml file> -o <output mae
 """    
 
 def main():
-    infilename = None
-    outfilename = None
-    directoryname = ''
-    filepath = ''
-    
-    #Get the command-line arguments
-    args = sys.argv[1:]
-    
-    if len(args) < 2:
-        usage()
-        sys.exit(1)
-        
-    for i in range(0,len(args)):
-        if args[i] == '-i':
-            infilename = args[i+1]
-        elif args[i] == '-o':
-            outfilename = args[i+1]
-        elif args[i] == '-d':
-            directoryname = args[i+1]
+    # Setup the argument parser
+    parser = argparse.ArgumentParser(
+        description='MAEC 4.0.1 --> MAEC 4.1 XML Converter Utility'
+    )
+    mutex_group = parser.add_mutually_exclusive_group(required=True)
+    required_name = parser.add_argument_group('required arguments')
+    mutex_group.add_argument(
+        '--input', '-i',
+        help='input maec 4.0.1 xml file'
+    )
+    mutex_group.add_argument(
+        '--directory', '-d',
+        help='directory containing maec 4.0.1 xml files to convert to 4.1 xml files'
+    )
+    required_name.add_argument(
+        '--output', '-o', required=True,
+        help='output maec 4.1 xml file'
+    )
 
-    if directoryname != '':
-        for filename in os.listdir(directoryname):
+    args = parser.parse_args()
+
+    if args.directory:
+        for filename in os.listdir(args.directory):
             print filename
             if '.xml' not in filename:
                 pass
             elif '_report.maec-4.0.1' not in filename:
-                update_maec(os.path.join(directoryname, filename), filename.rstrip('.xml') + '_cuckoobox_maec.xml')
+                update_maec(os.path.join(args.directory, filename), filename.rstrip('.xml') + '_cuckoobox_maec.xml')
             else:
-                new_filepath = os.path.join(directoryname, filename.replace('_report.maec-4.0.1', ''))
-                shutil.move(os.path.join(directoryname, filename), new_filepath)
+                new_filepath = os.path.join(args.directory, filename.replace('_report.maec-4.0.1', ''))
+                shutil.move(os.path.join(args.directory, filename), new_filepath)
                 update_maec(new_filepath, new_filepath.rstrip('.xml') + '_cuckoobox_maec.xml')
 
     # Basic parameter checking
-    elif infilename and outfilename:
-        update_maec(infilename, outfilename)
+    elif args.input and args.output:
+        update_maec(args.input, args.output)
         
 if __name__ == "__main__":
     main()

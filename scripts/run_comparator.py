@@ -4,6 +4,7 @@
 import pprint
 import sys
 import os
+import argparse
 import maec
 from maec.bundle.bundle import Bundle
 from maec.package.package import Package
@@ -12,8 +13,6 @@ USAGE_TEXT = """
 MAEC Run Comparator Script v0.11 BETA
    *Performs Object->Object comparison of 2 or more input MAEC documents
    *Prints common/unique Objects between MAEC Bundles
-
-Usage: python run_comparator.py -l <single whitespace separated list of MAEC files> OR -d <directory name>
 """
 
 # Process a set of MAEC binding objects and extract the Bundles as appropriate
@@ -29,36 +28,31 @@ def process_maec_file(filename, bundle_list):
         bundle_list.append(parsed_objects['api'])
         
 def main():
-    infilenames = []
-    list_mode = False
-    directoryname = ''
+    parser = argparse.ArgumentParser(description=USAGE_TEXT)
+    mutex_group = parser.add_mutually_exclusive_group(required=True)
+    mutex_group.add_argument(
+        '-l', '--list', nargs='+',
+        help='single whitespace separated list of MAEC files'
+    )
+    mutex_group.add_argument(
+        '-d', '--directory',
+        help='directory name'
+    )
+    args = parser.parse_args()
+
     # List of Bundle instances to compare
     bundle_list = []
-
-    #Get the command-line arguments
-    args = sys.argv[1:]
-    
-    if len(args) < 2:
-        print USAGE_TEXT
-        sys.exit(1)
         
-    for i in range(0,len(args)):
-        if args[i] == '-l':
-            list_mode = True
-        elif args[i] == '-d':
-            directoryname = args[i+1]
-
     # Parse the input files and get the MAEC Bundles from each
-    if list_mode:
-        files = args[1:]
-        for file in files:
+    if args.list:
+        for file in args.list:
             process_maec_file(file, bundle_list)
-    elif directoryname != '':
-        for filename in os.listdir(directoryname):
+    elif args.directory:
+        for filename in os.listdir(args.directory):
             if '.xml' not in filename:
                 pass
             else:
-                process_maec_file(os.path.join(directoryname, filename), bundle_list)
+                process_maec_file(os.path.join(args.directory, filename), bundle_list)
 
     # Matching properties dictionary
     match_on_dictionary = {'FileObjectType': ['file_path'],
