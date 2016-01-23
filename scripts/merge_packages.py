@@ -4,6 +4,7 @@
 # Attempts to merge related Malware Subjects
 import sys
 import os
+import argparse
 import maec
 from maec.utils.merge import merge_documents
 
@@ -11,48 +12,38 @@ USAGE_TEXT = """
 MAEC Package Merge Script v0.10 BETA
    *Merges two or more MAEC Package XML documents
    *Attempts to merge related (e.g., same MD5 hash) Malware Subjects
-
-Usage: python merge_packages.py -o <output file name> -l <single whitespace separated list of MAEC Package files> OR -d <directory name>
 """
 
 def main():
-    infilenames = []
-    list_mode = False
-    directoryname = ''
-    outfilename = ''
-
-    #Get the command-line arguments
-    args = sys.argv[1:]
-    
-    if len(args) < 3:
-        print USAGE_TEXT
-        sys.exit(1)
-        
-    for i in range(0,len(args)):
-        if args[i] == '-o':
-            outfilename = args[i+1]
-        elif args[i] == '-l':
-            list_mode = True
-        elif args[i] == '-d':
-            directoryname = args[i+1]
-
-    if outfilename == '':
-        print USAGE_TEXT
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description=USAGE_TEXT)
+    mutex_group = parser.add_mutually_exclusive_group()
+    required_group = parser.add_argument_group('required arguments')
+    mutex_group.add_argument(
+        '-l', '--list', nargs='+',
+        help='single whitespace separated list of MAEC Package files'
+    )
+    mutex_group.add_argument(
+        '-d', '--directory',
+        help='directory name'
+    )
+    required_group.add_argument(
+        '-o', '--output', required=True,
+        help='output file name'
+    )
+    args = parser.parse_args()
 
     sys.stdout.write("Merging...")
     # Get the list of input files and perform the merge operation
-    if list_mode:
-        files = args[3:]
-        merge_documents(files, outfilename)
-    elif directoryname != '':
+    if args.list:
+        merge_documents(args.list, args.output)
+    elif args.directory:
         file_list = []
-        for filename in os.listdir(directoryname):
+        for filename in os.listdir(args.directory):
             if '.xml' not in filename:
                 pass
             else:
-                file_list.append(os.path.join(directoryname, filename))
-        merge_documents(file_list, outfilename)
+                file_list.append(os.path.join(args.directory, filename))
+        merge_documents(file_list, args.output)
     sys.stdout.write("Done.")
 
 if __name__ == "__main__":
