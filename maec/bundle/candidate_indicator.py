@@ -66,7 +66,6 @@ class CandidateIndicator(maec.Entity):
             id_ = idgen.create_id(prefix="candidate_indicator")
 
 class CandidateIndicatorList(maec.EntityList):
-    _contained_type = CandidateIndicator
     _binding_class = bundle_binding.CandidateIndicatorListType
-    _binding_var = "Candidate_Indicator"
     _namespace = _namespace
+    candidate_indicator = fields.TypedField("Candidate_Indicator", CandidateIndicator, multiple=True)

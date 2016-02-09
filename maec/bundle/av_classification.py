@@ -3,6 +3,7 @@
 # All rights reserved
 
 from cybox.common import ToolInformation
+from mixbox import fields
 
 import maec
 from . import _namespace
@@ -65,7 +66,6 @@ class AVClassification(ToolInformation, maec.Entity):
 
 
 class AVClassifications(maec.EntityList):
-    _contained_type = AVClassification
     _binding_class = bundle_binding.AVClassificationsType
-    _binding_var = "AV_Classification"
     _namespace = _namespace
+    av_classification = fields.TypedField("AV_Classification", AVClassification, multiple=True)

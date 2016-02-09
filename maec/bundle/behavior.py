@@ -50,9 +50,8 @@ class BehavioralActions(maec.Entity):
 class PlatformList(maec.EntityList):
     _binding = bundle_binding
     _binding_class = bundle_binding.PlatformListType
-    _binding_var = "Platform"
-    _contained_type = PlatformSpecification    
     _namespace = _namespace
+    platform = fields.TypedField("Platform", PlatformSpecification, multiple=True)
 
 class CVEVulnerability(maec.Entity):
     _binding = bundle_binding
@@ -82,10 +81,9 @@ class BehaviorPurpose(maec.Entity):
 
 class AssociatedCode(maec.EntityList):
     _binding = bundle_binding
-    _binding_class = bundle_binding.AssociatedCodeType
-    _binding_var = "Code_Snippet"
-    _contained_type = Code    
+    _binding_class = bundle_binding.AssociatedCodeType 
     _namespace = _namespace
+    code_snippet = fields.TypedField("Code_Snippet", Code, multiple=True)
 
 class Behavior(maec.Entity):
     _binding = bundle_binding

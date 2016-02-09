@@ -105,16 +105,14 @@ class Comment(StructuredText):
         return comment
 
 class CommentList(maec.EntityList):
-    _contained_type = Comment
     _binding_class = package_binding.CommentListType
-    _binding_var = "Comment"
     _namespace = _namespace
+    comment = fields.TypedField("Comment", Comment, multiple=True)
 
 class ToolList(maec.EntityList):
-    _contained_type = ToolInformation
     _binding_class = package_binding.ToolListType
-    _binding_var = "Tool"
     _namespace = _namespace
+    tool = fields.TypedField("Tool", ToolInformation, multiple=True)
 
 class DynamicAnalysisMetadata(maec.Entity):
     _binding = package_binding
@@ -140,10 +138,9 @@ class HypervisorHostSystem(System):
         super(HypervisorHostSystem, self).__init__()
         
 class InstalledPrograms(maec.EntityList):
-    _contained_type = PlatformSpecification
     _binding_class = package_binding.InstalledProgramsType
-    _binding_var = "Program"
     _namespace = _namespace
+    program = fields.TypedField("Program", PlatformSpecification, multiple=True)
         
 class AnalysisSystem(System):
     _binding = package_binding
@@ -157,10 +154,9 @@ class AnalysisSystem(System):
         self.installed_programs = InstalledPrograms()
 
 class AnalysisSystemList(maec.EntityList):
-    _contained_type = AnalysisSystem
     _binding_class = package_binding.AnalysisSystemListType
-    _binding_var = "Analysis_System"
     _namespace = _namespace
+    analysis_system = fields.TypedField("Analysis_System", AnalysisSystem, multiple=True)
 
 class CapturedProtocol(maec.Entity):
     _binding = package_binding
@@ -176,10 +172,9 @@ class CapturedProtocol(maec.Entity):
         super(CapturedProtocol, self).__init__()
 
 class CapturedProtocolList(maec.EntityList):
-    _contained_type = CapturedProtocol
     _binding_class = package_binding.CapturedProtocolListType
-    _binding_var = "Protocol"
     _namespace = _namespace
+    protocol = fields.TypedField("Protocol", CapturedProtocol, multiple=True)
 
 class NetworkInfrastructure(maec.Entity):
     _binding = package_binding

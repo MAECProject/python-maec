@@ -24,7 +24,6 @@ class ActionEquivalence(maec.Entity):
         self.id_ = idgen.create_id(prefix="action_equivalence")
 
 class ActionEquivalenceList(maec.EntityList):
-    _contained_type = ActionEquivalence
     _binding_class = package_binding.ActionEquivalenceListType
-    _binding_var = "Action_Equivalence"
     _namespace = _namespace
+    action_equivalence = fields.TypedField("Action_Equivalence", ActionEquivalence, multiple=True)
