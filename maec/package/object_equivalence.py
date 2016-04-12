@@ -23,7 +23,6 @@ class ObjectEquivalence(maec.Entity):
         self.id_ = id
 
 class ObjectEquivalenceList(maec.EntityList):
-    _contained_type = ObjectEquivalence
     _binding_class = package_binding.ObjectEquivalenceListType
-    _binding_var = "Object_Equivalence"
     _namespace = _namespace
+    object_equivalence = fields.TypedField("Object_Equivalence", ObjectEquivalence, multiple=True)

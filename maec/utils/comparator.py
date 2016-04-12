@@ -5,7 +5,7 @@ class ComparisonResult(object):
     def __init__(self, bundle_list, lookup_table):
         self.lookup_table = lookup_table
         self.bundle_list = bundle_list
-    
+
     def get_unique(self, bundle_list=None):
         unique_objs = {}
         
@@ -59,7 +59,8 @@ class SimilarObjectCluster(dict):
         
     def get_object_by_owner_id(self, owner_id):
         return self[owner_id][0]["object"]
-            
+
+
 class BundleComparator(object):
     @classmethod
     def compare(cls, bundle_list, match_on = None, case_sensitive = True):
@@ -68,18 +69,13 @@ class BundleComparator(object):
         if not match_on:
             # Default matching properties
             cls.match_on = {
-                            'FileObjectType': 
-                                ['file_name', 'file_path'],
-                            'WindowsRegistryKeyObjectType': 
-                                ['hive','key'],
-                            'WindowsMutexObjectType':
-                                ['name'],
-                            'SocketObjectType':
-                                ['address_value', 'port_value'],
-                            'WindowsPipeObjectType':
-                                ['name'],
-                            'ProcessObjectType':
-                                ['name']}
+                'FileObjectType':  ['file_name', 'file_path'],
+                'WindowsRegistryKeyObjectType': ['hive','key'],
+                'WindowsMutexObjectType': ['name'],
+                'SocketObjectType': ['address_value', 'port_value'],
+                'WindowsPipeObjectType': ['name'],
+                'ProcessObjectType': ['name']
+            }
         else:
             cls.match_on = match_on
 
@@ -121,6 +117,7 @@ class BundleComparator(object):
                 val.append(obj_dict_list[0]['ownerBundle'])
         return val
 
+
 class ObjectHash(object):
     @classmethod
     def get_hash(cls, obj, match_on, case_sensitive):
@@ -128,18 +125,18 @@ class ObjectHash(object):
         cls.case_sensitive = case_sensitive
         hash_val = ''
         
-        for typed_field in obj.properties._get_vars():
+        for attrname, typed_field in obj.properties.typed_fields_with_attrnames:
             # Make sure the typed field is comparable
             if typed_field.comparable:
                 # Check if we're dealing with a nested element that we want to compare
-                nested_element = cls.is_nested_match(str(typed_field), cls.match_on[obj.properties._XSI_TYPE])
+                nested_element = cls.is_nested_match(attrname, cls.match_on[obj.properties._XSI_TYPE])
                 # Handle the normal, non-nested case
-                if not nested_element and str(typed_field) in cls.match_on[obj.properties._XSI_TYPE]:
-                    hash_val = cls.get_val(obj, typed_field, hash_val)
+                if not nested_element and attrname in cls.match_on[obj.properties._XSI_TYPE]:
+                    hash_val = cls.get_val(obj, attrname, hash_val)
                 # Handle the nested case
                 elif nested_element:
                    split_nested_element = nested_element.split('.')
-                   hash_val = cls.get_val(obj, typed_field, hash_val, split_nested_element[1:])
+                   hash_val = cls.get_val(obj, attrname, hash_val, split_nested_element[1:])
         if not cls.case_sensitive:
             return hash_val.lower()
         else:

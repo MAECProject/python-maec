@@ -76,10 +76,9 @@ class GroupingRelationship(maec.Entity):
         super(GroupingRelationship, self).__init__()
 
 class GroupingRelationshipList(maec.EntityList):
-    _contained_type = GroupingRelationship
     _binding_class = package_binding.GroupingRelationshipListType
-    _binding_var = "Grouping_Relationship"
     _namespace = _namespace
+    grouping_relationship = fields.TypedField("Grouping_Relationship", GroupingRelationship, multiple=True)
 
 
 

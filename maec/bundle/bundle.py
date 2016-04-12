@@ -24,24 +24,20 @@ from .object_history import ObjectHistory
 
 
 class BehaviorList(maec.EntityList):
-    _contained_type = Behavior
     _binding_class = bundle_binding.BehaviorListType
-    _binding_var = "Behavior"
     _namespace = _namespace
-
+    behavior = fields.TypedField("Behavior", Behavior, multiple=True)
 
 class ActionList(maec.EntityList):
-    _contained_type = MalwareAction
     _binding_class = bundle_binding.ActionListType
-    _binding_var = "Action"
     _namespace = _namespace
-
+    action = fields.TypedField("Action", MalwareAction, multiple=True)
+    
 
 class ObjectList(maec.EntityList):
-    _contained_type = Object
     _binding_class = bundle_binding.ObjectListType
-    _binding_var = "Object"
     _namespace = _namespace
+    object = fields.TypedField("Object", Object, multiple=True)
 
 
 class BaseCollection(maec.Entity):
@@ -144,18 +140,16 @@ class CandidateIndicatorCollection(BaseCollection):
 
 
 class BehaviorCollectionList(maec.EntityList):
-    _contained_type = BehaviorCollection
     _binding_class = bundle_binding.BehaviorCollectionListType
-    _binding_var = "Behavior_Collection"
     _namespace = _namespace
+    behavior_collection = fields.TypedField("Behavior_Collection", BehaviorCollection, multiple=True)
 
     def __init__(self):
         super(BehaviorCollectionList, self).__init__()
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
+    def to_obj(self, ns_info=None):
+        behavior_collection_list_obj = super(BehaviorCollectionList, self).to_obj()
 
-        behavior_collection_list_obj = bundle_binding.BehaviorCollectionListType()
         for behavior_collection in self:
             if len(behavior_collection.behavior_list) > 0:
                 behavior_collection_list_obj.add_Behavior_Collection(behavior_collection.to_obj(ns_info=ns_info))
@@ -178,18 +172,16 @@ class BehaviorCollectionList(maec.EntityList):
 
 
 class ActionCollectionList(maec.EntityList):
-    _contained_type = ActionCollection
     _binding_class = bundle_binding.ActionCollectionListType
-    _binding_var = "Action_Collection"
     _namespace = _namespace
+    action_collection = fields.TypedField("Action_Collection", ActionCollection, multiple=True)
 
     def __init__(self):
         super(ActionCollectionList, self).__init__()
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
+    def to_obj(self, ns_info=None):
+        action_collection_list_obj = super(ActionCollectionList, self).to_obj()
 
-        action_collection_list_obj = bundle_binding.ActionCollectionListType()
         for action_collection in self:
             if len(action_collection.action_list) > 0:
                 action_collection_list_obj.add_Action_Collection(action_collection.to_obj(ns_info=ns_info))
@@ -212,18 +204,16 @@ class ActionCollectionList(maec.EntityList):
 
 
 class ObjectCollectionList(maec.EntityList):
-    _contained_type = ObjectCollection
     _binding_class = bundle_binding.ObjectCollectionListType
-    _binding_var = "Object_Collection"
     _namespace = _namespace
+    object_collection = fields.TypedField("Object_Collection", ObjectCollection, multiple=True)
 
     def __init__(self):
         super(ObjectCollectionList, self).__init__()
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
+    def to_obj(self, ns_info=None):
+        object_collection_list_obj = super(ObjectCollectionList, self).to_obj()
 
-        object_collection_list_obj = bundle_binding.ObjectCollectionListType()
         for object_collection in self:
             if len(object_collection.object_list) > 0:
                 object_collection_list_obj.add_Object_Collection(object_collection.to_obj(ns_info=ns_info))
@@ -246,18 +236,16 @@ class ObjectCollectionList(maec.EntityList):
 
 
 class CandidateIndicatorCollectionList(maec.EntityList):
-    _contained_type = CandidateIndicatorCollection
     _binding_class = bundle_binding.CandidateIndicatorCollectionListType
-    _binding_var = "Candidate_Indicator_Collection"
     _namespace = _namespace
+    candidate_indicator_collection = fields.TypedField("Candidate_Indicator_Collection", CandidateIndicatorCollection, multiple=True)
 
     def __init__(self):
         super(CandidateIndicatorCollectionList, self).__init__()
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
+    def to_obj(self, ns_info=None):
+        candidate_indicator_collection_list_obj = super(CandidateIndicatorCollectionList, self).to_obj()
 
-        candidate_indicator_collection_list_obj = bundle_binding.CandidateIndicatorCollectionListType()
         for candidate_indicator_collection in self:
             if len(candidate_indicator_collection.candidate_indicator_list) > 0:
                 candidate_indicator_collection_list_obj.add_Candidate_Indicator_Collection(candidate_indicator_collection.to_obj(ns_info=ns_info))

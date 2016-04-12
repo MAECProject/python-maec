@@ -78,6 +78,7 @@ class ContainerType(GeneratedsSuper):
         if self.Packages is not None:
             self.Packages.export(write, level, 'maecContainer:', name_='Packages', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -158,6 +159,7 @@ class PackageListType(GeneratedsSuper):
         for Package_ in self.Package:
             Package_.export(write, level, 'maecContainer:', name_='Package', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

@@ -1,7 +1,6 @@
 # run_deduplicator script
 # v0.10 BETA
 # Runs the MAEC Deduplicator against a list or folder of MAEC files
-import pprint
 import sys
 import os
 import timeit
@@ -19,10 +18,12 @@ Usage: python run_deduplicator.py -l <single whitespace separated list of MAEC f
 
 # Process a set of MAEC binding objects and peform the deduplication as appropriate
 def process_maec_file(filename):
-    new_filename = filename[:filename.find(".xml")] + "_deduplicated.xml"
+    fn, ext = os.path.splitext(filename)
+    new_filename = "%s_deduplicated.xml" % fn
     start_time = timeit.default_timer()
     parsed_objects = maec.parse_xml_instance(filename)
     print "Parsing: " + str(timeit.default_timer() - start_time)
+
     start_time = timeit.default_timer()
     if parsed_objects and isinstance(parsed_objects['api'], Package):
         parsed_objects['api'].deduplicate_malware_subjects()
@@ -30,8 +31,9 @@ def process_maec_file(filename):
     elif parsed_objects and isinstance(parsed_objects['api'], Bundle):
         parsed_objects['api'].deduplicate()
         parsed_objects['api'].to_xml_file(new_filename)
+
     elapsed = timeit.default_timer() - start_time
-    print "Deduplicating: " + str(timeit.default_timer() - start_time)
+    print "Deduplicating: %s" % elapsed
 
 def main():
     #sys.stdout.write("Deduplicating.")
