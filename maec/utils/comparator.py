@@ -125,7 +125,7 @@ class ObjectHash(object):
         cls.case_sensitive = case_sensitive
         hash_val = ''
         
-        for attrname, typed_field in obj.properties.typed_fields_with_attrnames:
+        for attrname, typed_field in obj.properties.typed_fields_with_attrnames():
             # Make sure the typed field is comparable
             if typed_field.comparable:
                 # Check if we're dealing with a nested element that we want to compare
