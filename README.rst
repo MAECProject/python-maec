@@ -5,7 +5,7 @@ A Python library for parsing, manipulating, and generating MAEC content.
 
 :Source: https://github.com/MAECProject/python-maec
 :Documentation: http://maec.readthedocs.org
-:Information: http://maec.mitre.org
+:Information: https://maecproject.github.io/
 :Download: https://pypi.python.org/pypi/maec/
 
 |travis badge| |landscape.io badge| |version badge| |downloads badge|
@@ -86,7 +86,7 @@ Ubuntu package repository:
 * zlib1g-dev
 
 For more information about installing lxml, see
-http://lxml.de/installation.html
+http://lxml.de/installation.html.
 
 Feedback
 --------
