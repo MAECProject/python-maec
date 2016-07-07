@@ -1,7 +1,7 @@
 python-maec
 ===========
 
-A Python library for parsing, manipulating, and generating MAEC content.
+A Python library for parsing, manipulating, and generating [Malware Attribute Enumeration and Characterization (MAEC™)](https://maecproject.github.io/) content.
 
 :Source: https://github.com/MAECProject/python-maec
 :Documentation: http://maec.readthedocs.org
@@ -12,13 +12,13 @@ A Python library for parsing, manipulating, and generating MAEC content.
 
 .. |travis badge| image:: https://api.travis-ci.org/MAECProject/python-maec.png?branch=master
    :target: https://travis-ci.org/MAECProject/python-maec
-   :alt: Build Status
+   :alt: Build Status 
 .. |landscape.io badge| image:: https://landscape.io/github/MAECProject/python-maec/master/landscape.png
    :target: https://landscape.io/github/MAECProject/python-maec/master
-   :alt: Code Health
-.. |version badge| image:: https://pypip.in/v/maec/badge.png
+   :alt: Code Health 
+.. |Version Badge| image:: https://pypip.in/v/maec/badge.png
    :target: https://pypi.python.org/pypi/maec/
-.. |downloads badge| image:: https://pypip.in/d/maec/badge.png
+.. |Downloads Badge| image:: https://pypip.in/d/maec/badge.png
    :target: https://pypi.python.org/pypi/maec/
 
 
@@ -92,5 +92,4 @@ Feedback
 --------
 
 Bug reports and feature requests are welcome and encouraged. Pull requests are
-especially appreciated. Feel free to use the issue tracker on GitHub or send an
-email directly to maec@mitre.org.
+especially appreciated. Feel free to use the issue tracker on GitHub, join the [MAEC Community Email Discussion List](https://maec.mitre.org/community/discussionlist.html), or send an email directly to maec@mitre.org.
