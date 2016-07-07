@@ -92,4 +92,4 @@ Feedback
 --------
 
 Bug reports and feature requests are welcome and encouraged. Pull requests are
-especially appreciated. Feel free to use the issue tracker on GitHub, join the [MAEC Community Email Discussion List](https://maec.mitre.org/community/discussionlist.html), or send an email directly to maec@mitre.org.
+especially appreciated. Feel free to use the issue tracker on GitHub, join the `MAEC Community Email Discussion List <https://maec.mitre.org/community/discussionlist.html>`_, or send an email directly to maec@mitre.org.
