@@ -2,6 +2,7 @@
 # All rights reserved
 """MAEC utility methods"""
 
+from mixbox.vendor.six import iteritems
 
 def flip_dict(d):
     """Returns a copy of the input dictionary `d` where the values of `d`
@@ -14,7 +15,7 @@ def flip_dict(d):
         d: A dictionary
 
     """
-    return dict((v,k) for k, v in d.iteritems())
+    return dict((v,k) for k, v in iteritems(d))
 
 # Namespace flattening
 from .parser import EntityParser # noqa

@@ -32,4 +32,4 @@
   b.add_action(a)
   
   # Output the Bundle to stdout
-  print b.to_xml(include_namespaces = False)
+  print(b.to_xml(include_namespaces = False))

@@ -1,13 +1,15 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from __future__ import absolute_import
 from mixbox.entities import Entity as cyboxEntity
 from mixbox.entities import EntityList
 from mixbox.namespaces import (Namespace, get_xmlns_string,
         get_schemaloc_string, lookup_name, lookup_prefix)
+from mixbox.vendor.six import iteritems, string_types
 
-import bindings.maec_bundle as bundle_binding
-import bindings.maec_package as package_binding
+from .bindings import maec_bundle as bundle_binding
+from .bindings import maec_package as package_binding
 import maec
 from maec.utils import flip_dict, EntityParser
 
@@ -42,14 +44,14 @@ class Entity(cyboxEntity):
             namespace_dict = {}
         else:
             # Make a copy so we don't pollute the source
-            namespace_dict = dict(namespace_dict.iteritems())
+            namespace_dict = dict(iteritems(namespace_dict))
 
         # Update the namespace dictionary with namespaces found upon import
         input_namespaces = self._ns_to_prefix_input_namespaces()
         namespace_dict.update(input_namespaces)
 
         # Check whether we're dealing with a filename or file-like Object
-        if isinstance(file, basestring):
+        if isinstance(file, string_types):
             out_file  = open(file, 'w')
         else:
             out_file = file
@@ -62,12 +64,12 @@ class Entity(cyboxEntity):
             out_file.write("-->\n")
         elif isinstance(custom_header, dict):
             out_file.write("<!--\n")
-            for key, value in custom_header.iteritems():
+            for key, value in iteritems(custom_header):
                 sanitized_key = str(key).replace("-->", "\\-\\->")
                 sanitized_value = str(value).replace("-->", "\\-\\->")
                 out_file.write(sanitized_key + ": " + sanitized_value + "\n")
             out_file.write("-->\n")
-        elif isinstance(custom_header, basestring):
+        elif isinstance(custom_header, string_types):
             out_file.write("<!--\n")
             out_file.write(custom_header.replace("-->", "\\-\\->") + "\n")
             out_file.write("-->\n")
@@ -87,7 +89,7 @@ class Entity(cyboxEntity):
 
         if namespaces and additional_ns_dict:
             namespace_list = [x.name for x in namespaces if x]
-            for ns, prefix in additional_ns_dict.iteritems():
+            for ns, prefix in iteritems(additional_ns_dict):
                 if ns not in namespace_list:
                     namespaces.update([Namespace(ns, prefix, '')])
 
@@ -119,7 +121,7 @@ class Entity(cyboxEntity):
 
         # Add any additional namespaces that may be included in the entity
         input_ns = self._ns_to_prefix_input_namespaces()
-        for namespace, alias in input_ns.iteritems():
+        for namespace, alias in iteritems(input_ns):
             if not lookup_name(namespace):
                 nsset.add(Namespace(namespace, alias, ''))
 

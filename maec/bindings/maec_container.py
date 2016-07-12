@@ -89,7 +89,7 @@ class ContainerType(GeneratedsSuper):
             already_processed.add('timestamp')
             try:
                 self.timestamp = value
-            except ValueError, exp:
+            except ValueError as exp:
                 raise ValueError('Bad date-time attribute (timestamp): %s' % exp)
         value = find_attr_value_('id', node)
         if value is not None and 'id' not in already_processed:
@@ -177,7 +177,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -217,7 +217,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)
