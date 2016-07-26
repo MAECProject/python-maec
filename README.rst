@@ -49,7 +49,7 @@ There are currently two levels of APIs for dealing with MAEC content:
 
 Compatibility
 -------------
-The python-maec library is tested and written against python ``2.7.x``. Compatibility with other python versions is neither guaranteed nor implied.
+The python-maec library is tested and written against python ``2.6, 2.7, and 3.3+``. Compatibility with other python versions is neither guaranteed nor implied.
 
 Versioning
 ----------
@@ -60,6 +60,20 @@ correspond to the MAEC version being supported. The ``revision`` number is used
 to indicate new versions of the python-maec library itself.
 
 Installation
+------------
+
+The python-maec library can be installed via the distutils setup.py script
+included at the root directory:
+
+    $ python setup.py install
+
+The python-maec library is also hosted on `PyPI
+<https://pypi.python.org/pypi/maec/>`_ and can be installed with `pip
+<https://pypi.python.org/pypi/pip>`_:
+
+    $ pip install maec
+
+Dependencies
 ------------
 
 The ``maec`` package depends on the following Python libraries: 
