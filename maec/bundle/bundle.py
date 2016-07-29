@@ -554,7 +554,7 @@ class Bundle(maec.Entity):
             #The collection has already been defined
             if self.collections.behavior_collections.has_collection(behavior_collection_name):
                 behavior_collection = self.collections.behavior_collections.get_named_collection(behavior_collection_name)
-                behavior_collection.add_Behavior(behavior)
+                behavior_collection.add_behavior(behavior)
         elif behavior_collection_name == None:
             if not self.behaviors:
                 self.behaviors = BehaviorList()
@@ -562,9 +562,9 @@ class Bundle(maec.Entity):
 
     def add_named_candidate_indicator_collection(self, collection_name, collection_id = None):
         """Add a new named Candidate Indicator Collection to the Collections entity in the Bundle."""
-        if not self.collections():
+        if not self.collections:
             self.collections = Collections()
-        if collection_name is not None and collection_id is not None:
+        if collection_name is not None:
             self.collections.add_named_candidate_indicator_collection(collection_name, collection_id)
 
     def add_candidate_indicator(self, candidate_indicator, candidate_indicator_collection_name = None):
