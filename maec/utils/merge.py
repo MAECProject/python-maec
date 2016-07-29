@@ -8,6 +8,7 @@ import itertools
 
 from mixbox import idgen
 from mixbox.namespaces import Namespace
+from mixbox.vendor.six import iteritems
 
 from cybox.core import Object
 from cybox.common import HashList
@@ -29,7 +30,7 @@ def dict_merge(target, *args):
     obj = args[0]
     if not isinstance(obj, dict):
         return obj
-    for k, v in obj.iteritems():
+    for k, v in iteritems(obj):
         if k in target and isinstance(target[k], dict):
             dict_merge(target[k], v)
         elif k in target and isinstance(target[k], list):
@@ -50,7 +51,7 @@ def merge_documents(input_list, output_file):
         if isinstance(document, Package):
             continue
         else:
-            print 'Error: unsupported document type. Currently only MAEC Packages are supported'
+            print('Error: unsupported document type. Currently only MAEC Packages are supported')
 
     # Merge the MAEC packages
     merged_package = merge_packages(parsed_documents)

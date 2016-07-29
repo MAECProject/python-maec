@@ -3,6 +3,7 @@
 # Runs the MAEC Deduplicator against a list or folder of MAEC files
 import sys
 import os
+import argparse
 import timeit
 import maec
 from maec.bundle.bundle import Bundle
@@ -36,37 +37,35 @@ def process_maec_file(filename):
     print "Deduplicating: %s" % elapsed
 
 def main():
+    parser = argparse.ArgumentParser(description=USAGE_TEXT)
+    mutex_group = parser.add_mutually_exclusive_group(required=True)
+    mutex_group.add_argument(
+        '-l', '--list', nargs='+',
+        help='single whitespace separated list of MAEC files'
+    )
+    mutex_group.add_argument(
+        '-d', '--directory',
+        help='directory name'
+    )
+    args = parser.parse_args()
+
     #sys.stdout.write("Deduplicating.")
     infilenames = []
     list_mode = False
     directoryname = ''
 
-    #Get the command-line arguments
-    args = sys.argv[1:]
-    
-    if len(args) < 2:
-        print USAGE_TEXT
-        sys.exit(1)
-        
-    for i in range(0,len(args)):
-        if args[i] == '-l':
-            list_mode = True
-        elif args[i] == '-d':
-            directoryname = args[i+1]
-
     # Parse the input files and get the MAEC Bundles from each
-    if list_mode:
-        files = args[1:]
-        for file in files:
+    if args.list:
+        for file in args.list:
             #sys.stdout.write(".")
             process_maec_file(file)
-    elif directoryname != '':
-        for filename in os.listdir(directoryname):
+    elif args.directory:
+        for filename in os.listdir(args.directory):
             sys.stdout.write(".")
             if '.xml' not in filename:
                 pass
             else:
-                process_maec_file(os.path.join(directoryname, filename))
+                process_maec_file(os.path.join(args.directory, filename))
     #sys.stdout.write("Done.")
 if __name__ == "__main__":
     main()    

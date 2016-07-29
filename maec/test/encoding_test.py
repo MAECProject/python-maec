@@ -7,6 +7,7 @@
 import unittest
 
 from mixbox import binding_utils
+from mixbox.vendor.six import text_type
 
 from maec.package.malware_subject import MalwareConfigurationParameter
 from maec.package.analysis import DynamicAnalysisMetadata
@@ -91,7 +92,7 @@ class EncodingTests(unittest.TestCase):
         b = Behavior()
         b.description = UNICODE_STR
         xml = b.to_xml(encoding=None)
-        self.assertTrue(isinstance(xml, unicode))
+        self.assertTrue(isinstance(xml, text_type))
         self.assertTrue(UNICODE_STR in xml)
 
 if __name__ == "__main__":

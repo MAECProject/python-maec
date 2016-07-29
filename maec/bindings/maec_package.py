@@ -489,7 +489,7 @@ class DynamicAnalysisMetadataType(GeneratedsSuper):
             sval_ = child_.text
             try:
                 fval_ = float(sval_)
-            except (TypeError, ValueError), exp:
+            except (TypeError, ValueError) as exp:
                 raise_parse_error(child_, 'requires float or double: %s' % exp)
             fval_ = self.gds_validate_float(fval_, node, 'Analysis_Duration')
             self.Analysis_Duration = fval_
@@ -497,7 +497,7 @@ class DynamicAnalysisMetadataType(GeneratedsSuper):
             sval_ = child_.text
             try:
                 ival_ = int(sval_)
-            except (TypeError, ValueError), exp:
+            except (TypeError, ValueError) as exp:
                 raise_parse_error(child_, 'requires integer: %s' % exp)
             ival_ = self.gds_validate_integer(ival_, node, 'Exit_Code')
             self.Exit_Code = ival_
@@ -669,14 +669,14 @@ class AnalysisType(GeneratedsSuper):
             already_processed.add('start_datetime')
             try:
                 self.start_datetime = value
-            except ValueError, exp:
+            except ValueError as exp:
                 raise ValueError('Bad date-time attribute (start_datetime): %s' % exp)
         value = find_attr_value_('complete_datetime', node)
         if value is not None and 'complete_datetime' not in already_processed:
             already_processed.add('complete_datetime')
             try:
                 self.complete_datetime = value
-            except ValueError, exp:
+            except ValueError as exp:
                 raise ValueError('Bad date-time attribute (complete_datetime): %s' % exp)
         value = find_attr_value_('method', node)
         if value is not None and 'method' not in already_processed:
@@ -687,7 +687,7 @@ class AnalysisType(GeneratedsSuper):
             already_processed.add('ordinal_position')
             try:
                 self.ordinal_position = int(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
             if self.ordinal_position <= 0:
                 raise_parse_error(node, 'Invalid PositiveInteger')
@@ -696,7 +696,7 @@ class AnalysisType(GeneratedsSuper):
             already_processed.add('lastupdate_datetime')
             try:
                 self.lastupdate_datetime = value
-            except ValueError, exp:
+            except ValueError as exp:
                 raise ValueError('Bad date-time attribute (lastupdate_datetime): %s' % exp)
         value = find_attr_value_('type', node)
         if value is not None and 'type' not in already_processed:
@@ -977,7 +977,7 @@ class PackageType(GeneratedsSuper):
             already_processed.add('timestamp')
             try:
                 self.timestamp = value
-            except ValueError, exp:
+            except ValueError as exp:
                 raise ValueError('Bad date-time attribute (timestamp): %s' % exp)
         value = find_attr_value_('id', node)
         if value is not None and 'id' not in already_processed:
@@ -1959,7 +1959,7 @@ class ClusteringMetadataType(GeneratedsSuper):
             sval_ = child_.text
             try:
                 ival_ = int(sval_)
-            except (TypeError, ValueError), exp:
+            except (TypeError, ValueError) as exp:
                 raise_parse_error(child_, 'requires integer: %s' % exp)
             if ival_ <= 0:
                 raise_parse_error(child_, 'requires positiveInteger')
@@ -2063,14 +2063,14 @@ class ClusterEdgeNodePairType(GeneratedsSuper):
             already_processed.add('similarity_distance')
             try:
                 self.similarity_distance = float(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise ValueError('Bad float/double attribute (similarity_distance): %s' % exp)
         value = find_attr_value_('similarity_index', node)
         if value is not None and 'similarity_index' not in already_processed:
             already_processed.add('similarity_index')
             try:
                 self.similarity_index = float(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise ValueError('Bad float/double attribute (similarity_index): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Malware_Subject_Node_A':
@@ -2232,7 +2232,7 @@ class ClusteringAlgorithmParametersType(GeneratedsSuper):
             sval_ = child_.text
             try:
                 fval_ = float(sval_)
-            except (TypeError, ValueError), exp:
+            except (TypeError, ValueError) as exp:
                 raise_parse_error(child_, 'requires float or double: %s' % exp)
             fval_ = self.gds_validate_float(fval_, node, 'Distance_Threshold')
             self.Distance_Threshold = fval_
@@ -2240,7 +2240,7 @@ class ClusteringAlgorithmParametersType(GeneratedsSuper):
             sval_ = child_.text
             try:
                 ival_ = int(sval_)
-            except (TypeError, ValueError), exp:
+            except (TypeError, ValueError) as exp:
                 raise_parse_error(child_, 'requires integer: %s' % exp)
             if ival_ <= 0:
                 raise_parse_error(child_, 'requires positiveInteger')
@@ -2619,7 +2619,7 @@ class CapturedProtocolType(GeneratedsSuper):
             already_processed.add('port_number')
             try:
                 self.port_number = int(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
             if self.port_number <= 0:
                 raise_parse_error(node, 'Invalid PositiveInteger')
@@ -2985,7 +2985,7 @@ class CommentType(cybox_common.StructuredTextType):
             already_processed.add('timestamp')
             try:
                 self.timestamp = value
-            except ValueError, exp:
+            except ValueError as exp:
                 raise ValueError('Bad date-time attribute (timestamp): %s' % exp)
         value = find_attr_value_('author', node)
         if value is not None and 'author' not in already_processed:
@@ -3105,7 +3105,7 @@ class MalwareExceptionType(cybox_common.ErrorType):
             sval_ = child_.text
             try:
                 ival_ = int(sval_)
-            except (TypeError, ValueError), exp:
+            except (TypeError, ValueError) as exp:
                 raise_parse_error(child_, 'requires integer: %s' % exp)
             ival_ = self.gds_validate_integer(ival_, node, 'Description')
             self.Description = ival_
@@ -3531,7 +3531,7 @@ class MalwareConfigurationObfuscationAlgorithmType(GeneratedsSuper):
             already_processed.add('ordinal_position')
             try:
                 self.ordinal_position = int(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
             if self.ordinal_position <= 0:
                 raise_parse_error(node, 'Invalid PositiveInteger')
@@ -3726,7 +3726,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -3766,7 +3766,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

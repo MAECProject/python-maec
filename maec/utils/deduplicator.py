@@ -11,6 +11,7 @@ from mixbox import entities
 
 from cybox.core import RelatedObject, AssociatedObject
 from cybox.common.properties import BaseProperty
+from mixbox.vendor.six import iteritems
 
 
 class BundleDeduplicator(object):
@@ -75,7 +76,7 @@ class BundleDeduplicator(object):
     @classmethod
     def handle_duplicate_objects(cls, bundle, all_objects):
         """Replace all of the duplicate Objects with references to the unique object placed in the "Re-used Objects" Collection."""
-        for duplicate_object_id, unique_object_id in cls.object_ids_mapping.iteritems():
+        for duplicate_object_id, unique_object_id in iteritems(cls.object_ids_mapping):
             # Modify the existing Object to serve as a reference to
             # the unique Object in the collection
             if duplicate_object_id and duplicate_object_id in cls.id_objects:

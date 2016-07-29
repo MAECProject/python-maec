@@ -19,7 +19,7 @@ class TestPackage(EntityTestCase, unittest.TestCase):
                             'id': 'example:Object-fdba414a-e46a-4abf-ad50-4dcda819129c',
                             'properties': {
                                 'file_name': u'abcd.dll',
-                                'size_in_bytes': 123456L,
+                                'size_in_bytes': 123456,
                                 'xsi:type': 'FileObjectType'
                             }
                         }],
@@ -49,7 +49,7 @@ class TestPackage(EntityTestCase, unittest.TestCase):
                         'simple_hash_value': u'8743b52063cd84097a65d1633f5c74f5',
                         'type': u'MD5'
                     }],
-                    'size_in_bytes': 35532L,
+                    'size_in_bytes': 35532,
                     'xsi:type': 'FileObjectType'
                 }
             }}],

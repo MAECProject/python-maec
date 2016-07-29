@@ -41,7 +41,7 @@ different types of analysis.
     ms = MalwareSubject()
     p.add_malware_subject(ms)
 
-    print p.to_xml(include_namespaces=False)
+    print(p.to_xml(include_namespaces=False, encoding=None))
 
 Which outputs:
 
@@ -77,7 +77,7 @@ that it is characterizing.
     ms.malware_instance_object_attributes.properties = File()
     ms.malware_instance_object_attributes.properties.file_name = "malware.exe"
     ms.malware_instance_object_attributes.properties.file_path = "C:\Windows\Temp\malware.exe"
-    print ms.to_xml(include_namespaces=False)
+    print(ms.to_xml(include_namespaces=False, encoding=None))
 
 Which outputs:
 
@@ -125,7 +125,7 @@ instance that it is characterizing.
     b.malware_instance_object_attributes.properties.file_name = "malware.exe"
     b.malware_instance_object_attributes.properties.file_path = "C:\Windows\Temp\malware.exe"
 
-    print b.to_xml(include_namespaces=False)
+    print(b.to_xml(include_namespaces=False, encoding=None))
 
 Which outputs:
 
@@ -168,7 +168,7 @@ be defined in their parent Malware Subject.
     b = Bundle()
     ms.add_findings_bundle(b)
 
-    print ms.to_xml(include_namespaces=False)
+    print(ms.to_xml(include_namespaces=False, encoding=None))
 
 Which outputs:
 
@@ -227,7 +227,7 @@ needed.
 
     b.add_action(a)
 
-    print b.to_xml(include_namespaces = False)
+    print(b.to_xml(include_namespaces = False, encoding=None))
 
 .. testoutput::
 

@@ -1,24 +1,24 @@
 python-maec
 ===========
 
-A Python library for parsing, manipulating, and generating MAEC content.
+A Python library for parsing, manipulating, and generating `Malware Attribute Enumeration and Characterization (MAEC™) <https://maecproject.github.io/>`_ content.
 
 :Source: https://github.com/MAECProject/python-maec
 :Documentation: http://maec.readthedocs.org
-:Information: http://maec.mitre.org
+:Information: https://maecproject.github.io/
 :Download: https://pypi.python.org/pypi/maec/
 
 |travis badge| |landscape.io badge| |version badge| |downloads badge|
 
 .. |travis badge| image:: https://api.travis-ci.org/MAECProject/python-maec.png?branch=master
    :target: https://travis-ci.org/MAECProject/python-maec
-   :alt: Build Status
+   :alt: Build Status 
 .. |landscape.io badge| image:: https://landscape.io/github/MAECProject/python-maec/master/landscape.png
    :target: https://landscape.io/github/MAECProject/python-maec/master
-   :alt: Code Health
-.. |version badge| image:: https://pypip.in/v/maec/badge.png
+   :alt: Code Health 
+.. |Version Badge| image:: https://img.shields.io/pypi/v/maec.png?maxAge=2592000
    :target: https://pypi.python.org/pypi/maec/
-.. |downloads badge| image:: https://pypip.in/d/maec/badge.png
+.. |Downloads Badge| image:: https://img.shields.io/pypi/dm/maec.png?maxAge=2592000
    :target: https://pypi.python.org/pypi/maec/
 
 
@@ -49,7 +49,7 @@ There are currently two levels of APIs for dealing with MAEC content:
 
 Compatibility
 -------------
-The python-maec library is tested and written against python ``2.7.x``. Compatibility with other python versions is neither guaranteed nor implied.
+The python-maec library is tested and written against python ``2.6, 2.7, and 3.3+``. Compatibility with other python versions is neither guaranteed nor implied.
 
 Versioning
 ----------
@@ -60,6 +60,20 @@ correspond to the MAEC version being supported. The ``revision`` number is used
 to indicate new versions of the python-maec library itself.
 
 Installation
+------------
+
+The python-maec library can be installed via the distutils setup.py script
+included at the root directory:
+
+    $ python setup.py install
+
+The python-maec library is also hosted on `PyPI
+<https://pypi.python.org/pypi/maec/>`_ and can be installed with `pip
+<https://pypi.python.org/pypi/pip>`_:
+
+    $ pip install maec
+
+Dependencies
 ------------
 
 The ``maec`` package depends on the following Python libraries: 
@@ -86,11 +100,10 @@ Ubuntu package repository:
 * zlib1g-dev
 
 For more information about installing lxml, see
-http://lxml.de/installation.html
+http://lxml.de/installation.html.
 
 Feedback
 --------
 
 Bug reports and feature requests are welcome and encouraged. Pull requests are
-especially appreciated. Feel free to use the issue tracker on GitHub or send an
-email directly to maec@mitre.org.
+especially appreciated. Feel free to use the issue tracker on GitHub, join the `MAEC Community Email Discussion List <https://maec.mitre.org/community/discussionlist.html>`_, or send an email directly to maec@mitre.org.

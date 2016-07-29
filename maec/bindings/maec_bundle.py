@@ -103,7 +103,7 @@ class BehaviorType(GeneratedsSuper):
             write(' status=%s' % (quote_attrib(self.status), ))
         if self.duration is not None and 'duration' not in already_processed:
             already_processed.add('duration')
-            write(' duration=%s' % (quote_attrib(self.duration).encode(ExternalEncoding)))
+            write(' duration=%s' % (quote_attrib(self.duration)))
         if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
             already_processed.add('ordinal_position')
             write(' ordinal_position="%s"' % self.gds_format_integer(self.ordinal_position, input_name='ordinal_position'))
@@ -149,7 +149,7 @@ class BehaviorType(GeneratedsSuper):
             already_processed.add('ordinal_position')
             try:
                 self.ordinal_position = int(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
             if self.ordinal_position <= 0:
                 raise_parse_error(node, 'Invalid PositiveInteger')
@@ -357,7 +357,7 @@ class BundleType(GeneratedsSuper):
             already_processed.add('timestamp')
             try:
                 self.timestamp = self.gds_parse_datetime(value, node, 'timestamp')
-            except ValueError, exp:
+            except ValueError as exp:
                 raise ValueError('Bad date-time attribute (timestamp): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Malware_Instance_Object_Attributes':
@@ -1016,7 +1016,7 @@ class ParameterType(GeneratedsSuper):
             already_processed.add('ordinal_position')
             try:
                 self.ordinal_position = int(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
             if self.ordinal_position <= 0:
                 raise_parse_error(node, 'Invalid PositiveInteger')
@@ -2002,7 +2002,7 @@ class BehavioralActionEquivalenceReferenceType(GeneratedsSuper):
             already_processed.add('behavioral_ordering')
             try:
                 self.behavioral_ordering = int(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
             if self.behavioral_ordering <= 0:
                 raise_parse_error(node, 'Invalid PositiveInteger')
@@ -2342,7 +2342,7 @@ class CandidateIndicatorType(GeneratedsSuper):
             already_processed.add('creation_datetime')
             try:
                 self.creation_datetime = value
-            except ValueError, exp:
+            except ValueError as exp:
                 raise ValueError('Bad date-time attribute (creation_datetime): %s' % exp)
         value = find_attr_value_('id', node)
         if value is not None and 'id' not in already_processed:
@@ -2353,7 +2353,7 @@ class CandidateIndicatorType(GeneratedsSuper):
             already_processed.add('lastupdate_datetime')
             try:
                 self.lastupdate_datetime = value
-            except ValueError, exp:
+            except ValueError as exp:
                 raise ValueError('Bad date-time attribute (lastupdate_datetime): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Importance':
@@ -2364,7 +2364,7 @@ class CandidateIndicatorType(GeneratedsSuper):
             sval_ = child_.text
             try:
                 ival_ = int(sval_)
-            except (TypeError, ValueError), exp:
+            except (TypeError, ValueError) as exp:
                 raise_parse_error(child_, 'requires integer: %s' % exp)
             if ival_ <= 0:
                 raise_parse_error(child_, 'requires positiveInteger')
@@ -3522,7 +3522,7 @@ class BehavioralActionReferenceType(cybox_core.ActionReferenceType):
             already_processed.add('behavioral_ordering')
             try:
                 self.behavioral_ordering = int(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
             if self.behavioral_ordering <= 0:
                 raise_parse_error(node, 'Invalid PositiveInteger')
@@ -3935,7 +3935,7 @@ class BehavioralActionType(MalwareActionType):
             already_processed.add('behavioral_ordering')
             try:
                 self.behavioral_ordering = int(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
             if self.behavioral_ordering <= 0:
                 raise_parse_error(node, 'Invalid PositiveInteger')
@@ -4681,7 +4681,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -4721,7 +4721,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)
