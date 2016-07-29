@@ -180,6 +180,7 @@ class malwareMetaData(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -393,6 +394,7 @@ class objects(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -492,6 +494,7 @@ class objectProperties(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -550,6 +553,7 @@ class relationships(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -608,6 +612,7 @@ class fieldData(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -907,6 +912,7 @@ class fileObject(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -1097,6 +1103,7 @@ class extraHash(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         self.valueOf_ = get_all_text_(node)
         for child in node:
@@ -1169,6 +1176,7 @@ class registryObject(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -1239,6 +1247,7 @@ class entityObject(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -1354,6 +1363,7 @@ class uriObject(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -1459,6 +1469,7 @@ class IPObject(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -1528,6 +1539,7 @@ class IPAddress(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         self.valueOf_ = get_all_text_(node)
         for child in node:
@@ -1591,6 +1603,7 @@ class domainObject(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -1658,6 +1671,7 @@ class ASNObject(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -1765,6 +1779,7 @@ class classificationObject(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -1868,6 +1883,7 @@ class classificationDetails(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -2052,6 +2068,7 @@ class fieldDataEntry(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -2153,6 +2170,7 @@ class references(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -2213,6 +2231,7 @@ class volume(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         self.valueOf_ = get_all_text_(node)
         for child in node:
@@ -2275,6 +2294,7 @@ class location(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         self.valueOf_ = get_all_text_(node)
         for child in node:
@@ -2330,6 +2350,7 @@ class reference(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         self.valueOf_ = get_all_text_(node)
         for child in node:
@@ -2388,6 +2409,7 @@ class property(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         self.valueOf_ = get_all_text_(node)
         for child in node:
@@ -2474,6 +2496,7 @@ class objectProperty(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -2578,6 +2601,7 @@ class relationship(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -2652,6 +2676,7 @@ class source(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -2710,6 +2735,7 @@ class target(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -2819,6 +2845,7 @@ class softwarePackageObject(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -2912,6 +2939,7 @@ class CPEname(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         self.valueOf_ = get_all_text_(node)
         for child in node:
@@ -3007,6 +3035,7 @@ class digitalSignatureObject(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
@@ -3092,6 +3121,7 @@ class signingTimestamp(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         self.valueOf_ = get_all_text_(node)
         for child in node:
@@ -3174,6 +3204,7 @@ class taggantObject(GeneratedsSuper):
         else:
             return False
     def build(self, node):
+        self.__sourcenode__ = node
         self.buildAttributes(node, node.attrib, [])
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]

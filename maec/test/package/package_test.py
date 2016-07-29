@@ -15,10 +15,7 @@ class TestPackage(EntityTestCase, unittest.TestCase):
                 'bundle': [{
                     'actions': [{
                         'associated_objects': [{
-                            'association_type': {
-                                'value': u'output',
-                                'xsi:type': 'maecVocabs:ActionObjectAssociationTypeVocab-1.0'
-                            },
+                            'association_type': u'output',
                             'id': 'example:Object-fdba414a-e46a-4abf-ad50-4dcda819129c',
                             'properties': {
                                 'file_name': u'abcd.dll',

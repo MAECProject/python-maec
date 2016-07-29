@@ -129,6 +129,7 @@ class BehaviorType(GeneratedsSuper):
         if self.Relationships is not None:
             self.Relationships.export(write, level, 'maecBundle:', name_='Relationships', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -323,6 +324,7 @@ class BundleType(GeneratedsSuper):
         if self.Collections is not None:
             self.Collections.export(write, level, 'maecBundle:', name_='Collections', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -473,6 +475,7 @@ class APICallType(GeneratedsSuper):
         if self.Parameters is not None:
             self.Parameters.export(write, level, 'maecBundle:', name_='Parameters', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -584,6 +587,7 @@ class ActionImplementationType(GeneratedsSuper):
         for Code_ in self.Code:
             Code_.export(write, level, 'maecBundle:', name_='Code', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -671,6 +675,7 @@ class CVEVulnerabilityType(GeneratedsSuper):
             showIndent(write, level, pretty_print)
             write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', quote_xml(self.Description), 'maecBundle:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -763,6 +768,7 @@ class BaseCollectionType(GeneratedsSuper):
             showIndent(write, level, pretty_print)
             write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', quote_xml(self.Description), 'maecBundle:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -852,6 +858,7 @@ class BehaviorRelationshipType(GeneratedsSuper):
         for Behavior_Reference_ in self.Behavior_Reference:
             Behavior_Reference_.export(write, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -922,6 +929,7 @@ class AVClassificationsType(GeneratedsSuper):
         for AV_Classification_ in self.AV_Classification:
             AV_Classification_.export(write, level, 'maecBundle:', name_='AV_Classification', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -996,6 +1004,7 @@ class ParameterType(GeneratedsSuper):
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='ParameterType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1075,6 +1084,7 @@ class ParameterListType(GeneratedsSuper):
         for Parameter_ in self.Parameter:
             Parameter_.export(write, level, 'maecBundle:', name_='Parameter', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1142,6 +1152,7 @@ class AssociatedCodeType(GeneratedsSuper):
         for Code_Snippet_ in self.Code_Snippet:
             Code_Snippet_.export(write, level, 'maecBundle:', name_='Code_Snippet', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1211,6 +1222,7 @@ class BehaviorPurposeType(GeneratedsSuper):
         if self.Vulnerability_Exploit is not None:
             self.Vulnerability_Exploit.export(write, level, 'maecBundle:', name_='Vulnerability_Exploit', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1282,6 +1294,7 @@ class PlatformListType(GeneratedsSuper):
         for Platform_ in self.Platform:
             Platform_.export(write, level, 'maecBundle:', name_='Platform', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1375,6 +1388,7 @@ class ExploitType(GeneratedsSuper):
         if self.Targeted_Platforms is not None:
             self.Targeted_Platforms.export(write, level, 'maecBundle:', name_='Targeted_Platforms', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1458,6 +1472,7 @@ class BehaviorRelationshipListType(GeneratedsSuper):
         for Relationship_ in self.Relationship:
             Relationship_.export(write, level, 'maecBundle:', name_='Relationship', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1558,6 +1573,7 @@ class BehavioralActionsType(GeneratedsSuper):
         for Action_Equivalence_Reference_ in self.Action_Equivalence_Reference:
             Action_Equivalence_Reference_.export(write, level, 'maecBundle:', name_='Action_Equivalence_Reference', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1636,6 +1652,7 @@ class BehaviorListType(GeneratedsSuper):
         for Behavior_ in self.Behavior:
             Behavior_.export(write, level, 'maecBundle:', name_='Behavior', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1702,6 +1719,7 @@ class ActionListType(GeneratedsSuper):
         for Action_ in self.Action:
             Action_.export(write, level, 'maecBundle:', name_='Action', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1768,6 +1786,7 @@ class ObjectListType(GeneratedsSuper):
         for Object_ in self.Object:
             Object_.export(write, level, 'maecBundle:', name_='Object', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1829,6 +1848,7 @@ class BehaviorReferenceType(GeneratedsSuper):
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehaviorReferenceType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1890,6 +1910,7 @@ class ObjectReferenceType(GeneratedsSuper):
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='ObjectReferenceType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1965,6 +1986,7 @@ class BehavioralActionEquivalenceReferenceType(GeneratedsSuper):
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehavioralActionEquivalenceReferenceType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2041,6 +2063,7 @@ class BehaviorReferenceListType(GeneratedsSuper):
         for Behavior_Reference_ in self.Behavior_Reference:
             Behavior_Reference_.export(write, level, 'maecBundle:', name_='Behavior_Reference', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2107,6 +2130,7 @@ class ActionReferenceListType(GeneratedsSuper):
         for Action_Reference_ in self.Action_Reference:
             Action_Reference_.export(write, level, 'maecBundle:', name_='Action_Reference', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2174,6 +2198,7 @@ class ObjectReferenceListType(GeneratedsSuper):
         for Object_Reference_ in self.Object_Reference:
             Object_Reference_.export(write, level, 'maecBundle:', name_='Object_Reference', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2301,6 +2326,7 @@ class CandidateIndicatorType(GeneratedsSuper):
         if self.Composition is not None:
             self.Composition.export(write, level, 'maecBundle:', name_='Composition', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2415,6 +2441,7 @@ class CandidateIndicatorListType(GeneratedsSuper):
         for Candidate_Indicator_ in self.Candidate_Indicator:
             Candidate_Indicator_.export(write, level, 'maecBundle:', name_='Candidate_Indicator', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2493,6 +2520,7 @@ class MalwareEntityType(GeneratedsSuper):
             showIndent(write, level, pretty_print)
             write('<%sDescription>%s</%sDescription>%s' % ('maecBundle:', quote_xml(self.Description), 'maecBundle:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2581,6 +2609,7 @@ class CollectionsType(GeneratedsSuper):
         if self.Candidate_Indicator_Collections is not None:
             self.Candidate_Indicator_Collections.export(write, level, 'maecBundle:', name_='Candidate_Indicator_Collections', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2653,6 +2682,7 @@ class BundleReferenceType(GeneratedsSuper):
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='BundleReferenceType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2716,6 +2746,7 @@ class ProcessTreeType(GeneratedsSuper):
         if self.Root_Process is not None:
             self.Root_Process.export(write, level, 'maecBundle:', name_='Root_Process', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2824,6 +2855,7 @@ class CandidateIndicatorCompositionType(GeneratedsSuper):
         for Sub_Composition_ in self.Sub_Composition:
             Sub_Composition_.export(write, level, 'maecBundle:', name_='Sub_Composition', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2913,6 +2945,7 @@ class CandidateIndicatorCollectionType(BaseCollectionType):
         if self.Candidate_Indicator_List is not None:
             self.Candidate_Indicator_List.export(write, level, 'maecBundle:', name_='Candidate_Indicator_List', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2985,6 +3018,7 @@ class CandidateIndicatorCollectionListType(GeneratedsSuper):
         for Candidate_Indicator_Collection_ in self.Candidate_Indicator_Collection:
             Candidate_Indicator_Collection_.export(write, level, 'maecBundle:', name_='Candidate_Indicator_Collection', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3052,6 +3086,7 @@ class BehaviorCollectionListType(GeneratedsSuper):
         for Behavior_Collection_ in self.Behavior_Collection:
             Behavior_Collection_.export(write, level, 'maecBundle:', name_='Behavior_Collection', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3118,6 +3153,7 @@ class ActionCollectionListType(GeneratedsSuper):
         for Action_Collection_ in self.Action_Collection:
             Action_Collection_.export(write, level, 'maecBundle:', name_='Action_Collection', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3184,6 +3220,7 @@ class ObjectCollectionListType(GeneratedsSuper):
         for Object_Collection_ in self.Object_Collection:
             Object_Collection_.export(write, level, 'maecBundle:', name_='Object_Collection', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3265,6 +3302,7 @@ class AVClassificationType(cybox_common.ToolInformationType):
             showIndent(write, level, pretty_print)
             write('<%sClassification_Name>%s</%sClassification_Name>%s' % ('maecBundle:', quote_xml(self.Classification_Name), 'maecBundle:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3384,6 +3422,7 @@ class ProcessTreeNodeType(process_object.ProcessObjectType):
         for Injected_Process_ in self.Injected_Process:
             Injected_Process_.export(write, level, 'maecBundle:', name_='Injected_Process', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3471,6 +3510,7 @@ class BehavioralActionReferenceType(cybox_core.ActionReferenceType):
         super(BehavioralActionReferenceType, self).exportChildren(write, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3553,6 +3593,7 @@ class ObjectCollectionType(BaseCollectionType):
         if self.Object_List is not None:
             self.Object_List.export(write, level, 'maecBundle:', name_='Object_List', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3634,6 +3675,7 @@ class ActionCollectionType(BaseCollectionType):
         if self.Action_List is not None:
             self.Action_List.export(write, level, 'maecBundle:', name_='Action_List', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3718,6 +3760,7 @@ class BehaviorCollectionType(BaseCollectionType):
         if self.Behavior_List is not None:
             self.Behavior_List.export(write, level, 'maecBundle:', name_='Behavior_List', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3809,6 +3852,7 @@ class MalwareActionType(cybox_core.ActionType):
         if self.Implementation is not None:
             self.Implementation.export(write, level, 'maecBundle:', name_='Implementation', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3879,6 +3923,7 @@ class BehavioralActionType(MalwareActionType):
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='BehavioralActionType', fromsubclass_=False, pretty_print=True):
         super(BehavioralActionType, self).exportChildren(write, level, 'maecBundle:', name_, True, pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4020,6 +4065,7 @@ class CapabilityType(GeneratedsSuper):
         for Relationship_ in self.Relationship:
             Relationship_.export(write, level, 'maecBundle:', name_='Relationship', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4124,6 +4170,7 @@ class CapabilityListType(GeneratedsSuper):
         for Capability_Reference_ in self.Capability_Reference:
             Capability_Reference_.export(write, level, 'maecBundle:', name_='Capability_Reference', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4189,6 +4236,7 @@ class CapabilityReferenceType(GeneratedsSuper):
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='CapabilityReferenceType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4298,6 +4346,7 @@ class CapabilityObjectiveType(GeneratedsSuper):
         for Relationship_ in self.Relationship:
             Relationship_.export(write, level, 'maecBundle:', name_='Relationship', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4390,6 +4439,7 @@ class CapabilityRelationshipType(GeneratedsSuper):
         for Capability_Reference_ in self.Capability_Reference:
             Capability_Reference_.export(write, level, 'maecBundle:', name_='Capability_Reference', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4468,6 +4518,7 @@ class CapabilityObjectiveRelationshipType(GeneratedsSuper):
         for Objective_Reference_ in self.Objective_Reference:
             Objective_Reference_.export(write, level, 'maecBundle:', name_='Objective_Reference', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4534,6 +4585,7 @@ class CapabilityObjectiveReferenceType(GeneratedsSuper):
     def exportChildren(self, write, level, namespace_='maecBundle:', name_='CapabilityObjectiveReferenceType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4605,6 +4657,7 @@ class CapabilityPropertyType(GeneratedsSuper):
         if self.Value is not None:
             self.Value.export(write, level, 'maecBundle:', name_='Value', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

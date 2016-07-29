@@ -74,6 +74,7 @@ class AnalysisEnvironmentType(GeneratedsSuper):
         if self.Network_Infrastructure is not None:
             self.Network_Infrastructure.export(write, level, 'maecPackage:', name_='Network_Infrastructure', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -173,6 +174,7 @@ class SourceType(GeneratedsSuper):
             showIndent(write, level, pretty_print)
             write('<%sURL>%s</%sURL>%s' % ('maecPackage:', quote_xml(self.URL), 'maecPackage:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -256,6 +258,7 @@ class CommentListType(GeneratedsSuper):
         for Comment_ in self.Comment:
             Comment_.export(write, level, 'maecPackage:', name_='Comment', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -323,6 +326,7 @@ class AnalysisSystemListType(GeneratedsSuper):
         for Analysis_System_ in self.Analysis_System:
             Analysis_System_.export(write, level, 'maecPackage:', name_='Analysis_System', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -390,6 +394,7 @@ class ToolListType(GeneratedsSuper):
         for Tool_ in self.Tool:
             Tool_.export(write, level, 'maecPackage:', name_='Tool', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -467,6 +472,7 @@ class DynamicAnalysisMetadataType(GeneratedsSuper):
             showIndent(write, level, pretty_print)
             write('<%sExit_Code>%s</%sExit_Code>%s' % ('maecPackage:', self.gds_format_integer(self.Exit_Code, input_name='Exit_Code'), 'maecPackage:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -651,6 +657,7 @@ class AnalysisType(GeneratedsSuper):
         if self.Report is not None:
             self.Report.export(write, level, 'maecPackage:', name_='Report', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -791,6 +798,7 @@ class AnalysisListType(GeneratedsSuper):
         for Analysis_ in self.Analysis:
             Analysis_.export(write, level, 'maecPackage:', name_='Analysis', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -859,6 +867,7 @@ class InstalledProgramsType(GeneratedsSuper):
         for Program_ in self.Program:
             Program_.export(write, level, 'maecPackage:', name_='Program', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -956,6 +965,7 @@ class PackageType(GeneratedsSuper):
         if self.Grouping_Relationships is not None:
             self.Grouping_Relationships.export(write, level, 'maecPackage:', name_='Grouping_Relationships', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1109,6 +1119,7 @@ class MalwareSubjectType(GeneratedsSuper):
         for Compatible_Platform_ in self.Compatible_Platform:
             Compatible_Platform_.export(write, level, 'maecPackage:', name_='Compatible_Platform', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1217,6 +1228,7 @@ class MetaAnalysisType(GeneratedsSuper):
         if self.Object_Equivalences is not None:
             self.Object_Equivalences.export(write, level, 'maecPackage:', name_='Object_Equivalences', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1295,6 +1307,7 @@ class MalwareSubjectRelationshipType(GeneratedsSuper):
         for Malware_Subject_Reference_ in self.Malware_Subject_Reference:
             Malware_Subject_Reference_.export(write, level, 'maecPackage:', name_='Malware_Subject_Reference', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1367,6 +1380,7 @@ class MalwareSubjectRelationshipListType(GeneratedsSuper):
         for Relationship_ in self.Relationship:
             Relationship_.export(write, level, 'maecPackage:', name_='Relationship', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1428,6 +1442,7 @@ class MalwareSubjectReferenceType(GeneratedsSuper):
     def exportChildren(self, write, level, namespace_='maecPackage:', name_='MalwareSubjectReferenceType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1494,6 +1509,7 @@ class MalwareSubjectListType(GeneratedsSuper):
         for Malware_Subject_ in self.Malware_Subject:
             Malware_Subject_.export(write, level, 'maecPackage:', name_='Malware_Subject', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1562,6 +1578,7 @@ class MinorVariantListType(GeneratedsSuper):
         for Minor_Variant_ in self.Minor_Variant:
             Minor_Variant_.export(write, level, 'maecPackage:', name_='Minor_Variant', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1648,6 +1665,7 @@ class FindingsBundleListType(GeneratedsSuper):
             showIndent(write, level, pretty_print)
             write('<%sBundle_External_Reference>%s</%sBundle_External_Reference>%s' % ('maecPackage:', self.gds_format_string(quote_xml(Bundle_External_Reference_).encode(ExternalEncoding), input_name='Bundle_External_Reference'), 'maecPackage:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1739,6 +1757,7 @@ class GroupingRelationshipType(GeneratedsSuper):
         if self.Clustering_Metadata is not None:
             self.Clustering_Metadata.export(write, level, 'maecPackage:', name_='Clustering_Metadata', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1818,6 +1837,7 @@ class GroupingRelationshipListType(GeneratedsSuper):
         for Grouping_Relationship_ in self.Grouping_Relationship:
             Grouping_Relationship_.export(write, level, 'maecPackage:', name_='Grouping_Relationship', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1914,6 +1934,7 @@ class ClusteringMetadataType(GeneratedsSuper):
         if self.Cluster_Composition is not None:
             self.Cluster_Composition.export(write, level, 'maecPackage:', name_='Cluster_Composition', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2030,6 +2051,7 @@ class ClusterEdgeNodePairType(GeneratedsSuper):
         if self.Malware_Subject_Node_B is not None:
             self.Malware_Subject_Node_B.export(write, level, 'maecPackage:', name_='Malware_Subject_Node_B', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2123,6 +2145,7 @@ class ClusterCompositionType(GeneratedsSuper):
         for Edge_Node_Pair_ in self.Edge_Node_Pair:
             Edge_Node_Pair_.export(write, level, 'maecPackage:', name_='Edge_Node_Pair', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2196,6 +2219,7 @@ class ClusteringAlgorithmParametersType(GeneratedsSuper):
             showIndent(write, level, pretty_print)
             write('<%sNumber_of_Iterations>%s</%sNumber_of_Iterations>%s' % ('maecPackage:', self.gds_format_integer(self.Number_of_Iterations, input_name='Number_of_Iterations'), 'maecPackage:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2272,6 +2296,7 @@ class NetworkInfrastructureType(GeneratedsSuper):
         if self.Captured_Protocols is not None:
             self.Captured_Protocols.export(write, level, 'maecPackage:', name_='Captured_Protocols', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2350,6 +2375,7 @@ class ActionEquivalenceType(GeneratedsSuper):
         for Action_Reference_ in self.Action_Reference:
             Action_Reference_.export(write, level, 'maecPackage:', name_='Action_Reference', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2420,6 +2446,7 @@ class ActionEquivalenceListType(GeneratedsSuper):
         for Action_Equivalence_ in self.Action_Equivalence:
             Action_Equivalence_.export(write, level, 'maecPackage:', name_='Action_Equivalence', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2488,6 +2515,7 @@ class CapturedProtocolListType(GeneratedsSuper):
         for Protocol_ in self.Protocol:
             Protocol_.export(write, level, 'maecPackage:', name_='Protocol', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2575,6 +2603,7 @@ class CapturedProtocolType(GeneratedsSuper):
     def exportChildren(self, write, level, namespace_='maecPackage:', name_='CapturedProtocolType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2659,6 +2688,7 @@ class ObjectEquivalenceListType(GeneratedsSuper):
         for Object_Equivalence_ in self.Object_Equivalence:
             Object_Equivalence_.export(write, level, 'maecPackage:', name_='Object_Equivalence', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2724,6 +2754,7 @@ class ObjectEquivalenceType(maec_bundle_schema.ObjectReferenceListType):
     def exportChildren(self, write, level, namespace_='maecPackage:', name_='ObjectEquivalenceType', fromsubclass_=False, pretty_print=True):
         super(ObjectEquivalenceType, self).exportChildren(write, level, 'maecPackage:', name_, True, pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2791,6 +2822,7 @@ class HypervisorHostSystemType(system_object.SystemObjectType):
         if self.VM_Hypervisor is not None:
             self.VM_Hypervisor.export(write, level, 'maecPackage:', name_='VM_Hypervisor', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2858,6 +2890,7 @@ class AnalysisSystemType(system_object.SystemObjectType):
         if self.Installed_Programs is not None:
             self.Installed_Programs.export(write, level, 'maecPackage:', name_='Installed_Programs', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2939,6 +2972,7 @@ class CommentType(cybox_common.StructuredTextType):
         super(CommentType, self).exportChildren(write, level, 'maecPackage:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -3041,6 +3075,7 @@ class MalwareExceptionType(cybox_common.ErrorType):
             showIndent(write, level, pretty_print)
             write('<%sDescription>%s</%sDescription>%s' % (namespace_, self.gds_format_integer(self.Description, input_name='Description'), namespace_, eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3137,6 +3172,7 @@ class MalwareDevelopmentEnvironmentType(GeneratedsSuper):
         for Debugging_File_ in self.Debugging_File:
             Debugging_File_.export(write, level, namespace_, name_='Debugging_File', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3211,6 +3247,7 @@ class MalwareConfigurationParameterType(GeneratedsSuper):
             showIndent(write, level, pretty_print)
             write('<%sValue>%s</%sValue>%s' % ('maecPackage:', quote_xml(self.Value), 'maecPackage:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3294,6 +3331,7 @@ class MalwareConfigurationDetailsType(GeneratedsSuper):
         for Configuration_Parameter_ in self.Configuration_Parameter:
             Configuration_Parameter_.export(write, level, 'maecPackage:', name_='Configuration_Parameter', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3385,6 +3423,7 @@ class MalwareConfigurationObfuscationDetailsType(GeneratedsSuper):
         for Algorithm_Details_ in self.Algorithm_Details:
             Algorithm_Details_.export(write, level, 'maecPackage:', name_='Algorithm_Details', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3480,6 +3519,7 @@ class MalwareConfigurationObfuscationAlgorithmType(GeneratedsSuper):
         if self.Algorithm_Name is not None:
             self.Algorithm_Name.export(write, level, 'maecPackage:', name_='Algorithm_Name', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3571,6 +3611,7 @@ class MalwareConfigurationStorageDetailsType(GeneratedsSuper):
         for URL_ in self.URL:
             URL_.export(write, level, 'maecPackage:', name_='URL', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3657,6 +3698,7 @@ class MalwareBinaryConfigurationStorageDetailsType(GeneratedsSuper):
             showIndent(write, level, pretty_print)
             write('<%sSection_Offset>%s</%sSection_Offset>%s' % ('maecPackage:', quote_xml(self.Section_Offset), 'maecPackage:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

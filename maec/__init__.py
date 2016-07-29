@@ -4,12 +4,10 @@
 from __future__ import absolute_import
 from mixbox.entities import Entity as cyboxEntity
 from mixbox.entities import EntityList
-from mixbox.namespaces import (Namespace, get_xmlns_string,
-        get_schemaloc_string, lookup_name, lookup_prefix)
+from mixbox.namespaces import ( get_xmlns_string,
+    make_namespace_subset_from_uris, get_schemaloc_string, lookup_prefix)
 from mixbox.vendor.six import iteritems, string_types
 
-from .bindings import maec_bundle as bundle_binding
-from .bindings import maec_package as package_binding
 import maec
 from maec.utils import flip_dict, EntityParser
 
@@ -44,7 +42,7 @@ class Entity(cyboxEntity):
             namespace_dict = {}
         else:
             # Make a copy so we don't pollute the source
-            namespace_dict = dict(iteritems(namespace_dict))
+            namespace_dict = namespace_dict.copy()
 
         # Update the namespace dictionary with namespaces found upon import
         input_namespaces = self._ns_to_prefix_input_namespaces()
@@ -84,32 +82,23 @@ class Entity(cyboxEntity):
         # if there are any other namepaces, include xsi for "schemaLocation"
         # also, include the MAEC default vocabularies schema by default
         if namespaces:
-            namespaces.update([lookup_prefix('xsi')])
-            namespaces.update([lookup_prefix('maecVocabs')])
+            namespaces.add(lookup_prefix('xsi'))
+            namespaces.add(lookup_prefix('maecVocabs'))
 
-        if namespaces and additional_ns_dict:
-            namespace_list = [x.name for x in namespaces if x]
-            for ns, prefix in iteritems(additional_ns_dict):
-                if ns not in namespace_list:
-                    namespaces.update([Namespace(ns, prefix, '')])
-
-        if not namespaces:
+            ns_set = make_namespace_subset_from_uris(namespaces)
+            if additional_ns_dict:
+                for ns, prefix in iteritems(additional_ns_dict):
+                    ns_set.add_namespace_uri(ns, prefix)
+        else:
             return ""
 
-        namespaces = sorted(namespaces, key=str)
-
-        return ('\n\t' + get_xmlns_string(namespaces) +
-                '\n\txsi:schemaLocation="' + get_schemaloc_string(namespaces) +
-                '"')
+        return ('\n\t' + ns_set.get_xmlns_string(sort=True, delim='\n\t') +
+                '\n\t' + ns_set.get_schemaloc_string(sort=True, delim='\n\t'))
 
     def _get_namespaces(self, recurse=True):
-        nsset = set()
-
         # Get all _namespaces for parent classes
-        namespaces = [x._namespace for x in self.__class__.__mro__
-                      if hasattr(x, '_namespace')]
-
-        nsset.update([lookup_name(ns) for ns in namespaces])
+        nsset = set(x._namespace for x in self.__class__.__mro__
+                      if hasattr(x, '_namespace'))
 
         #In case of recursive relationships, don't process this item twice
         self.touched = True
@@ -122,8 +111,7 @@ class Entity(cyboxEntity):
         # Add any additional namespaces that may be included in the entity
         input_ns = self._ns_to_prefix_input_namespaces()
         for namespace, alias in iteritems(input_ns):
-            if not lookup_name(namespace):
-                nsset.add(Namespace(namespace, alias, ''))
+            nsset.update(namespace)
 
         return nsset
 

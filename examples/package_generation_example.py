@@ -8,14 +8,9 @@
 from cybox.core import AssociatedObjects, AssociatedObject, Object, AssociationType
 from cybox.common import Hash, HashList, VocabString
 from cybox.objects.file_object import File
-from maec.bundle import Bundle, Collections, MalwareAction, Capability
+from maec.bundle import Bundle, MalwareAction, Capability
 from maec.package import Analysis, MalwareSubject, Package
-from cybox.utils import Namespace
-import maec.utils
 
-# Instantiate the ID generator class (for automatic ID generation) with our example namespace
-NS = Namespace("http://example.com/", "example")
-maec.utils.set_id_namespace(NS)
 # Instantiate the Bundle, Package, MalwareSubject, and Analysis classes
 bundle = Bundle(defined_subject=False)
 package = Package()
@@ -58,5 +53,5 @@ subject.findings_bundles.bundle = [bundle]
 # Add the Malware Subject to the Package
 package.add_malware_subject(subject)
 # Export the Package Bindings Object to an XML file and use the namespaceparser for writing out the namespace definitions
-package.to_xml_file('sample_maec_package.xml', {"http://example.com/":"example"})
+package.to_xml_file('sample_maec_package.xml')
 print "Wrote to sample_maec_package.xml"

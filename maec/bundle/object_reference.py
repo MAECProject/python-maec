@@ -3,6 +3,8 @@
 # Copyright (c) 2015, The MITRE Corporation
 # All rights reserved
 
+from mixbox import fields
+
 import maec
 from . import _namespace
 import maec.bindings.maec_bundle as bundle_binding       
@@ -17,7 +19,6 @@ class ObjectReference(maec.Entity):
         self.object_idref = object_idref
         
 class ObjectReferenceList(maec.EntityList):
-    _contained_type = ObjectReference
     _binding_class = bundle_binding.ObjectReferenceListType
-    _binding_var = "Object_Reference"
     _namespace = _namespace
+    object_reference = fields.TypedField("Object_Reference", ObjectReference, multiple=True)
