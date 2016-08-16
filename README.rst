@@ -16,9 +16,9 @@ A Python library for parsing, manipulating, and generating `Malware Attribute En
 .. |landscape.io badge| image:: https://landscape.io/github/MAECProject/python-maec/master/landscape.svg?style=flat
    :target: https://landscape.io/github/MAECProject/python-maec/master
    :alt: Code Health 
-.. |Version Badge| image:: https://img.shields.io/pypi/v/maec.svg?maxAge=2592000
+.. |Version Badge| image:: https://img.shields.io/pypi/v/maec.svg?maxAge=3600
    :target: https://pypi.python.org/pypi/maec/
-.. |Downloads Badge| image:: https://img.shields.io/pypi/dm/maec.svg?maxAge=2592000
+.. |Downloads Badge| image:: https://img.shields.io/pypi/dm/maec.svg?maxAge=3600
    :target: https://pypi.python.org/pypi/maec/
 
 
