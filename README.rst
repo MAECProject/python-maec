@@ -10,15 +10,15 @@ A Python library for parsing, manipulating, and generating `Malware Attribute En
 
 |travis badge| |landscape.io badge| |version badge| |downloads badge|
 
-.. |travis badge| image:: https://api.travis-ci.org/MAECProject/python-maec.png?branch=master
+.. |travis badge| image:: https://api.travis-ci.org/MAECProject/python-maec.svg?branch=master
    :target: https://travis-ci.org/MAECProject/python-maec
    :alt: Build Status 
-.. |landscape.io badge| image:: https://landscape.io/github/MAECProject/python-maec/master/landscape.png
+.. |landscape.io badge| image:: https://landscape.io/github/MAECProject/python-maec/master/landscape.svg?style=flat
    :target: https://landscape.io/github/MAECProject/python-maec/master
    :alt: Code Health 
-.. |Version Badge| image:: https://img.shields.io/pypi/v/maec.png?maxAge=2592000
+.. |Version Badge| image:: https://img.shields.io/pypi/v/maec.svg?maxAge=2592000
    :target: https://pypi.python.org/pypi/maec/
-.. |Downloads Badge| image:: https://img.shields.io/pypi/dm/maec.png?maxAge=2592000
+.. |Downloads Badge| image:: https://img.shields.io/pypi/dm/maec.svg?maxAge=2592000
    :target: https://pypi.python.org/pypi/maec/
 
 
