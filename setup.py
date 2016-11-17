@@ -27,7 +27,7 @@ with open('README.rst') as f:
 install_requires = [
     'lxml>=2.2.3',
     'mixbox>=0.0.13',
-    'cybox>=2.1.0.13.dev1,<2.1.1.0',
+    'cybox211',
 ]
 
 extras_require = {
@@ -42,7 +42,7 @@ extras_require = {
 }
 
 setup(
-    name="maec",
+    name="maec411",
     version=get_version(),
     author="MAEC Project",
     author_email="maec@mitre.org",
