@@ -181,6 +181,7 @@ class ActionCollectionList(maec.EntityList):
 
     def to_obj(self, ns_info=None):
         action_collection_list_obj = super(ActionCollectionList, self).to_obj()
+        action_collection_list_obj.set_Action_Collection([])
 
         for action_collection in self:
             if len(action_collection.action_list) > 0:
