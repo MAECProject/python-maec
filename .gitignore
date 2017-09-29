@@ -5,6 +5,7 @@ dist/
 *.egg-info
 .settings/
 .project
+.idea
 .pydevproject
 .tox
 
