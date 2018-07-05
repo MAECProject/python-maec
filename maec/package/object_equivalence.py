@@ -1,6 +1,6 @@
 # MAEC Action Equivalence Class
 
-# Copyright (c) 2015, The MITRE Corporation
+# Copyright (c) 2018, The MITRE Corporation
 # All rights reserved
 
 from mixbox import fields
@@ -8,7 +8,7 @@ from mixbox import fields
 import maec
 from . import _namespace
 import maec.bindings.maec_package as package_binding
-from maec.bundle import ObjectReference    
+from maec.bundle import ObjectReference
 
 class ObjectEquivalence(maec.Entity):
     _binding = package_binding

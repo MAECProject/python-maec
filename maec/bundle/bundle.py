@@ -1,6 +1,6 @@
 # MAEC Bundle Class
 
-# Copyright (c) 2015, The MITRE Corporation
+# Copyright (c) 2018, The MITRE Corporation
 # All rights reserved
 
 from mixbox import fields
@@ -32,7 +32,7 @@ class ActionList(maec.EntityList):
     _binding_class = bundle_binding.ActionListType
     _namespace = _namespace
     action = fields.TypedField("Action", MalwareAction, multiple=True)
-    
+
 
 class ObjectList(maec.EntityList):
     _binding_class = bundle_binding.ObjectListType
@@ -386,9 +386,9 @@ class Bundle(maec.Entity):
             self.collections = Collections()
         if collection_name is not None:
             self.collections.add_named_action_collection(collection_name, collection_id)
-        
+
     def add_action(self, action, action_collection_name = None):
-        """Add an Action to an existing named Action Collection in the Collections entity. 
+        """Add an Action to an existing named Action Collection in the Collections entity.
            If it does not exist, add it to the top-level Actions entity."""
         if action_collection_name is not None and self.collections:
             #The collection has already been defined
@@ -406,7 +406,7 @@ class Bundle(maec.Entity):
             self.collections = Collections()
         if collection_name is not None:
             self.collections.add_named_object_collection(collection_name, collection_id)
-              
+
     def get_all_actions(self, bin = False):
         """Return a list of all Actions in the Bundle."""
         all_actions = []
@@ -414,7 +414,7 @@ class Bundle(maec.Entity):
         if self.actions:
             for action in self.actions:
                 all_actions.append(action)
-            
+
         if self.collections and self.collections.action_collections:
             for collection in self.collections.action_collections:
                 for action in collection.action_list:
@@ -446,7 +446,7 @@ class Bundle(maec.Entity):
             return object_actions
 
     def add_object(self, object, object_collection_name = None):
-        """Add an Object to an existing named Object Collection in the Collections entity. 
+        """Add an Object to an existing named Object Collection in the Collections entity.
            If it does not exist, add it to the top-level Object entity."""
         if object_collection_name is not None and self.collections:
             #The collection has already been defined
@@ -468,7 +468,7 @@ class Bundle(maec.Entity):
                 if obj.related_objects:
                     for related_obj in obj.related_objects:
                         all_objects.append(related_obj)
-            
+
         if self.collections and self.collections.object_collections:
             for collection in self.collections.object_collections:
                 for obj in collection.object_list:
@@ -510,7 +510,7 @@ class Bundle(maec.Entity):
                 for action in self.actions:
                     if action.id_ == id:
                         return action
-            
+
                     if action.associated_objects:
                         for associated_obj in action.associated_objects:
                             if associated_obj.id_ == id:
@@ -520,7 +520,7 @@ class Bundle(maec.Entity):
                     for action in collection.action_list:
                         if action.id_ == id:
                             return action
-                
+
                         if action.associated_objects:
                             for associated_obj in action.associated_objects:
                                 if associated_obj.id_ == id:
@@ -530,7 +530,7 @@ class Bundle(maec.Entity):
                 if obj.id_ == id:
                     return obj
 
-        if self.collections and self.collections.object_collections:   
+        if self.collections and self.collections.object_collections:
             for collection in self.collections.object_collections:
                 for obj in collection.object_list:
                     if obj.id_ == id:
@@ -549,7 +549,7 @@ class Bundle(maec.Entity):
             self.collections.add_named_behavior_collection(collection_name, collection_id)
 
     def add_behavior(self, behavior, behavior_collection_name = None):
-        """Add a Behavior to an existing named Behavior Collection in the Collections entity. 
+        """Add a Behavior to an existing named Behavior Collection in the Collections entity.
            If it does not exist, add it to the top-level Behaviors entity."""
         if behavior_collection_name is not None and self.collections:
             #The collection has already been defined
@@ -569,7 +569,7 @@ class Bundle(maec.Entity):
             self.collections.add_named_candidate_indicator_collection(collection_name, collection_id)
 
     def add_candidate_indicator(self, candidate_indicator, candidate_indicator_collection_name = None):
-        """Add a Candidate Indicator to an existing named Candidate Indicator Collection in the Collections entity. 
+        """Add a Candidate Indicator to an existing named Candidate Indicator Collection in the Collections entity.
            If it does not exist, add it to the top-level Candidate Indicators entity."""
         if candidate_indicator_collection_name is not None and self.collections:
             #The collection has already been defined
@@ -580,9 +580,9 @@ class Bundle(maec.Entity):
             if not self.candidate_indicators:
                 self.candidate_indicators = CandidateIndicatorList()
             self.candidate_indicators.append(candidate_indicator)
-    
+
     def deduplicate(self):
-        """Deduplicate all Objects in the Bundle. 
+        """Deduplicate all Objects in the Bundle.
            Add duplicate Objects to new "Deduplicated Objects" Object Collection,
            and replace duplicate entries with references to corresponding Object."""
         BundleDeduplicator.deduplicate(self)

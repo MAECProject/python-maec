@@ -4,7 +4,7 @@ import os
 import maec
 
 project = u'python-maec'
-copyright = u'2014, The MITRE Corporation'
+copyright = u'2018, The MITRE Corporation'
 version = maec.__version__
 release = version
 

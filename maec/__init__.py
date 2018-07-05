@@ -1,4 +1,4 @@
-# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
+# Copyright (c) 2018, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
 from __future__ import absolute_import
@@ -29,7 +29,7 @@ class Entity(cyboxEntity):
     def to_xml_file(self, file, namespace_dict=None, custom_header=None):
         """Export an object to an XML file. Only supports Package or Bundle
         objects at the moment.
-        
+
         Args:
             file: the name of a file or a file-like object to write the output to.
             namespace_dict: a dictionary of mappings of additional XML namespaces to

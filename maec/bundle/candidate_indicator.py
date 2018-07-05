@@ -1,6 +1,6 @@
 # MAEC Candidate Indicator Class
 
-# Copyright (c) 2015, The MITRE Corporation
+# Copyright (c) 2018, The MITRE Corporation
 # All rights reserved
 
 from mixbox import fields
@@ -15,7 +15,7 @@ from cybox.core import ActionReference
 
 class MalwareEntity(maec.Entity):
     _binding = bundle_binding
-    _binding_class = bundle_binding.MalwareEntityType    
+    _binding_class = bundle_binding.MalwareEntityType
     _namespace = _namespace
 
     type_ = fields.TypedField("Type", VocabString)
@@ -27,7 +27,7 @@ class MalwareEntity(maec.Entity):
 
 class CandidateIndicatorComposition(maec.Entity):
     _binding = bundle_binding
-    _binding_class = bundle_binding.CandidateIndicatorCompositionType    
+    _binding_class = bundle_binding.CandidateIndicatorCompositionType
     _namespace = _namespace
 
     operator = fields.TypedField("operator")
@@ -44,7 +44,7 @@ CandidateIndicatorComposition.sub_composition.type_ = CandidateIndicatorComposit
 
 class CandidateIndicator(maec.Entity):
     _binding = bundle_binding
-    _binding_class = bundle_binding.CandidateIndicatorType    
+    _binding_class = bundle_binding.CandidateIndicatorType
     _namespace = _namespace
 
     id_ = fields.TypedField("id")

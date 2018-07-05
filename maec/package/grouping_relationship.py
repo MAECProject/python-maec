@@ -1,13 +1,13 @@
 # MAEC Grouping Relationship Class
 
-# Copyright (c) 2015, The MITRE Corporation
+# Copyright (c) 2018, The MITRE Corporation
 # All rights reserved
 
 from mixbox import fields
 
 import maec
 from . import _namespace
-import maec.bindings.maec_package as package_binding  
+import maec.bindings.maec_package as package_binding
 from maec.package.malware_subject_reference import MalwareSubjectReference
 from cybox.common import vocabs
 from maec.vocabs.vocabs import GroupingRelationship as GroupingRelationshipVocab
@@ -16,7 +16,7 @@ class ClusterEdgeNodePair(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.ClusterEdgeNodePairType
     _namespace = _namespace
-    
+
     similarity_index = fields.TypedField("similarity_index")
     similarity_distance = fields.TypedField("similarity_distance")
     malware_subject_node_a = fields.TypedField("Malware_Subject_Node_A", MalwareSubjectReference)
@@ -29,7 +29,7 @@ class ClusterComposition(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.ClusterCompositionType
     _namespace = _namespace
-    
+
     score_type = fields.TypedField("score_type")
     edge_node_pair = fields.TypedField("Edge_Node_Pair", ClusterEdgeNodePair, multiple=True)
 
@@ -79,7 +79,3 @@ class GroupingRelationshipList(maec.EntityList):
     _binding_class = package_binding.GroupingRelationshipListType
     _namespace = _namespace
     grouping_relationship = fields.TypedField("Grouping_Relationship", GroupingRelationship, multiple=True)
-
-
-
-

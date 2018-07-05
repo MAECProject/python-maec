@@ -1,5 +1,5 @@
 # MAEC AV Classification classes
-# Copyright (c) 2015, The MITRE Corporation
+# Copyright (c) 2018, The MITRE Corporation
 # All rights reserved
 
 from cybox.common import ToolInformation
@@ -25,9 +25,9 @@ class AVClassification(ToolInformation, maec.Entity):
         obj = super(AVClassification, self).to_obj(ns_info=ns_info)
         if self.engine_version is not None :
             obj.Engine_Version = self.engine_version
-        if self.definition_version is not None : 
+        if self.definition_version is not None :
             obj.Definition_Version = self.definition_version
-        if self.classification_name is not None : 
+        if self.classification_name is not None :
             obj.Classification_Name = self.classification_name
         return obj
 

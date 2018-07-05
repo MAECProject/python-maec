@@ -1,4 +1,4 @@
-# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
+# Copyright (c) 2018, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
 """Methods for merging MAEC documents"""
@@ -25,7 +25,7 @@ def dict_merge(target, *args):
         for obj in args:
             dict_merge(target, obj)
         return target
- 
+
     # Recursively merge dicts and set non-dict values
     obj = args[0]
     if not isinstance(obj, dict):
@@ -104,7 +104,7 @@ def bin_malware_subjects(malware_subject_list, default_hash_type='md5'):
                         hash_type = str(hash.type_).lower()
                         # Get the hash value
                         hash_value = str(hash.simple_hash_value).lower()
-                            
+
                         # Check the hash type and bin accordingly
                         if hash_type == default_hash_type:
                             if hash_value in binned_subjects:
@@ -210,7 +210,7 @@ def update_relationships(malware_subject_list, id_mappings):
     '''Update any existing Malware Subject relationships to account for merged Malware Subjects'''
     for malware_subject in malware_subject_list:
         if malware_subject.relationships:
-            relationships = malware_subject.relationships 
+            relationships = malware_subject.relationships
             for relationship in relationships:
                 malware_subject_references = relationship.malware_subject_references
                 for malware_subject_reference in malware_subject_references:

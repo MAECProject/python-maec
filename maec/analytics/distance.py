@@ -1,5 +1,5 @@
 # MAEC Distance Measure-related Classes - BETA
-# Copyright (c) 2015, The MITRE Corporation
+# Copyright (c) 2018, The MITRE Corporation
 # All rights reserved
 
 # See LICENSE.txt for complete terms
@@ -139,7 +139,7 @@ class StaticFeatureVector(object):
                     # Callback function parameters : feature name, existing feature value, new feature value
                     elif callback_function:
                         existing_value = static_feature_dict[feature_name]
-                        static_feature_dict[feature_name] = callback_function(feature_name, existing_value, feature_value) 
+                        static_feature_dict[feature_name] = callback_function(feature_name, existing_value, feature_value)
 
                 else:
                     static_feature_dict[feature_name] = feature_value
@@ -251,7 +251,7 @@ class Distance(object):
             return bin_vector
         max_list = max(numeric_list)
         min_list = min(numeric_list)
-        bucket_size = (max_list-min_list)/n        
+        bucket_size = (max_list-min_list)/n
         bin_value = int(math.floor((numeric_value - min_list)/bucket_size))
         if bin_value == n:
             bin_value -= 1
@@ -455,7 +455,7 @@ class Distance(object):
                         bin = self.bin_list(normalized_value, normalized_items, feature_options_dict['number of bins'])
                     else:
                         bin = self.bin_list(normalized_value, normalized_items)
-                    results_vector.append(bin)                
+                    results_vector.append(bin)
                 elif normalized_value is not None:
                     results_vector.append(normalized_value)
             else:
@@ -580,7 +580,7 @@ class Distance(object):
         self.perform_calculation()
 
     def print_distances(self, file_object, default_label = 'md5', delimiter = ','):
-        '''Print the distances between the Malware Subjects in delimited matrix format 
+        '''Print the distances between the Malware Subjects in delimited matrix format
            to a File-like object.
 
            Try to use the MD5s of the Malware Subjects as the default label.
@@ -611,5 +611,3 @@ class Distance(object):
         for distance_string in distance_strings:
             file_object.write(distance_string + "\n")
         file_object.flush()
-
-
