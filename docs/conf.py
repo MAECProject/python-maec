@@ -1,3 +1,4 @@
+import doctest
 import os
 
 import maec
@@ -41,3 +42,5 @@ latex_documents = [
     ('index', 'python-maec.tex', u'python-maec Documentation',
      u'The MITRE Corporation', 'manual'),
 ]
+
+doctest_default_flags = doctest.NORMALIZE_WHITESPACE
