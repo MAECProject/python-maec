@@ -1,4 +1,4 @@
-# Copyright (c) 2015, The MITRE Corporation
+# Copyright (c) 2018, The MITRE Corporation
 # All rights reserved
 """MAEC utility methods"""
 
@@ -24,4 +24,4 @@ from .comparator import (ObjectHash, BundleComparator, SimilarObjectCluster, # n
 from .deduplicator import BundleDeduplicator # noqa
 
 #Ensure MAEC namespaces get registered
-from .nsparser import *  # noqa 
+from .nsparser import *  # noqa

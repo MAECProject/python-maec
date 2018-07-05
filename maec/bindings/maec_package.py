@@ -1,4 +1,4 @@
-# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
+# Copyright (c) 2018, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
 import sys
@@ -1012,7 +1012,7 @@ class MalwareSubjectType(GeneratedsSuper):
         self.Malware_Instance_Object_Attributes = Malware_Instance_Object_Attributes
         self.Configuration_Details = Configuration_Details
         self.Minor_Variants = Minor_Variants
-        self.Development_Environment = Development_Environment 
+        self.Development_Environment = Development_Environment
         self.Field_Data = Field_Data
         self.Analyses = Analyses
         self.Findings_Bundles = Findings_Bundles

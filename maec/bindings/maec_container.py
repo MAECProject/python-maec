@@ -1,4 +1,4 @@
-# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
+# Copyright (c) 2018, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
 import sys
@@ -266,5 +266,5 @@ __all__ = [
 
 GDSClassesMapping = {
     "ContainerType": ContainerType,
-    "PackageListType": PackageListType              
+    "PackageListType": PackageListType
 }

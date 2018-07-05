@@ -3,7 +3,7 @@
 # NOTE: This code imports and uses the maec.analytics.distance module, which uses the external numpy library.
 # Numpy can be found here: https://pypi.python.org/pypi/numpy
 
-# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
+# Copyright (c) 2018, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
 import os
@@ -26,7 +26,7 @@ def main():
 
     # Parse the input files
     if args.l:
-        for file in args.l: 
+        for file in args.l:
             api_obj = maec.parse_xml_instance(file)['api']
             if isinstance(api_obj, Package):
                 package_list.append(api_obj)
@@ -51,7 +51,7 @@ def main():
     out_file = open(args.output, mode='w')
     dist.print_distances(out_file)
     out_file.close()
-    
+
 
 if __name__ == "__main__":
-    main()    
+    main()

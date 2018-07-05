@@ -1,4 +1,4 @@
-# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
+# Copyright (c) 2018, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
 import unittest
@@ -33,9 +33,9 @@ class TestPackage(EntityTestCase, unittest.TestCase):
         o.source.organization = "ThreatExpert"
         o.source.method = "triage"
         o.source.url = "http://www.threatexpert.com"
-        
+
         o.start_datetime = "2014-08-06T18:30:00"
-        
+
         o2 = round_trip(o, True)
 
         self.assertEqual(o.to_dict(), o2.to_dict())

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (c) 2015 - The MITRE Corporation
+# Copyright (c) 2018 - The MITRE Corporation
 # For license information, see the LICENSE.txt file
 
 from os.path import abspath, dirname, join
@@ -32,12 +32,12 @@ install_requires = [
 
 extras_require = {
     'docs': [
-        'Sphinx==1.3.1',
-        'sphinx_rtd_theme==0.1.8',
+        'Sphinx',
+        'sphinx_rtd_theme',
     ],
     'test': [
-        "nose==1.3.0",
-        "tox==1.6.1"
+        'nose',
+        'tox',
     ],
 }
 
@@ -53,7 +53,12 @@ setup(
     install_requires=install_requires,
     extras_require=extras_require,
     classifiers=[
-        "Programming Language :: Python",
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",

@@ -1,6 +1,6 @@
 # MAEC Process Tree classes
 
-# Copyright (c) 2015, The MITRE Corporation
+# Copyright (c) 2018, The MITRE Corporation
 # All rights reserved
 
 from mixbox import fields
@@ -110,7 +110,7 @@ class ProcessTreeNode(Process):
 
 class ProcessTree(maec.Entity):
     _binding = bundle_binding
-    _binding_class = bundle_binding.ProcessTreeType    
+    _binding_class = bundle_binding.ProcessTreeType
     _namespace = _namespace
 
     root_process = fields.TypedField("Root_Process", ProcessTreeNode)

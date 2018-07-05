@@ -1,4 +1,4 @@
-# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
+# Copyright (c) 2018, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
 import unittest
@@ -43,13 +43,13 @@ class TestCapability(EntityTestCase, unittest.TestCase):
         spawned_child2 = ProcessTreeNode()
         injected_child = ProcessTreeNode()
         spawned_grandchild = ProcessTreeNode()
-        
+
         o.set_root_process(root)
         root.add_spawned_process(spawned_child1)
         root.add_spawned_process(spawned_child2)
         root.add_injected_process(injected_child)
         spawned_child1.add_spawned_process(spawned_grandchild)
-        
+
         o2 = round_trip(o, True)
 
         self.assertEqual(o.to_dict(), o2.to_dict())

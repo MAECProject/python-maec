@@ -1,5 +1,5 @@
 # MAEC Static Features List
-# Copyright (c) 2015, The MITRE Corporation
+# Copyright (c) 2018, The MITRE Corporation
 # All rights reserved
 
 static_features_dict = {'file_name' : {'feature_name' : 'file_name'},

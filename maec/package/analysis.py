@@ -1,6 +1,6 @@
 # MAEC Analysis Class
 
-# Copyright (c) 2015, The MITRE Corporation
+# Copyright (c) 2018, The MITRE Corporation
 # All rights reserved
 
 from mixbox import fields
@@ -25,7 +25,7 @@ class Source(maec.Entity):
     reference = fields.TypedField("Reference")
     organization = fields.TypedField("Organization")
     url = fields.TypedField("URL")
-    
+
     def __init__(self):
         super(Source, self).__init__()
 
@@ -44,9 +44,9 @@ class Comment(StructuredText):
     def is_plain(self):
         """Whether this can be represented as a string rather than a dictionary
         """
-        return (super(Comment, self).is_plain() and 
+        return (super(Comment, self).is_plain() and
                 self.author is None and
-                self.timestamp is None and 
+                self.timestamp is None and
                 self.observation_name is None)
 
     def to_obj(self, ns_info=None):
@@ -123,7 +123,7 @@ class DynamicAnalysisMetadata(maec.Entity):
     analysis_duration = fields.TypedField("Analysis_Duration")
     exit_code = fields.TypedField("Exit_Code")
     #raised_exception = fields.TypedField("Raised_Exception", MalwareException)
-    
+
     def __init__(self):
         super(DynamicAnalysisMetadata, self).__init__()
 
@@ -136,12 +136,12 @@ class HypervisorHostSystem(System):
 
     def __init__(self):
         super(HypervisorHostSystem, self).__init__()
-        
+
 class InstalledPrograms(maec.EntityList):
     _binding_class = package_binding.InstalledProgramsType
     _namespace = _namespace
     program = fields.TypedField("Program", PlatformSpecification, multiple=True)
-        
+
 class AnalysisSystem(System):
     _binding = package_binding
     _binding_class = package_binding.AnalysisSystemType
@@ -235,18 +235,9 @@ class Analysis(maec.Entity):
     # set the findings_bundle_reference values; accepts a list of bundle ID values
     def set_findings_bundle(self, bundle_id):
         self.findings_bundle_reference = [BundleReference.from_dict({'bundle_idref' : bundle_id})]
-   
+
    # add a tool to this Anaysis's ToolList
     def add_tool(self, tool):
         if not self.tools:
             self.tools = ToolList()
         self.tools.append(tool)
-
-
-
-    
-
-
-
-
-

@@ -1,4 +1,4 @@
-# Copyright (c) 2015, The MITRE Corporation
+# Copyright (c) 2018, The MITRE Corporation
 # All rights reserved
 
 # Compatible with MAEC v4.1

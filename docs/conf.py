@@ -1,9 +1,10 @@
+import doctest
 import os
 
 import maec
 
 project = u'python-maec'
-copyright = u'2014, The MITRE Corporation'
+copyright = u'2018, The MITRE Corporation'
 version = maec.__version__
 release = version
 
@@ -11,14 +12,9 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
     'sphinx.ext.ifconfig',
-    'sphinx.ext.intersphinx',
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
 ]
-
-intersphinx_mapping = {
-    'python': ('http://docs.python.org/', None),
-}
 
 templates_path = ['_templates']
 source_suffix = '.rst'
@@ -46,3 +42,5 @@ latex_documents = [
     ('index', 'python-maec.tex', u'python-maec Documentation',
      u'The MITRE Corporation', 'manual'),
 ]
+
+doctest_default_flags = doctest.NORMALIZE_WHITESPACE

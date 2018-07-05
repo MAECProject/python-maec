@@ -1,6 +1,6 @@
 # MAEC Package Class
 
-# Copyright (c) 2015, The MITRE Corporation
+# Copyright (c) 2018, The MITRE Corporation
 # All rights reserved
 
 from mixbox import fields
@@ -14,7 +14,7 @@ from . import _namespace
 class Package(maec.Entity):
     _binding = package_binding
     _binding_class = package_binding.PackageType
-    _namespace = _namespace   
+    _namespace = _namespace
 
     id_ = fields.TypedField('id')
     timestamp = fields.TypedField('timestamp')
@@ -38,7 +38,7 @@ class Package(maec.Entity):
     #Add a malware subject to this Package
     def add_malware_subject(self, malware_subject):
         self.malware_subjects.append(malware_subject)
-    
+
     #Add a grouping relationship
     def add_grouping_relationship(self, grouping_relationship):
         if not self.grouping_relationships:
@@ -59,7 +59,7 @@ class Package(maec.Entity):
         parser = EntityParser()
         maec_package = parser.parse_xml(xml_file)
         maec_package_obj = maec_package.to_obj()
-        
+
         return (maec_package, maec_package_obj)
 
     # Transform duplicate objects within this Package into references pointing to a single canonical object
@@ -67,6 +67,3 @@ class Package(maec.Entity):
         """DeDuplicate all Malware_Subjects in the Package. For now, only handles Objects in Findings Bundles"""
         for malware_subject in self.malware_subjects:
             malware_subject.deduplicate_bundles()
-
-            
-

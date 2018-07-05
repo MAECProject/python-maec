@@ -1,6 +1,6 @@
 # MAEC Behavior Class
 
-# Copyright (c) 2015, The MITRE Corporation
+# Copyright (c) 2018, The MITRE Corporation
 # All rights reserved
 
 from mixbox import fields
@@ -16,7 +16,7 @@ from cybox.objects.code_object import Code
 
 class BehavioralActionEquivalenceReference(maec.Entity):
     _binding = bundle_binding
-    _binding_class = bundle_binding.BehavioralActionEquivalenceReferenceType    
+    _binding_class = bundle_binding.BehavioralActionEquivalenceReferenceType
     _namespace = _namespace
 
     action_equivalence_idref = fields.TypedField('action_equivalence_idref')
@@ -24,21 +24,21 @@ class BehavioralActionEquivalenceReference(maec.Entity):
 
 class BehavioralActionReference(ActionReference):
     _binding = bundle_binding
-    _binding_class = bundle_binding.BehavioralActionReferenceType    
+    _binding_class = bundle_binding.BehavioralActionReferenceType
     _namespace = _namespace
 
     behavioral_ordering = fields.TypedField('behavioral_ordering')
 
 class BehavioralAction(maec.Entity):
     _binding = bundle_binding
-    _binding_class = bundle_binding.BehavioralActionType    
+    _binding_class = bundle_binding.BehavioralActionType
     _namespace = _namespace
 
     behavioral_ordering = fields.TypedField('behavioral_ordering')
 
 class BehavioralActions(maec.Entity):
     _binding = bundle_binding
-    _binding_class = bundle_binding.BehavioralActionsType    
+    _binding_class = bundle_binding.BehavioralActionsType
     _namespace = _namespace
 
     #TODO: action_collection.type_ is set below to avoid circular import.
@@ -55,7 +55,7 @@ class PlatformList(maec.EntityList):
 
 class CVEVulnerability(maec.Entity):
     _binding = bundle_binding
-    _binding_class = bundle_binding.CVEVulnerabilityType    
+    _binding_class = bundle_binding.CVEVulnerabilityType
     _namespace = _namespace
 
     cve_id = fields.TypedField('cve_id')
@@ -63,9 +63,9 @@ class CVEVulnerability(maec.Entity):
 
 class Exploit(maec.Entity):
     _binding = bundle_binding
-    _binding_class = bundle_binding.ExploitType    
+    _binding_class = bundle_binding.ExploitType
     _namespace = _namespace
-    
+
     known_vulnerability = fields.TypedField('known_vulnerability')
     cve = fields.TypedField('CVE', CVEVulnerability)
     cwe_id = fields.TypedField('CWE_ID', multiple=True)
@@ -73,7 +73,7 @@ class Exploit(maec.Entity):
 
 class BehaviorPurpose(maec.Entity):
     _binding = bundle_binding
-    _binding_class = bundle_binding.BehaviorPurposeType       
+    _binding_class = bundle_binding.BehaviorPurposeType
     _namespace = _namespace
 
     description = fields.TypedField('Description')
@@ -81,13 +81,13 @@ class BehaviorPurpose(maec.Entity):
 
 class AssociatedCode(maec.EntityList):
     _binding = bundle_binding
-    _binding_class = bundle_binding.AssociatedCodeType 
+    _binding_class = bundle_binding.AssociatedCodeType
     _namespace = _namespace
     code_snippet = fields.TypedField("Code_Snippet", Code, multiple=True)
 
 class Behavior(maec.Entity):
     _binding = bundle_binding
-    _binding_class = bundle_binding.BehaviorType  
+    _binding_class = bundle_binding.BehaviorType
     _namespace = _namespace
 
     id_ = fields.TypedField('id')
