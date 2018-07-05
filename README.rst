@@ -12,10 +12,10 @@ A Python library for parsing, manipulating, and generating `Malware Attribute En
 
 .. |travis badge| image:: https://api.travis-ci.org/MAECProject/python-maec.svg?branch=master
    :target: https://travis-ci.org/MAECProject/python-maec
-   :alt: Build Status 
+   :alt: Build Status
 .. |landscape.io badge| image:: https://landscape.io/github/MAECProject/python-maec/master/landscape.svg?style=flat
    :target: https://landscape.io/github/MAECProject/python-maec/master
-   :alt: Code Health 
+   :alt: Code Health
 .. |Version Badge| image:: https://img.shields.io/pypi/v/maec.svg?maxAge=3600
    :target: https://pypi.python.org/pypi/maec/
 .. |Downloads Badge| image:: https://img.shields.io/pypi/dm/maec.svg?maxAge=3600
@@ -49,7 +49,7 @@ There are currently two levels of APIs for dealing with MAEC content:
 
 Compatibility
 -------------
-The python-maec library is tested and written against python ``2.6, 2.7, and 3.3+``. Compatibility with other python versions is neither guaranteed nor implied.
+The python-maec library is tested against Python 2.7 and 3.4+.
 
 Versioning
 ----------
@@ -76,7 +76,7 @@ The python-maec library is also hosted on `PyPI
 Dependencies
 ------------
 
-The ``maec`` package depends on the following Python libraries: 
+The ``maec`` package depends on the following Python libraries:
 
 * ``lxml``
 
