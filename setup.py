@@ -3,7 +3,7 @@
 # Copyright (c) 2018 - The MITRE Corporation
 # For license information, see the LICENSE.txt file
 
-from io import open  # Allow `encoding` kwarg on Python 2.7
+
 from os.path import abspath, dirname, join
 
 
@@ -11,6 +11,7 @@ from setuptools import setup, find_packages
 
 BASE_DIR = dirname(abspath(__file__))
 VERSION_FILE = join(BASE_DIR, 'maec', 'version.py')
+
 
 def get_version():
     with open(VERSION_FILE) as f:
@@ -21,14 +22,16 @@ def get_version():
         raise AttributeError("Package does not have a __version__")
 
 
-with open('README.rst', encoding='utf-8') as f:
-    readme = f.read()
+def get_long_description():
+    with open('README.rst') as f:
+        return f.read()
 
 
 install_requires = [
-    'lxml>=2.2.3',
-    'mixbox>=0.0.13',
-    'cybox>=2.1.0.13.dev1,<2.1.1.0',
+    'lxml>=2.2.3 ; python_version == "2.7" or python_version >= "3.5"',
+    'lxml>=2.2.3,<4.4.0 ; python_version > "2.7" and python_version < "3.5"',
+    'mixbox>=1.0.2',
+    'cybox>=2.1.0.13,<2.1.1.0',
 ]
 
 extras_require = {
@@ -48,18 +51,20 @@ setup(
     author="MAEC Project",
     author_email="maec@mitre.org",
     description="An API for parsing and creating MAEC content.",
-    long_description=readme,
+    long_description=get_long_description(),
     url="http://maec.mitre.org",
     packages=find_packages(),
     install_requires=install_requires,
     extras_require=extras_require,
+    license="BSD",
     classifiers=[
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
