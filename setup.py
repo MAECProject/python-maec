@@ -52,7 +52,7 @@ setup(
     author_email="maec@mitre.org",
     description="An API for parsing and creating MAEC content.",
     long_description=get_long_description(),
-    url="http://maec.mitre.org",
+    url="https://maecproject.github.io/",
     packages=find_packages(),
     install_requires=install_requires,
     extras_require=extras_require,
@@ -69,5 +69,10 @@ setup(
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
-    ]
+    ],
+    project_urls={
+        'Documentation': 'https://maec.readthedocs.io/',
+        'Source Code': 'https://github.com/MAECProject/python-maec/',
+        'Bug Tracker': 'https://github.com/MAECProject/python-maec/issues/',
+    },
 )
