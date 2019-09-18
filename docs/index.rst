@@ -15,13 +15,13 @@ version of MAEC.
 ============ ===================
 MAEC Version python-maec Version
 ============ ===================
-4.1          4.1.0.12 (`PyPI`__) (`GitHub`__)
+4.1          4.1.0.16 (`PyPI`__) (`GitHub`__)
 4.0          4.0.1.0 (`PyPI`__) (`GitHub`__)
 3.0          3.0.0b1 (`PyPI`__) (`GitHub`__)
 ============ ===================
 
-__ https://pypi.python.org/pypi/maec/4.1.0.12
-__ https://github.com/MAECProject/python-maec/tree/v4.1.0.12
+__ https://pypi.python.org/pypi/maec/4.1.0.16
+__ https://github.com/MAECProject/python-maec/tree/v4.1.0.16
 __ https://pypi.python.org/pypi/maec/4.0.1.0
 __ https://github.com/MAECProject/python-maec/tree/v4.0.1.0
 __ https://pypi.python.org/pypi/maec/3.0.0b1

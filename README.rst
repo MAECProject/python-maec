@@ -1,10 +1,10 @@
 python-maec
 ===========
 
-A Python library for parsing, manipulating, and generating `Malware Attribute Enumeration and Characterization (MAEC™) <https://maecproject.github.io/>`_ content.
+A Python library for parsing, manipulating, and generating `Malware Attribute Enumeration and Characterization (MAEC™) <https://maecproject.github.io/>`_ v4.1 content.
 
 :Source: https://github.com/MAECProject/python-maec
-:Documentation: http://maec.readthedocs.org
+:Documentation: https://maec.readthedocs.io/
 :Information: https://maecproject.github.io/
 :Download: https://pypi.python.org/pypi/maec/
 

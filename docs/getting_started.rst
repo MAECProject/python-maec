@@ -23,7 +23,7 @@ Once you have installed python-maec, you can begin writing Python applications t
 
 .. note::
 
-	The *python-maec* library provides **bindings** and **APIs**, both of which can be used to parse and write MAEC XML files. For in-depth description of the *APIs, bindings, and the differences between the two*, please refer to :doc:`api_vs_bindings/index`
+  The *python-maec* library provides **bindings** and **APIs**, both of which can be used to parse and write MAEC XML files. For in-depth description of the *APIs, bindings, and the differences between the two*, please refer to :doc:`api_vs_bindings/index`
 
 Creating a MAEC Package
 ***********************
