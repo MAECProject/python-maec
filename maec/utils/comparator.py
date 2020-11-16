@@ -1,5 +1,5 @@
 # MAEC Comparator Classes
-import collections
+from mixbox import compat
 
 class ComparisonResult(object):
     def __init__(self, bundle_list, lookup_table):
@@ -154,7 +154,7 @@ class ObjectHash(object):
                 val = getattr(obj.properties, str(typed_field))
                 if val is not None:
                     hash_val += str(typed_field) + ":"
-                    if isinstance(val, collections.MutableSequence):
+                    if isinstance(val, compat.MutableSequence):
                         for list_item in val:
                             if '/' in str(nested_elements[0]):
                                 hash_val += '['

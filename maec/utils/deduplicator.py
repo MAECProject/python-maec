@@ -4,9 +4,9 @@
 
 # See LICENSE.txt for complete terms
 
-import collections
 import copy
 
+from mixbox import compat
 from mixbox import entities
 
 from cybox.core import RelatedObject, AssociatedObject
@@ -179,7 +179,7 @@ class BundleDeduplicator(object):
         # If the value is a mutable sequence, attempt to find TypedFields as
         # in each item. EntityLists are Entity subclasses that can have
         # TypedFields, so we don't make this an elif.
-        if isinstance(val, collections.MutableSequence):
+        if isinstance(val, compat.MutableSequence):
             for list_item in val:
                 cls.get_typedfield_values(list_item, name, values, ignoreCase)
 
